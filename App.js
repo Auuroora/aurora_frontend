@@ -6,16 +6,20 @@
  * @flow
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import AppStack from './src/screens';
 
+import SplashScreen from 'react-native-splash-screen';
+
 const App = () => {
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
+
   return (
-    <AppStack />
+  <AppStack />
   );
 };
 
 
 export default App;
-
-// https://github.com/kmagiera/react-native-gesture-handler/issues/494

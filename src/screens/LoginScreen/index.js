@@ -23,7 +23,7 @@ export default class LoginScreen extends Component{
         return (
             <View style={styles.container}>
                 <View style={styles.titleArea}>
-                    <Text style={styles.title}>Simple App</Text>
+                    <Text style={styles.title}>Aurora</Text>
                 </View>
                 <View style={styles.formArea}>
                     <TextInput 

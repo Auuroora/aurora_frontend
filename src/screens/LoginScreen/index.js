@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
         height: hp('5%'),
     },
     button: {
-        backgroundColor: "#46c3ad",
+        backgroundColor: "#e75d7b",
         width: "100%",
         height: "100%",
         justifyContent: 'center',

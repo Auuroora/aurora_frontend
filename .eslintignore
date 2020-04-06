@@ -1,0 +1,7 @@
+./node_modules
+./__tests__
+./buckconfig
+./babel.config.js
+./metro.config.js
+./ios
+./android

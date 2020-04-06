@@ -6,13 +6,6 @@ import {
   StyleSheet
 } from 'react-native'
 
-import PropTypes from 'prop-types'
-
-SomethingScreen.propTypes = {
-  tintColor: PropTypes.string.isRequired,
-  navigation: PropTypes.object.isRequired,
-}
-
 export default class SomethingScreen extends Component{
 
   render(){

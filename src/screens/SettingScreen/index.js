@@ -9,12 +9,6 @@ import {
 import { StackActions, NavigationActions } from 'react-navigation'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 
-import PropTypes from 'prop-types'
-
-SettingScreen.propTypes = {
-  tintColor: PropTypes.string.isRequired,
-  navigation: PropTypes.object.isRequired,
-}
 
 export default class SettingScreen extends Component{
   _navigate(){

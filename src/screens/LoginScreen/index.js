@@ -8,13 +8,6 @@ import {
   StyleSheet
 } from 'react-native'
 
-import PropTypes from 'prop-types'
-
-LoginScreen.propTypes = {
-  tintColor: PropTypes.string.isRequired,
-  navigation: PropTypes.object.isRequired,
-}
-
 export default class LoginScreen extends Component{
     
     static navigationOptions = {

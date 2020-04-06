@@ -1,6 +1,6 @@
 import React from 'react'
-import { Text} from 'react-native'
-import {createAppContainer } from 'react-navigation'
+import { Text } from 'react-native'
+import { createAppContainer } from 'react-navigation'
 import { createStackNavigator } from "react-navigation-stack"
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -20,7 +20,8 @@ const HomeStack = createStackNavigator(
   // if you need.
   // recommend custom header
   {
-    defaultNavigationOptions: () => ({
+    // eslint-disable-next-line no-unused-vars
+    defaultNavigationOptions: ({navigation}) => ({
       title: 'Home',
     }),
   }
@@ -31,7 +32,8 @@ const SettingStack = createStackNavigator(
     SomethingScreen
   },
   {
-    defaultNavigationOptions: () => ({
+    // eslint-disable-next-line no-unused-vars
+    defaultNavigationOptions: ({navigation}) => ({
       title: 'Setting',
     }),
     initialRouteName: 'SettingScreen',
@@ -43,7 +45,8 @@ const StudioStack = createStackNavigator(
     StudioScreen
   },
   {
-    defaultNavigationOptions: () => ({
+    // eslint-disable-next-line no-unused-vars
+    defaultNavigationOptions: ({navigation}) => ({
       title: 'studio',
     }),
     initialRouteName: 'StudioScreen',
@@ -54,34 +57,13 @@ const UploadStack = createStackNavigator(
     UploadScreen
   },
   {
-    defaultNavigationOptions: () => ({
+    // eslint-disable-next-line no-unused-vars
+    defaultNavigationOptions: ({navigation}) => ({
       title: 'upload',
     }),
     initialRouteName: 'UploadScreen',
   }
 )
-
-// eslint-disable-next-line react/prop-types, no-unused-vars 
-const TabBarIcon = ({focused, horizontal, tintColor}) => {
-  // eslint-disable-next-line no-undef
-  const {routeName} = navigation.state
-  let icon = "▲"
-
-  if(routeName === 'Home'){
-    icon =<Icon name="md-home" size={30} color="black" />
-  } else if(routeName === 'Setting'){
-    icon =<Icon name="md-person" size={30} color="black" />
-  } else if(routeName === 'Studio'){
-    icon =<Icon name="ios-color-filter" size={30} color="black" />
-  } else if(routeName === 'Upload'){
-    icon =<Icon name="md-arrow-round-up" size={30} color="black" />
-  } 
-            
-  // can use react-native-vector-icons
-  // <Icon name={iconName} size={iconSize} color={iconColor} />
-            
-  return <Text style={{color: focused && "#46c3ad" || "#888"}}>{icon}</Text>
-}
 
 const TabNavigator = createBottomTabNavigator(
   {
@@ -91,8 +73,27 @@ const TabNavigator = createBottomTabNavigator(
     Setting: SettingStack,
   },
   {
-    defaultNavigationOptions: () => ({
-      tabBarIcon: TabBarIcon
+    defaultNavigationOptions: ({navigation}) => ({
+      // eslint-disable-next-line react/display-name, react/prop-types, no-unused-vars
+      tabBarIcon: ({focused, horizontal, tintColor}) => {
+        const {routeName} = navigation.state
+        let icon = "▲"
+      
+        if(routeName === 'Home'){
+          icon =<Icon name="md-home" size={30} color="black" />
+        } else if(routeName === 'Setting'){
+          icon =<Icon name="md-person" size={30} color="black" />
+        } else if(routeName === 'Studio'){
+          icon =<Icon name="ios-color-filter" size={30} color="black" />
+        } else if(routeName === 'Upload'){
+          icon =<Icon name="md-arrow-round-up" size={30} color="black" />
+        } 
+                  
+        // can use react-native-vector-icons
+        // <Icon name={iconName} size={iconSize} color={iconColor} />
+                  
+        return <Text style={{color: focused && "#46c3ad" || "#888"}}>{icon}</Text>
+      }
     }),
     lazy: false,
     tabBarOptions: {
@@ -107,7 +108,8 @@ const AppStack = createStackNavigator(
     LoginScreen: LoginScreen,
     TabNavigator: {
       screen: TabNavigator,
-      navigationOptions: () => ({
+      // eslint-disable-next-line no-unused-vars
+      navigationOptions: ({navigation}) => ({
         header: null,
       }),
     },

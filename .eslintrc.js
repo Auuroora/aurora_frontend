@@ -21,7 +21,6 @@ module.exports = {
         "sourceType": "module"
     },
     "plugins": [
-        "react",
         "react-native"
     ],
     "parserOptions": {

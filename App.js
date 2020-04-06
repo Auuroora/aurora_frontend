@@ -6,20 +6,20 @@
  * @flow
  */
 
-import React, { useEffect } from 'react';
-import AppStack from './src/screens';
+import React, { useEffect } from 'react'
+import AppStack from './src/screens'
 
-import SplashScreen from 'react-native-splash-screen';
+import SplashScreen from 'react-native-splash-screen'
 
 const App = () => {
   useEffect(() => {
-    SplashScreen.hide();
-  }, []);
+    SplashScreen.hide()
+  }, [])
 
   return (
-  <AppStack />
-  );
-};
+    <AppStack />
+  ) 
+}
 
 
-export default App;
+export default App

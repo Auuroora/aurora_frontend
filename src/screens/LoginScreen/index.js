@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, {Component} from 'react'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import {
@@ -7,13 +8,6 @@ import {
   TouchableOpacity,
   StyleSheet
 } from 'react-native'
-
-import PropTypes from 'prop-types'
-
-LoginScreen.propTypes = {
-  tintColor: PropTypes.string.isRequired,
-  navigation: PropTypes.object.isRequired,
-}
 
 export default class LoginScreen extends Component{
     
@@ -30,7 +24,7 @@ export default class LoginScreen extends Component{
       return (
         <View style={styles.container}>
           <View style={styles.titleArea}>
-            <Text style={styles.title}>Simple App</Text>
+            <Text style={styles.title}>Aurora</Text>
           </View>
           <View style={styles.formArea}>
             <TextInput 
@@ -86,7 +80,7 @@ const styles = StyleSheet.create({
     height: hp('5%'),
   },
   button: {
-    backgroundColor: "#46c3ad",
+    backgroundColor: "#e75d7b",
     width: "100%",
     height: "100%",
     justifyContent: 'center',
@@ -94,5 +88,5 @@ const styles = StyleSheet.create({
   },
   buttonTitle: {
     color: 'white',
-  },
+  }
 })

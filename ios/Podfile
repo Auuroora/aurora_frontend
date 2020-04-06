@@ -35,7 +35,7 @@ target 'aurora_front' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
 
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
 
   target 'aurora_frontTests' do
     inherit! :search_paths

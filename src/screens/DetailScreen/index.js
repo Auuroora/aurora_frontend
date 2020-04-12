@@ -4,8 +4,11 @@ import {
   View,
   Text,
   Button,
-  StyleSheet
+  StyleSheet,
+  Image
 } from 'react-native'
+
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 export default class DetailScreen extends Component{
     static navigationOptions = {
       header: null,
@@ -13,10 +16,10 @@ export default class DetailScreen extends Component{
     render(){
       return (
         <View style={styles.container}>
-          <Text>detail</Text>
-          <Button
-            title='back'
-            onPress={() => this.props.navigation.goBack()} />
+          <Text style={styles.textForm}>작가이름</Text>
+          <Text style={styles.textForm}>#카페 #감성</Text>
+          <Text style={styles.textForm}>$1000</Text>
+          <Image source={require('../../image/img.jpg')} style={{height:200, width:300, resizeMode:'contain'}}/>
         </View>
       )
     }
@@ -28,5 +31,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  textForm: {
+    fontSize: wp('5%'),
   },
 })

@@ -6,7 +6,7 @@ import {
   Image
 } from 'react-native'
  
-import { Card, CardItem, Thumbnail, Body, Left, Right, Button, Icon } from 'native-base'
+import { Card, CardItem, Thumbnail, Body, Left, Button, Icon } from 'native-base'
 class CardCompnent extends Component{
   render(){
     const images = {

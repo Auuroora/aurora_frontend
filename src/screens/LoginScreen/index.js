@@ -1,6 +1,9 @@
 /* eslint-disable react/prop-types */
 import React, {Component} from 'react'
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen'
 import {
   View,
   Text,

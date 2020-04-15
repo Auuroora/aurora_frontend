@@ -5,11 +5,8 @@ import {
   StyleSheet,
   TouchableOpacity
 } from 'react-native'
-import { StackActions, NavigationActions } from 'react-navigation'
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen'
-
-import CardComponent from '../../component/Card'
-import { TouchableHighlight } from 'react-native-gesture-handler'
+import CardComponent from '../../Components/Card'
 
 
 export default class HomeScreen extends Component{
@@ -18,7 +15,8 @@ export default class HomeScreen extends Component{
   }
   render(){
     return (
-      //무한 스크롤 적용해야함 
+      //TODO: 무한 스크롤 적용해야함 
+      //TODO: Component 로 뽑아내기
       <ScrollView style={styles.container}>
         <View style={{flexDirection:"row"}}>
           <View style={styles.wrapContent}>

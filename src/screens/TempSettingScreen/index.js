@@ -7,7 +7,7 @@ import {
   StyleSheet
 } from 'react-native'
 
-export default class SomethingScreen extends Component{
+class TempSettingScreen extends Component{
 
   render(){
     return (
@@ -29,3 +29,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 })
+
+export default TempSettingScreen

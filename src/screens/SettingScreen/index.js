@@ -7,8 +7,14 @@ import {
   Alert,
   StyleSheet
 } from 'react-native'
-import { StackActions, NavigationActions } from 'react-navigation'
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
+import { 
+  StackActions,
+  NavigationActions 
+} from 'react-navigation'
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen'
 
 
 export default class SettingScreen extends Component{

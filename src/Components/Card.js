@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { 
-  View,
   Text,
   StyleSheet,
   Image
@@ -27,7 +26,6 @@ class CardCompnent extends Component{
           </Left>
         </CardItem>
         <CardItem>
-          {/* <Image source={require('../image/img.jpg')} style={{height:150, width:null, flex:1, resizeMode:'contain'}}/> */}
           <Image source={images[this.props.imageSource]} style={{height:150, width:null, flex:1, resizeMode:'contain'}}/>
         </CardItem>
         <CardItem style={{ height:20 }}>

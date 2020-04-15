@@ -1,120 +1,80 @@
+/* eslint-disable react/display-name */
 import React from 'react'
 import { Text } from 'react-native'
-import { createAppContainer } from 'react-navigation'
-import { createStackNavigator } from "react-navigation-stack"
-import { createBottomTabNavigator } from 'react-navigation-tabs'
+
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
+
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Icon from 'react-native-vector-icons/Ionicons'
 
-import LoginScreen from './LoginScreen'
 import HomeScreen from './HomeScreen'
 import SettingScreen from './SettingScreen'
-import TempSettingScreen from './TempSettingScreen'
 import StudioScreen from './StudioScreen'
 import UploadScreen from './UploadScreen'
+import LoginScreen from './LoginScreen'
 import DetailScreen from './DetailScreen'
+import TempSettingScreen from './TempSettingScreen'
 
+const Stack = createStackNavigator()
+const Tab = createBottomTabNavigator()
 
-const HomeStack = createStackNavigator(
-  {
-    HomeScreen,
-    DetailScreen
-  },
-  // if you need.
-  // recommend custom header
-  {
-    // eslint-disable-next-line no-unused-vars
-    defaultNavigationOptions: ({navigation}) => ({
-      title: 'Home',
-    }),
-  }
-)
-const SettingStack = createStackNavigator(
-  {
-    SettingScreen,
-    TempSettingScreen
-  },
-  {
-    // eslint-disable-next-line no-unused-vars
-    defaultNavigationOptions: ({navigation}) => ({
-      title: 'Setting',
-    }),
-    initialRouteName: 'SettingScreen',
-  }
-)
-
-const StudioStack = createStackNavigator(
-  {
-    StudioScreen
-  },
-  {
-    // eslint-disable-next-line no-unused-vars
-    defaultNavigationOptions: ({navigation}) => ({
-      title: 'studio',
-    }),
-    initialRouteName: 'StudioScreen',
-  }
-)
-
-const UploadStack = createStackNavigator(
-  {
-    UploadScreen
-  },
-  {
-    // eslint-disable-next-line no-unused-vars
-    defaultNavigationOptions: ({navigation}) => ({
-      title: 'upload',
-    }),
-    initialRouteName: 'UploadScreen',
-  }
-)
-
-const TabNavigator = createBottomTabNavigator(
-  {
-    Home: HomeStack,
-    Studio: StudioStack,
-    Upload: UploadStack,
-    Setting: SettingStack,
-  },
-  {
-    defaultNavigationOptions: ({navigation}) => ({
-      // eslint-disable-next-line react/display-name, react/prop-types, no-unused-vars
-      tabBarIcon: ({focused, horizontal, tintColor}) => {
-        const {routeName} = navigation.state
-        let icon = "▲"
-      
-        if(routeName === 'Home'){
-          icon =<Icon name="md-home" size={30} color="black" />
-        } else if(routeName === 'Setting'){
-          icon =<Icon name="md-person" size={30} color="black" />
-        } else if(routeName === 'Studio'){
-          icon =<Icon name="ios-color-filter" size={30} color="black" />
-        } else if(routeName === 'Upload'){
-          icon =<Icon name="md-arrow-round-up" size={30} color="black" />
+function HomeStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="DetailScreen" component={DetailScreen} />
+    </Stack.Navigator>
+  )
+}
+function SettingStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Setting" component={SettingScreen} />
+      <Stack.Screen name="TempSettingScreen" component={TempSettingScreen} />
+    </Stack.Navigator>
+  )
+}
+function TabStack() {
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        // eslint-disable-next-line react/prop-types
+        tabBarIcon: ({ focused, color, size }) => {
+          let icon = "▲"
+          if(route.name === 'Home'){
+            icon =<Icon name="md-home" size={30} color="black" />
+          } else if(route.name === 'Setting'){
+            icon =<Icon name="md-person" size={30} color="black" />
+          } else if(route.name === 'Studio'){
+            icon =<Icon name="ios-color-filter" size={30} color="black" />
+          } else if(route.name === 'Upload'){
+            icon =<Icon name="md-arrow-round-up" size={30} color="black" />
+          }
+          return <Text style={{color: focused && "#46c3ad" || "#888"}}>{icon}</Text>
         }
-                  
-        return <Text style={{color: focused && "#46c3ad" || "#888"}}>{icon}</Text>
-      }
-    }),
-    lazy: false,
-    tabBarOptions: {
-      activeTintColor: "#46c3ad",
-      inactiveTintColor: "#888",
-    },
-  }
-)
+      })}
+      tabBarOptions={{
+        activeTintColor: "#FF6787",
+        inactiveTintColor: "#888",
+      }}
+    >
+      <Tab.Screen name="Home" component={HomeStack} />
+      <Tab.Screen name="Studio" component={StudioScreen} />
+      <Tab.Screen name="Upload" component={UploadScreen} />
+      <Tab.Screen name="SettingStack" component={SettingStack} />
+    </Tab.Navigator>
+  )
+}
+function RootNavigator(){
+  return (
+    <NavigationContainer>
+      <Stack.Navigator >
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="TabStack" component={TabStack} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
+}
 
-const AppStack = createStackNavigator(
-  {
-    LoginScreen: LoginScreen,
-    DetailScreen : DetailScreen,
-    TabNavigator: {
-      screen: TabNavigator,
-      // eslint-disable-next-line no-unused-vars
-      navigationOptions: ({navigation}) => ({
-        header: null,
-      }),
-    },
-  }
-)
-
-export default createAppContainer(AppStack)
+export default RootNavigator

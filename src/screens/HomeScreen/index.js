@@ -8,8 +8,10 @@ import {
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen'
 import CardComponent from '../../Components/Card'
 
-
-class HomeScreen extends Component{
+class HomeScreen extends Component{ 
+  static navigationOptions = {
+    header: null
+  }
   _navigate(){
     this.props.navigation.navigate('DetailScreen')
   }
@@ -44,7 +46,6 @@ class HomeScreen extends Component{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // flexDirection:'row',
     padding: wp('5%'),
     backgroundColor: 'white',
     

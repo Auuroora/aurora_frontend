@@ -13,40 +13,38 @@ import {
 } from 'react-native'
 
 class LoginScreen extends Component{
-    
-    static navigationOptions = {
-      header: null,
-    };
 
-    _doLogin(){
-      // do something
-      this.props.navigation.replace('TabNavigator')
-    }
+  _doLogin(){
+    // do something
+    // this.props.navigation.replace('TabStack')
+    // 사실 차이는 모르겟는디..  stack 이동시에는 아래껄 더 선호한다네요..
+    this.props.navigation.navigate('TabStack')
+  }
 
-    render(){
-      return (
-        <View style={styles.container}>
-          <View style={styles.titleArea}>
-            <Text style={styles.title}>Aurora</Text>
-          </View>
-          <View style={styles.formArea}>
-            <TextInput 
-              style={styles.textForm} 
-              placeholder={"ID"}/>
-            <TextInput 
-              style={styles.textForm} 
-              placeholder={"Password"}/>
-          </View>
-          <View style={styles.buttonArea}>
-            <TouchableOpacity 
-              style={styles.button}
-              onPress={this._doLogin.bind(this)}>
-              <Text style={styles.buttonTitle}>Login</Text>
-            </TouchableOpacity>
-          </View>
+  render(){
+    return (
+      <View style={styles.container}>
+        <View style={styles.titleArea}>
+          <Text style={styles.title}>Aurora</Text>
         </View>
-      )
-    }
+        <View style={styles.formArea}>
+          <TextInput 
+            style={styles.textForm} 
+            placeholder={"ID"}/>
+          <TextInput 
+            style={styles.textForm} 
+            placeholder={"Password"}/>
+        </View>
+        <View style={styles.buttonArea}>
+          <TouchableOpacity 
+            style={styles.button}
+            onPress={this._doLogin.bind(this)}>
+            <Text style={styles.buttonTitle}>Login</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    )
+  }
 }
 
 export default LoginScreen

@@ -3,13 +3,16 @@ import {
   View,
   ScrollView,
   StyleSheet,
+  TouchableOpacity
 } from 'react-native'
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen'
-
 import CardComponent from '../../Components/Card'
 
 
 export default class HomeScreen extends Component{
+  _navigate(){
+    this.props.navigation.navigate('DetailScreen')
+  }
   render(){
     return (
       //TODO: 무한 스크롤 적용해야함 
@@ -17,8 +20,10 @@ export default class HomeScreen extends Component{
       <ScrollView style={styles.container}>
         <View style={{flexDirection:"row"}}>
           <View style={styles.wrapContent}>
-            <CardComponent imageSource='1' likes='12'/>
-          </View>   
+            <TouchableOpacity onPress={this._navigate.bind(this)}>
+              <CardComponent imageSource='1' likes='12'/>
+            </TouchableOpacity>  
+          </View> 
           <View style={styles.wrapContent}>
             <CardComponent imageSource='2' likes='11'/>
           </View>   
@@ -31,7 +36,6 @@ export default class HomeScreen extends Component{
             <CardComponent imageSource='2' likes='11'/>
           </View>    
         </View>
-
       </ScrollView>       
     )
   }

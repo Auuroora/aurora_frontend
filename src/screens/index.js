@@ -14,6 +14,7 @@ import StudioScreen from './StudioScreen'
 import UploadScreen from './UploadScreen'
 import LoginScreen from './LoginScreen'
 import DetailScreen from './DetailScreen'
+import TempSettingScreen from './TempSettingScreen'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -23,6 +24,14 @@ function HomeStack() {
     <Stack.Navigator>
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="DetailScreen" component={DetailScreen} />
+    </Stack.Navigator>
+  )
+}
+function SettingStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Setting" component={SettingScreen} />
+      <Stack.Screen name="TempSettingScreen" component={TempSettingScreen} />
     </Stack.Navigator>
   )
 }
@@ -43,8 +52,7 @@ function TabStack() {
             icon =<Icon name="md-arrow-round-up" size={30} color="black" />
           }
           return <Text style={{color: focused && "#46c3ad" || "#888"}}>{icon}</Text>
-        },
-        headerMode: 'none'
+        }
       })}
       tabBarOptions={{
         activeTintColor: "#FF6787",
@@ -54,14 +62,14 @@ function TabStack() {
       <Tab.Screen name="Home" component={HomeStack} />
       <Tab.Screen name="Studio" component={StudioScreen} />
       <Tab.Screen name="Upload" component={UploadScreen} />
-      <Tab.Screen name="Setting" component={SettingScreen} />
+      <Tab.Screen name="SettingStack" component={SettingStack} />
     </Tab.Navigator>
   )
 }
 function RootNavigator(){
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator >
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="TabStack" component={TabStack} />
       </Stack.Navigator>

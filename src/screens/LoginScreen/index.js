@@ -13,14 +13,11 @@ import {
 } from 'react-native'
 
 class LoginScreen extends Component{
-    
-  static navigationOptions = {
-    header: null,
-  };
 
   _doLogin(){
     // do something
     // this.props.navigation.replace('TabStack')
+    // 사실 차이는 모르겟는디..  stack 이동시에는 아래껄 더 선호한다네요..
     this.props.navigation.navigate('TabStack')
   }
 

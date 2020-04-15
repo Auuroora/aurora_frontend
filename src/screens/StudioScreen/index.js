@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import {
-  AppRegistry,
   View,
   Button,
   Image,
@@ -28,7 +27,7 @@ const ImagePickerOptions = {
   },
 }
 
-export default class CameraScreen extends Component {
+class StudioScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -99,4 +98,4 @@ export default class CameraScreen extends Component {
   }
 }
 
-AppRegistry.registerComponent('CameraScreen', () => CameraScreen)
+export default StudioScreen

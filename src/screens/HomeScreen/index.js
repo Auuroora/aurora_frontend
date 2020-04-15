@@ -9,7 +9,7 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen'
 import CardComponent from '../../Components/Card'
 
 
-export default class HomeScreen extends Component{
+class HomeScreen extends Component{
   _navigate(){
     this.props.navigation.navigate('DetailScreen')
   }
@@ -61,3 +61,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#46c3ad",
   }
 })
+
+export default HomeScreen

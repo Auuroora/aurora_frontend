@@ -53,6 +53,7 @@ const StudioStack = createStackNavigator(
     initialRouteName: 'StudioScreen',
   }
 )
+
 const UploadStack = createStackNavigator(
   {
     UploadScreen
@@ -63,20 +64,6 @@ const UploadStack = createStackNavigator(
       title: 'upload',
     }),
     initialRouteName: 'UploadScreen',
-  }
-)
-
-const AppStack = createStackNavigator(
-  {
-    LoginScreen: LoginScreen,
-    DetailScreen : DetailScreen,
-    TabNavigator: {
-      screen: TabNavigator,
-      // eslint-disable-next-line no-unused-vars
-      navigationOptions: ({navigation}) => ({
-        header: null,
-      }),
-    },
   }
 )
 
@@ -111,6 +98,20 @@ const TabNavigator = createBottomTabNavigator(
     tabBarOptions: {
       activeTintColor: "#46c3ad",
       inactiveTintColor: "#888",
+    },
+  }
+)
+
+const AppStack = createStackNavigator(
+  {
+    LoginScreen: LoginScreen,
+    DetailScreen : DetailScreen,
+    TabNavigator: {
+      screen: TabNavigator,
+      // eslint-disable-next-line no-unused-vars
+      navigationOptions: ({navigation}) => ({
+        header: null,
+      }),
     },
   }
 )

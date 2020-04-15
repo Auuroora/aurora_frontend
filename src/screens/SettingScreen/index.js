@@ -17,9 +17,9 @@ import {
 } from 'react-native-responsive-screen'
 
 
-export default class SettingScreen extends Component{
+class SettingScreen extends Component{
   _navigate(){
-    this.props.navigation.navigate('SomethingScreen')
+    this.props.navigation.navigate('TempSettingScreen')
   }
 
   _checkLogout(){
@@ -60,6 +60,8 @@ export default class SettingScreen extends Component{
     )
   }
 }
+
+export default SettingScreen
 
 const styles = StyleSheet.create({
   container: {

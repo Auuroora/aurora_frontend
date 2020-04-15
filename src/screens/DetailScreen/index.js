@@ -3,13 +3,12 @@ import React, {Component} from 'react'
 import {
   View,
   Text,
-  Button,
   StyleSheet,
   Image
 } from 'react-native'
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen'
 
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
-export default class DetailScreen extends Component{
+class DetailScreen extends Component{
     static navigationOptions = {
       header: null,
     };
@@ -36,3 +35,5 @@ const styles = StyleSheet.create({
     fontSize: wp('5%'),
   },
 })
+
+export default DetailScreen

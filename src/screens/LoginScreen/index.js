@@ -12,7 +12,7 @@ import {
   StyleSheet
 } from 'react-native'
 
-export default class LoginScreen extends Component{
+class LoginScreen extends Component{
     
     static navigationOptions = {
       header: null,
@@ -48,6 +48,8 @@ export default class LoginScreen extends Component{
       )
     }
 }
+
+export default LoginScreen
 
 const styles = StyleSheet.create({
   container: {

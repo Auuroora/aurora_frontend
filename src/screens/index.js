@@ -23,6 +23,7 @@ const HomeStack = createStackNavigator(
     // eslint-disable-next-line no-unused-vars
     defaultNavigationOptions: ({navigation}) => ({
       title: 'Home',
+      
     }),
   }
 )

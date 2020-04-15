@@ -11,6 +11,7 @@ import SettingScreen from './SettingScreen'
 import SomethingScreen from './SomethingScreen'
 import StudioScreen from './StudioScreen'
 import UploadScreen from './UploadScreen'
+import DetailScreen from './DetailScreen'
 
 
 const HomeStack = createStackNavigator(
@@ -23,7 +24,6 @@ const HomeStack = createStackNavigator(
     // eslint-disable-next-line no-unused-vars
     defaultNavigationOptions: ({navigation}) => ({
       title: 'Home',
-      
     }),
   }
 )
@@ -107,6 +107,7 @@ const TabNavigator = createBottomTabNavigator(
 const AppStack = createStackNavigator(
   {
     LoginScreen: LoginScreen,
+    DetailScreen : DetailScreen,
     TabNavigator: {
       screen: TabNavigator,
       // eslint-disable-next-line no-unused-vars

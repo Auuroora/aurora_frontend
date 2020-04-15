@@ -57,3 +57,7 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
+
+# OpenCV 
+./ios/opencv2.framework
+./android/app/src/main/jniLibs

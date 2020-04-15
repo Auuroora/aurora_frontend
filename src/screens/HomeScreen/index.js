@@ -8,7 +8,6 @@ import {
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen'
 import CardComponent from '../../Components/Card'
 
-
 class HomeScreen extends Component{
   _navigate(){
     this.props.navigation.navigate('DetailScreen')

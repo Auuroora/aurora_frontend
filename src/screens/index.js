@@ -16,7 +16,8 @@ import DetailScreen from './DetailScreen'
 
 const HomeStack = createStackNavigator(
   {
-    HomeScreen
+    HomeScreen,
+    DetailScreen
   },
   // if you need.
   // recommend custom header

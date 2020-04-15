@@ -61,3 +61,6 @@ buck-out/
 # OpenCV 
 /ios/opencv2.framework
 /android/app/src/main/jniLibs
+
+# vscode
+.vscode

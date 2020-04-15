@@ -6,13 +6,14 @@ import {
 } from 'react-native'
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen'
 
-import CardComponent from '../../component/Card'
+import CardComponent from '../../Components/Card'
 
 
 export default class HomeScreen extends Component{
   render(){
     return (
-      //무한 스크롤 적용해야함 
+      //TODO: 무한 스크롤 적용해야함 
+      //TODO: Component 로 뽑아내기
       <ScrollView style={styles.container}>
         <View style={{flexDirection:"row"}}>
           <View style={styles.wrapContent}>

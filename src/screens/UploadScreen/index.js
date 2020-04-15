@@ -6,7 +6,7 @@ import {
   Button,
   StyleSheet
 } from 'react-native'
-export default class UploadScreen extends Component{
+class UploadScreen extends Component{
 
   render(){
     return (
@@ -28,3 +28,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 })
+
+export default UploadScreen

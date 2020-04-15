@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import LoginScreen from './LoginScreen'
 import HomeScreen from './HomeScreen'
 import SettingScreen from './SettingScreen'
-import SomethingScreen from './SomethingScreen'
+import TempSettingScreen from './TempSettingScreen'
 import StudioScreen from './StudioScreen'
 import UploadScreen from './UploadScreen'
 
@@ -30,7 +30,7 @@ const HomeStack = createStackNavigator(
 const SettingStack = createStackNavigator(
   {
     SettingScreen,
-    SomethingScreen
+    TempSettingScreen
   },
   {
     // eslint-disable-next-line no-unused-vars
@@ -66,6 +66,19 @@ const UploadStack = createStackNavigator(
   }
 )
 
+const AppStack = createStackNavigator(
+  {
+    LoginScreen: LoginScreen,
+    TabNavigator: {
+      screen: TabNavigator,
+      // eslint-disable-next-line no-unused-vars
+      navigationOptions: ({navigation}) => ({
+        header: null,
+      }),
+    },
+  }
+)
+
 const TabNavigator = createBottomTabNavigator(
   {
     Home: HomeStack,
@@ -88,10 +101,7 @@ const TabNavigator = createBottomTabNavigator(
           icon =<Icon name="ios-color-filter" size={30} color="black" />
         } else if(routeName === 'Upload'){
           icon =<Icon name="md-arrow-round-up" size={30} color="black" />
-        } 
-                  
-        // can use react-native-vector-icons
-        // <Icon name={iconName} size={iconSize} color={iconColor} />
+        }
                   
         return <Text style={{color: focused && "#46c3ad" || "#888"}}>{icon}</Text>
       }
@@ -100,19 +110,6 @@ const TabNavigator = createBottomTabNavigator(
     tabBarOptions: {
       activeTintColor: "#46c3ad",
       inactiveTintColor: "#888",
-    },
-  }
-)
-
-const AppStack = createStackNavigator(
-  {
-    LoginScreen: LoginScreen,
-    TabNavigator: {
-      screen: TabNavigator,
-      // eslint-disable-next-line no-unused-vars
-      navigationOptions: ({navigation}) => ({
-        header: null,
-      }),
     },
   }
 )

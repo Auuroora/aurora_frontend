@@ -8,9 +8,8 @@ import {
   StyleSheet
 } from 'react-native'
 import { 
-  StackActions,
-  NavigationActions 
-} from 'react-navigation'
+  StackActions
+} from '@react-navigation/native'
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
@@ -38,7 +37,7 @@ class SettingScreen extends Component{
     const resetAction = StackActions.reset({
       index: 0,
       key: null,
-      actions: [NavigationActions.navigate({ routeName: 'LoginScreen' })],
+      actions: [this.props.navigation.navigate({ routeName: 'LoginScreen' })],
     })
     this.props.navigation.dispatch(resetAction)
   }

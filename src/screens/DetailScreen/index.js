@@ -19,7 +19,7 @@ class DetailScreen extends Component{
           <Text style={styles.textForm}>작가이름</Text>
           <Text style={styles.textForm}>#카페 #감성</Text>
           <Text style={styles.textForm}>$1000</Text>
-          <Image source={require('../../image/img.jpg')} style={{height:200, width:300, resizeMode:'contain'}}/>
+          <Image source={require('../../image/img.jpg')} style={{height:300, width:300, resizeMode:'cover'}}/>
         </View>
       )
     }

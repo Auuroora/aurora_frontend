@@ -27,7 +27,7 @@ function HomeStack() {
     </Stack.Navigator>
   )
 }
-function SettingStack() {
+function Settings() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Setting" component={SettingScreen} />
@@ -44,7 +44,7 @@ function TabStack() {
           let icon = "▲"
           if(route.name === 'Home'){
             icon =<Icon name="md-home" size={30} color="black" />
-          } else if(route.name === 'Setting'){
+          } else if(route.name === 'Settings'){
             icon =<Icon name="md-person" size={30} color="black" />
           } else if(route.name === 'Studio'){
             icon =<Icon name="ios-color-filter" size={30} color="black" />
@@ -62,7 +62,7 @@ function TabStack() {
       <Tab.Screen name="Home" component={HomeStack} />
       <Tab.Screen name="Studio" component={StudioScreen} />
       <Tab.Screen name="Upload" component={UploadScreen} />
-      <Tab.Screen name="SettingStack" component={SettingStack} />
+      <Tab.Screen name="Settings" component={Settings} />
     </Tab.Navigator>
   )
 }

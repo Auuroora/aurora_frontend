@@ -22,16 +22,16 @@ const Tab = createBottomTabNavigator()
 function HomeStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="DetailScreen" component={DetailScreen} />
+      <Stack.Screen  options={{headerShown: false}} name="Home" component={HomeScreen} />
+      <Stack.Screen options={{headerShown: false}} name="DetailScreen" component={DetailScreen} />
     </Stack.Navigator>
   )
 }
-function SettingStack() {
+function Settings() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Setting" component={SettingScreen} />
-      <Stack.Screen name="TempSettingScreen" component={TempSettingScreen} />
+      <Stack.Screen options={{headerShown: false}} name="Setting" component={SettingScreen} />
+      <Stack.Screen  options={{headerShown: false}} name="TempSettingScreen" component={TempSettingScreen} />
     </Stack.Navigator>
   )
 }
@@ -42,9 +42,10 @@ function TabStack() {
         // eslint-disable-next-line react/prop-types
         tabBarIcon: ({ focused, color, size }) => {
           let icon = "▲"
+          
           if(route.name === 'Home'){
             icon =<Icon name="md-home" size={30} color="black" />
-          } else if(route.name === 'Setting'){
+          } else if(route.name === 'Settings'){
             icon =<Icon name="md-person" size={30} color="black" />
           } else if(route.name === 'Studio'){
             icon =<Icon name="ios-color-filter" size={30} color="black" />
@@ -52,6 +53,7 @@ function TabStack() {
             icon =<Icon name="md-arrow-round-up" size={30} color="black" />
           }
           return <Text style={{color: focused && "#46c3ad" || "#888"}}>{icon}</Text>
+          
         }
       })}
       tabBarOptions={{
@@ -59,10 +61,10 @@ function TabStack() {
         inactiveTintColor: "#888",
       }}
     >
-      <Tab.Screen name="Home" component={HomeStack} />
-      <Tab.Screen name="Studio" component={StudioScreen} />
-      <Tab.Screen name="Upload" component={UploadScreen} />
-      <Tab.Screen name="SettingStack" component={SettingStack} />
+      <Tab.Screen options={{headerShown: false}} name="Home" component={HomeStack} />
+      <Tab.Screen options={{headerShown: false}} name="Studio" component={StudioScreen} />
+      <Tab.Screen options={{headerShown: false}} name="Upload" component={UploadScreen} />
+      <Tab.Screen options={{headerShown: false}}name="Settings" component={Settings} />
     </Tab.Navigator>
   )
 }
@@ -70,8 +72,8 @@ function RootNavigator(){
   return (
     <NavigationContainer>
       <Stack.Navigator >
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="TabStack" component={TabStack} />
+        <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
+        <Stack.Screen  options={{headerShown: false}} name="TabStack" component={TabStack} />
       </Stack.Navigator>
     </NavigationContainer>
   )

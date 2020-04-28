@@ -6,39 +6,59 @@ import {
   TouchableOpacity
 } from 'react-native'
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen'
+
 import CardComponent from '../../Components/Card'
+import SearchComponent from '../../Components/Search'
 
 class HomeScreen extends Component{ 
-  static navigationOptions = {
-    header: null
-  }
   _navigate(){
-    this.props.navigation.navigate('DetailScreen')
+    this.props.navigation.navigate('DetailScreen', {
+      params :{
+        imgId:'1'
+      }
+    })
   }
   render(){
     return (
       //TODO: 무한 스크롤 적용해야함 
       //TODO: Component 로 뽑아내기
-      <ScrollView style={styles.container}>
-        <View style={{flexDirection:"row"}}>
-          <View style={styles.wrapContent}>
-            <TouchableOpacity onPress={this._navigate.bind(this)}>
-              <CardComponent imageSource='1' likes='12'/>
-            </TouchableOpacity>  
-          </View> 
-          <View style={styles.wrapContent}>
-            <CardComponent imageSource='2' likes='11'/>
-          </View>   
-        </View>
-        <View style={{flexDirection:"row"}}>
-          <View style={styles.wrapContent}>
-            <CardComponent imageSource='1' likes='22'/>
-          </View>   
-          <View style={styles.wrapContent}>
-            <CardComponent imageSource='2' likes='11'/>
-          </View>    
-        </View>
-      </ScrollView>       
+      <View style={styles.container}>
+        <SearchComponent></SearchComponent>
+        <ScrollView>
+          <View style={{flexDirection:"row"}}>
+            <View style={styles.wrapContent}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('DetailScreen', {
+                imgId:'1'
+              })}>
+                <CardComponent imageSource='1' likes='12'/>
+              </TouchableOpacity>  
+            </View> 
+            <View style={styles.wrapContent}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('DetailScreen', {
+                imgId:'2'
+              })}>
+                <CardComponent imageSource='2' likes='11'/>
+              </TouchableOpacity> 
+            </View>   
+          </View>
+          <View style={{flexDirection:"row"}}>
+            <View style={styles.wrapContent}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('DetailScreen', {
+                imgId:'1'
+              })}>
+                <CardComponent imageSource='1' likes='12'/>
+              </TouchableOpacity>  
+            </View> 
+            <View style={styles.wrapContent}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('DetailScreen', {
+                imgId:'2'
+              })}>
+                <CardComponent imageSource='2' likes='11'/>
+              </TouchableOpacity> 
+            </View>   
+          </View>
+        </ScrollView>     
+      </View>  
     )
   }
 }

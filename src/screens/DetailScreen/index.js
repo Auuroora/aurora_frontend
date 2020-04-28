@@ -1,30 +1,49 @@
 /* eslint-disable react/prop-types */
-import React, {Component} from 'react'
+import React from 'react'
 import {
-  View,
   Text,
   StyleSheet,
-  Image
+  Image,
 } from 'react-native'
 
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen'
+import { Card, CardItem, Thumbnail, Body, Left, Button, Icon } from 'native-base'
 
-class DetailScreen extends Component{
-    static navigationOptions = {
-      header: null,
-    };
-    render(){
-      return (
-        <View style={styles.container}>
-          <Text style={styles.textForm}>작가이름</Text>
-          <Text style={styles.textForm}>#카페 #감성</Text>
-          <Text style={styles.textForm}>$1000</Text>
-          <Image source={require('../../image/img.jpg')} style={{height:200, width:300, resizeMode:'contain'}}/>
-        </View>
-      )
-    }
+const DetailScreen = ({route}) => {
+  const {imgId} = route.params
+  const img ={
+    '1' : require('../../image/img.jpg'),
+    '2' : require('../../image/img2.jpg')
+  }
+  return (
+    <Card>
+      <CardItem>
+        <Left>
+          <Thumbnail source={require('../../image/writer.jpg')} />
+          <Body>
+            <Text>작가이름</Text>
+            <Text note>#카페 #감성</Text>
+            <Text note>$1000</Text>
+          </Body>
+        </Left>
+      </CardItem>
+      <CardItem>
+        <Image source={img[imgId]} style={{height:300, width:300, flex:1, resizeMode:'contain'}}/>
+      </CardItem>
+      <CardItem style={{ height:20 }}>
+        <Left>
+          <Button transparent>
+            <Icon name='ios-heart' style={{ color:'black' }}/>
+          </Button>
+          <Text>likes</Text>
+        </Left>
+      </CardItem>
+      <CardItem>
+        <Text>설명글.........! ..이건.. 디테일할때 서버에서 받아와야하나홍홍.</Text>
+      </CardItem>
+    </Card>
+  )
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

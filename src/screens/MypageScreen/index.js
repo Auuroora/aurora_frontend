@@ -9,22 +9,11 @@ import {
 } from 'react-native'
 
 import Icon from 'react-native-vector-icons/Ionicons'
+import ProfileTab from '../../Components/ProfileTab'
 class MypageScreen extends Component{
   render(){
     return (        
-      <View style={styles.container}>    
-        <TouchableOpacity onPress={() =>{this.props.navigation.navigate('Settingstack')}}>
-          <Icon
-            name='md-menu'
-            color='#000'
-            size={30}
-          />
-        </TouchableOpacity>
-        <Text>Mypage</Text>
-        <Button
-          title='back'
-          onPress={() => this.props.navigation.goBack()} />
-      </View>
+      <ProfileTab></ProfileTab>
     )
   }
 }

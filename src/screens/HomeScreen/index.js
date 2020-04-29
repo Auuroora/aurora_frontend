@@ -10,14 +10,7 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen'
 import CardComponent from '../../Components/Card'
 import SearchComponent from '../../Components/Search'
 
-class HomeScreen extends Component{ 
-  _navigate(){
-    this.props.navigation.navigate('DetailScreen', {
-      params :{
-        imgId:'1'
-      }
-    })
-  }
+class HomeScreen extends Component{
   render(){
     return (
       //TODO: 무한 스크롤 적용해야함 

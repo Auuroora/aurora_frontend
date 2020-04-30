@@ -1,46 +1,86 @@
 import axios from 'axios'
+import AsyncStorage from '@react-native-community/async-storage'
+
 import {
   AUTH_SIGNIN,
   AUTH_SIGNIN_SUCCESS,
   AUTH_SIGNIN_FAILURE,
-  AUTH_SIGNOUT
+  AUTH_SIGNOUT,
+  AUTH_STORE_USER_DATA
 } from './actionTypes'
 
-axios.defaults.baseURL = 'http://aurora-api.ap-northeast-2.elasticbeanstalk.com'
+axios.defaults.baseURL = 'http://aurora-application.ap-northeast-2.elasticbeanstalk.com'
 
+export const removeUserData = async (key) => {
+  try {
+    await AsyncStorage.removeItem('@Aurora:' + key)
+  } catch (e) {
+    alert('err : ', e)
+  }
+}
 
-export function requestSignin(data) {
+export const setUserData = async (key, data) => {
+  try {
+    await AsyncStorage.setItem('@Aurora:' + key, data)
+  } catch (e) {
+    alert('err : ', e)
+  }
+}
+
+export const getUserData = async (key) => {
+  try {
+    const userData = await AsyncStorage.getItem('@Aurora:' + key)
+    if(userData === null) {
+      return false
+    }
+    return userData
+  } catch(e) {
+    alert('err : ', e)
+  }
+}
+
+export const requestSignin = (data) => {
   return (dispatch) => {
     dispatch(signin())
-    return axios.post('/api/auth/signin', data)
+    return axios.post('/auth/login', data)
       .then((response) => {
-        dispatch(signinSuccess(response))
+        console.log(response.data.username)
+        dispatch(signinSuccess())
+        dispatch(storeUserData(response.data))
+        setUserData('userToken', response.data.token)
       }).catch((error) => {
-        dispatch(signinFailure(error.response.data.code))
+        console.log(error)
+        dispatch(signinFailure(error))
       })
   }
 }
 
-export function signout() {
+export const signout = () => {
   return {
     type: AUTH_SIGNOUT
   }
 }
 
-export function signin() {
+export const signin = () => {
   return {
     type: AUTH_SIGNIN
   }
 }
 
-export function signinSuccess(response) {
+export const storeUserData = (response) => {
   return {
-    type: AUTH_SIGNIN_SUCCESS,
+    type: AUTH_STORE_USER_DATA,
     response
   }
 }
 
-export function signinFailure(error) {
+export const signinSuccess = () => {
+  return {
+    type: AUTH_SIGNIN_SUCCESS
+  }
+}
+
+export const signinFailure = (error) => {
   return {
     type: AUTH_SIGNIN_FAILURE,
     error

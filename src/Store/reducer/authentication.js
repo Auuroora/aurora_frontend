@@ -4,12 +4,7 @@ const initialState = {
   signin: {
     status: 'INIT',
   },
-  status: {
-    token: '',
-    isLoggedIn: false,
-    userName: '',
-    isAdminUser: false
-  }
+  token: null
 }
 
 export default function authentication(state = initialState, action) {
@@ -27,7 +22,8 @@ export default function authentication(state = initialState, action) {
       signin: {
         ...state.signin,
         status: 'SUCCESS'
-      }
+      },
+      ...action.response
     }
   case types.AUTH_SIGNIN_FAILURE:
     return {
@@ -40,15 +36,9 @@ export default function authentication(state = initialState, action) {
     return {
       ...initialState
     }
-  case types.SET_USER_DATA:
+  case types.AUTH_STORE_USER_DATA:
     return {
-      ...state,
-      status: {
-        isLoggedIn: action.isLoggedIn,
-        userName: action.name,
-        token: action.token,
-        isAdminUser: action.admin
-      }
+      token: action.response.token
     }
   default:
     return state

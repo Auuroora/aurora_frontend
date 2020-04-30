@@ -69,11 +69,16 @@ function TabStack() {
   )
 }
 function RootNavigator(){
+  const is_logined = 1 
   return (
     <NavigationContainer>
       <Stack.Navigator >
-        <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
-        <Stack.Screen  options={{headerShown: false}} name="TabStack" component={TabStack} />
+        {is_logined == 0 ? (
+          <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
+        ): (
+          <Stack.Screen  options={{headerShown: false}} name="TabStack" component={TabStack} />
+        )}
+
       </Stack.Navigator>
     </NavigationContainer>
   )

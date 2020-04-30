@@ -28,7 +28,7 @@ const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
 
 const mapStateToProps = (state) => ({
-  token: state.authentication.token
+  token: state.auth.token
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -90,9 +90,6 @@ function TabStack() {
 class RootNavigator extends React.Component {
   constructor (props) {
     super(props)
-
-    console.log(this.props.token)
-
     // Line for test token
     // removeUserData('userToken')
 

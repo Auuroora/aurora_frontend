@@ -1,9 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, {Component} from 'react'
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from 'react-native-responsive-screen'
+
 import {
   View,
   Text,
@@ -12,16 +9,43 @@ import {
   StyleSheet
 } from 'react-native'
 
-class LoginScreen extends Component{
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen'
 
-  _doLogin(){
-    // do something
-    // this.props.navigation.replace('TabStack')
-    // 사실 차이는 모르겟는디..  stack 이동시에는 아래껄 더 선호한다네요..
-    this.props.navigation.navigate('TabStack')
+import { connect } from 'react-redux'
+import { requestSignin } from '../../Store/actions/authAction'
+
+const mapStateToProps = (state) => ({
+  token: state
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  requestSignin: (data) => dispatch(requestSignin(data))
+})
+
+class LoginScreen extends Component{
+  constructor(props) {
+    super(props)
+    this.state = {
+      emailInput: '',
+      pwInput: ''
+    }
+    // TODO: input validation 필요
+  }
+
+  onClickSignIn = async () => {
+    const data = {
+      email: this.state.emailInput,
+      password: this.state.pwInput
+    }
+    await this.props.requestSignin(data)
+    console.log(this.props.token)
   }
 
   render(){
+    //TODO: TextInput 설정 - 비밀번호 가리기, 첫 대문자 비활성화
     return (
       <View style={styles.container}>
         <View style={styles.titleArea}>
@@ -30,15 +54,21 @@ class LoginScreen extends Component{
         <View style={styles.formArea}>
           <TextInput 
             style={styles.textForm} 
-            placeholder={"ID"}/>
+            placeholder={"Email"}
+            //onChange={(input) => this.setState({emailInput: input})}
+          />
           <TextInput 
             style={styles.textForm} 
-            placeholder={"Password"}/>
+            placeholder={"Password"}
+            //onChange={(input) => this.setState({pwInput: input})}
+          />
         </View>
         <View style={styles.buttonArea}>
           <TouchableOpacity 
             style={styles.button}
-            onPress={this._doLogin.bind(this)}>
+            onPress={() => {
+              this.onClickSignIn()
+            }}>
             <Text style={styles.buttonTitle}>Login</Text>
           </TouchableOpacity>
         </View>
@@ -47,7 +77,7 @@ class LoginScreen extends Component{
   }
 }
 
-export default LoginScreen
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen)
 
 const styles = StyleSheet.create({
   container: {

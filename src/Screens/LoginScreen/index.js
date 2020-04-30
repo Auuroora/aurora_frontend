@@ -55,12 +55,12 @@ class LoginScreen extends Component{
           <TextInput 
             style={styles.textForm} 
             placeholder={"Email"}
-            //onChange={(input) => this.setState({emailInput: input})}
+            onChange={(input) => this.setState({emailInput: input})}
           />
           <TextInput 
             style={styles.textForm} 
             placeholder={"Password"}
-            //onChange={(input) => this.setState({pwInput: input})}
+            onChange={(input) => this.setState({pwInput: input})}
           />
         </View>
         <View style={styles.buttonArea}>

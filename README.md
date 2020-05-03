@@ -16,4 +16,5 @@ react-native frontend for aurora application
 1. Run `npm run ios`
 
 ### Android
-1. Run `npm run android`
+1. Build `react-native run-android`
+2. Run `react-native start`

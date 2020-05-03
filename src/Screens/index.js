@@ -91,7 +91,7 @@ class RootNavigator extends React.Component {
   constructor (props) {
     super(props)
     // Line for test token
-    // removeUserData('userToken')
+    removeUserData('userToken')
 
     // Get token when app starts, if token not exists, go to login page
     getUserData('userToken')

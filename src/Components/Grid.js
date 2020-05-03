@@ -4,68 +4,25 @@ import {
   StyleSheet,
   View,
   FlatList,
-  Text,
-  ActivityIndicator,
   Image,
-  TouchableOpacity,
+  Text
 } from 'react-native'
-
-const Item = ({num}) => {
-  return (
-    <View style={{ flex: 1, flexDirection: 'column', margin: 1 }}>
-      <Text style={styles.text}>{num}</Text>
-      <Image style={styles.imageThumbnail} source={{ uri: item.src }} />
-    </View>
-  )
-}
-const arr = []
-for (let i = 0; i < 100; i++) {
-  arr.push(i)
-}
-const data = [
-  {
-    id: 1,
-    uri: 'https://i.ytimg.com/vi/ZYvvmsrDOj8/maxresdefault.jpg'
-  },
-  {
-    id: 2,
-    uri: 'https://i.ytimg.com/vi/ZYvvmsrDOj8/maxresdefault.jpg'
-  },
-  {
-    id: 3,
-    uri: 'https://i.ytimg.com/vi/ZYvvmsrDOj8/maxresdefault.jpg'
-  },
-  {
-    id: 4,
-    uri: 'https://i.ytimg.com/vi/ZYvvmsrDOj8/maxresdefault.jpg'
-  }
-]
 class ProfileBody extends Component{
   static defaultProps = {
     numColumns: 1,
-    items: ''
-  }
-  constructor() {
-    super()
-    this.state = {
-      dataSource: {},
-    }
+    dataSource: ''
   }
   render(){
     return (
       <View >
         <FlatList 
-          data={data}
-          ListHeaderComponent={()=>
-            <View style={styles.header}>
-              <Text style={styles.headerText}>Header</Text>
-            </View>
+          data={this.props.item}
+          renderItem={({item, index})=>
+            <Image style={styles.photo} source={require('../image/img.jpg')} />
           }
-          renderItem={({ item })=>
-            <Image style={styles.image} source={{ uri: item.uri }} />
-          }
+
           columnWrapperStyle={styles.imageRow}
-          numColumns={3}
+          numColumns={this.props.numColumns}
         />
       </View>
     )
@@ -86,10 +43,11 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
     fontSize: 50,
   },
-  imageThumbnail: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 100,
+  photo: {
+    height:150, 
+    width:null, 
+    flex:1, 
+    resizeMode:'contain'
   },
 })
 export default ProfileBody

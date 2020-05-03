@@ -41,7 +41,6 @@ class LoginScreen extends Component{
       password: this.state.pwInput
     }
     await this.props.requestSignin(data)
-    console.log(this.props.token)
   }
 
   render(){
@@ -55,12 +54,14 @@ class LoginScreen extends Component{
           <TextInput 
             style={styles.textForm} 
             placeholder={"Email"}
-            onChange={(input) => this.setState({emailInput: input})}
+            value={this.state.emailInput}
+            onChangeText={(text) => this.setState({emailInput: text})}
           />
           <TextInput 
             style={styles.textForm} 
             placeholder={"Password"}
-            onChange={(input) => this.setState({pwInput: input})}
+            value={this.state.pwInput}
+            onChangeText={(text) => this.setState({pwInput: text})}
           />
         </View>
         <View style={styles.buttonArea}>

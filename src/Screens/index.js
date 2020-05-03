@@ -92,7 +92,7 @@ function TabStack() {
       <Tab.Screen options={{headerShown: false}} name="Home" component={HomeStack} />
       <Tab.Screen options={{headerShown: false}} name="Studio" component={StudioScreen} />
       <Tab.Screen options={{headerShown: false}} name="Upload" component={UploadScreen} />
-      <Tab.Screen options={{headerShown: false}} name="Settings" component={Settings} />
+      <Tab.Screen options={{headerShown: false}} name="Mypage" component={MypageStack} />
     </Tab.Navigator>
   )
 }
@@ -101,7 +101,7 @@ class RootNavigator extends React.Component {
   constructor (props) {
     super(props)
     // Line for test token
-    removeUserData('userToken')
+    // removeUserData('userToken')
 
     // Get token when app starts, if token not exists, go to login page
     getUserData('userToken')

@@ -10,4 +10,10 @@ react-native frontend for aurora application
 ## 🛠 How to Run
 1. Run `getOpenCV.sh`
 2. Run `yarn` or `npm install`
-3. Run `npm run android` or `npm run ios`
+
+### iOS
+1. Run `cd ios & pod install`
+1. Run `npm run ios`
+
+### Android
+1. Run `npm run android`

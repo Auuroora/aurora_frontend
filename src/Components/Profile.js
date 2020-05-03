@@ -67,7 +67,6 @@ class ProfileTab extends Component{
     )
   }
 }
-export default ProfileTab
  
 const style = StyleSheet.create({
   container: {
@@ -78,3 +77,4 @@ const style = StyleSheet.create({
   }
 })
 
+export default ProfileTab

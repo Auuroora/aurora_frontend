@@ -2,30 +2,19 @@
 import React, {Component} from 'react'
 import {
   View,
-  Text,
-  Button,
   StyleSheet,
-  Image,
 } from 'react-native'
 
 import Profile from '../../Components/Profile'
 import Grid from '../../Components/Grid'
 
 class MypageScreen extends Component{
-  //
-  // '1': require('../../image/img.jpg'),
-  // '2': require('../../image/img2.jpg'),
-  // '3': require('../../image/img.jpg'),
-  // '4': require('../../image/img.jpg'),
-  // '5': require('../../image/img.jpg'),
-  // '6': require('../../image/img2.jpg'),
-  // '7': require('../../image/img.jpg'),
   render(){
     
     const images = [
       {
         key: "1",
-        image : "'../image/img2.jpg'"
+        image : "'../image/img.jpg'"
       },
       {
         key: "2",
@@ -37,7 +26,7 @@ class MypageScreen extends Component{
       },
       {
         key: "4",
-        image : "'../image/img2.jpg'"
+        image : "'../image/img.jpg'"
       },
       {
         key: "5",
@@ -76,7 +65,7 @@ class MypageScreen extends Component{
     return (   
       <View style={styles.my_container}>
         <View style={styles.profile_container}>
-          <Profile></Profile>
+          <Profile navigation={this.props.navigation}></Profile>
         </View>
         <View style={styles.card_container}>
           <Grid numColumns ={3} item = {images}></Grid>

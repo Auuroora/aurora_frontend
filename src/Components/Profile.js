@@ -3,13 +3,16 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
   Image
 } from 'react-native'
-import {Container, Content, Header, Left, Body, Right, Button } from 'native-base'
+import {Container, Content, Header, Left, Right, Button } from 'native-base'
 import Icon from 'react-native-vector-icons/Ionicons'
 
 class ProfileTab extends Component{
+  onClickSetting = async () => {
+    this.props.navigation.navigate('Settingstack')
+    alert("세팅 화면수정")
+  }
   render(){
     return (
       <Container>
@@ -50,8 +53,8 @@ class ProfileTab extends Component{
                   style={{flex:4, marginLeft:10, justifyContent:'center', height:30, marginTop:10}}>
                   <Text>Edit Profile</Text>
                 </Button>
-                <Button bordered dark small icon
-                  style={{flex:1, marginRight:10, marginLeft:5, justifyContent:'center', height:30, marginTop:10}}>
+                <Button bordered dark small icon onPress={() =>{this.props.navigation.navigate('Settingstack')}}
+                  style={{flex:1, marginRight:10, marginLeft:5, justifyContent:'center', height:30, marginTop:10}} >
                   <Icon name="md-settings" />
                 </Button>
               </View>

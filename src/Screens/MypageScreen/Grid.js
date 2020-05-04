@@ -29,7 +29,7 @@ Grid.propTypes = {
 
 export default function Grid (props) {
   return (
-    <TouchableOpacity  style={styles.button}>
+    <TouchableOpacity>
       <Card styleName="flexible">
         <Tile styleName="small">
           <Image
@@ -46,21 +46,6 @@ export default function Grid (props) {
     </TouchableOpacity>
   )
 }
-
-/**
- *         <Image
-          styleName="medium-square"
-          source={{ uri: props.image  }}
-        />
-        <View styleName="content">
-          <Subtitle numberOfLines={3}>{props.title}</Subtitle>
-          <View styleName="horizontal">
-            <Caption styleName="collapsible" numberOfLines={2}>{props.tempData}</Caption>
-          </View>
-        </View>
-
- */
-
 const styles = StyleSheet.create({
   button: {
     flex: 1,

@@ -1,58 +1,57 @@
 import React, { Component } from 'react'
 import { 
-  View,
   StyleSheet,
-
 } from 'react-native'
 
 import {
   Screen,
-  NavigationBar,
-  ListView,
   Image,
   Text,
   Button,
-  TouchableOpacity,
-  ImageBackground,
-  Tile, 
   Subtitle,
-  Title,
-  Card,
-  Caption,
-  Divider,
-  GridRow
 } from '@shoutem/ui'
 
 import Icon from 'react-native-vector-icons/Ionicons'
 
 class ProfileTab extends Component{
+  constructor(props) {
+    super(props)
+    this.state = {
+      profile: {
+        "name": "Auuuuurora",
+        "description": "This is a space where you can write \nthe author's comments\n",
+        "posts": "150",
+        "follower": "230",
+        "following" : "100",
+        "image": { "url": "http://dmshopkorea.com/data/bbs/design/201304/3064753709_9d951bfb_0x1800.jpg" },
+      }
+    }
+  }
   onClickSetting = async () => {
     this.props.navigation.navigate('Settingstack')
   }
   render(){
+    const profile = this.state.profile
     return (
       <Screen>
-        <NavigationBar style={{flexDirection:'row', paddingTop:10}}
-          centerComponent={<Title>TITLE</Title>}
-        />
-        <Screen style={{flexDirection:'row', paddingTop:30}}>
+        <Screen style={{flexDirection:'row', paddingTop:10}}>
           <Screen style={{flex:1, alignItems:'center'}}>
-            <Image source={{uri: 'http://dmshopkorea.com/data/bbs/design/201304/3064753709_9d951bfb_0x1800.jpg'}}
-              style={{width:75, height:75, borderRadius:37.5}}/>
+            <Image source={{uri: profile.image.url}}
+              style={{width: 80, height:80, borderRadius:37.5}}/>
           </Screen>
           <Screen style={{flex:3}}>
             <Screen style={{flexDirection:'row', justifyContent:'space-around'}}>
               <Screen style={{alignItems:'center'}}>
-                <Text>167</Text>
-                <Text style={{fontSize:10, color:'gray'}}>posts</Text>
+                <Text>{profile.posts}</Text>
+                <Text style={{fontSize:12, color:'gray'}}>posts</Text>
               </Screen>
               <Screen style={{alignItems:'center'}}>
-                <Text>346</Text>
-                <Text style={{fontSize:10, color:'gray'}}>follower</Text>
+                <Text>{profile.follower}</Text>
+                <Text style={{fontSize:12, color:'gray'}}>follower</Text>
               </Screen>
               <Screen style={{alignItems:'center'}}>
-                <Text>192</Text>
-                <Text style={{fontSize:10, color:'gray'}}>following</Text>
+                <Text>{profile.following}</Text>
+                <Text style={{fontSize:12, color:'gray'}}>following</Text>
               </Screen>
             </Screen>
             <Screen style={{flexDirection:'row'}}>
@@ -67,10 +66,9 @@ class ProfileTab extends Component{
             </Screen>
           </Screen>
         </Screen>
-        <Screen style={{paddingHorizontal:10, paddingVertical:10}}>
-          <Text style={{fontWeight:'bold'}}>안피곤</Text>
-          <Text>작가 프로필 설명</Text>
-          <Text>www.~~.com/</Text>
+        <Screen style={{paddingHorizontal:10,paddingVertical:10}}>
+          <Subtitle >{profile.name}</Subtitle>
+          <Subtitle numberOfLines={2}>{profile.description}</Subtitle>
         </Screen>
       </Screen>
     )

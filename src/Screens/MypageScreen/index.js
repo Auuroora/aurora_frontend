@@ -7,25 +7,16 @@ import {
 import Profile from './Profile'
 import Grid from './Grid'
 import { 
-  
-  NavigationBar,
-  Title,
-  ImageBackground,
-  View,
   ListView,
   GridRow,
   Screen,
-  Subtitle,
-  Divider,
-  Tile,
-  Heading
 } from '@shoutem/ui'
 class MypageScreen extends Component{
   constructor(props) {
     super(props)
     this.renderRow = this.renderRow.bind(this)
     this.state = {
-      restaurants: [
+      item: [
         {
           "name": "Gaspar Brasserie",
           "price": "$150",
@@ -50,13 +41,13 @@ class MypageScreen extends Component{
     }
   }
   renderRow(rowData) {  
-    const cellViews = rowData.map((restaurant, id) => {
+    const cellViews = rowData.map((item, id) => {
       return (
         <Grid 
           key={id}
-          image={restaurant.image.url} 
-          title={restaurant.name} 
-          price={restaurant.price}
+          image={item.image.url} 
+          title={item.name} 
+          price={item.price}
         />
       )
     })
@@ -67,20 +58,20 @@ class MypageScreen extends Component{
     )
   }
   render(){
-    const restaurants = this.state.restaurants
+    const item = this.state.item
     // groupByRows(data, column number, grouping number)
-    const groupedData = GridRow.groupByRows(restaurants, 2, 
+    const groupedData = GridRow.groupByRows(item, 2, 
       () => {
         return 1
       })
     return (   
       <Screen style={styles.my_container}>
-        <Screen stylename = "fill-parent">
+        <Screen style={styles.profile_container}>
           <Profile navigation={this.props.navigation}></Profile>
         </Screen>
-        <Screen styleName="page">
+        <Screen style={styles.card_container}>
           <ListView
-            styleName='v-center'
+            styleName='inline'
             data={groupedData}
             renderRow={this.renderRow}
           />
@@ -94,10 +85,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   profile_container:{
-    flex: 1,
+    flex: 2,
   },
   card_container:{
-    flex: 3,
+    flex: 4,
   },
 })
 

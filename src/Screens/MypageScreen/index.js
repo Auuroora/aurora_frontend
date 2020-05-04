@@ -8,6 +8,7 @@ import {
 import Profile from '../../Components/Profile'
 import Grid from '../../Components/Grid'
 
+
 class MypageScreen extends Component{
   render(){
     

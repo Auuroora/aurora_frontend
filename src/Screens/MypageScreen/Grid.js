@@ -6,7 +6,7 @@ import {
 } from 'react-native'
 
 
-import {Screen,NavigationBar,ListView,Image,Text, TouchableOpacity, ImageBackground, Tile, Subtitle, Title, Card, Caption,Divider,GridRow  } from '@shoutem/ui'
+import {Screen, Icon, NavigationBar, Overlay, ListView, Heading, Image, Button, Text, TouchableOpacity, ImageBackground, Tile, Subtitle, Title, Card, Caption,Divider,GridRow  } from '@shoutem/ui'
 
 class ProfileBody extends Component{
   constructor(props) {
@@ -28,6 +28,16 @@ class ProfileBody extends Component{
           "name": "Kyoto Amber Upper East",
           "address": "225 Mulberry St, New York, NY 10012",
           "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
+        },
+        {
+          "name": "Gaspar Brasserie",
+          "address": "185 Sutter St, San Francisco, CA 94109",
+          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-1.jpg" },
+        },
+        {
+          "name": "Gaspar Brasserie",
+          "address": "185 Sutter St, San Francisco, CA 94109",
+          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-1.jpg" },
         },
         {
           "name": "Gaspar Brasserie",
@@ -66,10 +76,18 @@ class ProfileBody extends Component{
       return (
         <TouchableOpacity key={id} styleName="flexible">
           <Card styleName="flexible">
-            <Image
-              styleName="medium-wide"
-              source={{ uri: restaurant.image.url  }}
-            />
+            <ImageBackground
+              styleName="large-square"
+              source={{ uri: 'https://shoutem.github.io/img/ui-toolkit/examples/image-11.png' }}
+            >
+              <Tile>
+                <Overlay><Heading>-20%</Heading></Overlay>
+                <Title styleName="md-gutter-top">COOL BLACK AND WHITE STYLISH WATCHES</Title>
+                <Subtitle styleName="line-through sm-gutter-top">$280.00</Subtitle>
+                <Heading>$250.00</Heading>
+                <Button styleName="md-gutter-top"><Icon name="cart" /><Text>ADD TO BASKET</Text></Button>
+              </Tile>
+            </ImageBackground>
             <View styleName="content">
               <Subtitle numberOfLines={3}>{restaurant.name}</Subtitle>
               <View styleName="horizontal">
@@ -93,7 +111,7 @@ class ProfileBody extends Component{
     // Group the restaurants into rows with 2 columns, except for the
     // first restaurant. The first restaurant is treated as a featured restaurant
     let isFirstArticle = true
-    const groupedData = GridRow.groupByRows(restaurants, 2, () => {
+    const groupedData = GridRow.groupByRows(restaurants, 3, () => {
       if (isFirstArticle) {
         isFirstArticle = false
         return 1
@@ -103,10 +121,6 @@ class ProfileBody extends Component{
 
     return (
       <Screen>
-        <NavigationBar
-          title="Restaurants"
-          styleName="inline"
-        />
         <ListView
           data={groupedData}
           renderRow={this.renderRow}

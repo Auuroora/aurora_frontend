@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import { 
   View,
-  Text,
   StyleSheet,
-  Image
+
 } from 'react-native'
 import {Container, Content, Header, Left, Right, Button } from 'native-base'
+
+import {Screen,NavigationBar,ListView,Image,Text, TouchableOpacity, ImageBackground, Tile, Subtitle, Title, Card, Caption,Divider,GridRow  } from '@shoutem/ui'
+
 import Icon from 'react-native-vector-icons/Ionicons'
 
 class ProfileTab extends Component{

@@ -11,6 +11,7 @@ import AppNav from './src/Screens'
 import SplashScreen from 'react-native-splash-screen'
 import { Provider } from 'react-redux'
 import configureStore from './src/Store/configureStore'
+import { Examples } from '@shoutem/ui';
 
 import { Examples } from '@shoutem/ui'
 const store = configureStore()

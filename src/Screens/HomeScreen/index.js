@@ -1,79 +1,139 @@
 import React, {Component} from 'react'
 import {
-  View,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity
-} from 'react-native'
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen'
+  StatusBar,
+  TouchableOpacity,
 
-import CardComponent from '../../Components/Card'
-import SearchComponent from '../../Components/Search'
+} from 'react-native'
+import { 
+  NavigationBar,
+  Title,
+  ImageBackground,
+  View,
+  ListView,
+  GridRow,
+  Subtitle,
+  Divider,
+  Tile,
+  Heading
+} from '@shoutem/ui'
+import CardItem from './CardItem'
 
 class HomeScreen extends Component{
+  constructor(props) {
+    super(props)
+    this.renderRow = this.renderRow.bind(this)
+    this.state = {
+      restaurants: [
+        {
+          "name": "Gaspar Brasserie",
+          "address": "185 Sutter St, San Francisco, CA 94109",
+          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-1.jpg" },
+        },
+        {
+          "name": "Chalk Point Kitchen",
+          "address": "527 Broome St, New York, NY 10013",
+          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-2.jpg" },
+        },
+        {
+          "name": "Kyoto Amber Upper East",
+          "address": "225 Mulberry St, New York, NY 10012",
+          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
+        },
+        {
+          "name": "Kyoto Amber Upper East",
+          "address": "225 Mulberry St, New York, NY 10012",
+          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
+        },
+        {
+          "name": "Kyoto Amber Upper East",
+          "address": "225 Mulberry St, New York, NY 10012",
+          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
+        },
+        {
+          "name": "Kyoto Amber Upper East",
+          "address": "225 Mulberry St, New York, NY 10012",
+          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
+        },
+        {
+          "name": "Kyoto Amber Upper East",
+          "address": "225 Mulberry St, New York, NY 10012",
+          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
+        },
+        {
+          "name": "Kyoto Amber Upper East",
+          "address": "225 Mulberry St, New York, NY 10012",
+          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
+        },
+        {
+          "name": "Kyoto Amber Upper East",
+          "address": "225 Mulberry St, New York, NY 10012",
+          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
+        },
+        {
+          "name": "Kyoto Amber Upper East",
+          "address": "225 Mulberry St, New York, NY 10012",
+          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
+        },
+        {
+          "name": "Kyoto Amber Upper East",
+          "address": "225 Mulberry St, New York, NY 10012",
+          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
+        }
+      ],
+    }
+  }
+  renderRow(rowData) {  
+    const cellViews = rowData.map((restaurant, id) => {
+      return (
+        <CardItem 
+          key={id}
+          image={restaurant.image.url} 
+          title={restaurant.name} 
+          tempData={restaurant.address}
+        />
+      )
+    })
+    return (
+      <GridRow columns={2}>
+        {cellViews}
+      </GridRow>
+    )
+  }
   render(){
+    const restaurants = this.state.restaurants
+    // groupByRows(data, column number, grouping number)
+    const groupedData = GridRow.groupByRows(restaurants, 2, 
+      () => {
+        return 1
+      })
     return (
       //TODO: 무한 스크롤 적용해야함 
       //TODO: Component 로 뽑아내기
-      <View style={styles.container}>
-        <SearchComponent></SearchComponent>
-        <ScrollView>
-          <View style={{flexDirection:"row"}}>
-            <View style={styles.wrapContent}>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('DetailScreen', {
-                imgId:'1'
-              })}>
-                <CardComponent imageSource='1' likes='12'/>
-              </TouchableOpacity>  
-            </View> 
-            <View style={styles.wrapContent}>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('DetailScreen', {
-                imgId:'2'
-              })}>
-                <CardComponent imageSource='2' likes='11'/>
-              </TouchableOpacity> 
-            </View>   
-          </View>
-          <View style={{flexDirection:"row"}}>
-            <View style={styles.wrapContent}>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('DetailScreen', {
-                imgId:'1'
-              })}>
-                <CardComponent imageSource='1' likes='12'/>
-              </TouchableOpacity>  
-            </View> 
-            <View style={styles.wrapContent}>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('DetailScreen', {
-                imgId:'2'
-              })}>
-                <CardComponent imageSource='2' likes='11'/>
-              </TouchableOpacity> 
-            </View>   
-          </View>
-        </ScrollView>     
-      </View>  
+      <View styleName='fill-parent'>
+        <StatusBar barStyle="dark-content"/>
+        <ImageBackground
+          source={{uri: 'http://dmshopkorea.com/data/bbs/design/201304/3064753709_9d951bfb_0x1800.jpg'}}
+          styleName="large-ultra-wide"
+        >
+          <NavigationBar
+            styleName="clear"
+            centerComponent={
+              <Heading
+                style={{marginTop: '50%'}}
+              >
+                TITLE
+              </Heading>
+            }
+          />
+        </ImageBackground>
+        <ListView
+          styleName='inline'
+          data={groupedData}
+          renderRow={this.renderRow}
+        />
+      </View>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: wp('5%'),
-    backgroundColor: 'white',
-    
-  },
-  wrapContent: {
-    width: wp('45%'),
-    height: wp('80%'),
-    paddingBottom: wp('5%'),
-        
-  },
-  content: {
-    width: "100%",
-    height: "100%",
-    backgroundColor: "#46c3ad",
-  }
-})
 
 export default HomeScreen

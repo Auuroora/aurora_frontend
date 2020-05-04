@@ -31,7 +31,7 @@ export default function Grid (props) {
   return (
     <TouchableOpacity>
       <Card styleName="flexible">
-        <Tile styleName="small">
+        <Tile styleName="small clear">
           <Image
             styleName="medium-square"
             source={{ uri: props.image }}
@@ -41,6 +41,7 @@ export default function Grid (props) {
             <Caption>{props.price}</Caption>
             <Icon name = "like"/>
           </View>
+          
         </Tile>
       </Card>
     </TouchableOpacity>

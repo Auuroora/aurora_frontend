@@ -21,9 +21,6 @@ class ProfileTab extends Component{
           </Left>
           <Right style={{flexDirection:'row', alignItems:'center'}}>
             <Icon name='md-person-add'  style={{paddingRight:10, fontSize:23}}/>
-            <Button rounded onPress={() =>{alert("설정으로 이동")}} >
-              <Icon name='md-menu'/>
-            </Button>
           </Right>
         </Header>
         <Content>

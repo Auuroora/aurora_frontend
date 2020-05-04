@@ -4,9 +4,24 @@ import {
   StyleSheet,
 
 } from 'react-native'
-import {Container, Content, Header, Left, Right, Button } from 'native-base'
 
-import {Screen,NavigationBar,ListView,Image,Text, TouchableOpacity, ImageBackground, Tile, Subtitle, Title, Card, Caption,Divider,GridRow  } from '@shoutem/ui'
+import {
+  Screen,
+  NavigationBar,
+  ListView,
+  Image,
+  Text,
+  Button,
+  TouchableOpacity,
+  ImageBackground,
+  Tile, 
+  Subtitle,
+  Title,
+  Card,
+  Caption,
+  Divider,
+  GridRow
+} from '@shoutem/ui'
 
 import Icon from 'react-native-vector-icons/Ionicons'
 
@@ -16,55 +31,48 @@ class ProfileTab extends Component{
   }
   render(){
     return (
-      <Container>
-        <Header>
-          <Left style={{flexDirection:'row', alignItems:'center'}}>
-            <Text style={{fontWeight:'bold', fontSize:18}}>작가이름</Text>
-          </Left>
-          <Right style={{flexDirection:'row', alignItems:'center'}}>
-            <Icon name='md-person-add'  style={{paddingRight:10, fontSize:23}}/>
-          </Right>
-        </Header>
-        <Content>
-          <View style={{flexDirection:'row', paddingTop:10}}>
-            <View style={{flex:1, alignItems:'center'}}>
-              <Image source={require('../image/writer.jpg')}
-                style={{width:75, height:75, borderRadius:37.5}}/>
-            </View>
-            <View style={{flex:3}}>
-              <View style={{flexDirection:'row', justifyContent:'space-around'}}>
-                <View style={{alignItems:'center'}}>
-                  <Text>167</Text>
-                  <Text style={{fontSize:10, color:'gray'}}>posts</Text>
-                </View>
-                <View style={{alignItems:'center'}}>
-                  <Text>346</Text>
-                  <Text style={{fontSize:10, color:'gray'}}>follower</Text>
-                </View>
-                <View style={{alignItems:'center'}}>
-                  <Text>192</Text>
-                  <Text style={{fontSize:10, color:'gray'}}>following</Text>
-                </View>
-              </View>
-              <View style={{flexDirection:'row'}}>
-                <Button bordered dark onPress={() =>{alert("프로필 수정")}}
-                  style={{flex:4, marginLeft:10, justifyContent:'center', height:30, marginTop:10}}>
-                  <Text>Edit Profile</Text>
-                </Button>
-                <Button bordered dark small icon onPress={() =>{this.onClickSetting()}}
-                  style={{flex:1, marginRight:10, marginLeft:5, justifyContent:'center', height:30, marginTop:10}} >
-                  <Icon name="md-settings" />
-                </Button>
-              </View>
-            </View>
-          </View>
-          <View style={{paddingHorizontal:10, paddingVertical:10}}>
-            <Text style={{fontWeight:'bold'}}>안피곤</Text>
-            <Text>작가 프로필 설명</Text>
-            <Text>www.~~.com/</Text>
-          </View>
-        </Content>
-      </Container>
+      <Screen>
+        <NavigationBar style={{flexDirection:'row', paddingTop:10}}
+          centerComponent={<Title>TITLE</Title>}
+        />
+        <Screen style={{flexDirection:'row', paddingTop:30}}>
+          <Screen style={{flex:1, alignItems:'center'}}>
+            <Image source={{uri: 'http://dmshopkorea.com/data/bbs/design/201304/3064753709_9d951bfb_0x1800.jpg'}}
+              style={{width:75, height:75, borderRadius:37.5}}/>
+          </Screen>
+          <Screen style={{flex:3}}>
+            <Screen style={{flexDirection:'row', justifyContent:'space-around'}}>
+              <Screen style={{alignItems:'center'}}>
+                <Text>167</Text>
+                <Text style={{fontSize:10, color:'gray'}}>posts</Text>
+              </Screen>
+              <Screen style={{alignItems:'center'}}>
+                <Text>346</Text>
+                <Text style={{fontSize:10, color:'gray'}}>follower</Text>
+              </Screen>
+              <Screen style={{alignItems:'center'}}>
+                <Text>192</Text>
+                <Text style={{fontSize:10, color:'gray'}}>following</Text>
+              </Screen>
+            </Screen>
+            <Screen style={{flexDirection:'row'}}>
+              <Button bordered dark onPress={() =>{alert("프로필 수정")}}
+                style={{flex:4, marginLeft:10, justifyContent:'center', height:30, marginTop:10}}>
+                <Text>Edit Profile</Text>
+              </Button>
+              <Button bordered dark small icon onPress={() =>{this.onClickSetting()}}
+                style={{flex:1, marginRight:10, marginLeft:5, justifyContent:'center', height:30, marginTop:10}} >
+                <Icon name="md-settings" />
+              </Button>
+            </Screen>
+          </Screen>
+        </Screen>
+        <Screen style={{paddingHorizontal:10, paddingVertical:10}}>
+          <Text style={{fontWeight:'bold'}}>안피곤</Text>
+          <Text>작가 프로필 설명</Text>
+          <Text>www.~~.com/</Text>
+        </Screen>
+      </Screen>
     )
   }
 }

@@ -10,19 +10,15 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen'
 import CardComponent from '../../Components/Card'
 import SearchComponent from '../../Components/Search'
 
-class HomeScreen extends Component{ 
-  _navigate(){
-    this.props.navigation.navigate('DetailScreen', {
-      params :{
-        imgId:'1'
-      }
-    })
-  }
+import { Examples } from '@shoutem/ui'
+
+class HomeScreen extends Component{
   render(){
     return (
       //TODO: 무한 스크롤 적용해야함 
       //TODO: Component 로 뽑아내기
       <View style={styles.container}>
+        <Examples />
         <SearchComponent></SearchComponent>
         <ScrollView>
           <View style={{flexDirection:"row"}}>

@@ -17,6 +17,7 @@ import HomeScreen from './HomeScreen'
 import SettingScreen from './SettingScreen'
 import StudioScreen from './StudioScreen'
 import UploadScreen from './UploadScreen'
+import MypageScreen from './MypageScreen'
 import LoginScreen from './LoginScreen'
 import DetailScreen from './DetailScreen'
 import TempSettingScreen from './TempSettingScreen'
@@ -40,16 +41,25 @@ const mapDispatchToProps = (dispatch) => ({
 function HomeStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen  options={{headerShown: false}} name="Home" component={HomeScreen} />
+      <Stack.Screen options={{headerShown: false}} name="Home" component={HomeScreen} />
       <Stack.Screen options={{headerShown: false}} name="DetailScreen" component={DetailScreen} />
     </Stack.Navigator>
   )
 }
-function Settings() {
+
+function Settingstack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen options={{headerShown: false}} name="Setting" component={SettingScreen} />
+      <Stack.Screen options={{headerShown: false}} name="SettingScreen" component={SettingScreen} />
       <Stack.Screen  options={{headerShown: false}} name="TempSettingScreen" component={TempSettingScreen} />
+    </Stack.Navigator>
+  )
+}
+function MypageStack() {
+  return (
+    <Stack.Navigator initialRouteName ="MyPage">
+      <Stack.Screen options={{headerShown: false}} name="MyPage" component={MypageScreen} />
+      <Stack.Screen options={{headerShown: false}} name="Settingstack" component={Settingstack} />
     </Stack.Navigator>
   )
 }
@@ -63,7 +73,7 @@ function TabStack() {
           
           if(route.name === 'Home'){
             icon =<Icon name="md-home" size={30} color="black" />
-          } else if(route.name === 'Settings'){
+          } else if(route.name === 'Mypage'){
             icon =<Icon name="md-person" size={30} color="black" />
           } else if(route.name === 'Studio'){
             icon =<Icon name="ios-color-filter" size={30} color="black" />
@@ -82,7 +92,7 @@ function TabStack() {
       <Tab.Screen options={{headerShown: false}} name="Home" component={HomeStack} />
       <Tab.Screen options={{headerShown: false}} name="Studio" component={StudioScreen} />
       <Tab.Screen options={{headerShown: false}} name="Upload" component={UploadScreen} />
-      <Tab.Screen options={{headerShown: false}} name="Settings" component={Settings} />
+      <Tab.Screen options={{headerShown: false}} name="Mypage" component={MypageStack} />
     </Tab.Navigator>
   )
 }
@@ -91,7 +101,7 @@ class RootNavigator extends React.Component {
   constructor (props) {
     super(props)
     // Line for test token
-    removeUserData('userToken')
+    // removeUserData('userToken')
 
     // Get token when app starts, if token not exists, go to login page
     getUserData('userToken')

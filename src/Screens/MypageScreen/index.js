@@ -1,92 +1,94 @@
 /* eslint-disable react/prop-types */
 import React, {Component} from 'react'
 import {
-  View,
   StyleSheet,
 } from 'react-native'
 
-import Profile from '../../Components/Profile'
-import Grid from '../../Components/Grid'
-
+import Profile from './Profile'
+import Grid from './Grid'
+import { 
+  ListView,
+  GridRow,
+  Screen,
+} from '@shoutem/ui'
 class MypageScreen extends Component{
+  constructor(props) {
+    super(props)
+    this.renderRow = this.renderRow.bind(this)
+    this.state = {
+      item: [
+        {
+          "name": "Gaspar Brasserie",
+          "price": "$150",
+          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-1.jpg" },
+        },
+        {
+          "name": "Gaspar Brasserie",
+          "price": "$150",
+          "image": { "url": "https://shoutem.github.io/img/ui-toolkit/examples/image-2.png"},
+        },
+        {
+          "name": "Gaspar Brasserie",
+          "price": "$150",
+          "image": { "url": "https://shoutem.github.io/img/ui-toolkit/examples/image-11.png" },
+        },
+        {
+          "name": "Gaspar Brasserie",
+          "price": "$150",
+          "image": { "url": "https://shoutem.github.io/img/ui-toolkit/examples/image-9.png" },
+        },
+      ]
+    }
+  }
+  renderRow(rowData) {  
+    const cellViews = rowData.map((item, id) => {
+      return (
+        <Grid 
+          key={id}
+          image={item.image.url} 
+          title={item.name} 
+          price={item.price}
+        />
+      )
+    })
+    return (
+      <GridRow columns={2}>
+        {cellViews}
+      </GridRow>
+    )
+  }
   render(){
-    
-    const images = [
-      {
-        key: "1",
-        image : "'../image/img.jpg'"
-      },
-      {
-        key: "2",
-        image : "'../image/img.jpg'"
-      },
-      {
-        key: "3",
-        image : "'../image/img.jpg'"
-      },
-      {
-        key: "4",
-        image : "'../image/img.jpg'"
-      },
-      {
-        key: "5",
-        image : "'../image/img.jpg'"
-      },
-      {
-        key: "6",
-        image : "'../image/img.jpg'"
-      },
-      {
-        key: "7",
-        image : "'../image/img2.jpg'"
-      },
-      {
-        key: "8",
-        image : "'../image/img.jpg'"
-      },
-      {
-        key: "9",
-        image : "'../image/img.jpg'"
-      },
-      {
-        key: "10",
-        image : "'../image/img2.jpg'"
-      },
-      {
-        key: "11",
-        image : "'../image/img.jpg'"
-      },
-      {
-        key: "12",
-        image : "'../image/img.jpg'"
-      }
-    ]
-
+    const item = this.state.item
+    // groupByRows(data, column number, grouping number)
+    const groupedData = GridRow.groupByRows(item, 2, 
+      () => {
+        return 1
+      })
     return (   
-      <View style={styles.my_container}>
-        <View style={styles.profile_container}>
+      <Screen style={styles.my_container}>
+        <Screen style={styles.profile_container}>
           <Profile navigation={this.props.navigation}></Profile>
-        </View>
-        <View style={styles.card_container}>
-          <Grid numColumns ={3} item = {images}></Grid>
-        </View>
-      </View>
+        </Screen>
+        <Screen style={styles.card_container}>
+          <ListView
+            styleName='inline'
+            data={groupedData}
+            renderRow={this.renderRow}
+          />
+        </Screen>
+      </Screen>
     )
   }
 }
-//props로 col넘버 넘겨주기
-//child는?
-
 const styles = StyleSheet.create({
   my_container: {
     flex: 1,
-    backgroundColor: 'white',
   },
   profile_container:{
-    flex: 1,
+    flex: 2,
   },
   card_container:{
-    flex: 3,
+    flex: 4,
   },
 })
 

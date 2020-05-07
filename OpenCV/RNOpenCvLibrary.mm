@@ -27,7 +27,7 @@ RCT_EXPORT_METHOD(initCV: (NSString *)imageAsBase64 callback:(RCTResponseSenderB
   callback(@[[NSNull null], kk]);
 }
 
-RCT_EXPORT_METHOD(onChangeSaturation: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(onChangeTemperature: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (int)value);
   Mat resImg = onUpdateTemperature((int)value);
   

@@ -18,12 +18,12 @@ const loadImg = (imgPath) => {
   })
 }
 
-const updateSaturation = (val) => {
+const updateTemperature = (val) => {
   return new Promise((resolve, reject) => {
     if (Platform.OS === 'android') {
       // this is for android callback customize
     } else {
-      OpenCV.onChangeSaturation(val,(error, data) => {
+      OpenCV.onChangeTemperature(val,(error, data) => {
         if (data) {
           resolve(data)
         }
@@ -37,5 +37,5 @@ const updateSaturation = (val) => {
 
 export {
   loadImg,
-  updateSaturation
+  updateTemperature
 }

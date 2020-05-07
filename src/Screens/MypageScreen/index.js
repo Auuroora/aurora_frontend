@@ -2,15 +2,20 @@
 import React, {Component} from 'react'
 import {
   StyleSheet,
+  StatusBar
 } from 'react-native'
 
 import Profile from './Profile'
-import Grid from './Grid'
 import { 
   ListView,
   GridRow,
   Screen,
+  NavigationBar,
+  View
 } from '@shoutem/ui'
+import Title from '../../Components/Title'
+import CardItem from '../../Components/CardItem'
+
 class MypageScreen extends Component{
   constructor(props) {
     super(props)
@@ -43,7 +48,7 @@ class MypageScreen extends Component{
   renderRow(rowData) {  
     const cellViews = rowData.map((item, id) => {
       return (
-        <Grid 
+        <CardItem 
           key={id}
           image={item.image.url} 
           title={item.name} 
@@ -65,25 +70,27 @@ class MypageScreen extends Component{
         return 1
       })
     return (   
-      <Screen style={styles.my_container}>
-        <Screen style={styles.profile_container}>
+      <Screen styleName='fill-parent'>
+        <StatusBar barStyle="dark-content"/>
+        <NavigationBar
+          styleName='inline'
+          centerComponent={<Title title={'MyPage'}/>}
+        />
+        <View style={styles.profile_container}>
           <Profile navigation={this.props.navigation}></Profile>
-        </Screen>
-        <Screen style={styles.card_container}>
+        </View>
+        <View style={styles.card_container}>
           <ListView
-            styleName='inline'
+          
             data={groupedData}
             renderRow={this.renderRow}
           />
-        </Screen>
+        </View>
       </Screen>
     )
   }
 }
 const styles = StyleSheet.create({
-  my_container: {
-    flex: 1,
-  },
   profile_container:{
     flex: 2,
   },

@@ -158,7 +158,7 @@ export default class NewFilterScreen extends React.Component {
     let imageView = this.bindImageView()
     return (
       <View
-        style={{flex: 1, paddingTop: 90, backgroundColor: '#212121'}}
+        style={{flex: 1, paddingTop: 90}}
       >
         {imageView}
         <View

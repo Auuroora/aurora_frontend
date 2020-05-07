@@ -1,5 +1,6 @@
 import React from 'react'
 import { Dimensions } from 'react-native'
+import PropTypes from 'prop-types'
 
 import { 
   ImageBackground,
@@ -9,10 +10,12 @@ import {
   Overlay
 } from '@shoutem/ui'
 
-/* TODO
- * 1. Add Filter
- * 2. Add PropTypes
- */
+FilterTile.propTypes = {
+  size: PropTypes.oneOf('small', 'medium'),
+  onPressTile: PropTypes.func,
+  title: PropTypes.string,
+  image: PropTypes.string
+}
 
 export default function FilterTile (props) {
 

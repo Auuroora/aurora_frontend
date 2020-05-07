@@ -9,9 +9,12 @@ import {
   Text,
   Button,
   Subtitle,
+  Icon
 } from '@shoutem/ui'
+import { Dimensions } from 'react-native'
 
-import Icon from 'react-native-vector-icons/Ionicons'
+const { width, height } = Dimensions.get('window')
+
 
 class ProfileTab extends Component{
   constructor(props) {
@@ -56,12 +59,12 @@ class ProfileTab extends Component{
             </Screen>
             <Screen style={{flexDirection:'row'}}>
               <Button bordered dark onPress={() =>{alert("프로필 수정")}}
-                style={{flex:4, marginLeft:10, justifyContent:'center', height:30, marginTop:10}}>
-                <Text>Edit Profile</Text>
+                style={{flex:4, marginLeft:10, justifyContent:'center', height:height / 30, marginTop:10}}>
+                <Icon name="edit" />
               </Button>
               <Button bordered dark small icon onPress={() =>{this.onClickSetting()}}
-                style={{flex:1, marginRight:10, marginLeft:5, justifyContent:'center', height:30, marginTop:10}} >
-                <Icon name="md-settings" />
+                style={{flex:1, marginRight:10, marginLeft:5, justifyContent:'center', height:height / 30, marginTop:10}} >
+                <Icon name="settings" />
               </Button>
             </Screen>
           </Screen>

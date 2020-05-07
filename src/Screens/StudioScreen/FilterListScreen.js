@@ -16,6 +16,7 @@ export default function FilterListScreen (props) {
   return (
     <View>
       <LargeTile
+        image={'https://shoutem.github.io/static/getting-started/restaurant-1.jpg'}
       ></LargeTile>
       <Heading>List</Heading>
     </View>

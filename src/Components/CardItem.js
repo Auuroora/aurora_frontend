@@ -7,8 +7,13 @@ import {
   Image,
   Subtitle,
   TouchableOpacity,
-  Caption
+  Caption,
+  Icon
 } from '@shoutem/ui'
+
+import { Dimensions } from 'react-native'
+
+const { width } = Dimensions.get('window')
 
 CardItem.propTypes = {
   image: PropTypes.string,
@@ -21,13 +26,16 @@ export default function CardItem (props) {
     <TouchableOpacity styleName="flexible">
       <Card styleName="flexible">
         <Image
-          styleName="medium-wide"
+          style={{width: (180/375) * width, height: (180/375) * width}}
+          styleName="medium-square"
           source={{ uri: props.image  }}
         />
-        <View styleName="content">
-          <Subtitle numberOfLines={3}>{props.title}</Subtitle>
-          <View styleName="horizontal">
-            <Caption styleName="collapsible" numberOfLines={2}>{props.tempData}</Caption>
+        <View styleName="content"
+        >
+          <Subtitle numberOfLines={2}>{props.title}</Subtitle>
+          <View styleName="horizontal space-between">
+            <Caption>{3000}</Caption>
+            <Icon name = "like"/>
           </View>
         </View>
       </Card>

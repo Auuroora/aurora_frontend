@@ -10,7 +10,7 @@ import {
   ListView,
   GridRow
 } from '@shoutem/ui'
-import CardItem from './CardItem'
+import CardItem from '../../Components/CardItem'
 import Title from '../../Components/Title'
 
 class HomeScreen extends Component{

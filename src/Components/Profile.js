@@ -26,7 +26,7 @@ class ProfileTab extends Component{
         <Content>
           <View style={{flexDirection:'row', paddingTop:10}}>
             <View style={{flex:1, alignItems:'center'}}>
-              <Image source={require('../image/writer.jpg')}
+              <Image source={require('../assets/image/writer.jpg')}
                 style={{width:75, height:75, borderRadius:37.5}}/>
             </View>
             <View style={{flex:3}}>

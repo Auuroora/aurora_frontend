@@ -18,7 +18,7 @@ class ProfileBody extends Component{
         <FlatList 
           data={this.props.item}
           renderItem={({item, index})=>
-            <Image style={styles.photo} source={require('../image/img.jpg')} />
+            <Image style={styles.photo} source={require('../assets/image/img.jpg')} />
           }
 
           columnWrapperStyle={styles.imageRow}

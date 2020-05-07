@@ -1,22 +1,16 @@
 import React, {Component} from 'react'
 import {
   StatusBar,
-  TouchableOpacity,
-
 } from 'react-native'
 import { 
   NavigationBar,
-  Title,
   ImageBackground,
-  View,
+  Screen,
   ListView,
-  GridRow,
-  Subtitle,
-  Divider,
-  Tile,
-  Heading
+  GridRow
 } from '@shoutem/ui'
 import CardItem from './CardItem'
+import Title from '../../Components/Title'
 
 class HomeScreen extends Component{
   constructor(props) {
@@ -109,20 +103,16 @@ class HomeScreen extends Component{
     return (
       //TODO: 무한 스크롤 적용해야함 
       //TODO: Component 로 뽑아내기
-      <View styleName='fill-parent'>
+      <Screen styleName='fill-parent'>
         <StatusBar barStyle="dark-content"/>
         <ImageBackground
-          source={{uri: 'http://dmshopkorea.com/data/bbs/design/201304/3064753709_9d951bfb_0x1800.jpg'}}
+          source={{uri: 'https://stores.selzstatic.com/nvyn50kugf4/assets/settings/lightscape-735108-unsplash.jpg?v=20200323080941'}}
           styleName="large-ultra-wide"
         >
           <NavigationBar
             styleName="clear"
             centerComponent={
-              <Heading
-                style={{marginTop: '50%'}}
-              >
-                TITLE
-              </Heading>
+              <Title title={'Home'} topMargin={50}/>
             }
           />
         </ImageBackground>
@@ -131,7 +121,7 @@ class HomeScreen extends Component{
           data={groupedData}
           renderRow={this.renderRow}
         />
-      </View>
+      </Screen>
     )
   }
 }

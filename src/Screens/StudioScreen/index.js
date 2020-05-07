@@ -1,17 +1,21 @@
 import React, { Component } from 'react'
+
+// Import UI Components
 import {
-  View,
-  Button,
-  Image,
-  Text
+  StatusBar
 } from 'react-native'
 import {
-  loadImg,
-  updateSaturation
-} from '../../OpencvJs'
-import Slider from '@react-native-community/slider'
+  Screen,
+  NavigationBar,
+} from '@shoutem/ui'
+
+// Import Custom UI
 import ImagePicker from 'react-native-image-picker'
-import styles from './styles'
+import FilterListScreen from './FilterListScreen'
+import NewFilterScreen from './NewFilterScreen'
+import Title from '../../Components/Title'
+import RightButton from './RightButton'
+import LeftButton from './LeftButton'
 
 const ImagePickerOptions = {
   title: 'Select Image',
@@ -31,69 +35,70 @@ class StudioScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      filePath: {},
-      sliderVal: 0,
-      testNativeMethod: '',
-      cameraPermission: false,
+      isNewFilter: false,
+      imageFile: {}
     }
   }
 
-  chooseFile = () => {
+  onChooseFile = () => {
     ImagePicker.showImagePicker(ImagePickerOptions, async response => {
       if (response.didCancel) {
         console.log('User cancelled image picker')
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error)
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton)
-        alert(response.customButton)
-      } else {
-        let source = response
-        this.setState({
-          filePath: source,
-        })
-        try {
-          await loadImg(response.data)
-        } catch (error) {
-          console.log('asdfasdf' + error)
-        }
+        return
       }
-    })
-  };
-
-  onChangeValue = async value => {
-    this.setState({sliderVal: value})
-    try {
-      const resultImg = await updateSaturation(value)
-      this.setState({ 
-        filePath: {
-          data: resultImg
-        }
+      if (response.error) {
+        return
+      }
+      if (response.customButton) {
+        return
+      } 
+      let source = response
+      this.setState({
+        imageFile: source,
+        isNewFilter: true
       })
-    } catch (error) {
-      console.log('err', error)
+    })
+  }
+
+  onPressCancel = () => {
+    this.setState({isNewFilter: false})
+  }
+
+  bindScreen = () => {
+    if (this.state.isNewFilter) {
+      return (
+        <NewFilterScreen
+          image={this.state.imageFile}
+        />
+      )
     }
+    return (<FilterListScreen/>)
   }
 
   render() {
+    let currentView = this.bindScreen()
+
     return (
-      <View style={styles.container}>
-        <Image
-          source={{ uri: 'data:image/jpeg;base64,' + this.state.filePath.data }}
-          style={{ width: 250, height: 250 }}
+      <Screen styleName='fill-parent'>
+        <StatusBar barStyle="dark-content"/>
+        <NavigationBar
+          styleName='inline'
+          centerComponent={<Title title={'Studio'}/>}
+          rightComponent={
+            <RightButton 
+              onPressNew={this.onChooseFile} 
+              isNewFilter={this.state.isNewFilter}
+            />
+          }
+          leftComponent={
+            <LeftButton 
+              onPressCancel={this.onPressCancel}
+              isNewFilter={this.state.isNewFilter}
+            />
+          }
         />
-        <Text>{this.state.sliderVal}</Text>
-        <Slider
-          style={{width: 200, height: 40}}
-          step={1}
-          minimumValue={-100}
-          maximumValue={100}
-          onValueChange={this.onChangeValue.bind(this)}
-          minimumTrackTintColor="#55CBD3"
-          maximumTrackTintColor="#FFB68C"
-        />
-        <Button title="Choose File" onPress={this.chooseFile.bind(this)} />
-      </View>
+        {currentView}
+      </Screen>
     )
   }
 }

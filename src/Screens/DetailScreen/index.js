@@ -12,14 +12,14 @@ import { Card, CardItem, Thumbnail, Body, Left, Button, Icon } from 'native-base
 const DetailScreen = ({route}) => {
   const {imgId} = route.params
   const img ={
-    '1' : require('../../image/img.jpg'),
-    '2' : require('../../image/img2.jpg')
+    '1' : require('../../assets/image/img.jpg'),
+    '2' : require('../../assets/image/img2.jpg')
   }
   return (
     <Card>
       <CardItem>
         <Left>
-          <Thumbnail source={require('../../image/writer.jpg')} />
+          <Thumbnail source={require('../../assets/image/writer.jpg')} />
           <Body>
             <Text>작가이름</Text>
             <Text note>#카페 #감성</Text>

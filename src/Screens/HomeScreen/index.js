@@ -3,7 +3,6 @@ import {
   StatusBar,
 } from 'react-native'
 import { 
-  
   NavigationBar,
   ImageBackground,
   Screen,
@@ -105,7 +104,7 @@ class HomeScreen extends Component{
       //TODO: 무한 스크롤 적용해야함 
       //TODO: Component 로 뽑아내기
       <Screen styleName='fill-parent'>
-        <StatusBar barStyle="dark-content"/>
+        <StatusBar barStyle="dark-content" hidden = {true}/>
         <ImageBackground
           source={{uri: 'https://stores.selzstatic.com/nvyn50kugf4/assets/settings/lightscape-735108-unsplash.jpg?v=20200323080941'}}
           styleName="large-ultra-wide"

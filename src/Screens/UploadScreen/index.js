@@ -1,32 +1,76 @@
 /* eslint-disable react/prop-types */
 import React, {Component} from 'react'
 import {
-  View,
-  Text,
-  Button,
-  StyleSheet
+  StatusBar,
+  Dimensions
 } from 'react-native'
-class UploadScreen extends Component{
+import { 
+  NavigationBar,
+  TextInput,
+  ImageBackground,
+  Screen,
+  Switch,
+  Row,
+  Icon,
+  Text,
+  Image,
+  Caption,
+  Divider,
+  Subtitle,
+  Button
+} from '@shoutem/ui'
 
+import Title from '../../Components/Title'
+const { width, height } = Dimensions.get('window')
+
+/*
+title
+description
+user_id
+filter_id
+price
+tag_list
+ */
+class UploadScreen extends Component{
+  constructor() {
+    super()
+    this.state = {
+      Facebook_switchOn: false,
+      Instagram_switchOn: false,
+    }
+  }
   render(){
+    
+    const { Facebook_switchOn,Instagram_switchOn } = this.state
     return (
-      <View style={styles.container}>
-        <Text>UploadScreen</Text>
-        <Button
-          title='back'
-          onPress={() => this.props.navigation.goBack()} />
-      </View>
+      <Screen styleName='fill-parent'>
+        <StatusBar barStyle="dark-content"/>
+        <ImageBackground
+          source={{uri: 'https://stores.selzstatic.com/nvyn50kugf4/assets/settings/lightscape-735108-unsplash.jpg?v=20200323080941'}}
+          styleName="large-ultra-wide"
+        >
+          <NavigationBar
+            styleName="clear"
+            leftComponent={
+              <Button>
+                <Icon name="left-arrow" />
+              </Button>
+            }
+            centerComponent={
+              <Title title={'Upload'} topMargin={50}/>
+            }
+            
+            rightComponent={
+              <Button>
+                <Icon name="share" />
+              </Button>
+            }
+          />
+        </ImageBackground>
+
+      </Screen>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-})
 
 export default UploadScreen

@@ -11,7 +11,7 @@ import {
   ImageBackground,
   Screen,
   Switch,
-  Row,
+  TouchableOpacity,
   Icon,
   Text,
   Image,
@@ -21,29 +21,55 @@ import {
 } from '@shoutem/ui'
 
 import Title from '../../Components/Title'
+import ImagePicker from 'react-native-image-picker'
+
 const { width, height } = Dimensions.get('window')
 
-/*
-title
-description
-user_id
-filter_id
-price
-tag_list
- */
+const ImagePickerOptions = {
+  title: 'Select Image',
+  customButtons: [
+    { 
+      name: 'customOptionKey',
+      title: 'Choose Photo from Custom Option'
+    },
+  ],
+  storageOptions: {
+    skipBackup: true,
+    path: 'images',
+  },
+}
 class UploadScreen extends Component{
   constructor() {
     super()
     this.state = {
       Facebook_switchOn: false,
       Instagram_switchOn: false,
+      imageFile: 'https://stores.selzstatic.com/nvyn50kugf4/assets/settings/lightscape-735108-unsplash.jpg?v=20200323080941'
     }
   }
+  onChooseFile = () => {
+    //image 변경
+    ImagePicker.showImagePicker(ImagePickerOptions, async response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker')
+        return
+      }
+      if (response.error) {
+        return
+      }
+      if (response.customButton) {
+        return
+      } 
+      let source = response
+      this.setState({
+        imageFile: 'data:image/jpeg;base64,'+ source.data
+      })
+    })
+  }
   render(){
-    
     const { Facebook_switchOn,Instagram_switchOn } = this.state
     return (
-      <Screen styleName='fill-parent'>
+      <Screen styleName='fill-parent' style ={{backgroundColor: 'white'}}>
         <StatusBar barStyle="dark-content"/>
         <ImageBackground
           source={{uri: 'https://stores.selzstatic.com/nvyn50kugf4/assets/settings/lightscape-735108-unsplash.jpg?v=20200323080941'}}
@@ -66,26 +92,36 @@ class UploadScreen extends Component{
             }
           />
         </ImageBackground>
-        <View styleName ="horizontal space-between" name = "Title" style ={{ padding :10}}>
+        <View styleName ="horizontal space-between" name = "Title" style ={{ margin :10}}>
           <Subtitle style ={styles.text}>Filter Title</Subtitle>
           <TextInput
             placeholder={'Write Filter Title'}
-            style ={{ height: height/10, width :width*0.7}}/>
+            style ={{ paddingTop:15, backgroundColor: 'white', height: height/10, width :width*0.7}}/>
         </View>
-        <View name = "Description" styleName ="horizontal space-between" style ={{padding :10}}>
-          <Image
-            style ={{ height: height*0.15, width :height*0.15 ,padding :10}}
-            source={{ uri:  "https://shoutem.github.io/static/getting-started/restaurant-1.jpg" }}
-          />
+        <View name = "Description" styleName ="horizontal space-between" style ={{margin :10}}>
+          <TouchableOpacity 
+            onPress ={this.onChooseFile} 
+            styleName="flexible">
+            <Image
+              style ={{ height: height*0.15, width :height*0.15 ,padding :10}}
+              source={{ uri:this.state.imageFile }}
+            />
+          </TouchableOpacity>
           <TextInput
             placeholder={'Write Filter Description'}
             style ={{ height: height*0.15, width : width*0.7 }}/>
         </View>
-        <View styleName ="horizontal space-between" name = "Tag" style ={{ padding :10}}>
+        <View styleName ="horizontal space-between" name = "Tag" style ={{ margin :10}}>
           <Subtitle style ={styles.text}>Filter Tag</Subtitle>
           <TextInput
             placeholder={'Write Filter Tag using #'}
-            style ={{ height: height/10, width :width*0.7}}/>
+            style ={{ hpadding:15, height: height/12, width :width*0.7}}/>
+        </View>
+        <View styleName ="horizontal space-between" name = "Price" style ={{ margin :10}}>
+          <Subtitle style ={styles.text}>Filter Price</Subtitle>
+          <TextInput
+            placeholder={'Write Filter Price'}
+            style ={{ padding:15, height: height/12, width :width*0.7}}/>
         </View>
         <View styleName ="horizontal space-between" style ={{ padding :5}}>
           <Text style ={styles.text}>FaceBook</Text>

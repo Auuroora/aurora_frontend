@@ -2,7 +2,8 @@
 import React, {Component} from 'react'
 import {
   StatusBar,
-  Dimensions
+  Dimensions,
+  StyleSheet
 } from 'react-native'
 import { 
   NavigationBar,
@@ -14,10 +15,9 @@ import {
   Icon,
   Text,
   Image,
-  Caption,
-  Divider,
   Subtitle,
-  Button
+  Button,
+  View
 } from '@shoutem/ui'
 
 import Title from '../../Components/Title'
@@ -59,7 +59,6 @@ class UploadScreen extends Component{
             centerComponent={
               <Title title={'Upload'} topMargin={50}/>
             }
-            
             rightComponent={
               <Button>
                 <Icon name="share" />
@@ -67,10 +66,54 @@ class UploadScreen extends Component{
             }
           />
         </ImageBackground>
+        <View styleName ="horizontal space-between" name = "Title" style ={{ padding :10}}>
+          <Subtitle style ={styles.text}>Filter Title</Subtitle>
+          <TextInput
+            placeholder={'Write Filter Title'}
+            style ={{ height: height/10, width :width*0.7}}/>
+        </View>
+        <View name = "Description" styleName ="horizontal space-between" style ={{padding :10}}>
+          <Image
+            style ={{ height: height*0.15, width :height*0.15 ,padding :10}}
+            source={{ uri:  "https://shoutem.github.io/static/getting-started/restaurant-1.jpg" }}
+          />
+          <TextInput
+            placeholder={'Write Filter Description'}
+            style ={{ height: height*0.15, width : width*0.7 }}/>
+        </View>
+        <View styleName ="horizontal space-between" name = "Tag" style ={{ padding :10}}>
+          <Subtitle style ={styles.text}>Filter Tag</Subtitle>
+          <TextInput
+            placeholder={'Write Filter Tag using #'}
+            style ={{ height: height/10, width :width*0.7}}/>
+        </View>
+        <View styleName ="horizontal space-between" style ={{ padding :5}}>
+          <Text style ={styles.text}>FaceBook</Text>
+          <Switch 
+            style ={{marginBottom: 10, paddingLeft :30}}
+            onValueChange={value => this.setState({ Facebook_switchOn: value})}
+            value={Facebook_switchOn}
+          />          
+        </View>
+        <View styleName ="horizontal space-between" style ={{padding :5}}>
+          <Text style ={styles.text}>Instagram</Text>
+          <Switch styleName="disclosure"
+            style ={{marginBottom: 10}}
+            onValueChange={value => this.setState({ Instagram_switchOn: value})}
+            value={Instagram_switchOn}
+          />
+        </View>
 
       </Screen>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  text:{
+    color : 'black',
+    paddingLeft :10
+  }
+})
 
 export default UploadScreen

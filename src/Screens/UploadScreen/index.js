@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, {Component} from 'react'
+import axios from 'axios'
 import {
   StatusBar,
   Dimensions,
@@ -10,10 +11,8 @@ import {
   TextInput,
   ImageBackground,
   Screen,
-  Switch,
   TouchableOpacity,
   Icon,
-  Text,
   Image,
   Subtitle,
   Button,
@@ -23,8 +22,16 @@ import {
 import Title from '../../Components/Title'
 import ImagePicker from 'react-native-image-picker'
 
+axios.defaults.baseURL = 'http://aurora-application.ap-northeast-2.elasticbeanstalk.com'
+
 const { width, height } = Dimensions.get('window')
 
+/*
+게시글 작성 부분과 아닌 부분을 컴포넌트로 분리 할 것인가
+이미지 고르는 부분 -> 필터 고르는 부분으로 변경
+ui개선
+페이스북 인스타그램 연동 기능 추가?
+*/
 const ImagePickerOptions = {
   title: 'Select Image',
   customButtons: [
@@ -42,9 +49,12 @@ class UploadScreen extends Component{
   constructor() {
     super()
     this.state = {
-      Facebook_switchOn: false,
-      Instagram_switchOn: false,
-      imageFile: 'https://stores.selzstatic.com/nvyn50kugf4/assets/settings/lightscape-735108-unsplash.jpg?v=20200323080941'
+      imageFile: 'https://stores.selzstatic.com/nvyn50kugf4/assets/settings/lightscape-735108-unsplash.jpg?v=20200323080941',
+      title : '',
+      fiterId: 0,
+      tag : '',
+      description: '',
+      price: 0,
     }
   }
   onChooseFile = () => {
@@ -66,8 +76,27 @@ class UploadScreen extends Component{
       })
     })
   }
+  onClickUpload =async () => {
+    // user_id & filter_id 
+    if (this.title && this.tag && this.description && this.price) {
+      const data = {
+        title: this.state.title,
+        tag: this.state.tag,
+        description: this.state.description,
+        price: this.state.price
+      }
+      return axios.post('/posts', data)
+        .then(() => {
+          alert('게시글 작성이 완료되었습니다.')
+        }).catch(() => {
+          alert('게시글 작성이 실패하였습니다.')
+        })
+    }
+    else{
+      alert('모든 부분을 작성하여 주세요.')
+    }
+  }
   render(){
-    const { Facebook_switchOn,Instagram_switchOn } = this.state
     return (
       <Screen styleName='fill-parent' style ={{backgroundColor: 'white'}}>
         <StatusBar barStyle="dark-content"/>
@@ -86,7 +115,9 @@ class UploadScreen extends Component{
               <Title title={'Upload'} topMargin={50}/>
             }
             rightComponent={
-              <Button>
+              <Button  onPress={() => {
+                this.onClickUpload()
+              }}>
                 <Icon name="share" />
               </Button>
             }
@@ -96,7 +127,10 @@ class UploadScreen extends Component{
           <Subtitle style ={styles.text}>Filter Title</Subtitle>
           <TextInput
             placeholder={'Write Filter Title'}
-            style ={{ paddingTop:15, backgroundColor: 'white', height: height/10, width :width*0.7}}/>
+            style ={{ paddingTop:15, backgroundColor: 'white', height: height/10, width :width*0.7}}
+            value={this.state.Title}
+            maxLength={10}
+            onChangeText={(text) => this.setState({title: text})}/>
         </View>
         <View name = "Description" styleName ="horizontal space-between" style ={{margin :10}}>
           <TouchableOpacity 
@@ -109,37 +143,28 @@ class UploadScreen extends Component{
           </TouchableOpacity>
           <TextInput
             placeholder={'Write Filter Description'}
-            style ={{ height: height*0.15, width : width*0.7 }}/>
+            style ={{ height: height*0.15, width : width*0.7 }}
+            value={this.state.Description}
+            maxLength={50}
+            onChangeText={(text) => this.setState({Description: text})}/>
         </View>
         <View styleName ="horizontal space-between" name = "Tag" style ={{ margin :10}}>
           <Subtitle style ={styles.text}>Filter Tag</Subtitle>
           <TextInput
             placeholder={'Write Filter Tag using #'}
-            style ={{ hpadding:15, height: height/12, width :width*0.7}}/>
+            style ={{ hpadding:15, height: height/12, width :width*0.7}}
+            value={this.state.Tag}
+            maxLength={50}
+            onChangeText={(text) => this.setState({tag: text})}/>
         </View>
         <View styleName ="horizontal space-between" name = "Price" style ={{ margin :10}}>
           <Subtitle style ={styles.text}>Filter Price</Subtitle>
           <TextInput
             placeholder={'Write Filter Price'}
-            style ={{ padding:15, height: height/12, width :width*0.7}}/>
+            maxLength={5}
+            style ={{ padding:15, height: height/12, width :width*0.7}}
+            onChangeText={(text) => this.setState({price: text})}/>
         </View>
-        <View styleName ="horizontal space-between" style ={{ padding :5}}>
-          <Text style ={styles.text}>FaceBook</Text>
-          <Switch 
-            style ={{marginBottom: 10, paddingLeft :30}}
-            onValueChange={value => this.setState({ Facebook_switchOn: value})}
-            value={Facebook_switchOn}
-          />          
-        </View>
-        <View styleName ="horizontal space-between" style ={{padding :5}}>
-          <Text style ={styles.text}>Instagram</Text>
-          <Switch styleName="disclosure"
-            style ={{marginBottom: 10}}
-            onValueChange={value => this.setState({ Instagram_switchOn: value})}
-            value={Instagram_switchOn}
-          />
-        </View>
-
       </Screen>
     )
   }

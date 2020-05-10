@@ -78,11 +78,11 @@ class UploadScreen extends Component{
   }
   onClickUpload =async () => {
     // user_id & filter_id 
-    if (this.title && this.tag && this.description && this.price) {
+    if (this.state.title && this.state.tag && this.state.description && this.state.price) {
       const data = {
         title: this.state.title,
-        tag: this.state.tag,
         description: this.state.description,
+        tag: this.state.tag,
         price: this.state.price
       }
       return axios.post('/posts', data)
@@ -128,7 +128,7 @@ class UploadScreen extends Component{
           <TextInput
             placeholder={'Write Filter Title'}
             style ={{ paddingTop:15, backgroundColor: 'white', height: height/10, width :width*0.7}}
-            value={this.state.Title}
+            value={this.state.title}
             maxLength={10}
             onChangeText={(text) => this.setState({title: text})}/>
         </View>
@@ -144,16 +144,16 @@ class UploadScreen extends Component{
           <TextInput
             placeholder={'Write Filter Description'}
             style ={{ height: height*0.15, width : width*0.7 }}
-            value={this.state.Description}
+            value={this.state.description}
             maxLength={50}
-            onChangeText={(text) => this.setState({Description: text})}/>
+            onChangeText={(text) => this.setState({description: text})}/>
         </View>
         <View styleName ="horizontal space-between" name = "Tag" style ={{ margin :10}}>
           <Subtitle style ={styles.text}>Filter Tag</Subtitle>
           <TextInput
             placeholder={'Write Filter Tag using #'}
             style ={{ hpadding:15, height: height/12, width :width*0.7}}
-            value={this.state.Tag}
+            value={this.state.tag}
             maxLength={50}
             onChangeText={(text) => this.setState({tag: text})}/>
         </View>
@@ -163,6 +163,7 @@ class UploadScreen extends Component{
             placeholder={'Write Filter Price'}
             maxLength={5}
             style ={{ padding:15, height: height/12, width :width*0.7}}
+            value={this.state.price}
             onChangeText={(text) => this.setState({price: text})}/>
         </View>
       </Screen>

@@ -2,7 +2,6 @@
 import React, {Component} from 'react'
 import axios from 'axios'
 import {
-  StatusBar,
   Dimensions,
   StyleSheet
 } from 'react-native'
@@ -19,8 +18,7 @@ import {
   View
 } from '@shoutem/ui'
 
-import ImagePicker from 'react-native-image-picker'
-
+import PropTypes from 'prop-types'
 axios.defaults.baseURL = 'http://aurora-application.ap-northeast-2.elasticbeanstalk.com'
 
 const { width, height } = Dimensions.get('window')
@@ -31,20 +29,8 @@ const { width, height } = Dimensions.get('window')
 ui개선
 페이스북 인스타그램 연동 기능 추가?
 */
-const ImagePickerOptions = {
-  title: 'Select Filter',
-  customButtons: [
-    { 
-      name: 'customOptionKey',
-      title: 'Choose Photo from Custom Option'
-    },
-  ],
-  storageOptions: {
-    skipBackup: true,
-    path: 'images',
-  },
-}
-class UploadScreen extends Component{
+
+class WritePostScreen extends Component{
   constructor(props) {
     super(props)
     this.state = {
@@ -55,49 +41,6 @@ class UploadScreen extends Component{
       tag : '',
       description: '',
       price: 0,
-    }
-  }
-  onChooseFilter = () => {
-    //filter를 선택하는 화면으로 이동
-    // ImagePicker.showImagePicker(ImagePickerOptions, async response => {
-    //   if (response.didCancel) {
-    //     console.log('User cancelled image picker')
-    //     return
-    //   }
-    //   if (response.error) {
-    //     return
-    //   }
-    //   if (response.customButton) {
-    //     return
-    //   } 
-    //   let source = response
-    //   this.setState({
-    //     imageFile: 'data:image/jpeg;base64,'+ source.data,
-    //     isSelectFilter: true
-    //   })
-    // })
-    this.setState({
-      isSelectFilter: true
-    })
-  }
-  onClickUpload =async () => {
-    // user_id & filter_id 
-    if (this.state.title && this.state.tag && this.state.description && this.state.price) {
-      const data = {
-        title: this.state.title,
-        description: this.state.description,
-        tag: this.state.tag,
-        price: this.state.price
-      }
-      return axios.post('/posts', data)
-        .then(() => {
-          alert('게시글 작성이 완료되었습니다.')
-        }).catch(() => {
-          alert('게시글 작성이 실패하였습니다.')
-        })
-    }
-    else{
-      alert('모든 부분을 작성하여 주세요.')
     }
   }
   render(){
@@ -114,7 +57,7 @@ class UploadScreen extends Component{
         </View>
         <View name = "Description" styleName ="horizontal space-between" style ={{margin :10}}>
           <TouchableOpacity 
-            onPress ={this.onChooseFilter} 
+            onPress ={this.props.onPressNew} 
             styleName="flexible">
             <Image
               style ={{ height: height*0.15, width :height*0.15 ,padding :10}}
@@ -158,4 +101,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default UploadScreen
+export default WritePostScreen

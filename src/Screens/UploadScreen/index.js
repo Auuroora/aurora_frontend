@@ -31,7 +31,7 @@ const { width, height } = Dimensions.get('window')
 /*
 이미지 고르는 부분 -> 필터 고르는 부분으로 변경
 ui개선
-페이스북 인스타그램 연동 기능 추가?
+페이스북 인스타그램 연동 기능 추가
 */
 const ImagePickerOptions = {
   title: 'Select Filter',
@@ -60,26 +60,16 @@ class UploadScreen extends Component{
     }
   }
   onChooseFilter = () => {
-    //filter를 선택하는 화면으로 이동
-    // ImagePicker.showImagePicker(ImagePickerOptions, async response => {
-    //   if (response.didCancel) {
-    //     console.log('User cancelled image picker')
-    //     return
-    //   }
-    //   if (response.error) {
-    //     return
-    //   }
-    //   if (response.customButton) {
-    //     return
-    //   } 
-    //   let source = response
-    //   this.setState({
-    //     imageFile: 'data:image/jpeg;base64,'+ source.data,
-    //     isSelectFilter: true
-    //   })
-    // })
+    alert("!!")
     this.setState({
       isSelectFilter: true
+    })
+  }
+  
+  onPressDone = () => {
+    alert("!!ff")
+    this.setState({
+      isSelectFilter: false
     })
   }
   onClickUpload =async () => {
@@ -88,7 +78,8 @@ class UploadScreen extends Component{
       const data = {
         title: this.state.title,
         description: this.state.description,
-        tag: this.state.tag,
+        filter_id: 0,
+        tag_list: this.state.tag,
         price: this.state.price
       }
       return axios.post('/posts', data)
@@ -105,10 +96,14 @@ class UploadScreen extends Component{
   bindScreen = () => {
     if (this.state.isSelectFilter) {
       return (
-        <SelectFilterScreen/>
-      )
+        <SelectFilterScreen
+          onPressDone={this.onPressDone} 
+          isSelectFilter={this.state.isSelectFilter}/>)
+    
     }
-    return (<WritePostScreen/>)
+    return (<WritePostScreen 
+      onPressNew={this.onChooseFilter} 
+      isSelectFilter={this.state.isSelectFilter}/>)
   }
   render(){
     let currentView = this.bindScreen()

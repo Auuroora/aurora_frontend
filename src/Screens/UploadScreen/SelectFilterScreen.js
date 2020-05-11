@@ -1,18 +1,13 @@
 /* eslint-disable react/prop-types */
 import React, {Component} from 'react'
-import {
-  StatusBar
-} from 'react-native'
 import { 
   ListView,
   GridRow,
   Screen,
-  NavigationBar,
 } from '@shoutem/ui'
-import Title from '../../Components/Title'
-import CardItem from '../../Components/CardItem'
+import CardItem from './Tile'
 
-class MypageScreen extends Component{
+class SelectFilterScreen extends Component{
   constructor(props) {
     super(props)
     this.renderRow = this.renderRow.bind(this)
@@ -38,6 +33,26 @@ class MypageScreen extends Component{
           "price": "$150",
           "image": { "url": "https://shoutem.github.io/img/ui-toolkit/examples/image-9.png" },
         },
+        {
+          "name": "Gaspar Brasserie",
+          "price": "$150",
+          "image": { "url": "https://shoutem.github.io/img/ui-toolkit/examples/image-2.png"},
+        },
+        {
+          "name": "Gaspar Brasserie",
+          "price": "$150",
+          "image": { "url": "https://shoutem.github.io/img/ui-toolkit/examples/image-11.png" },
+        },
+        {
+          "name": "Gaspar Brasserie",
+          "price": "$150",
+          "image": { "url": "https://shoutem.github.io/img/ui-toolkit/examples/image-2.png"},
+        },
+        {
+          "name": "Gaspar Brasserie",
+          "price": "$150",
+          "image": { "url": "https://shoutem.github.io/img/ui-toolkit/examples/image-11.png" },
+        }
       ]
     }
   }
@@ -49,28 +64,24 @@ class MypageScreen extends Component{
           image={item.image.url} 
           title={item.name} 
           price={item.price}
+          onPress ={this.props.onPressDone} 
         />
       )
     })
     return (
-      <GridRow columns={2}>
+      <GridRow columns={3}>
         {cellViews}
       </GridRow>
     )
   }
   render(){
     const item = this.state.item
-    const groupedData = GridRow.groupByRows(item, 2, 
+    const groupedData = GridRow.groupByRows(item, 3, 
       () => {
         return 1
       })
     return (   
       <Screen styleName='fill-parent'>
-        <StatusBar barStyle="dark-content"/>
-        <NavigationBar
-          styleName='inline'
-          centerComponent={<Title title={'Filter Select'}/>}
-        />
         <ListView
           data={groupedData}
           renderRow={this.renderRow}
@@ -80,4 +91,4 @@ class MypageScreen extends Component{
   }
 }
 
-export default MypageScreen
+export default SelectFilterScreen

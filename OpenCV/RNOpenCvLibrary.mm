@@ -29,9 +29,9 @@ RCT_EXPORT_METHOD(initCV: (NSString *)imageAsBase64 callback:(RCTResponseSenderB
 
 RCT_EXPORT_METHOD(onChangeHue: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (int)value);
-  Mat resImg = onUpdateHue((int)value);
+  Mat res_img = on_update_hue((int)value);
   
-  UIImage* result = MatToUIImage(resImg);
+  UIImage* result = MatToUIImage(res_img);
   
   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
   NSString *encodedString = [imageData base64Encoding];
@@ -40,9 +40,9 @@ RCT_EXPORT_METHOD(onChangeHue: (NSInteger)value callback:(RCTResponseSenderBlock
 
 RCT_EXPORT_METHOD(onChangeSaturation: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (int)value);
-  Mat resImg = onUpdateSaturation((int)value);
+  Mat res_img = on_update_saturation((int)value);
   
-  UIImage* result = MatToUIImage(resImg);
+  UIImage* result = MatToUIImage(res_img);
   
   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
   NSString *encodedString = [imageData base64Encoding];
@@ -51,9 +51,9 @@ RCT_EXPORT_METHOD(onChangeSaturation: (NSInteger)value callback:(RCTResponseSend
 
 RCT_EXPORT_METHOD(onChangeValue: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (int)value);
-  Mat resImg = onUpdateValue((int)value);
+  Mat res_img = on_update_value((int)value);
   
-  UIImage* result = MatToUIImage(resImg);
+  UIImage* result = MatToUIImage(res_img);
   
   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
   NSString *encodedString = [imageData base64Encoding];
@@ -62,9 +62,9 @@ RCT_EXPORT_METHOD(onChangeValue: (NSInteger)value callback:(RCTResponseSenderBlo
 
 RCT_EXPORT_METHOD(onChangeTemperature: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (int)value);
-  Mat resImg = onUpdateTemperature((int)value);
+  Mat res_img = on_update_temperature((int)value);
   
-  UIImage* result = MatToUIImage(resImg);
+  UIImage* result = MatToUIImage(res_img);
   
   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
   NSString *encodedString = [imageData base64Encoding];
@@ -73,9 +73,9 @@ RCT_EXPORT_METHOD(onChangeTemperature: (NSInteger)value callback:(RCTResponseSen
 
 RCT_EXPORT_METHOD(onChangeVibrance: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (int)value);
-  Mat resImg = onUpdateVibrance((int)value);
+  Mat res_img = on_update_vibrance((int)value);
   
-  UIImage* result = MatToUIImage(resImg);
+  UIImage* result = MatToUIImage(res_img);
   
   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
   NSString *encodedString = [imageData base64Encoding];
@@ -84,9 +84,9 @@ RCT_EXPORT_METHOD(onChangeVibrance: (NSInteger)value callback:(RCTResponseSender
 
 RCT_EXPORT_METHOD(onChangeHighlightHue: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (int)value);
-  Mat resImg = onUpdateHighlightHue((int)value);
+  Mat res_img = on_update_highlight_hue((int)value);
   
-  UIImage* result = MatToUIImage(resImg);
+  UIImage* result = MatToUIImage(res_img);
   
   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
   NSString *encodedString = [imageData base64Encoding];
@@ -95,9 +95,9 @@ RCT_EXPORT_METHOD(onChangeHighlightHue: (NSInteger)value callback:(RCTResponseSe
 
 RCT_EXPORT_METHOD(onChangeHighlightSaturation: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (int)value);
-  Mat resImg = onUpdateHighlightSaturation((int)value);
+  Mat res_img = on_update_highlight_saturation((int)value);
   
-  UIImage* result = MatToUIImage(resImg);
+  UIImage* result = MatToUIImage(res_img);
   
   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
   NSString *encodedString = [imageData base64Encoding];
@@ -106,9 +106,9 @@ RCT_EXPORT_METHOD(onChangeHighlightSaturation: (NSInteger)value callback:(RCTRes
 
 RCT_EXPORT_METHOD(onChangeTint: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (int)value);
-  Mat resImg = on_update_tint((int)value);
+  Mat res_img = on_update_tint((int)value);
   
-  UIImage* result = MatToUIImage(resImg);
+  UIImage* result = MatToUIImage(res_img);
   
   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
   NSString *encodedString = [imageData base64Encoding];
@@ -117,20 +117,21 @@ RCT_EXPORT_METHOD(onChangeTint: (NSInteger)value callback:(RCTResponseSenderBloc
 
 RCT_EXPORT_METHOD(onChangeClarity: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (int)value);
-  Mat resImg = on_update_clarity((int)value);
+  Mat res_img = on_update_clarity((int)value);
   
-  UIImage* result = MatToUIImage(resImg);
+  UIImage* result = MatToUIImage(res_img);
   
   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
   NSString *encodedString = [imageData base64Encoding];
   callback(@[[NSNull null], encodedString]);
 }
 
-RCT_EXPORT_METHOD(onChangeBrightnessAndConstrast: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
-  NSLog(@"%d", (int)value);
-  Mat resImg = on_update_brightness_and_constrast((int)value);
+//파라미터 2개
+RCT_EXPORT_METHOD(onChangeBrightnessAndConstrast: (NSInteger)BrightnessValue ConstrastValue:(NSInteger)ConstrastValue callback:(RCTResponseSenderBlock)callback) {
+  NSLog(@"%d %d", (int)BrightnessValue,(int)ConstrastValue);
+  Mat res_img = on_update_brightness_and_constrast((int)BrightnessValue,(int)ConstrastValue);
   
-  UIImage* result = MatToUIImage(resImg);
+  UIImage* result = MatToUIImage(res_img);
   
   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
   NSString *encodedString = [imageData base64Encoding];
@@ -139,20 +140,21 @@ RCT_EXPORT_METHOD(onChangeBrightnessAndConstrast: (NSInteger)value callback:(RCT
 
 RCT_EXPORT_METHOD(onChangeExposure: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (int)value);
-  Mat resImg = on_update_exposure((int)value);
+  Mat res_img = on_update_exposure((int)value);
   
-  UIImage* result = MatToUIImage(resImg);
+  UIImage* result = MatToUIImage(res_img);
   
   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
   NSString *encodedString = [imageData base64Encoding];
   callback(@[[NSNull null], encodedString]);
 }
 
+//파라미터가 float로
 RCT_EXPORT_METHOD(onChangeGamma: (NSNumber)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (float)value);
-  Mat resImg = on_update_gamma((float)value);
+  Mat res_img = on_update_gamma((float)value);
   
-  UIImage* result = MatToUIImage(resImg);
+  UIImage* result = MatToUIImage(res_img);
   
   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
   NSString *encodedString = [imageData base64Encoding];
@@ -161,9 +163,9 @@ RCT_EXPORT_METHOD(onChangeGamma: (NSNumber)value callback:(RCTResponseSenderBloc
 
 RCT_EXPORT_METHOD(onChangeGrain: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (int)value);
-  Mat resImg = on_update_grain((int)value);
+  Mat res_img = on_update_grain((int)value);
   
-  UIImage* result = MatToUIImage(resImg);
+  UIImage* result = MatToUIImage(res_img);
   
   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
   NSString *encodedString = [imageData base64Encoding];
@@ -172,102 +174,102 @@ RCT_EXPORT_METHOD(onChangeGrain: (NSInteger)value callback:(RCTResponseSenderBlo
 
 RCT_EXPORT_METHOD(onChangeVignette: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (int)value);
-  Mat resImg = on_update_vignette((int)value);
+  Mat res_img = on_update_vignette((int)value);
   
-  UIImage* result = MatToUIImage(resImg);
+  UIImage* result = MatToUIImage(res_img);
   
   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
   NSString *encodedString = [imageData base64Encoding];
   callback(@[[NSNull null], encodedString]);
 }
 
-Mat onUpdateHue(int curPos){
-  updateHue(curPos);
-  applyFilter();
-  return imginfo.getResImg();
+Mat on_update_hue(int cur_pos){
+  update_hue(cur_pos);
+  apply_filter();
+  return imginfo.get_res_img();
 }
 
-Mat onUpdateSaturation(int curPos){
-  updateSaturation(curPos);
-  applyFilter();
-  return imginfo.getResImg();
+Mat on_update_saturation(int cur_pos){
+  update_saturation(cur_pos);
+  apply_filter();
+  return imginfo.get_res_img();
 }
 
-Mat onUpdateValue(int curPos){
-  updateValue(curPos);
-  applyFilter();
-  return imginfo.getResImg();
+Mat on_update_value(int cur_pos){
+  update_value(cur_pos);
+  apply_filter();
+  return imginfo.get_res_img();
 }
 
-Mat onUpdateTemperature(int curPos) {
-  NSLog(@"rows: %d", imginfo.originImg.rows);
-  NSLog(@"cols: %d", imginfo.originImg.cols);
-  NSLog(@"channels: %d", imginfo.originImg.channels());
-  NSLog(@"type: %d", imginfo.originImg.type());
+Mat on_update_temperature(int cur_pos) {
+  NSLog(@"rows: %d", imginfo.origin_img.rows);
+  NSLog(@"cols: %d", imginfo.origin_img.cols);
+  NSLog(@"channels: %d", imginfo.origin_img.channels());
+  NSLog(@"type: %d", imginfo.origin_img.type());
   
-	updateTemperature(curPos);
-	applyFilter();
-  return imginfo.getResImg();
+	update_temperature(cur_pos);
+	apply_filter();
+  return imginfo.get_res_img();
 }
 
-Mat onUpdateVibrance(int curPos){
-  updateVibrance(curPos);
-  applyFilter();
-  return imginfo.getResImg();
+Mat on_update_vibrance(int cur_pos){
+  update_vibrance(cur_pos);
+  apply_filter();
+  return imginfo.get_res_img();
 }
 
-Mat onUpdateHighlightHue(int curPos){
-  updateHighlightHue(curPos);
-  applyFilter();
-  return imginfo.getResImg();
+Mat on_update_highlight_hue(int cur_pos){
+  update_highlight_hue(cur_pos);
+  apply_filter();
+  return imginfo.get_res_img();
 }
 
-Mat onUpdateHighlightSaturation(int curPos){
-  updateHighlightSaturation(curPos);
-  applyFilter();
-  return imginfo.getResImg();
+Mat on_update_highlight_saturation(int cur_pos){
+  update_highlight_saturation(cur_pos);
+  apply_filter();
+  return imginfo.get_res_img();
 }
 
-Mat on_update_tint(int curPos){
-  update_tint(curPos);
-  applyFilter();
-  return imginfo.getResImg();
+Mat on_update_tint(int cur_pos){
+  update_tint(cur_pos);
+  apply_filter();
+  return imginfo.get_res_img();
 }
 
-Mat on_update_clarity(int curPos){
-  update_clarity(curPos);
-  applyFilter();
-  return imginfo.getResImg();
+Mat on_update_clarity(int cur_pos){
+  update_clarity(cur_pos);
+  apply_filter();
+  return imginfo.get_res_img();
 }
 
 Mat on_update_brightness_and_constrast(int brightness_pos,int constrast_pos){
   update_brightness_and_constrast(brightness_pos,constrast_pos);
-  applyFilter();
-  return imginfo.getResImg();
+  apply_filter();
+  return imginfo.get_res_img();
 }
 
-Mat on_update_exposure(int curPos){
-  update_exposure(curPos);
-  applyFilter();
-  return imginfo.getResImg();
+Mat on_update_exposure(int cur_pos){
+  update_exposure(cur_pos);
+  apply_filter();
+  return imginfo.get_res_img();
 }
 
-Mat on_update_gamma(int curPos){
-  update_gamma(curPos);
-  applyFilter();
-  return imginfo.getResImg();
+Mat on_update_gamma(int cur_pos){
+  update_gamma(cur_pos);
+  apply_filter();
+  return imginfo.get_res_img();
 }
 
-Mat on_update_grain(int curPos){
-  update_grain(curPos);
-  applyFilter();
-  return imginfo.getResImg();
+Mat on_update_grain(int cur_pos){
+  update_grain(cur_pos);
+  apply_filter();
+  return imginfo.get_res_img();
 }
 
-Mat on_update_vignette(int curPos){
-  update_vignette(curPos);
-  applyFilter();
-  return imginfo.getResImg();
+Mat on_update_vignette(int cur_pos){
+  update_vignette(cur_pos);
+  apply_filter();
+  return imginfo.get_res_img();
 }
 
 - (UIImage *)decodeBase64ToImage:(NSString *)strEncodeData {
@@ -277,29 +279,29 @@ Mat on_update_vignette(int curPos){
 
 void init(Mat &img) {
 	// save original Image
-	imginfo.setOriginImg(img);
+	imginfo.set_origin_img(img);
 
 	// downsizing
-	imginfo.downsizedImg = img.clone().getUMat(ACCESS_RW);
-	imginfo.row = imginfo.downsizedImg.rows;
-	imginfo.col = imginfo.downsizedImg.cols;
+	imginfo.downsized_img = img.clone().getUMat(ACCESS_RW);
+	imginfo.row = imginfo.downsized_img.rows;
+	imginfo.col = imginfo.downsized_img.cols;
 	// TO DO
 
 	// convert to 3 channels(BGRA -> BGR)
-	if (imginfo.downsizedImg.channels() == 4) {
-		cv::cvtColor(imginfo.downsizedImg, imginfo.downsizedImg, COLOR_BGRA2BGR);
+	if (imginfo.downsized_img.channels() == 4) {
+		cv::cvtColor(imginfo.downsized_img, imginfo.downsized_img, COLOR_BGRA2BGR);
 	}
 
 	// setting img
-	//imginfo.bgrImg = imginfo.downsizedImg.clone();
-	imginfo.bgrImg = imginfo.downsizedImg.clone();
-	cv::cvtColor(imginfo.bgrImg, imginfo.hsvImg, COLOR_BGR2HSV);
-	cv::split(imginfo.bgrImg, imginfo.filter.bgr_filters);
-	cv::split(imginfo.hsvImg, imginfo.filter.hsv_filters);
+	//imginfo.bgr_img = imginfo.downsized_img.clone();
+	imginfo.bgr_img = imginfo.downsized_img.clone();
+	cv::cvtColor(imginfo.bgr_img, imginfo.hsv_img, COLOR_BGR2HSV);
+	cv::split(imginfo.bgr_img, imginfo.filter.bgr_filters);
+	cv::split(imginfo.hsv_img, imginfo.filter.hsv_filters);
 
 	//split img
-	cv::split(imginfo.bgrImg, imginfo.bgrSplit);
-	cv::split(imginfo.hsvImg, imginfo.hsvSplit);
+	cv::split(imginfo.bgr_img, imginfo.bgr_split);
+	cv::split(imginfo.hsv_img, imginfo.hsv_split);
 
 	//*******************************************************************************************************
 
@@ -308,7 +310,7 @@ void init(Mat &img) {
 	cv::multiply(1./255,imginfo.filter.gamma_mask,imginfo.filter.gamma_mask);
 
 	//Clarity
-	cv::bilateralFilter(imginfo.bgrImg, imginfo.filter.clarity_filter, DISTANCE, SIGMA_COLOR, SIGMA_SPACE);
+	cv::bilateralFilter(imginfo.bgr_img, imginfo.filter.clarity_filter, DISTANCE, SIGMA_COLOR, SIGMA_SPACE);
 	imginfo.filter.clarity_mask = UMat::zeros(imginfo.col, imginfo.row, CV_16SC3);
 
 	//Vignette

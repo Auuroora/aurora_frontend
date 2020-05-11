@@ -47,7 +47,8 @@ class WritePostScreen extends Component{
     return (
       <View>
         <View styleName ="horizontal space-between" name = "Title" style ={{ margin :10}}>
-          <Subtitle style ={styles.text}>Filter Title</Subtitle>
+          <Subtitle style ={styles.text}>Filter Title{this.state.filterId}</Subtitle>
+          <Subtitle style ={styles.text}>{this.props.filterId}</Subtitle>
           <TextInput
             placeholder={'Write Filter Title'}
             style ={{ paddingTop:15, backgroundColor: 'white', height: height/10, width :width*0.7}}

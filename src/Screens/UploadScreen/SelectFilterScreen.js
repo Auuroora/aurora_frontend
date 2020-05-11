@@ -5,7 +5,7 @@ import {
   GridRow,
   Screen,
 } from '@shoutem/ui'
-import CardItem from './Tile'
+import Tile from './Tile'
 
 class SelectFilterScreen extends Component{
   constructor(props) {
@@ -15,43 +15,33 @@ class SelectFilterScreen extends Component{
       item: [
         {
           "name": "Gaspar Brasserie",
+          "filterId": 1,
           "price": "$150",
           "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-1.jpg" },
         },
         {
           "name": "Gaspar Brasserie",
           "price": "$150",
+          "filterId": 2,
           "image": { "url": "https://shoutem.github.io/img/ui-toolkit/examples/image-2.png"},
         },
         {
           "name": "Gaspar Brasserie",
           "price": "$150",
+          "filterId": 3,
           "image": { "url": "https://shoutem.github.io/img/ui-toolkit/examples/image-11.png" },
         },
         {
           "name": "Gaspar Brasserie",
           "price": "$150",
+          "filterId": 4,
           "image": { "url": "https://shoutem.github.io/img/ui-toolkit/examples/image-9.png" },
         },
         {
           "name": "Gaspar Brasserie",
           "price": "$150",
+          "filterId": 1,
           "image": { "url": "https://shoutem.github.io/img/ui-toolkit/examples/image-2.png"},
-        },
-        {
-          "name": "Gaspar Brasserie",
-          "price": "$150",
-          "image": { "url": "https://shoutem.github.io/img/ui-toolkit/examples/image-11.png" },
-        },
-        {
-          "name": "Gaspar Brasserie",
-          "price": "$150",
-          "image": { "url": "https://shoutem.github.io/img/ui-toolkit/examples/image-2.png"},
-        },
-        {
-          "name": "Gaspar Brasserie",
-          "price": "$150",
-          "image": { "url": "https://shoutem.github.io/img/ui-toolkit/examples/image-11.png" },
         }
       ]
     }
@@ -59,12 +49,11 @@ class SelectFilterScreen extends Component{
   renderRow(rowData) {  
     const cellViews = rowData.map((item, id) => {
       return (
-        <CardItem 
+        <Tile 
           key={id}
           image={item.image.url} 
-          title={item.name} 
-          price={item.price}
-          onPress ={this.props.onPressDone} 
+          filterId={item.filterId}
+          onPressDone ={this.props.onPressDone} 
         />
       )
     })
@@ -74,6 +63,7 @@ class SelectFilterScreen extends Component{
       </GridRow>
     )
   }
+
   render(){
     const item = this.state.item
     const groupedData = GridRow.groupByRows(item, 3, 

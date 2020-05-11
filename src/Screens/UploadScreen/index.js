@@ -8,44 +8,18 @@ import {
 } from 'react-native'
 import { 
   NavigationBar,
-  TextInput,
   ImageBackground,
   Screen,
-  TouchableOpacity,
   Icon,
-  Image,
-  Subtitle,
   Button,
-  View
 } from '@shoutem/ui'
 
 import Title from '../../Components/Title'
-import ImagePicker from 'react-native-image-picker'
 import SelectFilterScreen from './SelectFilterScreen'
 import WritePostScreen from './WritePostScreen'
 
 axios.defaults.baseURL = 'http://aurora-application.ap-northeast-2.elasticbeanstalk.com'
 
-const { width, height } = Dimensions.get('window')
-
-/*
-이미지 고르는 부분 -> 필터 고르는 부분으로 변경
-ui개선
-페이스북 인스타그램 연동 기능 추가
-*/
-const ImagePickerOptions = {
-  title: 'Select Filter',
-  customButtons: [
-    { 
-      name: 'customOptionKey',
-      title: 'Choose Photo from Custom Option'
-    },
-  ],
-  storageOptions: {
-    skipBackup: true,
-    path: 'images',
-  },
-}
 class UploadScreen extends Component{
   constructor() {
     super()
@@ -53,32 +27,32 @@ class UploadScreen extends Component{
       imageFile: 'https://stores.selzstatic.com/nvyn50kugf4/assets/settings/lightscape-735108-unsplash.jpg?v=20200323080941',
       isSelectFilter: false,
       title : '',
-      fiterId: 0,
+      filterId: 0,
       tag : '',
       description: '',
       price: 0,
     }
   }
   onChooseFilter = () => {
-    alert("!!")
     this.setState({
-      isSelectFilter: true
+      isSelectFilter: true,
     })
   }
   
-  onPressDone = () => {
-    alert("!!ff")
+  onPressDone = async(filter_id) => {
     this.setState({
-      isSelectFilter: false
+      isSelectFilter: false,
+      filterId: filter_id
     })
+    console.log(filter_id)
   }
-  onClickUpload =async () => {
-    // ilter_id 
-    if (this.state.title && this.state.tag && this.state.description && this.state.price) {
+  onClickUpload = async () => {
+    console.log("??",this.state.filterId)
+    if (this.state.title && this.state.tag && this.state.description  && this.state.filterId && this.state.price) {
       const data = {
         title: this.state.title,
         description: this.state.description,
-        filter_id: 0,
+        filter_id: this.state.filterId,
         tag_list: this.state.tag,
         price: this.state.price
       }
@@ -98,12 +72,14 @@ class UploadScreen extends Component{
       return (
         <SelectFilterScreen
           onPressDone={this.onPressDone} 
-          isSelectFilter={this.state.isSelectFilter}/>)
+          isSelectFilter={this.state.isSelectFilter}
+          filterId={this.state.filterId}/>)
     
     }
-    return (<WritePostScreen 
-      onPressNew={this.onChooseFilter} 
-      isSelectFilter={this.state.isSelectFilter}/>)
+    return (
+      <WritePostScreen 
+        onPressNew={this.onChooseFilter}
+        filterId={this.state.filterId} />)
   }
   render(){
     let currentView = this.bindScreen()
@@ -133,60 +109,9 @@ class UploadScreen extends Component{
             }
           />
         </ImageBackground>
-        {/* <View styleName ="horizontal space-between" name = "Title" style ={{ margin :10}}>
-          <Subtitle style ={styles.text}>Filter Title</Subtitle>
-          <TextInput
-            placeholder={'Write Filter Title'}
-            style ={{ paddingTop:15, backgroundColor: 'white', height: height/10, width :width*0.7}}
-            value={this.state.title}
-            maxLength={10}
-            onChangeText={(text) => this.setState({title: text})}/>
-        </View>
-        <View name = "Description" styleName ="horizontal space-between" style ={{margin :10}}>
-          <TouchableOpacity 
-            onPress ={this.onChooseFilter} 
-            styleName="flexible">
-            <Image
-              style ={{ height: height*0.15, width :height*0.15 ,padding :10}}
-              source={{ uri:this.state.imageFile }}
-            />
-          </TouchableOpacity>
-          <TextInput
-            placeholder={'Write Filter Description'}
-            style ={{ height: height*0.15, width : width*0.7 }}
-            value={this.state.description}
-            maxLength={50}
-            onChangeText={(text) => this.setState({description: text})}/>
-        </View>
-        <View styleName ="horizontal space-between" name = "Tag" style ={{ margin :10}}>
-          <Subtitle style ={styles.text}>Filter Tag</Subtitle>
-          <TextInput
-            placeholder={'Write Filter Tag using #'}
-            style ={{ padding:15, height: height/12, width :width*0.7}}
-            value={this.state.tag}
-            maxLength={50}
-            onChangeText={(text) => this.setState({tag: text})}/>
-        </View>
-        <View styleName ="horizontal space-between" name = "Price" style ={{ margin :10}}>
-          <Subtitle style ={styles.text}>Filter Price</Subtitle>
-          <TextInput
-            placeholder={'Write Filter Price'}
-            maxLength={5}
-            style ={{ padding:15, height: height/12, width :width*0.7}}
-            value={this.state.price}
-            onChangeText={(text) => this.setState({price: text})}/>
-        </View> */}
         {currentView}
       </Screen>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  text:{
-    color : 'black',
-    paddingLeft :10
-  }
-})
-
 export default UploadScreen

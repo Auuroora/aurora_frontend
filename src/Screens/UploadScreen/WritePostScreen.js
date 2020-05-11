@@ -19,16 +19,14 @@ import {
   View
 } from '@shoutem/ui'
 
-import Title from '../../Components/Title'
 import ImagePicker from 'react-native-image-picker'
-import SelectFilterScreen from './SelectFilterScreen'
-import WritePostScreen from './WritePostScreen'
 
 axios.defaults.baseURL = 'http://aurora-application.ap-northeast-2.elasticbeanstalk.com'
 
 const { width, height } = Dimensions.get('window')
 
 /*
+게시글 작성 부분과 아닌 부분을 컴포넌트로 분리 할 것인가
 이미지 고르는 부분 -> 필터 고르는 부분으로 변경
 ui개선
 페이스북 인스타그램 연동 기능 추가?
@@ -47,8 +45,8 @@ const ImagePickerOptions = {
   },
 }
 class UploadScreen extends Component{
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       imageFile: 'https://stores.selzstatic.com/nvyn50kugf4/assets/settings/lightscape-735108-unsplash.jpg?v=20200323080941',
       isSelectFilter: false,
@@ -83,7 +81,7 @@ class UploadScreen extends Component{
     })
   }
   onClickUpload =async () => {
-    // ilter_id 
+    // user_id & filter_id 
     if (this.state.title && this.state.tag && this.state.description && this.state.price) {
       const data = {
         title: this.state.title,
@@ -102,43 +100,10 @@ class UploadScreen extends Component{
       alert('모든 부분을 작성하여 주세요.')
     }
   }
-  bindScreen = () => {
-    if (this.state.isSelectFilter) {
-      return (
-        <SelectFilterScreen/>
-      )
-    }
-    return (<WritePostScreen/>)
-  }
   render(){
-    let currentView = this.bindScreen()
     return (
-      <Screen styleName='fill-parent' style ={{backgroundColor: 'white'}}>
-        <StatusBar barStyle="dark-content"/>
-        <ImageBackground
-          source={{uri: 'https://stores.selzstatic.com/nvyn50kugf4/assets/settings/lightscape-735108-unsplash.jpg?v=20200323080941'}}
-          styleName="large-ultra-wide"
-        >
-          <NavigationBar
-            styleName="clear"
-            leftComponent={
-              <Button>
-                <Icon name="left-arrow" />
-              </Button>
-            }
-            centerComponent={
-              <Title title={'Upload'} topMargin={50}/>
-            }
-            rightComponent={
-              <Button  onPress={() => {
-                this.onClickUpload()
-              }}>
-                <Icon name="share" />
-              </Button>
-            }
-          />
-        </ImageBackground>
-        {/* <View styleName ="horizontal space-between" name = "Title" style ={{ margin :10}}>
+      <View>
+        <View styleName ="horizontal space-between" name = "Title" style ={{ margin :10}}>
           <Subtitle style ={styles.text}>Filter Title</Subtitle>
           <TextInput
             placeholder={'Write Filter Title'}
@@ -167,7 +132,7 @@ class UploadScreen extends Component{
           <Subtitle style ={styles.text}>Filter Tag</Subtitle>
           <TextInput
             placeholder={'Write Filter Tag using #'}
-            style ={{ padding:15, height: height/12, width :width*0.7}}
+            style ={{ hpadding:15, height: height/12, width :width*0.7}}
             value={this.state.tag}
             maxLength={50}
             onChangeText={(text) => this.setState({tag: text})}/>
@@ -180,9 +145,8 @@ class UploadScreen extends Component{
             style ={{ padding:15, height: height/12, width :width*0.7}}
             value={this.state.price}
             onChangeText={(text) => this.setState({price: text})}/>
-        </View> */}
-        {currentView}
-      </Screen>
+        </View>
+      </View>
     )
   }
 }

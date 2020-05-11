@@ -36,22 +36,22 @@ class HomeScreen extends Component{
         {
           "name": "Kyoto Amber Upper East",
           "address": "225 Mulberry St, New York, NY 10012",
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
+          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-1.jpg" },
         },
         {
           "name": "Kyoto Amber Upper East",
           "address": "225 Mulberry St, New York, NY 10012",
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
+          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-2.jpg" },
         },
         {
           "name": "Kyoto Amber Upper East",
           "address": "225 Mulberry St, New York, NY 10012",
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
+          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-1.jpg" },
         },
         {
           "name": "Kyoto Amber Upper East",
           "address": "225 Mulberry St, New York, NY 10012",
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
+          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-2.jpg" },
         },
         {
           "name": "Kyoto Amber Upper East",

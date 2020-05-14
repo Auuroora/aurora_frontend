@@ -1,59 +1,98 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
+
 import {
-  Text,
-  StyleSheet,
-  Image,
+  StatusBar,
+  Dimensions
 } from 'react-native'
 
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen'
-import { Card, CardItem, Thumbnail, Body, Left, Button, Icon } from 'native-base'
+import { 
+  Image,
+  Screen,
+  NavigationBar,
+  View,
+  Card,
+  Icon,
+  ListView,
+  Heading,
+  Subtitle,
+  Button,
+  Text,
+  Divider
+} from '@shoutem/ui'
 
-const DetailScreen = ({route}) => {
-  const {imgId} = route.params
-  const img ={
-    '1' : require('../../assets/image/img.jpg'),
-    '2' : require('../../assets/image/img2.jpg')
+import Title from '../../Components/Title'
+
+const { width } = Dimensions.get('window')
+
+const tagData = ["City","Gray","Bridge","Sad","Building","1999"]
+
+function DetailScreen () {
+  const renderTagRow = (data) => {
+    return (
+      <Button>
+        <Text>{data}</Text>
+      </Button>
+    )
   }
   return (
-    <Card>
-      <CardItem>
-        <Left>
-          <Thumbnail source={require('../../assets/image/writer.jpg')} />
-          <Body>
-            <Text>작가이름</Text>
-            <Text note>#카페 #감성</Text>
-            <Text note>$1000</Text>
-          </Body>
-        </Left>
-      </CardItem>
-      <CardItem>
-        <Image source={img[imgId]} style={{height:300, width:300, flex:1, resizeMode:'contain'}}/>
-      </CardItem>
-      <CardItem style={{ height:20 }}>
-        <Left>
-          <Button transparent>
-            <Icon name='ios-heart' style={{ color:'black' }}/>
-          </Button>
-          <Text>likes</Text>
-        </Left>
-      </CardItem>
-      <CardItem>
-        <Text>설명글.........! ..이건.. 디테일할때 서버에서 받아와야하나홍홍.</Text>
-      </CardItem>
-    </Card>
+    <Screen styleName='fill-parent'>
+      <StatusBar barStyle="dark-content"/>
+      <NavigationBar
+        styleName='inline'
+        centerComponent={<Title title={'Details'}/>}
+        rightComponent={
+          <View 
+            style={{marginTop: 25}}
+            styleName="horizontal space-between">
+            <Button>
+              <Icon name="cart" />
+            </Button>
+            <Button>
+              <Icon name="take-a-photo" />
+            </Button>
+          </View>
+        }
+      />
+      <Card 
+        style={{width: width}}
+        styleName="flexible"
+      >
+        <Image
+          style={{width: width}}
+          styleName="large"
+          source={{ uri: "http://dmshopkorea.com/data/bbs/design/201304/3064753709_9d951bfb_0x1800.jpg"  }}
+        />
+        <View styleName="content">
+          <Heading numberOfLines={2}>{"asdf"}</Heading>
+          <View styleName="horizontal space-between">
+            <Subtitle>Price : {300} $</Subtitle>
+            <Button>
+              <View styleName="horizontal space-between">
+                <Icon name="like"/>
+                <Text>  3444</Text>
+              </View>
+            </Button>
+          </View>
+
+          <ListView
+            style={{width: '50%'}}
+            data={tagData}
+            horizontal={true}
+            renderRow={renderTagRow}
+          />
+          <Divider></Divider>
+          <View
+            style={{flex: 50}}
+          >
+            <Text>
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+            </Text>
+          </View>
+        </View>
+      </Card>
+    </Screen>
   )
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  textForm: {
-    fontSize: wp('5%'),
-  },
-})
 
 export default DetailScreen

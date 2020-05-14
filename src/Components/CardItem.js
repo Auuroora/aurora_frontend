@@ -22,8 +22,16 @@ CardItem.propTypes = {
 }
 
 export default function CardItem (props) {
+
+  const moveToDetail = () => {
+    props.navigation.navigate("Detail")
+  }
+
   return (
-    <TouchableOpacity styleName="flexible">
+    <TouchableOpacity 
+      styleName="flexible"
+      onPress={moveToDetail}
+    >
       <Card styleName="flexible">
         <Image
           style={{width: (180/375) * width, height: (180/375) * width}}

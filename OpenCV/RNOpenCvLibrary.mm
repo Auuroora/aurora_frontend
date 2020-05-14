@@ -163,9 +163,10 @@ RCT_EXPORT_METHOD(onChangeGamma: (NSInteger)value callback:(RCTResponseSenderBlo
 RCT_EXPORT_METHOD(onChangeGrain: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (int)value);
   Mat res_img = on_update_grain((int)value);
+  NSLog(@"%d", (int)value);
   
   UIImage* result = MatToUIImage(res_img);
-  
+  NSLog(@"%d", (int)value);
   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
   NSString *encodedString = [imageData base64Encoding];
   callback(@[[NSNull null], encodedString]);
@@ -267,7 +268,6 @@ Mat on_update_grain(int cur_pos){
 
 Mat on_update_vignette(int cur_pos){
   update_vignette(cur_pos);
-  apply_filter();
   return imginfo.get_res_img();
 }
 
@@ -276,63 +276,71 @@ Mat on_update_vignette(int cur_pos){
   return [UIImage imageWithData:data];
 }
 
-void init(Mat &img) {
+void init(Mat &img)
+{
 	// save original Image
 	imginfo.set_origin_img(img);
 
 	// downsizing
-	imginfo.downsized_img = img.clone();             //.getUMat(ACCESS_RW);
-	imginfo.row = imginfo.downsized_img.rows;
-	imginfo.col = imginfo.downsized_img.cols;
+	imginfo.downsized_img = img.clone();			//.getMat(ACCESS_RW);
+	imginfo.row = imginfo.downsized_img.rows;		//height
+	imginfo.col = imginfo.downsized_img.cols;		//width
 	// TO DO
 
 	// convert to 3 channels(BGRA -> BGR)
-	if (imginfo.downsized_img.channels() == 4) {
+	if (imginfo.downsized_img.channels() == 4)
+	{
 		cv::cvtColor(imginfo.downsized_img, imginfo.downsized_img, COLOR_BGRA2BGR);
 	}
 
 	// setting img
 	//imginfo.bgr_img = imginfo.downsized_img.clone();
 	imginfo.bgr_img = imginfo.downsized_img.clone();
+	imginfo.res_img = imginfo.downsized_img.clone();
 	cv::cvtColor(imginfo.bgr_img, imginfo.hsv_img, COLOR_BGR2HSV);
 	cv::split(imginfo.bgr_img, imginfo.filter.bgr_filters);
 	cv::split(imginfo.hsv_img, imginfo.filter.hsv_filters);
 
 	//split img
-	cv::split(imginfo.bgr_img, imginfo.bgr_split);
+	cv::split(imginfo.downsized_img, imginfo.bgr_split);
 	cv::split(imginfo.hsv_img, imginfo.hsv_split);
 
 	//*******************************************************************************************************
 
 	// Gamma
-	imginfo.filter.hsv_filters[ColorSpaceIndex::V].convertTo(imginfo.filter.gamma_mask,CV_32F);
-	cv::multiply(1./255,imginfo.filter.gamma_mask,imginfo.filter.gamma_mask);
+	imginfo.filter.hsv_filters[ColorSpaceIndex::V].convertTo(imginfo.filter.gamma_mask, CV_32F);
+	cv::multiply(1. / 255, imginfo.filter.gamma_mask, imginfo.filter.gamma_mask);
 
 	//Clarity
 	cv::bilateralFilter(imginfo.bgr_img, imginfo.filter.clarity_filter, DISTANCE, SIGMA_COLOR, SIGMA_SPACE);
 	imginfo.filter.clarity_mask_U = Mat::zeros(imginfo.row, imginfo.col, CV_8UC3);
 	imginfo.filter.clarity_mask_S = Mat::zeros(imginfo.row, imginfo.col, CV_16SC3);
 
-	//Vignette
-	Mat kernel_x, kernel_y, kernel_res;
-	kernel_x = cv::getGaussianKernel(imginfo.row, 1000);
-	kernel_y = cv::getGaussianKernel(imginfo.col, 1000);
-	cv::transpose(kernel_x, kernel_x);
-	kernel_res = (kernel_y * kernel_x);
-	cv::normalize(kernel_res, kernel_res, 0, 1, NORM_MINMAX);
-	imginfo.filter.gaussian_kernel = kernel_res.clone();       //getUMat(ACCESS_RW);
 
-	//Grain    
-	imginfo.filter.grain_mask = Mat::zeros(imginfo.col, imginfo.row, CV_16S);
+	//Vignette
+	Mat kernel_x,kernel_x_transpose, kernel_y, kernel_res;
+	kernel_x = cv::getGaussianKernel(imginfo.col, 1000);
+	kernel_y = cv::getGaussianKernel(imginfo.row, 1000);
+	cv::transpose(kernel_x, kernel_x_transpose);
+	kernel_res = (kernel_y * kernel_x_transpose);
+	cv::normalize(kernel_res, kernel_res, 0, 1, NORM_MINMAX);
+	imginfo.filter.gaussian_kernel = kernel_res.clone();				//getUMat(cv::ACCESS_RW);
+	imginfo.filter.gaussian_kernel=kernel_res.clone();
+	kernel_x.deallocate();
+	kernel_x_transpose.deallocate();
+	kernel_y.deallocate();
+	kernel_res.deallocate();
+
+
+	//Grain
+	imginfo.filter.grain_mask = Mat::zeros(imginfo.row, imginfo.col, CV_32F);
 
 	cv::randu(imginfo.filter.grain_mask, Scalar(-20), Scalar(20));
 	// imginfo.filter.salt_mask = Mat(imginfo.col, imginfo.row, CV_8U);
 	// imginfo.filter.pepper_mask = Mat(imginfo.col, imginfo.row, CV_8U);
 
 	//Exposure
-	imginfo.filter.exposure_mask = Mat::ones(imginfo.col, imginfo.row, CV_8UC1);
-
-
+	imginfo.filter.exposure_mask = Mat::ones(imginfo.row, imginfo.col, CV_8UC1);
 
 	//*******************************************************************************************************
 
@@ -349,7 +357,7 @@ void init(Mat &img) {
 	imginfo.weight.hue = Mat::ones(imginfo.row, imginfo.col, CV_32F);
 	imginfo.weight.sat = Mat::ones(imginfo.row, imginfo.col, CV_32F);
 	imginfo.weight.val = Mat::ones(imginfo.row, imginfo.col, CV_32F);
-	
+
 	imginfo.filter.bgr_filters[ColorSpaceIndex::B] = Mat::zeros(imginfo.row, imginfo.col, CV_16S);
 	imginfo.filter.bgr_filters[ColorSpaceIndex::G] = Mat::zeros(imginfo.row, imginfo.col, CV_16S);
 	imginfo.filter.bgr_filters[ColorSpaceIndex::R] = Mat::zeros(imginfo.row, imginfo.col, CV_16S);

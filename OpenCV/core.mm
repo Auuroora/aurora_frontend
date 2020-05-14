@@ -340,10 +340,12 @@ void update_gamma(int pos)
 
 void update_grain(int pos)
 {
+	imginfo.filter.diff.convertTo(imginfo.filter.diff,CV_32F);
 	imginfo.filter.diff = imginfo.filter.grain_mask.clone();
 
 
-	cv::multiply(imginfo.filter.diff,(pos-imginfo.trackbar.grain),imginfo.filter.diff);
+	cv::multiply(imginfo.filter.diff,(pos-imginfo.trackbar.grain)/3.0,imginfo.filter.diff);
+	imginfo.filter.diff.convertTo(imginfo.filter.diff,CV_16S);
 	cv::add(imginfo.filter.hsv_filters[ColorSpaceIndex::V],imginfo.filter.diff,imginfo.filter.hsv_filters[ColorSpaceIndex::V]);
 	
 	imginfo.trackbar.grain=pos;
@@ -358,33 +360,49 @@ void update_grain(int pos)
 
 void update_vignette(int pos)			// 코드 옮기면서 변경함 -> IMG.depth 에서 에러 발생 가능
 {  
+	cv::split(imginfo.res_img,imginfo.res_split);
 	imginfo.filter.diff = imginfo.filter.gaussian_kernel.clone();
-	cv::multiply(imginfo.filter.diff,imginfo.trackbar.vignette,imginfo.filter.diff);
+	imginfo.res_split[ColorSpaceIndex::B].convertTo(imginfo.res_split[ColorSpaceIndex::B],CV_64F);
+	imginfo.res_split[ColorSpaceIndex::R].convertTo(imginfo.res_split[ColorSpaceIndex::R],CV_64F);
+	imginfo.res_split[ColorSpaceIndex::G].convertTo(imginfo.res_split[ColorSpaceIndex::G],CV_64F);
 
 	//양이 밝게 , 음이 어둡게
-	if(imginfo.trackbar.vignette>0){
-		cv::multiply(imginfo.filter.bgr_filters[ColorSpaceIndex::B],imginfo.filter.diff,imginfo.filter.bgr_filters[ColorSpaceIndex::B]);
-		cv::multiply(imginfo.filter.bgr_filters[ColorSpaceIndex::G],imginfo.filter.diff,imginfo.filter.bgr_filters[ColorSpaceIndex::G]);
-		cv::multiply(imginfo.filter.bgr_filters[ColorSpaceIndex::R],imginfo.filter.diff,imginfo.filter.bgr_filters[ColorSpaceIndex::R]);
+	if (imginfo.trackbar.vignette > 0)
+	{
+		cv::multiply(imginfo.res_split[ColorSpaceIndex::B], imginfo.filter.diff, imginfo.res_split[ColorSpaceIndex::B]);
+		cv::multiply(imginfo.res_split[ColorSpaceIndex::G], imginfo.filter.diff, imginfo.res_split[ColorSpaceIndex::G]);
+		cv::multiply(imginfo.res_split[ColorSpaceIndex::R], imginfo.filter.diff, imginfo.res_split[ColorSpaceIndex::R]);
 	}
-	else if(imginfo.trackbar.vignette<0){
-		cv::divide(imginfo.filter.bgr_filters[ColorSpaceIndex::B],imginfo.filter.diff,imginfo.filter.bgr_filters[ColorSpaceIndex::B]);
-		cv::divide(imginfo.filter.bgr_filters[ColorSpaceIndex::G],imginfo.filter.diff,imginfo.filter.bgr_filters[ColorSpaceIndex::G]);
-		cv::divide(imginfo.filter.bgr_filters[ColorSpaceIndex::R],imginfo.filter.diff,imginfo.filter.bgr_filters[ColorSpaceIndex::R]);
+	else if (imginfo.trackbar.vignette < 0)
+	{
+		cv::divide(imginfo.res_split[ColorSpaceIndex::B], imginfo.filter.diff, imginfo.res_split[ColorSpaceIndex::B]);
+		cv::divide(imginfo.res_split[ColorSpaceIndex::G], imginfo.filter.diff, imginfo.res_split[ColorSpaceIndex::G]);
+		cv::divide(imginfo.res_split[ColorSpaceIndex::R], imginfo.filter.diff, imginfo.res_split[ColorSpaceIndex::R]);
 	}
-	cv::divide(imginfo.filter.diff,imginfo.trackbar.vignette,imginfo.filter.diff);
-	cv::multiply(imginfo.filter.diff,pos,imginfo.filter.diff);
 
-	if(pos>0){
-		cv::divide(imginfo.filter.bgr_filters[ColorSpaceIndex::B],imginfo.filter.diff,imginfo.filter.bgr_filters[ColorSpaceIndex::B]);
-		cv::divide(imginfo.filter.bgr_filters[ColorSpaceIndex::G],imginfo.filter.diff,imginfo.filter.bgr_filters[ColorSpaceIndex::G]);
-		cv::divide(imginfo.filter.bgr_filters[ColorSpaceIndex::R],imginfo.filter.diff,imginfo.filter.bgr_filters[ColorSpaceIndex::R]);
+	if (pos > 0)
+	{
+		cv::multiply(imginfo.res_split[ColorSpaceIndex::B], imginfo.filter.diff, imginfo.res_split[ColorSpaceIndex::B]);
+		cv::multiply(imginfo.res_split[ColorSpaceIndex::G], imginfo.filter.diff, imginfo.res_split[ColorSpaceIndex::G]);
+		cv::multiply(imginfo.res_split[ColorSpaceIndex::R], imginfo.filter.diff, imginfo.res_split[ColorSpaceIndex::R]);
 	}
-	else if(pos<0){
-		cv::multiply(imginfo.filter.bgr_filters[ColorSpaceIndex::B],imginfo.filter.diff,imginfo.filter.bgr_filters[ColorSpaceIndex::B]);
-		cv::multiply(imginfo.filter.bgr_filters[ColorSpaceIndex::G],imginfo.filter.diff,imginfo.filter.bgr_filters[ColorSpaceIndex::G]);
-		cv::multiply(imginfo.filter.bgr_filters[ColorSpaceIndex::R],imginfo.filter.diff,imginfo.filter.bgr_filters[ColorSpaceIndex::R]);
+	else if (pos < 0)
+	{
+		cv::divide(imginfo.res_split[ColorSpaceIndex::B], imginfo.filter.diff, imginfo.res_split[ColorSpaceIndex::B]);
+		cv::divide(imginfo.res_split[ColorSpaceIndex::G], imginfo.filter.diff, imginfo.res_split[ColorSpaceIndex::G]);
+		cv::divide(imginfo.res_split[ColorSpaceIndex::R], imginfo.filter.diff, imginfo.res_split[ColorSpaceIndex::R]);
 	}
+
+
+	imginfo.res_split[ColorSpaceIndex::B].convertTo(imginfo.res_split[ColorSpaceIndex::B],CV_8U);
+	imginfo.res_split[ColorSpaceIndex::R].convertTo(imginfo.res_split[ColorSpaceIndex::R],CV_8U);
+	imginfo.res_split[ColorSpaceIndex::G].convertTo(imginfo.res_split[ColorSpaceIndex::G],CV_8U);
+	cv::convertScaleAbs(imginfo.res_split[ColorSpaceIndex::B],imginfo.res_split[ColorSpaceIndex::B]);
+	cv::convertScaleAbs(imginfo.res_split[ColorSpaceIndex::G],imginfo.res_split[ColorSpaceIndex::G]);
+	cv::convertScaleAbs(imginfo.res_split[ColorSpaceIndex::R],imginfo.res_split[ColorSpaceIndex::R]);
+
+	
+	cv::merge(imginfo.res_split,imginfo.res_img);
 
 	///*
 	//	cout.setf(ios::left);

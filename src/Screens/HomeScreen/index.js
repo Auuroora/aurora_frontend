@@ -13,6 +13,13 @@ import {
 import CardItem from '../../Components/CardItem'
 import Title from '../../Components/Title'
 
+/* TODO
+ * 1. Add SearchBar and icon to Navigation
+ * 2. Add Sort and icon to Navigation
+ * 3. Add function for go to Detail page
+ * 4. Add detail page
+ */
+
 class HomeScreen extends Component{
   constructor(props) {
     super(props)

@@ -21,6 +21,9 @@ import FilterTile from './FilterTile'
  * 3. Add Function for upload preset to S3
  * 4. Add Function for upload image to S3
  * 5. Add Function for upload result to API Server
+ * 3.1 견본이미지(샘플), 필터 프리셋 (JSON 파일로 업로드) -> S3 업로드
+ *   -> ex. bucketname/username/filterid/image.png , preset.json
+ *          username/filterid -> unique하게 하려면 -> uuid
  */
 
 /* PropTypes -> Add End of dev

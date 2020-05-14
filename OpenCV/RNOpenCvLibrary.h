@@ -1,9 +1,9 @@
 #import <opencv2/opencv.hpp>
 
 #if TARGET_IPHONE_SIMULATOR
-#undef NO
+	#undef NO
 #elif TARGET_OS_IPHONE
-#undef NO
+	#undef NO
 #endif
 
 #if __has_include("RCTBridgeModule.h")

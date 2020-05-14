@@ -40,7 +40,8 @@
     "react-native-webview": "^7.5.0",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "react-native-photo-view": "github:shoutem/react-native-photo-view#0ffa1481f6b6cb8663cb291b7db1d6644440584d"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

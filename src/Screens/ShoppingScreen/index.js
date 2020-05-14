@@ -9,12 +9,13 @@ import {
   ListView,
   GridRow
 } from '@shoutem/ui'
+
 import Title from '../../Components/Title'
 
 class ShoppingScreen extends Component{
   render(){
     return (
-        <Screen styleName='fill-parent'>
+      <Screen styleName='fill-parent'>
         <StatusBar barStyle="dark-content" hidden = {true}/>
         <ImageBackground
           source={{uri: 'https://stores.selzstatic.com/nvyn50kugf4/assets/settings/lightscape-735108-unsplash.jpg?v=20200323080941'}}
@@ -23,7 +24,7 @@ class ShoppingScreen extends Component{
           <NavigationBar
             styleName="clear"
             centerComponent={
-              <Title title={'Home'} topMargin={50}/>
+              <Title title={'Shopping'} topMargin={50}/>
             }
           />
         </ImageBackground>

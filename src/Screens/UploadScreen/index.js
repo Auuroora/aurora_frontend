@@ -4,7 +4,6 @@ import axios from 'axios'
 import {
   StatusBar,W
 } from 'react-native'
-<<<<<<< HEAD
 import { 
   NavigationBar,
   ImageBackground,

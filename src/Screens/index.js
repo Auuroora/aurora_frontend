@@ -19,7 +19,7 @@ import StudioScreen from './StudioScreen'
 import UploadScreen from './UploadScreen'
 import MypageScreen from './MypageScreen'
 import LoginScreen from './LoginScreen'
-import DetailScreen from './DetailScreen'
+import DetailScreen from './HomeScreen/detail'
 import TempSettingScreen from './TempSettingScreen'
 
 // Import functions
@@ -42,7 +42,7 @@ function HomeStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen options={{headerShown: false}} name="Home" component={HomeScreen} />
-      <Stack.Screen options={{headerShown: false}} name="DetailScreen" component={DetailScreen} />
+      <Stack.Screen options={{headerShown: false}} name="Detail" component={DetailScreen} />
     </Stack.Navigator>
   )
 }

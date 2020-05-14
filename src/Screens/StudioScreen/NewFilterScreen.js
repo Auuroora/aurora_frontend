@@ -12,7 +12,18 @@ import {
 // Import OpenCV Libraries
 import {
   loadImg,
-  updateTemperature
+  updateTemperature,
+  onChangeVignette,
+  onChangeGrain,
+  onChangeGamma,
+  onChangeExposure,
+  onChangeClarity,
+  onChangeTint,
+  onChangeVibrance,
+  onChangeValue,
+  onChangeSaturation,
+  onChangeHue
+
 } from '../../OpencvJs'
 
 import FilterTile from './FilterTile'
@@ -21,6 +32,9 @@ import FilterTile from './FilterTile'
  * 3. Add Function for upload preset to S3
  * 4. Add Function for upload image to S3
  * 5. Add Function for upload result to API Server
+ * 3.1 견본이미지(샘플), 필터 프리셋 (JSON 파일로 업로드) -> S3 업로드
+ *   -> ex. bucketname/username/filterid/image.png , preset.json
+ *          username/filterid -> unique하게 하려면 -> uuid
  */
 
 /* PropTypes -> Add End of dev
@@ -45,13 +59,21 @@ export default class NewFilterScreen extends React.Component {
       editValue: {
         Color: {
           Temperature: 0,
-          Saturation: 0
+          Saturation: 0,
+          Tint: 0,
+          Hue: 0
         },
         Brightness: {
-          asdf: 0
+          Vignette: 0,
+          asdf: 0,
+          Gamma: 0,
+          Exposure: 0,
+          Value: 0,
         },
         Etc: {
-          a: 0
+          Grain: 0,
+          Clarity: 0,
+          Vibrance: 0
         }
       },
       selectedCategory: null,
@@ -70,9 +92,18 @@ export default class NewFilterScreen extends React.Component {
   }
 
   mapCvFunction = (type) => {
-    const temp = () => {console.log('not yet')}
-    if(type === 'Saturation') return temp
+    if(type === 'Saturation') return onChangeSaturation
     if(type === 'Temperature') return updateTemperature
+    if(type === 'Vignette') return onChangeVignette
+    if(type === 'Grain') return onChangeGrain
+    if(type === 'Gamma') return onChangeGamma
+    if(type === 'Exposure') return onChangeExposure
+    if(type === 'Clarity') return onChangeClarity
+    if(type === 'Tint') return onChangeTint
+    if(type === 'Vibrance') return onChangeVibrance
+    if(type === 'Value') return onChangeValue
+    if(type === 'Saturation') return onChangeSaturation
+    if(type === 'Hue') return onChangeHue
   }
 
   // User Event

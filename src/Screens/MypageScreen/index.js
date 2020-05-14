@@ -48,7 +48,8 @@ class MypageScreen extends Component{
   renderRow(rowData) {  
     const cellViews = rowData.map((item, id) => {
       return (
-        <CardItem 
+        <CardItem
+          navigation={this.props.navigation}
           key={id}
           image={item.image.url} 
           title={item.name} 

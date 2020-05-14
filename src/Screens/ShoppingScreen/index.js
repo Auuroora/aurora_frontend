@@ -17,7 +17,7 @@ import {
 
 import Title from '../../Components/Title'
 
-const { width, height } = Dimensions.get('window')
+const { height } = Dimensions.get('window')
 class ShoppingScreen extends Component{
   constructor(props) {
     super(props)
@@ -55,9 +55,6 @@ class ShoppingScreen extends Component{
     }
   }
   renderRow(restaurant) {
-    if (!restaurant) {
-      return null
-    }
     return (
       <View styleName="stretch" style={{marginHorizontal: 1, marginTop: 5, borderRadius: 2}}>
         <Row>  

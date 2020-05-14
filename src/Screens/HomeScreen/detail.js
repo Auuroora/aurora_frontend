@@ -27,6 +27,10 @@ const { width } = Dimensions.get('window')
 
 const tagData = ["City","Gray","Bridge","Sad","Building","1999"]
 
+function onClickCart(){
+  //장바구니 추가하는 api 작성 필요
+  
+}
 function DetailScreen () {
   const renderTagRow = (data) => {
     return (
@@ -45,7 +49,7 @@ function DetailScreen () {
           <View 
             style={{marginTop: 25}}
             styleName="horizontal space-between">
-            <Button>
+            <Button onPress={() => {onClickCart()}}>
               <Icon name="cart" />
             </Button>
             <Button>

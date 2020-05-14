@@ -105,7 +105,7 @@ class HomeScreen extends Component{
     )
   }
   onClickShopping = () =>{
-    alert("shopin")
+    this.props.navigation.navigate("Shopping")
   }
   render(){
     const restaurants = this.state.restaurants

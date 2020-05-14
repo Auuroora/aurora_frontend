@@ -21,7 +21,7 @@ import MypageScreen from './MypageScreen'
 import LoginScreen from './LoginScreen'
 import DetailScreen from './HomeScreen/detail'
 import TempSettingScreen from './TempSettingScreen'
-
+import ShoppingScreen from './ShoppingScreen'
 // Import functions
 import { getUserData, removeUserData, setUserData, storeUserData } from '../Store/actions/authAction'
 
@@ -43,6 +43,7 @@ function HomeStack() {
     <Stack.Navigator>
       <Stack.Screen options={{headerShown: false}} name="Home" component={HomeScreen} />
       <Stack.Screen options={{headerShown: false}} name="Detail" component={DetailScreen} />
+      <Stack.Screen options={{headerShown: false}} name="Shopping" component={ShoppingScreen} />
     </Stack.Navigator>
   )
 }

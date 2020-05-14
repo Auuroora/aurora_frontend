@@ -7,6 +7,8 @@ import {
   ImageBackground,
   Screen,
   ListView,
+  Button,
+  Icon,
   GridRow
 } from '@shoutem/ui'
 import CardItem from '../../Components/CardItem'
@@ -93,6 +95,9 @@ class HomeScreen extends Component{
       </GridRow>
     )
   }
+  onClickShopping = () =>{
+    alert("shopin")
+  }
   render(){
     const restaurants = this.state.restaurants
     // groupByRows(data, column number, grouping number)
@@ -113,6 +118,11 @@ class HomeScreen extends Component{
             styleName="clear"
             centerComponent={
               <Title title={'Home'} topMargin={50}/>
+            }
+            rightComponent={
+              <Button onPress={() => {this.onClickShopping()}}>
+                <Icon name="cart" />
+              </Button>
             }
           />
         </ImageBackground>

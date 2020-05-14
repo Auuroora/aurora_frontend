@@ -74,7 +74,12 @@ class WritePostScreen extends Component{
             style ={{ paddingTop:15, backgroundColor: 'white', height: height/10, width :width*0.7}}
             value={this.state.title}
             maxLength={10}
-            onChangeText={(text) =>  this.setState({title: text})}/>
+            onChangeText={(text) =>  this.setState( prevState =>({
+              post:{
+                ...prevState.title,
+                [this.state.title]:{text}
+              }
+            }))}/>
         </View>
         <View name = "Description" styleName ="horizontal space-between" style ={{margin :10}}>
           <TouchableOpacity 

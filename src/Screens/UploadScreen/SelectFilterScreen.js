@@ -6,6 +6,7 @@ import {
   Screen,
 } from '@shoutem/ui'
 import Tile from './Tile'
+import PropTypes from 'prop-types'
 
 class SelectFilterScreen extends Component{
   constructor(props) {
@@ -79,6 +80,10 @@ class SelectFilterScreen extends Component{
       </Screen>
     )
   }
+}
+SelectFilterScreen.propTypes = {
+  isSelectFilter: PropTypes.number,
+  onPressDone: PropTypes.func
 }
 
 export default SelectFilterScreen

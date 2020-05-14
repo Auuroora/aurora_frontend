@@ -6,41 +6,61 @@ import {
   StyleSheet
 } from 'react-native'
 import { 
-  NavigationBar,
   TextInput,
-  ImageBackground,
-  Screen,
   TouchableOpacity,
-  Icon,
   Image,
+  Icon,
   Subtitle,
   Button,
+  Text,
   View
 } from '@shoutem/ui'
 
-import PropTypes from 'prop-types'
+import AsyncStorage from '@react-native-community/async-storage'
+
+
 axios.defaults.baseURL = 'http://aurora-application.ap-northeast-2.elasticbeanstalk.com'
 
 const { width, height } = Dimensions.get('window')
-
-/*
-게시글 작성 부분과 아닌 부분을 컴포넌트로 분리 할 것인가
-이미지 고르는 부분 -> 필터 고르는 부분으로 변경
-ui개선
-페이스북 인스타그램 연동 기능 추가?
-*/
-
 class WritePostScreen extends Component{
   constructor(props) {
     super(props)
     this.state = {
       imageFile: 'https://stores.selzstatic.com/nvyn50kugf4/assets/settings/lightscape-735108-unsplash.jpg?v=20200323080941',
-      isSelectFilter: false,
       title : '',
-      fiterId: 0,
+      fiterId: '',
       tag : '',
       description: '',
-      price: 0,
+      price: '',
+    }
+  }
+  onClickUpload = async () => {
+    const userData = await AsyncStorage.getItem('@Aurora:' + 'userToken')
+    const headers = {
+      'Authorization': userData
+    }
+    if (this.state.title && this.state.tag && this.state.description  && this.props.filterId && this.state.price) {
+      const data = {
+        post:{
+          title: this.state.title,
+          description: this.state.description,
+          filter_id: this.props.filterId,
+          tag_list: this.state.tag,
+          price: this.state.price
+        }
+      }
+      console.log(data)
+      return axios.post('/posts', data,{headers:headers})
+        .then((response) => {
+          console.log(response.data)
+          alert('게시글 작성이 완료되었습니다.')
+        }).catch((err) => {
+          console.log(err)
+          alert('게시글 작성이 실패하였습니다.')
+        })
+    }
+    else{
+      alert('모든 부분을 작성하여 주세요.')
     }
   }
   render(){
@@ -54,7 +74,7 @@ class WritePostScreen extends Component{
             style ={{ paddingTop:15, backgroundColor: 'white', height: height/10, width :width*0.7}}
             value={this.state.title}
             maxLength={10}
-            onChangeText={(text) => this.setState({title: text})}/>
+            onChangeText={(text) =>  this.setState({title: text})}/>
         </View>
         <View name = "Description" styleName ="horizontal space-between" style ={{margin :10}}>
           <TouchableOpacity 
@@ -89,6 +109,13 @@ class WritePostScreen extends Component{
             style ={{ padding:15, height: height/12, width :width*0.7}}
             value={this.state.price}
             onChangeText={(text) => this.setState({price: text})}/>
+        </View>
+        <View style ={{paddingTop:30, alignItems: 'center',}}>
+          <Button styleName="secondary" style ={{width:100}} 
+            onPress={() => {this.onClickUpload()}}>
+            <Icon name="share" />
+            <Text>UPLOAD</Text>
+          </Button>
         </View>
       </View>
     )

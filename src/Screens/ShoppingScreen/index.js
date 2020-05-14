@@ -1,21 +1,23 @@
 import React, {Component} from 'react'
 import {
   StatusBar,
+  Dimensions
 } from 'react-native'
 import { 
   NavigationBar,
   ImageBackground,
   Screen,
   ListView,
-  Tile,
-  GridRow,
+  Row,
   Subtitle,
-  Divider,
+  Icon,
+  Image,
   View
 } from '@shoutem/ui'
 
 import Title from '../../Components/Title'
 
+const { width, height } = Dimensions.get('window')
 class ShoppingScreen extends Component{
   constructor(props) {
     super(props)
@@ -40,11 +42,6 @@ class ShoppingScreen extends Component{
           "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
         },
         {
-          "name": "Sushi Academy",
-          "address": "1900 Warner Ave. Unit A Santa Ana, CA",
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-4.jpg" },
-        },
-        {
           "name": "Sushibo",
           "address": "35 Sipes Key, New York, NY 10012",
           "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-5.jpg" },
@@ -62,17 +59,18 @@ class ShoppingScreen extends Component{
       return null
     }
     return (
-      <View>
-        <ImageBackground
-          styleName="large-banner"
-          source={{ uri: restaurant.image.url }}
-        >
-          <Tile>
-            <Title styleName="md-gutter-bottom">{restaurant.name}</Title>
-            <Subtitle styleName="sm-gutter-horizontal">{restaurant.address}</Subtitle>
-          </Tile>
-        </ImageBackground>
-        <Divider styleName="line" />
+      <View styleName="stretch" style={{marginHorizontal: 1, marginTop: 5, borderRadius: 2}}>
+        <Row>  
+          <Image
+            style ={{ height: height*0.15, width :height*0.15}}
+            source={{ uri: restaurant.image.url }}
+          />
+          <View styleName="vertical stretch space-between">
+            <Subtitle>{restaurant.name}</Subtitle>
+            <Subtitle>{restaurant.address}</Subtitle>
+          </View>
+          <Icon styleName="disclosure" name="plus-button" />
+        </Row>
       </View>
     )
   }

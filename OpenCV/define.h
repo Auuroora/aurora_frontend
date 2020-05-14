@@ -1,5 +1,8 @@
 #pragma once
 
+/*********************************************************************
+*	??
+*********************************************************************/
 #define ORANGE 15
 #define YELLOW 30
 #define CHARTREUSE 45
@@ -59,6 +62,67 @@
 #define PI 3.141592
 #define EXP exp(1)
 
-#define CHECK_TIME_START double start = static_cast<double>(cv::getTickCount())
-#define CHECK_TIME_END double end = static_cast<double>(cv::getTickCount());
-#define CHECK_TIME_PRINT printf("%f ms\n", (end - start) / cv::getTickFrequency());
+#define CHECK_TIME_START(start) start = cv::getTickCount()
+#define CHECK_TIME_END(end) end = cv::getTickCount()
+#define CHECK_TIME_PRINT(str, start, end) printf("%s%f(s)\n", str, static_cast<double>(end - start) / cv::getTickFrequency())
+
+/*********************************************************************
+*	??
+*********************************************************************/
+#define ZERO 0
+#define ONE 1
+#define FIVE 5
+#define TEN 10
+#define HUNDRED 100
+#define TWO_HUNDRED 200
+#define MAX_8B_F 255.0
+#define MAX_8B_I 255
+#define MAX_7B_F 128.0
+
+#define DISTANCE 10
+#define SIGMA_COLOR 50
+#define SIGMA_SPACE 50
+
+#define ESC 27
+
+#define GRAY_MIN 0
+#define GRAY_MAX 1
+#define GRAY_MID 0
+
+#define BRIGHTNESS_MIN 0
+#define BRIGHTNESS_MAX 200
+#define BRIGHTNESS_MID 100
+
+#define CONSTRAST_MIN 0
+#define CONSTRAST_MAX 200
+#define CONSTRAST_MID 100
+
+#define TINT_MIN 0
+#define TINT_MAX 200
+#define TINT_MID 100
+
+#define CLARITY_MIN 0
+#define CLARITY_MAX 200
+#define CLARITY_MID 100
+
+#define GAMMA_MIN 0
+#define GAMMA_MAX 200
+#define GAMMA_MID 0
+
+#define EXPOSURE_MIN 0
+#define EXPOSURE_MAX 200
+#define EXPOSURE_MID 100
+
+#define VIGNETTE_MIN 0
+#define VIGNETTE_MAX 200
+#define VIGNETTE_MID 100
+
+#define GRAIN_MIN 0
+#define GRAIN_MAX 50
+#define GRAIN_MID 0
+
+#define TINTVECTOR Scalar(0, 1, 0)
+
+#define WINDOW_NAME "Doroddong Test"
+
+#define KERNEL_SIZE 7

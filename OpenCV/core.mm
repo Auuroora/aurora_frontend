@@ -181,6 +181,7 @@ void update_clarity(int pos)
 	cv::add(imginfo.res_img, imginfo.filter.clarity_mask, imginfo.res_img);
 }
 
+/*
 // Refactoring : a,b 구하는건 함수로
 void update_brightness_and_constrast(int brightness_pos, int constrast_pos)
 {
@@ -245,7 +246,7 @@ void update_brightness_and_constrast(int brightness_pos, int constrast_pos)
 
 	//tempImg = temp1Img;
 }
-
+*/
 void update_exposure(int pos)
 {
 	////메모리를 아끼냐 성능을 아끼냐 차이로 추후 업뎃

@@ -48,42 +48,42 @@ public:
 	int row; // 다운사이징 후 사진 가로
 	int col; // 다운사이징 후 사진 세로
 
-	UMat downsized_img;	   // 다운사이징 후 이미지
-	UMat bgr_img, hsv_img; // bgr이미지, hsv이미지
-	UMat res_img;		   // 최종 결과물
+	Mat downsized_img;	   // 다운사이징 후 이미지
+	Mat bgr_img, hsv_img; // bgr이미지, hsv이미지
+	Mat res_img;		   // 최종 결과물
 
-	vector<UMat> bgr_split; //bgrImg를 split한 벡터
-	vector<UMat> hsv_split; //hsvImg를 split한 벡터
+	vector<Mat> bgr_split; //bgrImg를 split한 벡터
+	vector<Mat> hsv_split; //hsvImg를 split한 벡터
 
 	// filter
 	struct Filter
 	{
-		UMat diff;		 // 필터 연산을 위한 행렬
-		UMat bgr_filter; // bgr변경치가 기록되어 있는 필터
-		UMat hsv_filter; // hsv변경치가 기록되어 있는 필터
+		Mat diff;		 // 필터 연산을 위한 행렬
+		Mat bgr_filter; // bgr변경치가 기록되어 있는 필터
+		Mat hsv_filter; // hsv변경치가 기록되어 있는 필터
 
-		UMat clarity_filter;
-		UMat clarity_mask;
+		Mat clarity_filter;
+		Mat clarity_mask;
 
-		UMat gaussian_kernel;
+		Mat gaussian_kernel;
 
-		UMat gamma_mask;
+		Mat gamma_mask;
 
-		UMat grain_mask;
-		UMat salt_mask;
-		UMat pepper_mask;
+		Mat grain_mask;
+		Mat salt_mask;
+		Mat pepper_mask;
 
-		UMat exposure_mask;
+		Mat exposure_mask;
 
-		vector<UMat> bgr_filters; // split한 벡터(bgr)
-		vector<UMat> hsv_filters; // split한 벡터(hsv)
+		vector<Mat> bgr_filters; // split한 벡터(bgr)
+		vector<Mat> hsv_filters; // split한 벡터(hsv)
 	} filter;
 
 	// 색 검출용 가중치 행렬
 	struct Weight
 	{
-		UMat blue, green, red;
-		UMat hue, sat, val;
+		Mat blue, green, red;
+		Mat hue, sat, val;
 	} weight;
 
 	// trackbar pos
@@ -136,12 +136,12 @@ public:
 		this->origin_img = img.clone();
 	}
 
-	UMat get_res_img()
+	Mat get_res_img()
 	{
 		return this->res_img;
 	}
 
-private:
+public:
 	Mat origin_img; // 변경 불가한 원본 이미지(다운사이징 전)
 };
 
@@ -241,3 +241,4 @@ void update_gamma(int pos);
 void update_grain(int pos);
 void update_vignette(int pos);
 void update_tint(int pos);
+void update_clarity(int pos);

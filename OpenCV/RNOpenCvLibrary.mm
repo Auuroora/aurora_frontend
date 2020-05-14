@@ -82,27 +82,27 @@ RCT_EXPORT_METHOD(onChangeVibrance: (NSInteger)value callback:(RCTResponseSender
   callback(@[[NSNull null], encodedString]);
 }
 
-RCT_EXPORT_METHOD(onChangeHighlightHue: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
-  NSLog(@"%d", (int)value);
-  Mat res_img = on_update_highlight_hue((int)value);
+// RCT_EXPORT_METHOD(onChangeHighlightHue: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
+//   NSLog(@"%d", (int)value);
+//   Mat res_img = on_update_highlight_hue((int)value);
   
-  UIImage* result = MatToUIImage(res_img);
+//   UIImage* result = MatToUIImage(res_img);
   
-  NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
-  NSString *encodedString = [imageData base64Encoding];
-  callback(@[[NSNull null], encodedString]);
-}
+//   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
+//   NSString *encodedString = [imageData base64Encoding];
+//   callback(@[[NSNull null], encodedString]);
+// }
 
-RCT_EXPORT_METHOD(onChangeHighlightSaturation: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
-  NSLog(@"%d", (int)value);
-  Mat res_img = on_update_highlight_saturation((int)value);
+// RCT_EXPORT_METHOD(onChangeHighlightSaturation: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
+//   NSLog(@"%d", (int)value);
+//   Mat res_img = on_update_highlight_saturation((int)value);
   
-  UIImage* result = MatToUIImage(res_img);
+//   UIImage* result = MatToUIImage(res_img);
   
-  NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
-  NSString *encodedString = [imageData base64Encoding];
-  callback(@[[NSNull null], encodedString]);
-}
+//   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
+//   NSString *encodedString = [imageData base64Encoding];
+//   callback(@[[NSNull null], encodedString]);
+// }
 
 RCT_EXPORT_METHOD(onChangeTint: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (int)value);
@@ -127,16 +127,16 @@ RCT_EXPORT_METHOD(onChangeClarity: (NSInteger)value callback:(RCTResponseSenderB
 }
 
 //파라미터 2개
-RCT_EXPORT_METHOD(onChangeBrightnessAndConstrast: (NSInteger)BrightnessValue ConstrastValue:(NSInteger)ConstrastValue callback:(RCTResponseSenderBlock)callback) {
-  NSLog(@"%d %d", (int)BrightnessValue,(int)ConstrastValue);
-  Mat res_img = on_update_brightness_and_constrast((int)BrightnessValue,(int)ConstrastValue);
+// RCT_EXPORT_METHOD(onChangeBrightnessAndConstrast: (NSInteger)BrightnessValue ConstrastValue:(NSInteger)ConstrastValue callback:(RCTResponseSenderBlock)callback) {
+//   NSLog(@"%d %d", (int)BrightnessValue,(int)ConstrastValue);
+//   Mat res_img = on_update_brightness_and_constrast((int)BrightnessValue,(int)ConstrastValue);
   
-  UIImage* result = MatToUIImage(res_img);
+//   UIImage* result = MatToUIImage(res_img);
   
-  NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
-  NSString *encodedString = [imageData base64Encoding];
-  callback(@[[NSNull null], encodedString]);
-}
+//   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
+//   NSString *encodedString = [imageData base64Encoding];
+//   callback(@[[NSNull null], encodedString]);
+// }
 
 RCT_EXPORT_METHOD(onChangeExposure: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (int)value);
@@ -149,10 +149,10 @@ RCT_EXPORT_METHOD(onChangeExposure: (NSInteger)value callback:(RCTResponseSender
   callback(@[[NSNull null], encodedString]);
 }
 
-//파라미터가 float로
-RCT_EXPORT_METHOD(onChangeGamma: (NSNumber)value callback:(RCTResponseSenderBlock)callback) {
-  NSLog(@"%d", (float)value);
-  Mat res_img = on_update_gamma((float)value);
+//파라미터가 float로 !! 에러로 인해 우선 NSInteger로 
+RCT_EXPORT_METHOD(onChangeGamma: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
+  NSLog(@"%d", (int)value);
+  Mat res_img = on_update_gamma((int)value);
   
   UIImage* result = MatToUIImage(res_img);
   
@@ -218,17 +218,17 @@ Mat on_update_vibrance(int cur_pos){
   return imginfo.get_res_img();
 }
 
-Mat on_update_highlight_hue(int cur_pos){
-  update_highlight_hue(cur_pos);
-  apply_filter();
-  return imginfo.get_res_img();
-}
+// Mat on_update_highlight_hue(int cur_pos){
+//   update_highlight_hue(cur_pos);
+//   apply_filter();
+//   return imginfo.get_res_img();
+// }
 
-Mat on_update_highlight_saturation(int cur_pos){
-  update_highlight_saturation(cur_pos);
-  apply_filter();
-  return imginfo.get_res_img();
-}
+// Mat on_update_highlight_saturation(int cur_pos){
+//   update_highlight_saturation(cur_pos);
+//   apply_filter();
+//   return imginfo.get_res_img();
+// }
 
 Mat on_update_tint(int cur_pos){
   update_tint(cur_pos);
@@ -242,11 +242,11 @@ Mat on_update_clarity(int cur_pos){
   return imginfo.get_res_img();
 }
 
-Mat on_update_brightness_and_constrast(int brightness_pos,int constrast_pos){
-  update_brightness_and_constrast(brightness_pos,constrast_pos);
-  apply_filter();
-  return imginfo.get_res_img();
-}
+// Mat on_update_brightness_and_constrast(int brightness_pos,int constrast_pos){
+//   update_brightness_and_constrast(brightness_pos,constrast_pos);
+//   apply_filter();
+//   return imginfo.get_res_img();
+// }
 
 Mat on_update_exposure(int cur_pos){
   update_exposure(cur_pos);
@@ -282,7 +282,7 @@ void init(Mat &img) {
 	imginfo.set_origin_img(img);
 
 	// downsizing
-	imginfo.downsized_img = img.clone().getUMat(ACCESS_RW);
+	imginfo.downsized_img = img.clone();             //.getUMat(ACCESS_RW);
 	imginfo.row = imginfo.downsized_img.rows;
 	imginfo.col = imginfo.downsized_img.cols;
 	// TO DO
@@ -311,7 +311,7 @@ void init(Mat &img) {
 
 	//Clarity
 	cv::bilateralFilter(imginfo.bgr_img, imginfo.filter.clarity_filter, DISTANCE, SIGMA_COLOR, SIGMA_SPACE);
-	imginfo.filter.clarity_mask = UMat::zeros(imginfo.col, imginfo.row, CV_16SC3);
+	imginfo.filter.clarity_mask = Mat::zeros(imginfo.col, imginfo.row, CV_16SC3);
 
 	//Vignette
 	Mat kernel_x, kernel_y, kernel_res;
@@ -320,17 +320,17 @@ void init(Mat &img) {
 	cv::transpose(kernel_x, kernel_x);
 	kernel_res = (kernel_y * kernel_x);
 	cv::normalize(kernel_res, kernel_res, 0, 1, NORM_MINMAX);
-	imginfo.filter.gaussian_kernel = kernel_res.getUMat(ACCESS_RW);
+	imginfo.filter.gaussian_kernel = kernel_res.clone();       //getUMat(ACCESS_RW);
 
 	//Grain    
-	imginfo.filter.grain_mask = UMat::zeros(imginfo.col, imginfo.row, CV_16S);
+	imginfo.filter.grain_mask = Mat::zeros(imginfo.col, imginfo.row, CV_16S);
 
 	cv::randu(imginfo.filter.grain_mask, Scalar(-20), Scalar(20));
-	// imginfo.filter.salt_mask = UMat(imginfo.col, imginfo.row, CV_8U);
-	// imginfo.filter.pepper_mask = UMat(imginfo.col, imginfo.row, CV_8U);
+	// imginfo.filter.salt_mask = Mat(imginfo.col, imginfo.row, CV_8U);
+	// imginfo.filter.pepper_mask = Mat(imginfo.col, imginfo.row, CV_8U);
 
 	//Exposure
-	imginfo.filter.exposure_mask = UMat::ones(imginfo.col, imginfo.row, CV_8UC1);
+	imginfo.filter.exposure_mask = Mat::ones(imginfo.col, imginfo.row, CV_8UC1);
 
 
 
@@ -346,19 +346,19 @@ void init(Mat &img) {
 	cv::minMaxIdx(imginfo.filter.hsv_filters[ColorSpaceIndex::V], &imginfo.min_v, &imginfo.max_v);
 
 	// init weight and diff matrix
-	imginfo.weight.hue = UMat::ones(imginfo.row, imginfo.col, CV_32F);
-	imginfo.weight.sat = UMat::ones(imginfo.row, imginfo.col, CV_32F);
-	imginfo.weight.val = UMat::ones(imginfo.row, imginfo.col, CV_32F);
+	imginfo.weight.hue = Mat::ones(imginfo.row, imginfo.col, CV_32F);
+	imginfo.weight.sat = Mat::ones(imginfo.row, imginfo.col, CV_32F);
+	imginfo.weight.val = Mat::ones(imginfo.row, imginfo.col, CV_32F);
 	
-	imginfo.filter.bgr_filters[ColorSpaceIndex::B] = UMat::zeros(imginfo.row, imginfo.col, CV_16S);
-	imginfo.filter.bgr_filters[ColorSpaceIndex::G] = UMat::zeros(imginfo.row, imginfo.col, CV_16S);
-	imginfo.filter.bgr_filters[ColorSpaceIndex::R] = UMat::zeros(imginfo.row, imginfo.col, CV_16S);
+	imginfo.filter.bgr_filters[ColorSpaceIndex::B] = Mat::zeros(imginfo.row, imginfo.col, CV_16S);
+	imginfo.filter.bgr_filters[ColorSpaceIndex::G] = Mat::zeros(imginfo.row, imginfo.col, CV_16S);
+	imginfo.filter.bgr_filters[ColorSpaceIndex::R] = Mat::zeros(imginfo.row, imginfo.col, CV_16S);
 
-	imginfo.filter.hsv_filters[ColorSpaceIndex::H] = UMat::zeros(imginfo.row, imginfo.col, CV_16S);
-	imginfo.filter.hsv_filters[ColorSpaceIndex::S] = UMat::zeros(imginfo.row, imginfo.col, CV_16S);
-	imginfo.filter.hsv_filters[ColorSpaceIndex::V] = UMat::zeros(imginfo.row, imginfo.col, CV_16S);
+	imginfo.filter.hsv_filters[ColorSpaceIndex::H] = Mat::zeros(imginfo.row, imginfo.col, CV_16S);
+	imginfo.filter.hsv_filters[ColorSpaceIndex::S] = Mat::zeros(imginfo.row, imginfo.col, CV_16S);
+	imginfo.filter.hsv_filters[ColorSpaceIndex::V] = Mat::zeros(imginfo.row, imginfo.col, CV_16S);
 
-	imginfo.filter.diff = UMat::zeros(imginfo.row, imginfo.col, CV_16S);
+	imginfo.filter.diff = Mat::zeros(imginfo.row, imginfo.col, CV_16S);
 
 	// make weight matrix
 	// TO DO

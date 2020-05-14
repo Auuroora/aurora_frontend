@@ -105,7 +105,6 @@ RCT_EXPORT_METHOD(onChangeVibrance: (NSInteger)value callback:(RCTResponseSender
 // }
 
 RCT_EXPORT_METHOD(onChangeTint: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
-  NSLog(@"%d", (int)value);
   Mat res_img = on_update_tint((int)value);
   
   UIImage* result = MatToUIImage(res_img);
@@ -116,11 +115,11 @@ RCT_EXPORT_METHOD(onChangeTint: (NSInteger)value callback:(RCTResponseSenderBloc
 }
 
 RCT_EXPORT_METHOD(onChangeClarity: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
-  NSLog(@"%d", (int)value);
   Mat res_img = on_update_clarity((int)value);
   
-  UIImage* result = MatToUIImage(res_img);
   
+  UIImage* result = MatToUIImage(res_img);
+
   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
   NSString *encodedString = [imageData base64Encoding];
   callback(@[[NSNull null], encodedString]);
@@ -202,10 +201,10 @@ Mat on_update_value(int cur_pos){
 }
 
 Mat on_update_temperature(int cur_pos) {
-  NSLog(@"rows: %d", imginfo.origin_img.rows);
-  NSLog(@"cols: %d", imginfo.origin_img.cols);
-  NSLog(@"channels: %d", imginfo.origin_img.channels());
-  NSLog(@"type: %d", imginfo.origin_img.type());
+  // NSLog(@"rows: %d", imginfo.origin_img.rows);
+  // NSLog(@"cols: %d", imginfo.origin_img.cols);
+  // NSLog(@"channels: %d", imginfo.origin_img.channels());
+  // NSLog(@"type: %d", imginfo.origin_img.type());
   
 	update_temperature(cur_pos);
 	apply_filter();
@@ -311,7 +310,8 @@ void init(Mat &img) {
 
 	//Clarity
 	cv::bilateralFilter(imginfo.bgr_img, imginfo.filter.clarity_filter, DISTANCE, SIGMA_COLOR, SIGMA_SPACE);
-	imginfo.filter.clarity_mask = Mat::zeros(imginfo.col, imginfo.row, CV_16SC3);
+	imginfo.filter.clarity_mask_U = Mat::zeros(imginfo.row, imginfo.col, CV_8UC3);
+	imginfo.filter.clarity_mask_S = Mat::zeros(imginfo.row, imginfo.col, CV_16SC3);
 
 	//Vignette
 	Mat kernel_x, kernel_y, kernel_res;

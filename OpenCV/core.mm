@@ -176,9 +176,30 @@ void update_tint(int pos)
 
 void update_clarity(int pos)
 {
-	float clarityValue_f = pos / (float)10.0;
-	cv::addWeighted(imginfo.bgr_img, clarityValue_f, imginfo.filter.clarity_filter, -clarityValue_f, 0, imginfo.filter.clarity_mask);
-	cv::add(imginfo.res_img, imginfo.filter.clarity_mask, imginfo.res_img);
+	double clarity_value;
+	clarity_value = imginfo.trackbar.clarity/(double)10.0;
+	cout<<clarity_value<<endl;
+
+	cv::addWeighted(imginfo.downsized_img,clarity_value,imginfo.filter.clarity_filter,-clarity_value,0,imginfo.filter.clarity_mask_U);
+	// cout<<imginfo.filter.clarity_mask_U.type()<<endl;
+	imginfo.filter.clarity_mask_U.convertTo(imginfo.filter.clarity_mask_S,CV_16SC3,0.8);
+	cv::split(imginfo.filter.clarity_mask_S,imginfo.filter.clarity_mask_split);
+	cv::subtract(imginfo.filter.bgr_filters[ColorSpaceIndex::B], imginfo.filter.clarity_mask_split[ColorSpaceIndex::B], imginfo.filter.bgr_filters[ColorSpaceIndex::B]);
+	cv::subtract(imginfo.filter.bgr_filters[ColorSpaceIndex::G], imginfo.filter.clarity_mask_split[ColorSpaceIndex::G], imginfo.filter.bgr_filters[ColorSpaceIndex::G]);
+	cv::subtract(imginfo.filter.bgr_filters[ColorSpaceIndex::R], imginfo.filter.clarity_mask_split[ColorSpaceIndex::R], imginfo.filter.bgr_filters[ColorSpaceIndex::R]);
+
+
+	clarity_value = pos/(double)10.0;
+
+	cv::addWeighted(imginfo.downsized_img,clarity_value,imginfo.filter.clarity_filter,-clarity_value,0,imginfo.filter.clarity_mask_U);
+	// cout<<imginfo.filter.clarity_mask_U.type()<<endl;
+	imginfo.filter.clarity_mask_U.convertTo(imginfo.filter.clarity_mask_S,CV_16SC3,0.8);
+	cv::split(imginfo.filter.clarity_mask_S,imginfo.filter.clarity_mask_split);
+	cv::add(imginfo.filter.bgr_filters[ColorSpaceIndex::B], imginfo.filter.clarity_mask_split[ColorSpaceIndex::B], imginfo.filter.bgr_filters[ColorSpaceIndex::B]);
+	cv::add(imginfo.filter.bgr_filters[ColorSpaceIndex::G], imginfo.filter.clarity_mask_split[ColorSpaceIndex::G], imginfo.filter.bgr_filters[ColorSpaceIndex::G]);
+	cv::add(imginfo.filter.bgr_filters[ColorSpaceIndex::R], imginfo.filter.clarity_mask_split[ColorSpaceIndex::R], imginfo.filter.bgr_filters[ColorSpaceIndex::R]);
+
+	imginfo.trackbar.clarity=pos;
 }
 
 /*
@@ -249,27 +270,30 @@ void update_brightness_and_constrast(int brightness_pos, int constrast_pos)
 */
 void update_exposure(int pos)
 {
-	////메모리를 아끼냐 성능을 아끼냐 차이로 추후 업뎃
-	imginfo.filter.diff.setTo(2*abs(imginfo.trackbar.exposure));
+	imginfo.filter.diff.setTo(abs(imginfo.trackbar.exposure));
 
-	if (imginfo.trackbar.exposure >= 0) {
-		cv::add(imginfo.filter.bgr_filters[ColorSpaceIndex::B], imginfo.filter.diff, imginfo.filter.bgr_filters[ColorSpaceIndex::B]);
-		cv::add(imginfo.filter.bgr_filters[ColorSpaceIndex::G], imginfo.filter.diff, imginfo.filter.bgr_filters[ColorSpaceIndex::G]);
-		cv::add(imginfo.filter.bgr_filters[ColorSpaceIndex::R], imginfo.filter.diff, imginfo.filter.bgr_filters[ColorSpaceIndex::R]);
-	}
-	else {
+	if (imginfo.trackbar.exposure >= 0)
+	{
 		cv::subtract(imginfo.filter.bgr_filters[ColorSpaceIndex::B], imginfo.filter.diff, imginfo.filter.bgr_filters[ColorSpaceIndex::B]);
 		cv::subtract(imginfo.filter.bgr_filters[ColorSpaceIndex::G], imginfo.filter.diff, imginfo.filter.bgr_filters[ColorSpaceIndex::G]);
 		cv::subtract(imginfo.filter.bgr_filters[ColorSpaceIndex::R], imginfo.filter.diff, imginfo.filter.bgr_filters[ColorSpaceIndex::R]);
 	}
-
-	imginfo.filter.diff.setTo(2*abs(pos));
-	if(pos>=0){
+	else
+	{
 		cv::add(imginfo.filter.bgr_filters[ColorSpaceIndex::B], imginfo.filter.diff, imginfo.filter.bgr_filters[ColorSpaceIndex::B]);
 		cv::add(imginfo.filter.bgr_filters[ColorSpaceIndex::G], imginfo.filter.diff, imginfo.filter.bgr_filters[ColorSpaceIndex::G]);
 		cv::add(imginfo.filter.bgr_filters[ColorSpaceIndex::R], imginfo.filter.diff, imginfo.filter.bgr_filters[ColorSpaceIndex::R]);
 	}
-	else {
+
+	imginfo.filter.diff.setTo(abs(pos));
+	if (pos >= 0)
+	{
+		cv::add(imginfo.filter.bgr_filters[ColorSpaceIndex::B], imginfo.filter.diff, imginfo.filter.bgr_filters[ColorSpaceIndex::B]);
+		cv::add(imginfo.filter.bgr_filters[ColorSpaceIndex::G], imginfo.filter.diff, imginfo.filter.bgr_filters[ColorSpaceIndex::G]);
+		cv::add(imginfo.filter.bgr_filters[ColorSpaceIndex::R], imginfo.filter.diff, imginfo.filter.bgr_filters[ColorSpaceIndex::R]);
+	}
+	else
+	{
 		cv::subtract(imginfo.filter.bgr_filters[ColorSpaceIndex::B], imginfo.filter.diff, imginfo.filter.bgr_filters[ColorSpaceIndex::B]);
 		cv::subtract(imginfo.filter.bgr_filters[ColorSpaceIndex::G], imginfo.filter.diff, imginfo.filter.bgr_filters[ColorSpaceIndex::G]);
 		cv::subtract(imginfo.filter.bgr_filters[ColorSpaceIndex::R], imginfo.filter.diff, imginfo.filter.bgr_filters[ColorSpaceIndex::R]);

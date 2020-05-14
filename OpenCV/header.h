@@ -7,7 +7,9 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/core/utility.hpp>
 #include <opencv2/core/ocl.hpp>
-
+#include <opencv2/core.hpp>
+#include <iomanip>
+#include <stdlib.h>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
@@ -54,16 +56,20 @@ public:
 
 	vector<Mat> bgr_split; //bgrImg를 split한 벡터
 	vector<Mat> hsv_split; //hsvImg를 split한 벡터
+	vector<Mat> res_split;
 
 	// filter
 	struct Filter
 	{
-		Mat diff;		 // 필터 연산을 위한 행렬
+		Mat diff;		 // 필터 연산을 위한 1채널 행렬
+		vector<Mat> diffs;	//필터 연산을 위한 3채널 행렬
 		Mat bgr_filter; // bgr변경치가 기록되어 있는 필터
 		Mat hsv_filter; // hsv변경치가 기록되어 있는 필터
 
 		Mat clarity_filter;
-		Mat clarity_mask;
+		Mat clarity_mask_U;
+		Mat clarity_mask_S;
+		vector<Mat> clarity_mask_split;
 
 		Mat gaussian_kernel;
 
@@ -179,12 +185,12 @@ class ParallelMakeWeight : public ParallelLoopBody
 {
 private:
 	Mat &origin;
-	Mat &weigh_matrix;
+	Mat &weigh_Matrix;
 	double min, max;
 	double (*weight_func)(int, int);
 
 public:
-	ParallelMakeWeight(Mat &i, Mat &w, double (*wF)(int, int)) : origin(i), weigh_matrix(w), weight_func(wF)
+	ParallelMakeWeight(Mat &i, Mat &w, double (*wF)(int, int)) : origin(i), weigh_Matrix(w), weight_func(wF)
 	{
 		cv::minMaxIdx(origin, &min, &max);
 	}
@@ -193,7 +199,7 @@ public:
 	{
 		for (int r = range.start; r < range.end; r++)
 		{
-			weigh_matrix.data[r] = 10.0; //weight_func((int)origin.data[r], max);
+			weigh_Matrix.data[r] = 10.0; //weight_func((int)origin.data[r], max);
 		}
 	}
 
@@ -208,6 +214,8 @@ double calculate_gaussian_normal_distribution(double x, double w, double std, do
 double make_weight_per_color(int color, int val);
 double make_weight_per_saturation(int val, int mu);
 double make_weight_per_value(int val, int mu);
+void apply_filter();
+
 void update_hue(int pos);
 void update_saturation(int pos);
 void update_value(int pos);
@@ -215,30 +223,30 @@ void update_temperature(int pos);
 void update_vibrance(int pos);
 void update_highlight_hue(int pos);
 void update_highlight_saturation(int pos);
-void apply_filter();
+void update_tint(int pos);
+void update_clarity(int pos);
+void update_brightness_and_constrast(int brightness_pos, int constrast_pos);
+void update_exposure(int pos);
+void update_gamma(int pos);
+void update_grain(int pos);
+void update_vignette(int pos);
 
-// callback
+// test.cpp
 void mouse_callback(int event, int x, int y, int flags, void *userdata);
 void on_change_hue(int pos, void *ptr);
 void on_change_saturation(int v, void *ptr);
 void on_change_value(int v, void *ptr);
 void on_change_temperature(int v, void *ptr);
 void on_change_vibrance(int v, void *ptr);
-void on_change_highlight(int curPos, void *ptr);
+void on_change_highlight_hue(int curPos, void *ptr);
+void on_change_tint(int pos, void *ptr);
+void on_change_grain(int pos, void *ptr);
+void on_change_clarity(int pos, void *ptr);
+void on_change_bright(int pos, void *ptr);
+void on_change_constrast(int pos, void *ptr);
+void on_change_vignette(int pos, void *ptr);
 
 // 테스트용
 void on_change_color_filter(int curPos, void *ptr);
 
 extern WorkingImgInfo imginfo;
-
-/*********************************************************************
-*	이하 동훈이 코드
-*********************************************************************/
-
-void update_brightness_constrast(int brightnessValue, int constrastValue);
-void update_exposure(int pos);
-void update_gamma(int pos);
-void update_grain(int pos);
-void update_vignette(int pos);
-void update_tint(int pos);
-void update_clarity(int pos);

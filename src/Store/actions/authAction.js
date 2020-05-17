@@ -1,4 +1,3 @@
-import axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage'
 
 import {
@@ -9,7 +8,7 @@ import {
   AUTH_STORE_USER_DATA
 } from './actionTypes'
 
-axios.defaults.baseURL = 'http://aurora-application.ap-northeast-2.elasticbeanstalk.com'
+import axios from '../../axiosConfig'
 
 export const removeUserData = async (key) => {
   try {
@@ -47,6 +46,7 @@ export const requestSignin = (data) => {
         dispatch(signinSuccess())
         dispatch(storeUserData(response.data))
         setUserData('userToken', response.data.token)
+        axios.defaults.headers.common['Authorization'] = response.data.token
       }).catch((error) => {
         dispatch(signinFailure(error))
       })

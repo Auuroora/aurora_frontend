@@ -78,7 +78,7 @@ class HomeScreen extends Component{
       <Screen styleName='fill-parent'>
         <StatusBar barStyle="dark-content" hidden = {true}/>
         <ImageBackground
-          source={{uri: 'https://stores.selzstatic.com/nvyn50kugf4/assets/settings/lightscape-735108-unsplash.jpg?v=20200323080941'}}
+          source={require('../../assets/image/Header.jpg')}
           styleName="large-ultra-wide"
         >
           <NavigationBar

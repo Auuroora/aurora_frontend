@@ -82,7 +82,6 @@ class MypageScreen extends Component{
         </View>
         <View style={styles.card_container}>
           <ListView
-          
             data={groupedData}
             renderRow={this.renderRow}
           />

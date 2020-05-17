@@ -26,7 +26,7 @@ class UploadScreen extends Component{
   constructor() {
     super()
     this.state = {
-      imageFile: 'https://stores.selzstatic.com/nvyn50kugf4/assets/settings/lightscape-735108-unsplash.jpg?v=20200323080941',
+      imageFile: '',
       isSelectFilter: false,
     } 
   }
@@ -35,12 +35,15 @@ class UploadScreen extends Component{
       isSelectFilter: true,
     })
   }
-  onPressDone = async(filter_id) => {
+  onPressDone = async(filter_id, filter_url) => {
     this.setState({
       isSelectFilter: false,
-      filterId: filter_id
+      filterId: filter_id,
+      imageFile: filter_url
     })
     console.log(filter_id)
+    console.log(filter_url)
+    console.log(this.state.imageFile)
   }
 
   bindScreen = () => {
@@ -54,7 +57,8 @@ class UploadScreen extends Component{
     return (
       <WritePostScreen 
         onPressNew={this.onChooseFilter}
-        filterId={this.state.filterId} />)
+        filterId={this.state.filterId} 
+        imageFile={this.state.imageFile}/>)
   }
   render(){
     let currentView = this.bindScreen()

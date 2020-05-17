@@ -24,7 +24,6 @@ class WritePostScreen extends Component{
   constructor(props) {
     super(props)
     this.state = {
-      imageFile: 'https://stores.selzstatic.com/nvyn50kugf4/assets/settings/lightscape-735108-unsplash.jpg?v=20200323080941',
       title : '',
       fiterId: '',
       tag : '',
@@ -84,8 +83,9 @@ class WritePostScreen extends Component{
             onPress ={this.props.onPressNew} 
             styleName="flexible">
             <Image
+              
               style ={{ height: height*0.15, width :height*0.15 ,padding :10}}
-              source={{ uri:this.state.imageFile }}
+              source={{ uri:this.props.imageFile }}
             />
           </TouchableOpacity>
           <TextInput

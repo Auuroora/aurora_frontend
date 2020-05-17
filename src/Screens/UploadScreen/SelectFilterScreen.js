@@ -43,10 +43,7 @@ class SelectFilterScreen extends Component{
       const filterData = res.data
       this.setState({filter_list:filterData}) 
     })
-    
-    // res = await axios.post('/filters', data)
     const filter_list = this.state.filter_list
-    // console.log(filter_list)
     const groupedData = GridRow.groupByRows(filter_list, 3, 
       () => {
         return 1

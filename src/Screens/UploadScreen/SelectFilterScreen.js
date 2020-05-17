@@ -5,12 +5,12 @@ import {
   GridRow,
   Screen,
 } from '@shoutem/ui'
-import Tile from './Tile'
+
+import Tile from '../../Components/Tile'
 import PropTypes from 'prop-types'
 import axios from '../../axiosConfig'
 
 const base_url ="https://aurora-filter-storage.s3.ap-northeast-2.amazonaws.com/"
-
 class SelectFilterScreen extends Component{
   constructor(props) {
     super(props)

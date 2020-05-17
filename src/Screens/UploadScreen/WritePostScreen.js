@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, {Component} from 'react'
-import axios from 'axios'
+import axios from '../../axiosConfig'
 import {
   Dimensions,
   StyleSheet
@@ -18,8 +18,6 @@ import {
 
 import AsyncStorage from '@react-native-community/async-storage'
 
-
-axios.defaults.baseURL = 'http://aurora-application.ap-northeast-2.elasticbeanstalk.com'
 
 const { width, height } = Dimensions.get('window')
 class WritePostScreen extends Component{

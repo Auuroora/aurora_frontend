@@ -27,13 +27,7 @@ class FilterListScreen extends Component{
       filter_list: []
     } 
   }
-  onPressDone(){
-    alert("CC")
-    this.setState({
-      filterId: 1,
-      img: ''
-    })
-  }
+  
   renderRow(rowData) {  
     const cellViews = rowData.map((filter, id) => {
       return (
@@ -41,7 +35,6 @@ class FilterListScreen extends Component{
           key={id}
           image={base_url + filter.filter_info.filter_name} 
           filterId={filter.filter_info.filter_id}
-          onPressDone ={this.onPressDone} 
         />
       )
     })

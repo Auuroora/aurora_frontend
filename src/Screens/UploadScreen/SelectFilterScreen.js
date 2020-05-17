@@ -9,8 +9,8 @@ import {
 import Tile from '../../Components/Tile'
 import PropTypes from 'prop-types'
 import axios from '../../axiosConfig'
+import { AWS_S3_STORAGE_URL } from 'react-native-dotenv'
 
-const base_url ="https://aurora-filter-storage.s3.ap-northeast-2.amazonaws.com/"
 class SelectFilterScreen extends Component{
   constructor(props) {
     super(props)
@@ -25,7 +25,7 @@ class SelectFilterScreen extends Component{
       return (
         <Tile 
           key={id}
-          image={base_url + filter.filter_info.filter_name} 
+          image={AWS_S3_STORAGE_URL + filter.filter_info.filter_name} 
           filterId={filter.filter_info.filter_id}
           onPressDone ={this.props.onPressDone} 
         />

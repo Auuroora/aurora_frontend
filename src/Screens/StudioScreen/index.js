@@ -158,6 +158,7 @@ class StudioScreen extends Component {
       // TODO: Add function for Save to local
     } catch (e) {
       alert('Saving Filter Failed!')
+      console.log(e)
     } finally {
       // Return to FilterListScreen
       this.setState({isUploading: false})

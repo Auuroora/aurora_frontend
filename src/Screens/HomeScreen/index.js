@@ -3,11 +3,12 @@ import {
   StatusBar,
 } from 'react-native'
 import { 
-  
   NavigationBar,
   ImageBackground,
   Screen,
   ListView,
+  Button,
+  Icon,
   GridRow
 } from '@shoutem/ui'
 import CardItem from '../../Components/CardItem'
@@ -44,22 +45,22 @@ class HomeScreen extends Component{
         {
           "name": "Kyoto Amber Upper East",
           "address": "225 Mulberry St, New York, NY 10012",
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
+          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-1.jpg" },
         },
         {
           "name": "Kyoto Amber Upper East",
           "address": "225 Mulberry St, New York, NY 10012",
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
+          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-2.jpg" },
         },
         {
           "name": "Kyoto Amber Upper East",
           "address": "225 Mulberry St, New York, NY 10012",
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
+          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-1.jpg" },
         },
         {
           "name": "Kyoto Amber Upper East",
           "address": "225 Mulberry St, New York, NY 10012",
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
+          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-2.jpg" },
         },
         {
           "name": "Kyoto Amber Upper East",
@@ -103,6 +104,9 @@ class HomeScreen extends Component{
       </GridRow>
     )
   }
+  onClickShopping = () =>{
+    this.props.navigation.navigate("Shopping")
+  }
   render(){
     const restaurants = this.state.restaurants
     // groupByRows(data, column number, grouping number)
@@ -114,7 +118,7 @@ class HomeScreen extends Component{
       //TODO: 무한 스크롤 적용해야함 
       //TODO: Component 로 뽑아내기
       <Screen styleName='fill-parent'>
-        <StatusBar barStyle="dark-content"/>
+        <StatusBar barStyle="dark-content" hidden = {true}/>
         <ImageBackground
           source={{uri: 'https://stores.selzstatic.com/nvyn50kugf4/assets/settings/lightscape-735108-unsplash.jpg?v=20200323080941'}}
           styleName="large-ultra-wide"
@@ -123,6 +127,11 @@ class HomeScreen extends Component{
             styleName="clear"
             centerComponent={
               <Title title={'Home'} topMargin={50}/>
+            }
+            rightComponent={
+              <Button onPress={() => {this.onClickShopping()}}>
+                <Icon name="cart" />
+              </Button>
             }
           />
         </ImageBackground>

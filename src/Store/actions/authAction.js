@@ -32,6 +32,7 @@ export const getUserData = async (key) => {
     if(userData === null) {
       return false
     }
+    axios.defaults.headers.common['Authorization'] = userData
     return userData
   } catch(e) {
     alert('err : ', e)

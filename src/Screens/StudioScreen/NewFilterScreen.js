@@ -1,13 +1,16 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
-import Slider from '@react-native-community/slider'
+import PropTypes from 'prop-types'
 
+// Import UI Modules
+import Slider from '@react-native-community/slider'
 import {
   Image,
   View,
   Spinner,
   ListView,
 } from '@shoutem/ui'
+import FilterTile from './FilterTile'
+
 
 // Import OpenCV Libraries
 import {
@@ -26,35 +29,18 @@ import {
 
 } from '../../OpencvJs'
 
-import FilterTile from './FilterTile'
 
-/* New Filter Screen Function TODO
- * 3. Add Function for upload preset to S3
- * 4. Add Function for upload image to S3
- * 5. Add Function for upload result to API Server
- * 3.1 견본이미지(샘플), 필터 프리셋 (JSON 파일로 업로드) -> S3 업로드
- *   -> ex. bucketname/username/filterid/image.png , preset.json
- *          username/filterid -> unique하게 하려면 -> uuid
- */
-
-/* PropTypes -> Add End of dev
 NewFilterScreen.propTypes = {
   image: PropTypes.object,
+  onNewFilterDone: PropTypes.func,
+  isDone: PropTypes.bool
 }
-*/
-
-/* State
- * 1. Every slider's value
- * 2. Current photo path
- * 3. Selected Slider 
- */
 
 export default class NewFilterScreen extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
       image: props.image,
-      testSliderVal: 0,
       isImageLoaded: false,
       editValue: {
         Color: {
@@ -78,7 +64,6 @@ export default class NewFilterScreen extends React.Component {
       },
       selectedCategory: null,
       selectedValue: null,
-      selectedReference: null,
       sliderValue: null,
       editFunction: null
     }
@@ -86,8 +71,8 @@ export default class NewFilterScreen extends React.Component {
       .then(() => {
         this.setState({isImageLoaded: true})
       })
-      .catch(() => {
-        // return err
+      .catch((err) => {
+        console.log(err)
       })
   }
 

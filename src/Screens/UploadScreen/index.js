@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, {Component} from 'react'
-import axios from 'axios'
 import {
-  StatusBar,W
+  StatusBar
 } from 'react-native'
 import { 
   NavigationBar,
@@ -15,8 +14,6 @@ import {
 import Title from '../../Components/Title'
 import SelectFilterScreen from './SelectFilterScreen'
 import WritePostScreen from './WritePostScreen'
-
-axios.defaults.baseURL = 'http://aurora-application.ap-northeast-2.elasticbeanstalk.com'
 /* TODO
  * 1. 자기 소유의 필터목록을 보여줌 -> 샘플데이터로
  * 2. 폼 작성 - title description user_id filter_id price tag_list
@@ -26,7 +23,7 @@ class UploadScreen extends Component{
   constructor() {
     super()
     this.state = {
-      imageFile: 'https://stores.selzstatic.com/nvyn50kugf4/assets/settings/lightscape-735108-unsplash.jpg?v=20200323080941',
+      imageFile: '',
       isSelectFilter: false,
     } 
   }
@@ -35,12 +32,15 @@ class UploadScreen extends Component{
       isSelectFilter: true,
     })
   }
-  onPressDone = async(filter_id) => {
+  onPressDone = async(filter_id, filter_url) => {
     this.setState({
       isSelectFilter: false,
-      filterId: filter_id
+      filterId: filter_id,
+      imageFile: filter_url
     })
     console.log(filter_id)
+    console.log(filter_url)
+    console.log(this.state.imageFile)
   }
 
   bindScreen = () => {
@@ -54,7 +54,8 @@ class UploadScreen extends Component{
     return (
       <WritePostScreen 
         onPressNew={this.onChooseFilter}
-        filterId={this.state.filterId} />)
+        filterId={this.state.filterId} 
+        imageFile={this.state.imageFile}/>)
   }
   render(){
     let currentView = this.bindScreen()

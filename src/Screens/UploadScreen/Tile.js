@@ -16,12 +16,12 @@ Tile.propTypes = {
   onPressDone: PropTypes.func
 }
 
-const childFunctionHere = (props) =>{
-  props.onPressDone(props.filterId) 
+const onPressFunction = (props) =>{
+  props.onPressDone(props.filterId, props.image) 
 }
 export default function Tile (props) {
   return (
-    <TouchableOpacity styleName="flexible" onPress={() =>childFunctionHere(props)}>
+    <TouchableOpacity styleName="flexible" onPress={() =>onPressFunction(props)}>
       <Card styleName="flexible">
         <Image
           style={{width: (1/3)* width, height: (1/3) * width}}

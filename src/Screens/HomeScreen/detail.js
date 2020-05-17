@@ -27,8 +27,11 @@ const { width } = Dimensions.get('window')
 
 const tagData = ["City","Gray","Bridge","Sad","Building","1999"]
 
+/* TODO
+ * 1. 장바구니에 추가하는 api 작성 필요
+ 장바구니 추가 이벤트 + API 호출 → 장바구니에 추가되었다는 메세지 출력
+ */
 function onClickCart(){
-  //장바구니 추가하는 api 작성 필요
   
 }
 function DetailScreen () {

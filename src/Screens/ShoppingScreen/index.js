@@ -17,6 +17,11 @@ import {
 
 import Title from '../../Components/Title'
 
+/* TODO
+ * 1. 장바구니에 담긴 리스트 자료 api로 요청 후 보여주기
+ * 2. +버튼 누를 경우, 결제 api호출
+ */
+
 const { height } = Dimensions.get('window')
 class ShoppingScreen extends Component{
   constructor(props) {

@@ -1,11 +1,12 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
+import React, { Component } from 'react'
 
 import {
   StatusBar,
   Dimensions
 } from 'react-native'
 
+// Import UI components
 import { 
   Image,
   Screen,
@@ -18,14 +19,15 @@ import {
   Subtitle,
   Button,
   Text,
-  Divider
+  Divider,
+  Spinner
 } from '@shoutem/ui'
-
 import Title from '../../Components/Title'
+import { AWS_S3_STORAGE_URL } from 'react-native-dotenv'
+import axios from '../../axiosConfig'
 
 const { width } = Dimensions.get('window')
 
-const tagData = ["City","Gray","Bridge","Sad","Building","1999"]
 
 /* TODO
  * 1. 장바구니에 추가하는 api 작성 필요
@@ -34,72 +36,105 @@ const tagData = ["City","Gray","Bridge","Sad","Building","1999"]
 function onClickCart(){
   
 }
-function DetailScreen () {
-  const renderTagRow = (data) => {
+
+class DetailScreen extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      postId: props.route.params.postId,
+      postData : null,
+      isLoading: true
+    }
+    this.getPostInfo(this.state.postId)
+  }
+
+  getPostInfo = async (postId) => {
+    const params = {
+      params: {
+        user_info: true,
+        filter_info: true,
+        tag_info: true,
+        like_info: true
+      }
+    }
+    const res = await axios.get('/posts/' + postId, params)
+    await this.setState({postData : res.data})
+    this.setState({isLoading: false})
+    console.log(this.state.postData)
+  }
+
+  renderTagRow = (data) => {
     return (
       <Button>
         <Text>{data}</Text>
       </Button>
     )
   }
-  return (
-    <Screen styleName='fill-parent'>
-      <StatusBar barStyle="dark-content"/>
-      <NavigationBar
-        styleName='inline'
-        centerComponent={<Title title={'Details'}/>}
-        rightComponent={
-          <View 
-            style={{marginTop: 25}}
-            styleName="horizontal space-between">
-            <Button onPress={() => {onClickCart()}}>
-              <Icon name="cart" />
-            </Button>
-            <Button>
-              <Icon name="take-a-photo" />
-            </Button>
-          </View>
-        }
-      />
-      <Card 
-        style={{width: width}}
-        styleName="flexible"
-      >
-        <Image
-          style={{width: width}}
-          styleName="large"
-          source={{ uri: "http://dmshopkorea.com/data/bbs/design/201304/3064753709_9d951bfb_0x1800.jpg"  }}
+  render () {
+    return (
+      <Screen styleName='fill-parent'>
+        <StatusBar barStyle="dark-content"/>
+        <NavigationBar
+          styleName='inline'
+          centerComponent={<Title title={'Details'}/>}
+          rightComponent={
+            <View 
+              style={{marginTop: 25}}
+              styleName="horizontal space-between">
+              <Button onPress={() => {onClickCart()}}>
+                <Icon name="cart" />
+              </Button>
+              <Button>
+                <Icon name="take-a-photo" />
+              </Button>
+            </View>
+          }
         />
-        <View styleName="content">
-          <Heading numberOfLines={2}>{"asdf"}</Heading>
-          <View styleName="horizontal space-between">
-            <Subtitle>Price : {300} $</Subtitle>
-            <Button>
-              <View styleName="horizontal space-between">
-                <Icon name="like"/>
-                <Text>  3444</Text>
-              </View>
-            </Button>
-          </View>
-
-          <ListView
-            style={{width: '50%'}}
-            data={tagData}
-            horizontal={true}
-            renderRow={renderTagRow}
-          />
-          <Divider></Divider>
-          <View
-            style={{flex: 50}}
+        {this.state.isLoading ? (
+          <Spinner styleName='large'/>
+        ) : (
+          <Card 
+            style={{width: width}}
+            styleName="flexible"
           >
-            <Text>
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-            </Text>
-          </View>
-        </View>
-      </Card>
-    </Screen>
-  )
+            <Image
+              style={{width: width}}
+              styleName="large"
+              source={{ uri: AWS_S3_STORAGE_URL + this.state.postData.filter_info.filter_name}}
+            />
+            
+            <View styleName="content">
+              <Heading numberOfLines={2}>{this.state.postData.post_info.title}</Heading>
+              <View styleName="horizontal space-between">
+                <Subtitle>판매 가격 : {this.state.postData.post_info.price}</Subtitle>
+                <Button>
+                  <View styleName="horizontal space-between">
+                    <Icon name="like"/>
+                    <Text>{this.state.postData.like_info.liked_count}</Text>
+                  </View>
+                </Button>
+              </View>
+  
+              <ListView
+                style={{width: '50%'}}
+                data={this.state.postData.tag_info.tag_list}
+                horizontal={true}
+                renderRow={this.renderTagRow}
+              />
+              <Divider></Divider>
+              <View
+                style={{flex: 50}}
+              >
+                <Text>
+                  {this.state.postData.post_info.description}
+                </Text>
+              </View>
+            </View>
+          </Card>
+        )}
+      </Screen>
+    )
+  }
 }
 
 export default DetailScreen

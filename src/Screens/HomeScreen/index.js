@@ -14,11 +14,12 @@ import {
 import CardItem from '../../Components/CardItem'
 import Title from '../../Components/Title'
 
+import {AWS_S3_STORAGE_URL} from 'react-native-dotenv'
+import axios from '../../axiosConfig'
+
 /* TODO
  * 1. Add SearchBar and icon to Navigation
  * 2. Add Sort and icon to Navigation
- * 3. Add function for go to Detail page
- * 4. Add detail page
  */
 
 class HomeScreen extends Component{
@@ -26,75 +27,33 @@ class HomeScreen extends Component{
     super(props)
     this.renderRow = this.renderRow.bind(this)
     this.state = {
-      restaurants: [
-        {
-          "name": "Gaspar Brasserie",
-          "address": "185 Sutter St, San Francisco, CA 94109",
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-1.jpg" },
-        },
-        {
-          "name": "Chalk Point Kitchen",
-          "address": "527 Broome St, New York, NY 10013",
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-2.jpg" },
-        },
-        {
-          "name": "Kyoto Amber Upper East",
-          "address": "225 Mulberry St, New York, NY 10012",
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
-        },
-        {
-          "name": "Kyoto Amber Upper East",
-          "address": "225 Mulberry St, New York, NY 10012",
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-1.jpg" },
-        },
-        {
-          "name": "Kyoto Amber Upper East",
-          "address": "225 Mulberry St, New York, NY 10012",
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-2.jpg" },
-        },
-        {
-          "name": "Kyoto Amber Upper East",
-          "address": "225 Mulberry St, New York, NY 10012",
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-1.jpg" },
-        },
-        {
-          "name": "Kyoto Amber Upper East",
-          "address": "225 Mulberry St, New York, NY 10012",
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-2.jpg" },
-        },
-        {
-          "name": "Kyoto Amber Upper East",
-          "address": "225 Mulberry St, New York, NY 10012",
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
-        },
-        {
-          "name": "Kyoto Amber Upper East",
-          "address": "225 Mulberry St, New York, NY 10012",
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
-        },
-        {
-          "name": "Kyoto Amber Upper East",
-          "address": "225 Mulberry St, New York, NY 10012",
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
-        },
-        {
-          "name": "Kyoto Amber Upper East",
-          "address": "225 Mulberry St, New York, NY 10012",
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
-        }
-      ],
+      postList: []
     }
+    this.getPostList()
+    console.log(this.state.postList)
   }
 
-  renderRow(rowData) {  
-    const cellViews = rowData.map((restaurant, id) => {
+  getPostList = async () => {
+    const params = {
+      params: {
+        filter_info: true
+      }
+    }
+    const res = await axios.get('/posts', params)
+    await this.setState({postList: res.data})
+    return res.data
+  }
+
+  renderRow = (rowData) => {  
+    const cellViews = rowData.map((post, id) => {
       return (
         <CardItem
           navigation={this.props.navigation}
           key={id}
-          image={restaurant.image.url} 
-          title={restaurant.name} 
-          tempData={restaurant.address}
+          postId={post.post_info.id}
+          image={AWS_S3_STORAGE_URL + post.filter_info.filter_name} 
+          title={post.post_info.title} 
+          price={post.post_info.price}
         />
       )
     })
@@ -108,9 +67,8 @@ class HomeScreen extends Component{
     this.props.navigation.navigate("Shopping")
   }
   render(){
-    const restaurants = this.state.restaurants
     // groupByRows(data, column number, grouping number)
-    const groupedData = GridRow.groupByRows(restaurants, 2, 
+    const groupedData = GridRow.groupByRows(this.state.postList, 2, 
       () => {
         return 1
       })

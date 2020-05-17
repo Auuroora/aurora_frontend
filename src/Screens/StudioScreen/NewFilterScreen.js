@@ -11,7 +11,6 @@ import {
 } from '@shoutem/ui'
 import FilterTile from './FilterTile'
 
-
 // Import OpenCV Libraries
 import {
   loadImg,
@@ -30,13 +29,13 @@ import {
 } from '../../OpencvJs'
 
 
-NewFilterScreen.propTypes = {
-  image: PropTypes.object,
-  onNewFilterDone: PropTypes.func,
-  isDone: PropTypes.bool
-}
-
 export default class NewFilterScreen extends React.Component {
+  static propTypes = {
+    image: PropTypes.object,
+    onNewFilterDone: PropTypes.func,
+    isDone: PropTypes.bool
+  }
+
   constructor (props) {
     super(props)
     this.state = {

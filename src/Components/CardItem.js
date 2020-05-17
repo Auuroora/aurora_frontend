@@ -18,13 +18,16 @@ const { width } = Dimensions.get('window')
 CardItem.propTypes = {
   image: PropTypes.string,
   title: PropTypes.string,
-  tempData: PropTypes.string
+  price: PropTypes.string,
+  postId: PropTypes.number
 }
 
 export default function CardItem (props) {
 
   const moveToDetail = () => {
-    props.navigation.navigate("Detail")
+    props.navigation.navigate("Detail", {
+      postId: props.postId
+    })
   }
 
   return (
@@ -42,7 +45,7 @@ export default function CardItem (props) {
         >
           <Subtitle numberOfLines={2}>{props.title}</Subtitle>
           <View styleName="horizontal space-between">
-            <Caption>{3000}</Caption>
+            <Caption>{props.price}</Caption>
             <Icon name = "like"/>
           </View>
         </View>

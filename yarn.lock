@@ -2002,6 +2002,14 @@ buffer@^4.5.1:
     ieee754 "^1.1.4"
     isarray "^1.0.0"
 
+buffer@^5.6.0:
+  version "5.6.0"
+  resolved "https://registry.yarnpkg.com/buffer/-/buffer-5.6.0.tgz#a31749dc7d81d84db08abf937b6b8c4033f62786"
+  integrity sha512-/gDYp/UtU0eA1ys8bOs9J6a+E/KWIY+DZ+Q2WESNUA0jFRsJOc0SNUO6xJ5SGA1xueg3NL65W6s+NY5l9cunuw==
+  dependencies:
+    base64-js "^1.0.2"
+    ieee754 "^1.1.4"
+
 buffer@~4.5.1:
   version "4.5.1"
   resolved "https://registry.yarnpkg.com/buffer/-/buffer-4.5.1.tgz#237b5bdef693c4c332385c1ded4ef4646e232d73"

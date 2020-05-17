@@ -149,7 +149,9 @@ export default class NewFilterScreen extends React.Component {
 
   componentDidUpdate = (prevProps) => {
     if (prevProps.isDone !== this.props.isDone && this.props.isDone) {
-      this.props.image = this.state.image
+      console.log(this.props.isDone)
+      this.props.onNewFilterDone(this.state.image.data, this.state.editValue)
+      // TODO: close and reset all variables
     }
   }
 

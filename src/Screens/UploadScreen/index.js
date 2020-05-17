@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, {Component} from 'react'
-import axios from 'axios'
 import {
-  StatusBar,W
+  StatusBar
 } from 'react-native'
 import { 
   NavigationBar,
@@ -15,8 +14,6 @@ import {
 import Title from '../../Components/Title'
 import SelectFilterScreen from './SelectFilterScreen'
 import WritePostScreen from './WritePostScreen'
-
-axios.defaults.baseURL = 'http://aurora-application.ap-northeast-2.elasticbeanstalk.com'
 /* TODO
  * 1. 자기 소유의 필터목록을 보여줌 -> 샘플데이터로
  * 2. 폼 작성 - title description user_id filter_id price tag_list

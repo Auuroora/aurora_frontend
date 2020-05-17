@@ -36,7 +36,8 @@ class StudioScreen extends Component {
     super(props)
     this.state = {
       isNewFilter: false,
-      imageFile: {}
+      imageFile: {},
+      isDone: false
     }
   }
 
@@ -60,6 +61,10 @@ class StudioScreen extends Component {
     })
   }
 
+  onPressDone = () => {
+    this.setState({isDone: true})
+  }
+
   onPressCancel = () => {
     this.setState({isNewFilter: false})
   }
@@ -68,6 +73,7 @@ class StudioScreen extends Component {
     if (this.state.isNewFilter) {
       return (
         <NewFilterScreen
+          isDone={this.state.isDone}
           image={this.state.imageFile}
         />
       )
@@ -86,6 +92,7 @@ class StudioScreen extends Component {
           centerComponent={<Title title={'Studio'}/>}
           rightComponent={
             <RightButton 
+              onPressDone={this.onPressDone}
               onPressNew={this.onChooseFile} 
               isNewFilter={this.state.isNewFilter}
             />

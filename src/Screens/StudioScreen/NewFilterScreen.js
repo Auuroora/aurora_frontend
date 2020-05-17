@@ -147,6 +147,12 @@ export default class NewFilterScreen extends React.Component {
     console.log('selected Value : ' + this.state.selectedValue)
   }
 
+  componentDidUpdate = (prevProps) => {
+    if (prevProps.isDone !== this.props.isDone && this.props.isDone) {
+      this.props.image = this.state.image
+    }
+  }
+
   // For Rendering Image View
   bindImageView = () => {
     if (this.state.isImageLoaded) {

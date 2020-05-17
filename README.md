@@ -10,6 +10,7 @@ react-native frontend for aurora application
 ## 🛠 How to Run
 1. Run `getOpenCV.sh`
 2. Run `yarn` or `npm install`
+3. Copy `.env.sample` as `.env` and fill AWS information
 
 ### iOS
 1. Run `cd ios & pod install`

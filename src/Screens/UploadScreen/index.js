@@ -38,9 +38,6 @@ class UploadScreen extends Component{
       filterId: filter_id,
       imageFile: filter_url
     })
-    console.log(filter_id)
-    console.log(filter_url)
-    console.log(this.state.imageFile)
   }
 
   bindScreen = () => {

@@ -30,35 +30,35 @@ class WritePostScreen extends Component{
       price: '',
     }
   }
-  // onClickUpload = async () => {
-  //   const userData = await AsyncStorage.getItem('@Aurora:' + 'userToken')
-  //   const headers = {
-  //     'Authorization': userData
-  //   }
-  //   if (this.state.title && this.state.tag && this.state.description  && this.props.filterId && this.state.price) {
-  //     const data = {
-  //       post:{
-  //         title: this.state.title,
-  //         description: this.state.description,
-  //         filter_id: this.props.filterId,
-  //         tag_list: this.state.tag,
-  //         price: this.state.price
-  //       }
-  //     }
-  //     console.log(data)
-  //     return axios.post('/posts', data,{headers:headers})
-  //       .then((response) => {
-  //         console.log(response.data)
-  //         alert('게시글 작성이 완료되었습니다.')
-  //       }).catch((err) => {
-  //         console.log(err)
-  //         alert('게시글 작성이 실패하였습니다.')
-  //       })
-  //   }
-  //   else{
-  //     alert('모든 부분을 작성하여 주세요.')
-  //   }
-  // }
+  onClickUpload = async () => {
+    const userData = await AsyncStorage.getItem('@Aurora:' + 'userToken')
+    const headers = {
+      'Authorization': userData
+    }
+    if (this.state.title && this.state.tag && this.state.description  && this.props.filterId && this.state.price) {
+      const data = {
+        post:{
+          title: this.state.title,
+          description: this.state.description,
+          filter_id: this.props.filterId,
+          tag_list: this.state.tag,
+          price: this.state.price
+        }
+      }
+      console.log(data)
+      return axios.post('/posts', data,{headers:headers})
+        .then((response) => {
+          console.log(response.data)
+          alert('게시글 작성이 완료되었습니다.')
+        }).catch((err) => {
+          console.log(err)
+          alert('게시글 작성이 실패하였습니다.')
+        })
+    }
+    else{
+      alert('모든 부분을 작성하여 주세요.')
+    }
+  }
    onPressFunction = (props) =>{
      //title,tag,description, filter_id, price
      props.onClickUpload(this.state.title,this.state.tag, this.state.description, this.state.fiterId, this.state.price) 
@@ -125,7 +125,7 @@ class WritePostScreen extends Component{
        </View>
      )
    }
-}
+  }
 
 const styles = StyleSheet.create({
   text:{

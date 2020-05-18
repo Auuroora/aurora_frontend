@@ -30,7 +30,6 @@ class HomeScreen extends Component{
       postList: []
     }
     this.getPostList()
-    console.log(this.state.postList)
   }
 
   getPostList = async () => {

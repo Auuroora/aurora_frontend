@@ -41,9 +41,6 @@ class UploadScreen extends Component{
       filterId: filter_id,
       imageFile: filter_url
     })
-    console.log(filter_id)
-    console.log(filter_url)
-    console.log(this.state.imageFile)
   }
   async onClickUpload(title,tag,description, filter_id, price){
     const userData = await AsyncStorage.getItem('@Aurora:' + 'userToken')

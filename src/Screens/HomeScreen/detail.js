@@ -60,7 +60,6 @@ class DetailScreen extends Component {
     const res = await axios.get('/posts/' + postId, params)
     await this.setState({postData : res.data})
     this.setState({isLoading: false})
-    console.log(this.state.postData)
   }
 
   renderTagRow = (data) => {
@@ -102,7 +101,7 @@ class DetailScreen extends Component {
               styleName="large"
               source={{ uri: AWS_S3_STORAGE_URL + this.state.postData.filter_info.filter_name}}
             />
-            
+
             <View styleName="content">
               <Heading numberOfLines={2}>{this.state.postData.post_info.title}</Heading>
               <View styleName="horizontal space-between">

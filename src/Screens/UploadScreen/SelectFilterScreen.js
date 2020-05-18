@@ -21,7 +21,6 @@ class SelectFilterScreen extends Component{
   }
   renderRow(rowData) {  
     const cellViews = rowData.map((filter, id) => {
-      // console.log(filter)
       return (
         <Tile 
           key={id}

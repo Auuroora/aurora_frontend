@@ -27,26 +27,24 @@ class MypageScreen extends Component{
     this.state = {
       posts: [],
       isLoading: true,
-      user: null
+      user: null,
+      userPostCount: null
     }
-    this.getPost()
-    this.getUser()
+    this.getMypageInfo()
   }
-  getPost = async () => {
+  getMypageInfo = async () => {
     const params = {
       params: {
         filter_info: true
       }
     }
     const postData = await axios.get('/mypost', params)
+    const userData = await axios.get('/user/my')
+    
     await this.setState({posts: postData.data})
-    await this.setState({isLoading: false})
-  }
-
-  getUser = async () => {
-    const userData = await axios.get('/users')
     await this.setState({user: userData.data})
-    console.log(this.state.user)
+    await this.setState({userPostCount: this.state.posts.length})
+    await this.setState({isLoading: false})
   }
 
   renderRow(rowData) {  
@@ -81,9 +79,19 @@ class MypageScreen extends Component{
           styleName='inline'
           centerComponent={<Title title={'MyPage'}/>}
         />
-        <View style={styles.profile_container}>
-          <Profile navigation={this.props.navigation}></Profile>
-        </View>
+        {this.state.isLoading ? (
+          <Spinner styleName='large'/>
+        ) : (
+          <View style={styles.profile_container}>
+            <Profile 
+              navigation={this.props.navigation}
+              postCount={this.state.userPostCount}
+              follower={this.state.user.followers_count}
+              followee={this.state.user.followees_count}
+              username={this.state.user.username}
+            />
+          </View>
+        )}
         {this.state.isLoading ? (
           <Spinner styleName='large'/>
         ) : (

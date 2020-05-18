@@ -19,6 +19,9 @@ LargeTile.propTypes = {
 }
 
 const { height } = Dimensions.get('window')
+/*
+todo: 이미지 피커 후 올리기
+*/
 export default function LargeTile (props) {
   return (
     <TouchableOpacity 

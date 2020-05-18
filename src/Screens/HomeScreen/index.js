@@ -95,6 +95,7 @@ class HomeScreen extends Component{
         <ListView
           styleName='inline'
           data={groupedData}
+          onRefresh={this.getPostList}
           renderRow={this.renderRow}
         />
       </Screen>

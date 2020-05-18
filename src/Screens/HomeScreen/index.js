@@ -87,7 +87,7 @@ class HomeScreen extends Component{
             }
             rightComponent={
               <Button onPress={() => {this.onClickShopping()}}>
-                <Icon name="cart" />
+                <Icon name="cart" style ={{color  :"white"}}/>
               </Button>
             }
           />

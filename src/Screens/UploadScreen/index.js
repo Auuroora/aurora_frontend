@@ -11,6 +11,9 @@ import {
   Button,
 } from '@shoutem/ui'
 
+import AsyncStorage from '@react-native-community/async-storage'
+import axios from '../../axiosConfig'
+
 import Title from '../../Components/Title'
 import SelectFilterScreen from './SelectFilterScreen'
 import WritePostScreen from './WritePostScreen'
@@ -39,6 +42,38 @@ class UploadScreen extends Component{
       imageFile: filter_url
     })
   }
+  async onClickUpload(title,tag,description, filter_id, price){
+    const userData = await AsyncStorage.getItem('@Aurora:' + 'userToken')
+    const headers = {
+      'Authorization': userData
+    }
+    console.log(title)
+    console.log(tag)
+    console.log(description)
+    if (title && tag && description  && filter_id && price) {
+      const data = {
+        post:{
+          title: title,
+          description: description,
+          filter_id:filter_id,
+          tag_list: tag,
+          price: price
+        }
+      }
+      console.log(data)
+      // return axios.post('/posts', data,{headers:headers})
+      //   .then((response) => {
+      //     console.log(response.data)
+      //     alert('게시글 작성이 완료되었습니다.')
+      //   }).catch((err) => {
+      //     console.log(err)
+      //     alert('게시글 작성이 실패하였습니다.')
+      //   })
+    }
+    else{
+      alert('모든 부분을 작성하여 주세요.')
+    }
+  }
 
   bindScreen = () => {
     if (this.state.isSelectFilter) {
@@ -52,7 +87,8 @@ class UploadScreen extends Component{
       <WritePostScreen 
         onPressNew={this.onChooseFilter}
         filterId={this.state.filterId} 
-        imageFile={this.state.imageFile}/>)
+        imageFile={this.state.imageFile}
+        onClickUpload = {this.onClickUpload}/>)
   }
   render(){
     let currentView = this.bindScreen()
@@ -72,6 +108,11 @@ class UploadScreen extends Component{
             }
             centerComponent={
               <Title title={'Upload'} topMargin={50}/>
+            }
+            rightComponent={
+              <Button onPress={() => {this.onClickUpload()}}>
+                <Icon name="share" style ={{color  :"white"}}/>
+              </Button>
             }
           />
         </ImageBackground>

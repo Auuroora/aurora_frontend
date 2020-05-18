@@ -20,7 +20,8 @@ import {
   Button,
   Text,
   Divider,
-  Spinner
+  Spinner,
+  Lightbox
 } from '@shoutem/ui'
 import Title from '../../Components/Title'
 import { AWS_S3_STORAGE_URL } from 'react-native-dotenv'
@@ -96,11 +97,13 @@ class DetailScreen extends Component {
             style={{width: width}}
             styleName="flexible"
           >
-            <Image
-              style={{width: width}}
-              styleName="large"
-              source={{ uri: AWS_S3_STORAGE_URL + this.state.postData.filter_info.filter_name}}
-            />
+            <Lightbox>
+              <Image
+                style={{width: width}}
+                styleName="large"
+                source={{ uri: AWS_S3_STORAGE_URL + this.state.postData.filter_info.filter_name}}
+              />
+            </Lightbox>
 
             <View styleName="content">
               <Heading numberOfLines={2}>{this.state.postData.post_info.title}</Heading>

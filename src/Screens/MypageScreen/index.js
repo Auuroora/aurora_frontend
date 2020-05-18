@@ -43,9 +43,7 @@ class MypageScreen extends Component{
     
     await this.setState({posts: postData.data})
     await this.setState({user: userData.data})
-
     await this.setState({userPostCount: this.state.posts.length})
-
     await this.setState({isLoading: false})
   }
 

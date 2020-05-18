@@ -168,7 +168,8 @@ class ProfileTab extends Component{
         <Screen 
           style={{
             paddingHorizontal:10,
-            paddingVertical:10
+            paddingVertical:10,
+            marginTop:50
           }}
         >
           <Subtitle numberOfLines={2}>

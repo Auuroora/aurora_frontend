@@ -42,7 +42,7 @@ class ProfileTab extends Component{
             <Image source={{uri: profile.image.url}}
               style={{width: 80, height:80, borderRadius:37.5}}/>
           </Screen>
-          <Screen style={{flex:3}}>
+          <Screen style={{flex:3, marginTop :20}}>
             <Screen style={{flexDirection:'row', justifyContent:'space-around'}}>
               <Screen style={{alignItems:'center'}}>
                 <Text>{profile.posts}</Text>

@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, {Component} from 'react'
 import {
-  Dimensions,
-  StyleSheet
+  Dimensions
 } from 'react-native'
 import { 
   TextInput,
@@ -138,12 +137,5 @@ class WritePostScreen extends Component{
     )
   }
 }
-
-const styles = StyleSheet.create({
-  text:{
-    color : 'black',
-    paddingLeft :10
-  }
-})
 
 export default WritePostScreen

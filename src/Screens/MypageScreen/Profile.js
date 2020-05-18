@@ -158,8 +158,7 @@ class ProfileTab extends Component{
                   marginLeft:5,
                   justifyContent:'center',
                   height:height / 30,
-                  marginTop:10
-                }}
+                  marginTop:10}}
               >
                 <Icon name="settings"/>
               </Button>

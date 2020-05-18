@@ -112,6 +112,10 @@ class WritePostScreen extends Component{
               onChangeText={(text) => this.setState({price: text})}/>
           </Divider>
         </View>
+        <Button style ={{width:100}} 
+          onPress={() => {this.onClickUpload()}}>
+          <Icon name="share" />
+        </Button>
         <View style ={{paddingTop:10, alignItems: 'center',}}>
           <Button styleName="secondary" style ={{width:100}} 
             onPress={() => {this.onClickUpload()}}>

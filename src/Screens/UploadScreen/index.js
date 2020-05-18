@@ -76,6 +76,11 @@ class UploadScreen extends Component{
             centerComponent={
               <Title title={'Upload'} topMargin={50}/>
             }
+            rightComponent={
+              <Button>
+                <Icon name="share" style ={{color  :"white"}}/>
+              </Button>
+            }
           />
         </ImageBackground>
         {currentView}

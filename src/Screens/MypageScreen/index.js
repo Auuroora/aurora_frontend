@@ -26,9 +26,11 @@ class MypageScreen extends Component{
     this.renderRow = this.renderRow.bind(this)
     this.state = {
       posts: [],
-      isLoading: true
+      isLoading: true,
+      user: null
     }
     this.getPost()
+    this.getUser()
   }
   getPost = async () => {
     const params = {
@@ -39,6 +41,12 @@ class MypageScreen extends Component{
     const postData = await axios.get('/mypost', params)
     await this.setState({posts: postData.data})
     await this.setState({isLoading: false})
+  }
+
+  getUser = async () => {
+    const userData = await axios.get('/users')
+    await this.setState({user: userData.data})
+    console.log(this.state.user)
   }
 
   renderRow(rowData) {  

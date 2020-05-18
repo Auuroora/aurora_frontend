@@ -11,49 +11,46 @@ import {
   GridRow,
   Screen,
   NavigationBar,
-  View
+  View,
+  Spinner
 } from '@shoutem/ui'
 import Title from '../../Components/Title'
 import CardItem from '../../Components/CardItem'
+
+import {AWS_S3_STORAGE_URL} from 'react-native-dotenv'
+import axios from '../../axiosConfig'
 
 class MypageScreen extends Component{
   constructor(props) {
     super(props)
     this.renderRow = this.renderRow.bind(this)
     this.state = {
-      item: [
-        {
-          "name": "Gaspar Brasserie",
-          "price": "$150",
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-1.jpg" },
-        },
-        {
-          "name": "Gaspar Brasserie",
-          "price": "$150",
-          "image": { "url": "https://shoutem.github.io/img/ui-toolkit/examples/image-2.png"},
-        },
-        {
-          "name": "Gaspar Brasserie",
-          "price": "$150",
-          "image": { "url": "https://shoutem.github.io/img/ui-toolkit/examples/image-11.png" },
-        },
-        {
-          "name": "Gaspar Brasserie",
-          "price": "$150",
-          "image": { "url": "https://shoutem.github.io/img/ui-toolkit/examples/image-9.png" },
-        },
-      ]
+      posts: [],
+      isLoading: true
     }
+    this.getPost()
   }
+  getPost = async () => {
+    const params = {
+      params: {
+        filter_info: true
+      }
+    }
+    const postData = await axios.get('/mypost', params)
+    await this.setState({posts: postData.data})
+    await this.setState({isLoading: false})
+  }
+
   renderRow(rowData) {  
-    const cellViews = rowData.map((item, id) => {
+    const cellViews = rowData.map((post, id) => {
       return (
         <CardItem
           navigation={this.props.navigation}
           key={id}
-          image={item.image.url} 
-          title={item.name} 
-          price={item.price}
+          postId={post.post_info.id}
+          image={AWS_S3_STORAGE_URL + post.filter_info.filter_name} 
+          title={post.post_info.title} 
+          price={post.post_info.price}
         />
       )
     })
@@ -64,13 +61,12 @@ class MypageScreen extends Component{
     )
   }
   render(){
-    const item = this.state.item
     // groupByRows(data, column number, grouping number)
-    const groupedData = GridRow.groupByRows(item, 2, 
+    const groupedData = GridRow.groupByRows(this.state.posts, 2, 
       () => {
         return 1
       })
-    return (   
+    return (
       <Screen styleName='fill-parent'>
         <StatusBar barStyle="dark-content"/>
         <NavigationBar
@@ -80,13 +76,18 @@ class MypageScreen extends Component{
         <View style={styles.profile_container}>
           <Profile navigation={this.props.navigation}></Profile>
         </View>
-        <View style={styles.card_container}>
-          <ListView
-            data={groupedData}
-            renderRow={this.renderRow}
-          />
-        </View>
+        {this.state.isLoading ? (
+          <Spinner styleName='large'/>
+        ) : (
+          <View style={styles.card_container}>
+            <ListView
+              data={groupedData}
+              renderRow={this.renderRow}
+            />
+          </View>
+        )}
       </Screen>
+
     )
   }
 }

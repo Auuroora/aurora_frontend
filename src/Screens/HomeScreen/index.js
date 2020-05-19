@@ -9,7 +9,9 @@ import {
   ListView,
   Button,
   Icon,
-  GridRow
+  GridRow,
+  DropDownMenu,
+  View
 } from '@shoutem/ui'
 import CardItem from '../../Components/CardItem'
 import Title from '../../Components/Title'
@@ -27,7 +29,12 @@ class HomeScreen extends Component{
     super(props)
     this.renderRow = this.renderRow.bind(this)
     this.state = {
-      postList: []
+      postList: [],
+      filters: [
+        { name: 'Title', value: 'Title' },
+        { name: 'Tag', value: 'Tag' },
+        { name: 'Price', value: 'Price' },
+      ],
     }
     this.getPostList()
   }
@@ -82,13 +89,39 @@ class HomeScreen extends Component{
         >
           <NavigationBar
             styleName="clear"
+
+            leftComponent={
+              <DropDownMenu
+                options={this.state.filters}    
+                style={{
+                  selectedOption: {
+                    'shoutem.ui.Text': {
+                      color: '#ffffff',
+                      borderColor: '#ffffff'
+                    },
+                    'shoutem.ui.Icon': {
+                      color: '#ffffff'
+                    }
+                  }
+                }}
+                selectedOption={this.state.selectedFilter ? this.state.selectedFilter : this.state.filters[0]}
+                onOptionSelected={(filter) => this.setState({ selectedFilter: filter })}
+                titleProperty="name"
+                valueProperty="value"
+              />
+            }
             centerComponent={
               <Title title={'Home'} topMargin={50}/>
             }
             rightComponent={
-              <Button onPress={() => {this.onClickShopping()}}>
-                <Icon name="cart" style ={{color  :"white"}}/>
-              </Button>
+              <View styleName="horizontal">
+                <Button styleName="clear" >
+                  <Icon name="search" style ={{color  :"white"}}/>
+                </Button>
+                <Button styleName="clear" onPress={() => {this.onClickShopping()}}>
+                  <Icon name="cart" style ={{color  :"white"}}/>
+                </Button>
+              </View>
             }
           />
         </ImageBackground>

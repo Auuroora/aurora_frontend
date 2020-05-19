@@ -8,6 +8,10 @@
 @implementation RNOpenCvLibrary
 
 using namespace cv;
+using namespace std;
+using namespace BGR;
+using namespace HSV;
+using namespace HLS;
 
 WorkingImgInfo imginfo;
 
@@ -29,7 +33,7 @@ RCT_EXPORT_METHOD(initCV: (NSString *)imageAsBase64 callback:(RCTResponseSenderB
 
 RCT_EXPORT_METHOD(onChangeHue: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (int)value);
-  Mat res_img = on_update_hue((int)value);
+  Mat res_img = on_change_hue((int)value);
   
   UIImage* result = MatToUIImage(res_img);
   
@@ -40,7 +44,7 @@ RCT_EXPORT_METHOD(onChangeHue: (NSInteger)value callback:(RCTResponseSenderBlock
 
 RCT_EXPORT_METHOD(onChangeSaturation: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (int)value);
-  Mat res_img = on_update_saturation((int)value);
+  Mat res_img = on_change_saturation((int)value);
   
   UIImage* result = MatToUIImage(res_img);
   
@@ -49,9 +53,9 @@ RCT_EXPORT_METHOD(onChangeSaturation: (NSInteger)value callback:(RCTResponseSend
   callback(@[[NSNull null], encodedString]);
 }
 
-RCT_EXPORT_METHOD(onChangeValue: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(onChangeLightness: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (int)value);
-  Mat res_img = on_update_value((int)value);
+  Mat res_img = on_change_lightness((int)value);
   
   UIImage* result = MatToUIImage(res_img);
   
@@ -62,7 +66,7 @@ RCT_EXPORT_METHOD(onChangeValue: (NSInteger)value callback:(RCTResponseSenderBlo
 
 RCT_EXPORT_METHOD(onChangeTemperature: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (int)value);
-  Mat res_img = on_update_temperature((int)value);
+  Mat res_img = on_change_temperature((int)value);
   
   UIImage* result = MatToUIImage(res_img);
   
@@ -73,7 +77,7 @@ RCT_EXPORT_METHOD(onChangeTemperature: (NSInteger)value callback:(RCTResponseSen
 
 RCT_EXPORT_METHOD(onChangeVibrance: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (int)value);
-  Mat res_img = on_update_vibrance((int)value);
+  Mat res_img = on_change_vibrance((int)value);
   
   UIImage* result = MatToUIImage(res_img);
   
@@ -84,7 +88,7 @@ RCT_EXPORT_METHOD(onChangeVibrance: (NSInteger)value callback:(RCTResponseSender
 
 // RCT_EXPORT_METHOD(onChangeHighlightHue: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
 //   NSLog(@"%d", (int)value);
-//   Mat res_img = on_update_highlight_hue((int)value);
+//   Mat res_img = on_change_highlight_hue((int)value);
   
 //   UIImage* result = MatToUIImage(res_img);
   
@@ -95,7 +99,29 @@ RCT_EXPORT_METHOD(onChangeVibrance: (NSInteger)value callback:(RCTResponseSender
 
 // RCT_EXPORT_METHOD(onChangeHighlightSaturation: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
 //   NSLog(@"%d", (int)value);
-//   Mat res_img = on_update_highlight_saturation((int)value);
+//   Mat res_img = on_change_highlight_saturation((int)value);
+  
+//   UIImage* result = MatToUIImage(res_img);
+  
+//   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
+//   NSString *encodedString = [imageData base64Encoding];
+//   callback(@[[NSNull null], encodedString]);
+// }
+
+// RCT_EXPORT_METHOD(onShadowHue: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
+//   NSLog(@"%d", (int)value);
+//   Mat res_img = on_change_shadow_hue((int)value);
+  
+//   UIImage* result = MatToUIImage(res_img);
+  
+//   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
+//   NSString *encodedString = [imageData base64Encoding];
+//   callback(@[[NSNull null], encodedString]);
+// }
+
+// RCT_EXPORT_METHOD(onShadowSaturation: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
+//   NSLog(@"%d", (int)value);
+//   Mat res_img = on_change_shadow_saturation((int)value);
   
 //   UIImage* result = MatToUIImage(res_img);
   
@@ -105,7 +131,7 @@ RCT_EXPORT_METHOD(onChangeVibrance: (NSInteger)value callback:(RCTResponseSender
 // }
 
 RCT_EXPORT_METHOD(onChangeTint: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
-  Mat res_img = on_update_tint((int)value);
+  Mat res_img = on_change_tint((int)value);
   
   UIImage* result = MatToUIImage(res_img);
   
@@ -115,8 +141,7 @@ RCT_EXPORT_METHOD(onChangeTint: (NSInteger)value callback:(RCTResponseSenderBloc
 }
 
 RCT_EXPORT_METHOD(onChangeClarity: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
-  Mat res_img = on_update_clarity((int)value);
-  
+  Mat res_img = on_change_clarity((int)value);
   
   UIImage* result = MatToUIImage(res_img);
 
@@ -128,7 +153,7 @@ RCT_EXPORT_METHOD(onChangeClarity: (NSInteger)value callback:(RCTResponseSenderB
 //파라미터 2개
 // RCT_EXPORT_METHOD(onChangeBrightnessAndConstrast: (NSInteger)BrightnessValue ConstrastValue:(NSInteger)ConstrastValue callback:(RCTResponseSenderBlock)callback) {
 //   NSLog(@"%d %d", (int)BrightnessValue,(int)ConstrastValue);
-//   Mat res_img = on_update_brightness_and_constrast((int)BrightnessValue,(int)ConstrastValue);
+//   Mat res_img = on_change_brightness_and_constrast((int)BrightnessValue,(int)ConstrastValue);
   
 //   UIImage* result = MatToUIImage(res_img);
   
@@ -139,7 +164,7 @@ RCT_EXPORT_METHOD(onChangeClarity: (NSInteger)value callback:(RCTResponseSenderB
 
 RCT_EXPORT_METHOD(onChangeExposure: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (int)value);
-  Mat res_img = on_update_exposure((int)value);
+  Mat res_img = on_change_exposure((int)value);
   
   UIImage* result = MatToUIImage(res_img);
   
@@ -151,7 +176,7 @@ RCT_EXPORT_METHOD(onChangeExposure: (NSInteger)value callback:(RCTResponseSender
 //파라미터가 float로 !! 에러로 인해 우선 NSInteger로 
 RCT_EXPORT_METHOD(onChangeGamma: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (int)value);
-  Mat res_img = on_update_gamma((int)value);
+  Mat res_img = on_change_gamma((int)value);
   
   UIImage* result = MatToUIImage(res_img);
   
@@ -162,7 +187,7 @@ RCT_EXPORT_METHOD(onChangeGamma: (NSInteger)value callback:(RCTResponseSenderBlo
 
 RCT_EXPORT_METHOD(onChangeGrain: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (int)value);
-  Mat res_img = on_update_grain((int)value);
+  Mat res_img = on_change_grain((int)value);
   NSLog(@"%d", (int)value);
   
   UIImage* result = MatToUIImage(res_img);
@@ -174,7 +199,7 @@ RCT_EXPORT_METHOD(onChangeGrain: (NSInteger)value callback:(RCTResponseSenderBlo
 
 RCT_EXPORT_METHOD(onChangeVignette: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (int)value);
-  Mat res_img = on_update_vignette((int)value);
+  Mat res_img = on_change_vignette((int)value);
   
   UIImage* result = MatToUIImage(res_img);
   
@@ -183,25 +208,25 @@ RCT_EXPORT_METHOD(onChangeVignette: (NSInteger)value callback:(RCTResponseSender
   callback(@[[NSNull null], encodedString]);
 }
 
-Mat on_update_hue(int cur_pos){
+Mat on_change_hue(int cur_pos){
   update_hue(cur_pos);
   apply_filter();
   return imginfo.get_res_img();
 }
 
-Mat on_update_saturation(int cur_pos){
+Mat on_change_saturation(int cur_pos){
   update_saturation(cur_pos);
   apply_filter();
   return imginfo.get_res_img();
 }
 
-Mat on_update_value(int cur_pos){
-  update_value(cur_pos);
+Mat on_change_lightness(int cur_pos){
+  update_lightness(cur_pos);
   apply_filter();
   return imginfo.get_res_img();
 }
 
-Mat on_update_temperature(int cur_pos) {
+Mat on_change_temperature(int cur_pos) {
   // NSLog(@"rows: %d", imginfo.origin_img.rows);
   // NSLog(@"cols: %d", imginfo.origin_img.cols);
   // NSLog(@"channels: %d", imginfo.origin_img.channels());
@@ -212,62 +237,75 @@ Mat on_update_temperature(int cur_pos) {
   return imginfo.get_res_img();
 }
 
-Mat on_update_vibrance(int cur_pos){
+Mat on_change_vibrance(int cur_pos){
   update_vibrance(cur_pos);
   apply_filter();
   return imginfo.get_res_img();
 }
 
-// Mat on_update_highlight_hue(int cur_pos){
+// Mat on_change_highlight_hue(int cur_pos){
 //   update_highlight_hue(cur_pos);
 //   apply_filter();
 //   return imginfo.get_res_img();
 // }
 
-// Mat on_update_highlight_saturation(int cur_pos){
+// Mat on_change_highlight_saturation(int cur_pos){
 //   update_highlight_saturation(cur_pos);
 //   apply_filter();
 //   return imginfo.get_res_img();
 // }
 
-Mat on_update_tint(int cur_pos){
+// Mat on_change_shadow_hue(int cur_pos){
+//   update_shadow_hue(cur_pos);
+//   apply_filter();
+//   return imginfo.get_res_img();
+// }
+
+// Mat on_change_shadow_saturation(int cur_pos){
+//   update_shadow_saturation(cur_pos);
+//   apply_filter();
+//   return imginfo.get_res_img();
+// }
+
+Mat on_change_tint(int cur_pos){
   update_tint(cur_pos);
   apply_filter();
   return imginfo.get_res_img();
 }
 
-Mat on_update_clarity(int cur_pos){
+Mat on_change_clarity(int cur_pos){
   update_clarity(cur_pos);
   apply_filter();
   return imginfo.get_res_img();
 }
 
-// Mat on_update_brightness_and_constrast(int brightness_pos,int constrast_pos){
+// Mat on_change_brightness_and_constrast(int brightness_pos,int constrast_pos){
 //   update_brightness_and_constrast(brightness_pos,constrast_pos);
 //   apply_filter();
 //   return imginfo.get_res_img();
 // }
 
-Mat on_update_exposure(int cur_pos){
+Mat on_change_exposure(int cur_pos){
   update_exposure(cur_pos);
   apply_filter();
   return imginfo.get_res_img();
 }
 
-Mat on_update_gamma(int cur_pos){
+Mat on_change_gamma(int cur_pos){
   update_gamma(cur_pos);
   apply_filter();
   return imginfo.get_res_img();
 }
 
-Mat on_update_grain(int cur_pos){
+Mat on_change_grain(int cur_pos){
   update_grain(cur_pos);
   apply_filter();
   return imginfo.get_res_img();
 }
 
-Mat on_update_vignette(int cur_pos){
+Mat on_change_vignette(int cur_pos){
   update_vignette(cur_pos);
+  apply_filter();
   return imginfo.get_res_img();
 }
 
@@ -278,100 +316,105 @@ Mat on_update_vignette(int cur_pos){
 
 void init(Mat &img)
 {
-	// save original Image
+	/*********************************************************************
+	*	convert and setting
+	*********************************************************************/
+	/* save original Image */
 	imginfo.set_origin_img(img);
 
-	// downsizing
-	imginfo.downsized_img = img.clone();			//.getMat(ACCESS_RW);
-	imginfo.row = imginfo.downsized_img.rows;		//height
-	imginfo.col = imginfo.downsized_img.cols;		//width
-	// TO DO
+	/* downsizing */
 
-	// convert to 3 channels(BGRA -> BGR)
-	if (imginfo.downsized_img.channels() == 4)
-	{
-		cv::cvtColor(imginfo.downsized_img, imginfo.downsized_img, COLOR_BGRA2BGR);
+	//downsizing(img, imginfo.image.downsized, imginfo.row, imginfo.col);
+
+	imginfo.image.downsized = img.clone();
+	imginfo.row = imginfo.image.downsized.rows;
+	imginfo.col = imginfo.image.downsized.cols;
+
+	/* convert to 3 channels(BGRA -> BGR) */
+	if (imginfo.image.downsized.channels() == 4) {
+		cv::cvtColor(imginfo.image.downsized, imginfo.image.downsized, COLOR_BGRA2BGR);
 	}
 
-	// setting img
-	//imginfo.bgr_img = imginfo.downsized_img.clone();
-	imginfo.bgr_img = imginfo.downsized_img.clone();
-	imginfo.res_img = imginfo.downsized_img.clone();
-	cv::cvtColor(imginfo.bgr_img, imginfo.hsv_img, COLOR_BGR2HSV);
-	cv::split(imginfo.bgr_img, imginfo.filter.bgr_filters);
-	cv::split(imginfo.hsv_img, imginfo.filter.hsv_filters);
+	/*********************************************************************
+	*	variable initialize
+	*********************************************************************/
+	/* setting img */
+	imginfo.image.bgr = imginfo.image.downsized.clone();
+	cv::cvtColor(imginfo.image.bgr, imginfo.image.hls, COLOR_BGR2HLS);
+	cv::cvtColor(imginfo.image.bgr, imginfo.image.hsv, COLOR_BGR2HSV);
 
-	//split img
-	cv::split(imginfo.downsized_img, imginfo.bgr_split);
-	cv::split(imginfo.hsv_img, imginfo.hsv_split);
+	cv::split(imginfo.image.bgr, imginfo.image.bgr_origins);
+	cv::split(imginfo.image.hls, imginfo.image.hls_origins);
+	cv::split(imginfo.image.hsv, imginfo.image.hsv_origins);
+
+	Mat mask;
+	cv::inRange(imginfo.image.hls_origins[HLSIndex::S], 0, 0, mask);
+	imginfo.image.hls_origins[HLSIndex::S].setTo(1, mask);
+	cv::inRange(imginfo.image.hls_origins[HLSIndex::L], 0, 0, mask);
+	imginfo.image.hls_origins[HLSIndex::L].setTo(1, mask);
+
+	cv::inRange(imginfo.image.hsv_origins[HSVIndex::S], 0, 0, mask);
+	imginfo.image.hsv_origins[HSVIndex::S].setTo(1, mask);
+	cv::inRange(imginfo.image.hsv_origins[HSVIndex::V], 0, 0, mask);
+	imginfo.image.hsv_origins[HSVIndex::V].setTo(1, mask);
+
+	/* init diff matrix */
+	imginfo.filter.bgr_filters.resize(3);
+	imginfo.filter.hls_filters.resize(3);
+	imginfo.filter.hsv_filters.resize(3);
+
+	imginfo.filter.bgr_filters[BGRIndex::B] = Mat::zeros(imginfo.row, imginfo.col, CV_16S);
+	imginfo.filter.bgr_filters[BGRIndex::G] = Mat::zeros(imginfo.row, imginfo.col, CV_16S);
+	imginfo.filter.bgr_filters[BGRIndex::R] = Mat::zeros(imginfo.row, imginfo.col, CV_16S);
+
+	imginfo.filter.hls_filters[HLSIndex::H] = Mat::zeros(imginfo.row, imginfo.col, CV_16S);
+	imginfo.filter.hls_filters[HLSIndex::L] = Mat::zeros(imginfo.row, imginfo.col, CV_16S);
+	imginfo.filter.hls_filters[HLSIndex::S] = Mat::zeros(imginfo.row, imginfo.col, CV_16S);
+
+	imginfo.filter.hsv_filters[HSVIndex::H] = Mat::zeros(imginfo.row, imginfo.col, CV_16S);
+	imginfo.filter.hsv_filters[HSVIndex::S] = Mat::zeros(imginfo.row, imginfo.col, CV_16S);
+	imginfo.filter.hsv_filters[HSVIndex::V] = Mat::zeros(imginfo.row, imginfo.col, CV_16S);
+
+	imginfo.filter.diff = Mat::zeros(imginfo.row, imginfo.col, CV_16S);
 
 	//*******************************************************************************************************
 
 	// Gamma
-	imginfo.filter.hsv_filters[ColorSpaceIndex::V].convertTo(imginfo.filter.gamma_mask, CV_32F);
+	imginfo.filter.hsv_filters[HSVIndex::V].convertTo(imginfo.filter.gamma_mask, CV_32F);
 	cv::multiply(1. / 255, imginfo.filter.gamma_mask, imginfo.filter.gamma_mask);
 
 	//Clarity
-	cv::bilateralFilter(imginfo.bgr_img, imginfo.filter.clarity_filter, DISTANCE, SIGMA_COLOR, SIGMA_SPACE);
+	cv::bilateralFilter(imginfo.image.bgr, imginfo.filter.clarity_filter, DISTANCE, SIGMA_COLOR, SIGMA_SPACE);
 	imginfo.filter.clarity_mask_U = Mat::zeros(imginfo.row, imginfo.col, CV_8UC3);
 	imginfo.filter.clarity_mask_S = Mat::zeros(imginfo.row, imginfo.col, CV_16SC3);
 
 
 	//Vignette
 	Mat kernel_x,kernel_x_transpose, kernel_y, kernel_res;
-	kernel_x = cv::getGaussianKernel(imginfo.col, 1000);
-	kernel_y = cv::getGaussianKernel(imginfo.row, 1000);
+	kernel_x = cv::getGaussianKernel(imginfo.col, 1000,CV_32F);
+	kernel_y = cv::getGaussianKernel(imginfo.row, 1000,CV_32F);
 	cv::transpose(kernel_x, kernel_x_transpose);
 	kernel_res = (kernel_y * kernel_x_transpose);
-	cv::normalize(kernel_res, kernel_res, 0, 1, NORM_MINMAX);
+	cv::normalize(kernel_res, kernel_res, 0,1,NORM_MINMAX);
+	cv::subtract(1,kernel_res,kernel_res);
+	kernel_res = cv::abs(kernel_res);
+	cv::multiply(125,kernel_res,kernel_res);
+	kernel_res.convertTo(kernel_res,CV_16S);
 	imginfo.filter.gaussian_kernel = kernel_res.clone();				//getUMat(cv::ACCESS_RW);
-	imginfo.filter.gaussian_kernel=kernel_res.clone();
+	
 	kernel_x.deallocate();
 	kernel_x_transpose.deallocate();
 	kernel_y.deallocate();
 	kernel_res.deallocate();
 
-
 	//Grain
 	imginfo.filter.grain_mask = Mat::zeros(imginfo.row, imginfo.col, CV_32F);
-
 	cv::randu(imginfo.filter.grain_mask, Scalar(-20), Scalar(20));
-	// imginfo.filter.salt_mask = Mat(imginfo.col, imginfo.row, CV_8U);
-	// imginfo.filter.pepper_mask = Mat(imginfo.col, imginfo.row, CV_8U);
 
 	//Exposure
 	imginfo.filter.exposure_mask = Mat::ones(imginfo.row, imginfo.col, CV_8UC1);
 
 	//*******************************************************************************************************
-
-	// cal minmax
-	cv::minMaxIdx(imginfo.filter.bgr_filters[ColorSpaceIndex::B], &imginfo.min_b, &imginfo.max_b);
-	cv::minMaxIdx(imginfo.filter.bgr_filters[ColorSpaceIndex::G], &imginfo.min_g, &imginfo.max_g);
-	cv::minMaxIdx(imginfo.filter.bgr_filters[ColorSpaceIndex::R], &imginfo.min_r, &imginfo.max_r);
-
-	cv::minMaxIdx(imginfo.filter.hsv_filters[ColorSpaceIndex::H], &imginfo.min_h, &imginfo.max_h);
-	cv::minMaxIdx(imginfo.filter.hsv_filters[ColorSpaceIndex::S], &imginfo.min_s, &imginfo.max_s);
-	cv::minMaxIdx(imginfo.filter.hsv_filters[ColorSpaceIndex::V], &imginfo.min_v, &imginfo.max_v);
-
-	// init weight and diff matrix
-	imginfo.weight.hue = Mat::ones(imginfo.row, imginfo.col, CV_32F);
-	imginfo.weight.sat = Mat::ones(imginfo.row, imginfo.col, CV_32F);
-	imginfo.weight.val = Mat::ones(imginfo.row, imginfo.col, CV_32F);
-
-	imginfo.filter.bgr_filters[ColorSpaceIndex::B] = Mat::zeros(imginfo.row, imginfo.col, CV_16S);
-	imginfo.filter.bgr_filters[ColorSpaceIndex::G] = Mat::zeros(imginfo.row, imginfo.col, CV_16S);
-	imginfo.filter.bgr_filters[ColorSpaceIndex::R] = Mat::zeros(imginfo.row, imginfo.col, CV_16S);
-
-	imginfo.filter.hsv_filters[ColorSpaceIndex::H] = Mat::zeros(imginfo.row, imginfo.col, CV_16S);
-	imginfo.filter.hsv_filters[ColorSpaceIndex::S] = Mat::zeros(imginfo.row, imginfo.col, CV_16S);
-	imginfo.filter.hsv_filters[ColorSpaceIndex::V] = Mat::zeros(imginfo.row, imginfo.col, CV_16S);
-
-	imginfo.filter.diff = Mat::zeros(imginfo.row, imginfo.col, CV_16S);
-
-	// make weight matrix
-	// TO DO
-
-	// TO DO
 }
 
 @end

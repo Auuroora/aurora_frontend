@@ -8,9 +8,9 @@ using namespace HSV;
 using namespace HLS;
 
 
-void downsize_image(Mat &src, Mat &dst, int downsized_row, int downsized_col) {
-	if (src.rows >= downsized_row && src.cols >= downsized_col) {
-		resize(src, dst, Size(downsized_row, downsized_col), 0, 0, INTER_LINEAR);
+void downsize_image(Mat &src, Mat &dst, int downsizing_row, int downsizing_col) {
+	if (src.rows > downsizing_row || src.cols > downsizing_col) {
+		cv::resize(src, dst, Size(downsizing_row, downsizing_col), 0, 0, INTER_AREA);
 	}
 	else {
 		dst = src.clone();

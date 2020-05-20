@@ -174,7 +174,7 @@ private:
 };
 
 // core.cpp
-void downsize_image(Mat &src, Mat &dst, int downsized_row, int downsized_col);
+void downsize_image(Mat &src, Mat &dst, int downsizing_row, int downsizing_col);
 void update_hue(int pos);
 void update_saturation(int pos);
 void update_lightness(int pos);

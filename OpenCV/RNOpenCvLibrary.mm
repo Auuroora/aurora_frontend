@@ -21,12 +21,14 @@ WorkingImgInfo imginfo;
 }
 RCT_EXPORT_MODULE()
 
-RCT_EXPORT_METHOD(initCV: (NSString *)imageAsBase64 callback:(RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(initCV: (NSString *)imageAsBase64 downsizing_row:(NSInteger)downsizing_row downsizing_col:(NSInteger)downsizing_col callback:(RCTResponseSenderBlock)callback) {
+  NSLog(@"Start");
   UIImage* image = [self decodeBase64ToImage:imageAsBase64];
   Mat inputImg;
   UIImageToMat(image, inputImg);
-  init(inputImg);
+  init(inputImg,downsizing_row,downsizing_col);
   NSString* kk = @"as";
+  NSLog(@"End");
   
   callback(@[[NSNull null], kk]);
 }
@@ -314,7 +316,7 @@ Mat on_change_vignette(int cur_pos){
   return [UIImage imageWithData:data];
 }
 
-void init(Mat &img)
+void init(Mat &img,int downsizing_row,int downsizing_col)
 {
 	/*********************************************************************
 	*	convert and setting
@@ -324,9 +326,9 @@ void init(Mat &img)
 
 	/* downsizing */
 
-	//downsizing(img, imginfo.image.downsized, imginfo.row, imginfo.col);
+	downsize_image(img, imginfo.image.downsized, downsizing_row, downsizing_col);
+	// imginfo.image.downsized = img.clone();
 
-	imginfo.image.downsized = img.clone();
 	imginfo.row = imginfo.image.downsized.rows;
 	imginfo.col = imginfo.image.downsized.cols;
 

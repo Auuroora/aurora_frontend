@@ -175,6 +175,7 @@ private:
 
 // core.cpp
 void downsize_image(Mat &src, Mat &dst, int downsizing_row, int downsizing_col);
+void apply_filter();
 void update_hue(int pos);
 void update_saturation(int pos);
 void update_lightness(int pos);
@@ -184,14 +185,13 @@ void update_highlight_saturation(int pos);
 void update_highlight_hue(int pos);
 void update_shadow_hue(int pos);
 void update_shadow_saturation(int pos);
-void apply_filter();
 
 void update_tint(int pos);
-void update_grain(int pos);
 void update_clarity(int pos);
 void update_brightness_and_constrast(int brightness_pos, int constrast_pos);
 void update_exposure(int pos);
 void update_gamma(int pos);
+void update_grain(int pos);
 void update_vignette(int pos);
 
 // test.cpp

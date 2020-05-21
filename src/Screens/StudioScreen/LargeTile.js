@@ -13,43 +13,28 @@ import {
 } from '@shoutem/ui'
 
 LargeTile.propTypes = {
-  image: PropTypes.string,
+  image: PropTypes.object,
   title: PropTypes.string,
   tempData: PropTypes.string
 }
 
-const { height } = Dimensions.get('window')
-/*
-todo: 이미지 피커 후 올리기
-*/
+const { width, height } = Dimensions.get('window')
+
 export default function LargeTile (props) {
   return (
-    <TouchableOpacity 
-      style ={{ height: height*0.4,padding :10}}
+    <TouchableOpacity
+      onPress={props.onClickTile}
     >
-      {props.image === null ? (
-        <ImageBackground
-          styleName="large"
-          style ={{ height: height*0.1, width :height*0.1 ,padding :10}}
-          source={ require('../../assets/image/plus.png') }
-        >
-          <Tile>
-            <Title styleName="md-gutter-bottom">{props.title}</Title>
-            <Subtitle styleName="sm-gutter-horizontal">{props.tempData}</Subtitle>
-          </Tile>
-        </ImageBackground>
-      ) : (
-        <ImageBackground
-          styleName="large"
-          style ={{ height: height*0.1, width :height*0.1 ,padding :10}}
-          source={ require('../../assets/image/plus.png') }
-        >
-          <Tile>
-            <Title styleName="md-gutter-bottom">{props.title}</Title>
-            <Subtitle styleName="sm-gutter-horizontal">{props.tempData}</Subtitle>
-          </Tile>
-        </ImageBackground>
-      )}
+      <ImageBackground
+        styleName="large"
+        style ={{width: width}}
+        source={ props.image }
+      >
+        <Tile>
+          <Title styleName="md-gutter-bottom">{props.title}</Title>
+          <Subtitle styleName="sm-gutter-horizontal">{props.tempData}</Subtitle>
+        </Tile>
+      </ImageBackground>
     </TouchableOpacity>
   )
 }

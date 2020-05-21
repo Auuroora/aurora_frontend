@@ -31,6 +31,7 @@
     "react-native-easy-toast": "^1.2.0",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-image-picker": "^2.3.1",
+    "react-native-image-zoom-viewer": "^3.0.0",
     "react-native-linear-gradient": "~2.5.6",
     "react-native-photo-view": "shoutem/react-native-photo-view#0ffa1481f6b6cb8663cb291b7db1d6644440584d",
     "react-native-reanimated": "^1.7.1",

@@ -34,12 +34,6 @@ const s3 = new AWS.S3({
 
 const ImagePickerOptions = {
   title: 'Select Image',
-  customButtons: [
-    { 
-      name: 'customOptionKey',
-      title: 'Choose Photo from Custom Option'
-    },
-  ],
   storageOptions: {
     skipBackup: true,
     path: 'images',
@@ -62,7 +56,7 @@ class StudioScreen extends Component {
     this.setState({isNewFilter: false})
   }
 
-  onChooseFile = () => {
+  onChooseFileforNew = () => {
     ImagePicker.showImagePicker(ImagePickerOptions, async response => {
       if (response.didCancel) {
         console.log('User cancelled image picker')
@@ -77,7 +71,8 @@ class StudioScreen extends Component {
       let source = response
       this.setState({
         imageFile: source,
-        isNewFilter: true
+        isNewFilter: true,
+        isDone: false
       })
     })
   }
@@ -177,7 +172,9 @@ class StudioScreen extends Component {
         />
       )
     }
-    return (<FilterListScreen/>)
+    return (
+      <FilterListScreen/>
+    )
   }
 
   render() {
@@ -192,7 +189,7 @@ class StudioScreen extends Component {
           rightComponent={
             <RightButton 
               onPressDone={this.onPressDone}
-              onPressNew={this.onChooseFile} 
+              onPressNew={this.onChooseFileforNew} 
               isNewFilter={this.state.isNewFilter}
             />
           }

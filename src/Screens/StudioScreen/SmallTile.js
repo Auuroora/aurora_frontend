@@ -13,15 +13,15 @@ const { width } = Dimensions.get('window')
 Tile.propTypes = {
   image: PropTypes.string,
   filterId: PropTypes.number,
-  onPressDone: PropTypes.func
+  onPressDone: PropTypes.func,
+  selectFilter: PropTypes.func
 }
 
-function onPressFunction(props){
-  props.onPressDone(props.filterId, props.image) 
-}
 export default function Tile (props) {
   return (
-    <TouchableOpacity styleName="flexible"  onPress={() =>onPressFunction}>
+    <TouchableOpacity
+      styleName="flexible"
+      onPress={() => {props.selectFilter(props.filter)}}>
       <Image
         style={{width: (1/3.2)* width, height: (1/3.2) * width}}
         styleName="medium-square"

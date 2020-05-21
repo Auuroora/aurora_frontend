@@ -3,7 +3,8 @@ import React, { Component } from 'react'
 
 import {
   StatusBar,
-  Dimensions
+  Dimensions,
+  Modal
 } from 'react-native'
 
 // Import UI components
@@ -21,13 +22,14 @@ import {
   Text,
   Divider,
   Spinner,
-  Lightbox
 } from '@shoutem/ui'
+import ImageViewer from 'react-native-image-zoom-viewer'
+
 import Title from '../../Components/Title'
 import { AWS_S3_STORAGE_URL } from 'react-native-dotenv'
 import axios from '../../axiosConfig'
 
-const { width } = Dimensions.get('window')
+const { width, height } = Dimensions.get('window')
 
 
 /* TODO
@@ -97,14 +99,11 @@ class DetailScreen extends Component {
             style={{width: width}}
             styleName="flexible"
           >
-            <Lightbox>
-              <Image
-                style={{width: width}}
-                styleName="large"
-                source={{ uri: AWS_S3_STORAGE_URL + this.state.postData.filter_info.filter_name}}
-              />
-            </Lightbox>
-
+            <Image
+              style={{width: width, height: width}}
+              source={{ uri: AWS_S3_STORAGE_URL + this.state.postData.filter_info.filter_name}}
+            />
+            
             <View styleName="content">
               <Heading numberOfLines={2}>{this.state.postData.post_info.title}</Heading>
               <View styleName="horizontal space-between">

@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 import { 
   Icon,
-  TouchableOpacity
+  Button
 } from '@shoutem/ui'
 export default class Comments extends Component {
 
@@ -52,9 +52,9 @@ export default class Comments extends Component {
                     <Text style={styles.time}>
                     9:58 am
                     </Text>
-                    <TouchableOpacity>
+                    <Button>
                       <Icon name="comment" style={styles.comment}/>
-                    </TouchableOpacity>
+                    </Button>
                   </View>
                 </View>
                 <Text rkType='primary3 mediumLine'>{Notification.comment}</Text>

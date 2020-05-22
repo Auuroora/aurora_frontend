@@ -23,6 +23,7 @@ import {
   Divider,
   ScrollView,
   Spinner,
+  TextInput
 } from '@shoutem/ui'
 import ImageViewer from 'react-native-image-zoom-viewer'
 
@@ -76,66 +77,69 @@ class DetailScreen extends Component {
   }
   render () {
     return (
-      <ScrollView styleName='fill-parent'>
-        <StatusBar barStyle="dark-content"/>
-        <NavigationBar
-          styleName='inline'
-          centerComponent={<Title title={'Details'}/>}
-          rightComponent={
-            <View 
-              style={{marginTop: 25}}
-              styleName="horizontal space-between">
-              <Button onPress={() => {onClickCart()}}>
-                <Icon name="cart" />
-              </Button>
-              <Button>
-                <Icon name="take-a-photo" />
-              </Button>
-            </View>
-          }
-        />
-        {this.state.isLoading ? (
-          <Spinner styleName='large'/>
-        ) : (
-          <Card 
-            style={{width: width, flex: 2, justifyContent: 'center', alignItems: 'center',}}
-            styleName="flexible"
-          >
-            <Image
-              style={{width: width*0.7, height: width*0.7, }}
-              source={{ uri: AWS_S3_STORAGE_URL + this.state.postData.filter_info.filter_name}}
-            />
-            <View styleName="content">
-              <Heading numberOfLines={2}>{this.state.postData.post_info.title}</Heading>
-              <View styleName="horizontal space-between">
-                <Subtitle>판매 가격 : {this.state.postData.post_info.price}</Subtitle>
+      <View>
+        <ScrollView style ={{width: '100%', height: '90%'}}>
+          <StatusBar barStyle="dark-content"/>
+          <NavigationBar
+            styleName='inline'
+            centerComponent={<Title title={'Details'}/>}
+            rightComponent={
+              <View 
+                style={{marginTop: 25}}
+                styleName="horizontal space-between">
+                <Button onPress={() => {onClickCart()}}>
+                  <Icon name="cart" />
+                </Button>
                 <Button>
-                  <View styleName="horizontal space-between">
-                    <Icon name="like"/>
-                    <Text>{this.state.postData.like_info.liked_count}</Text>
-                  </View>
+                  <Icon name="take-a-photo" />
                 </Button>
               </View>
-  
-              <ListView
-                style={{width: '50%'}}
-                data={this.state.postData.tag_info.tag_list}
-                horizontal={true}
-                renderRow={this.renderTagRow}
+            }
+          />
+          {this.state.isLoading ? (
+            <Spinner styleName='large'/>
+          ) : (
+            <Card 
+              style={{width: width, flex: 2, justifyContent: 'center', alignItems: 'center',}}
+              styleName="flexible"
+            >
+              <Image
+                style={{width: width*0.7, height: width*0.7, }}
+                source={{ uri: AWS_S3_STORAGE_URL + this.state.postData.filter_info.filter_name}}
               />
-              {/* <Divider></Divider> */}
-              <View
-                style={{flex: 40}}
-              >
-                <Text>
-                  {this.state.postData.post_info.description}
-                </Text>
+              <View styleName="content">
+                <Heading numberOfLines={2}>{this.state.postData.post_info.title}</Heading>
+                <View styleName="horizontal space-between">
+                  <Subtitle>판매 가격 : {this.state.postData.post_info.price}</Subtitle>
+                  <Button>
+                    <View styleName="horizontal space-between">
+                      <Icon name="like"/>
+                      <Text>{this.state.postData.like_info.liked_count}</Text>
+                    </View>
+                  </Button>
+                </View>
+                <ListView
+                  style={{width: '50%'}}
+                  data={this.state.postData.tag_info.tag_list}
+                  horizontal={true}
+                  renderRow={this.renderTagRow}
+                />
+                <Divider></Divider>
+                <View
+                  style={{flex: 40}}
+                >
+                  <Text>
+                    {this.state.postData.post_info.description}
+                  </Text>
+                </View>
               </View>
-            </View>
-          </Card>
-        )}
-        <Comment></Comment>
-      </ScrollView>
+            </Card>
+          )}
+          <Comment></Comment>
+        </ScrollView>
+          <TextInput  style ={{width: '100%', height: '10%'}}
+            placeholder={'Write Comment'}/>
+      </View>
     )
   }
 }

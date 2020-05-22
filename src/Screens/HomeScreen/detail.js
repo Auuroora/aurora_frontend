@@ -21,6 +21,7 @@ import {
   Button,
   Text,
   Divider,
+  ScrollView,
   Spinner,
 } from '@shoutem/ui'
 import ImageViewer from 'react-native-image-zoom-viewer'
@@ -29,6 +30,7 @@ import Title from '../../Components/Title'
 import { AWS_S3_STORAGE_URL } from 'react-native-dotenv'
 import axios from '../../axiosConfig'
 
+import Comment from './commentList'
 const { width, height } = Dimensions.get('window')
 
 
@@ -74,7 +76,7 @@ class DetailScreen extends Component {
   }
   render () {
     return (
-      <Screen styleName='fill-parent'>
+      <ScrollView styleName='fill-parent'>
         <StatusBar barStyle="dark-content"/>
         <NavigationBar
           styleName='inline'
@@ -96,14 +98,13 @@ class DetailScreen extends Component {
           <Spinner styleName='large'/>
         ) : (
           <Card 
-            style={{width: width}}
+            style={{width: width, flex: 2, justifyContent: 'center', alignItems: 'center',}}
             styleName="flexible"
           >
             <Image
-              style={{width: width, height: width}}
+              style={{width: width*0.7, height: width*0.7, }}
               source={{ uri: AWS_S3_STORAGE_URL + this.state.postData.filter_info.filter_name}}
             />
-            
             <View styleName="content">
               <Heading numberOfLines={2}>{this.state.postData.post_info.title}</Heading>
               <View styleName="horizontal space-between">
@@ -122,9 +123,9 @@ class DetailScreen extends Component {
                 horizontal={true}
                 renderRow={this.renderTagRow}
               />
-              <Divider></Divider>
+              {/* <Divider></Divider> */}
               <View
-                style={{flex: 50}}
+                style={{flex: 40}}
               >
                 <Text>
                   {this.state.postData.post_info.description}
@@ -133,7 +134,7 @@ class DetailScreen extends Component {
             </View>
           </Card>
         )}
-      </Screen>
+      </ScrollView>
     )
   }
 }

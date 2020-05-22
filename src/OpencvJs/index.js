@@ -20,6 +20,15 @@ const loadImg = (imgPath) => {
         }
       })
     }
+    //img와 함께 row(세로)와 col(가로)를 넘겨주면 됨
+    OpenCV.initCV(imgPath, (error, data) => {
+      if (data) {
+        resolve(data)
+      }
+      else {
+        reject(error)
+      }
+    })
   })
 }
 

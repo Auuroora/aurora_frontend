@@ -134,6 +134,7 @@ class DetailScreen extends Component {
             </View>
           </Card>
         )}
+        <Comment></Comment>
       </ScrollView>
     )
   }

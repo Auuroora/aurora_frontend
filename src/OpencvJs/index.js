@@ -7,14 +7,19 @@ const OpenCV = NativeModules.RNOpenCvLibrary
 
 const loadImg = (imgPath) => {
   return new Promise((resolve, reject) => {
-    OpenCV.initCV(imgPath, (error, data) => {
-      if (data) {
-        resolve(data)
-      }
-      else {
-        reject(error)
-      }
-    })
+    if (Platform.OS === 'android'){
+      resolve(true)
+    }
+    else{
+      OpenCV.initCV(imgPath, (error, data) => {
+        if (data) {
+          resolve(data)
+        }
+        else {
+          reject(error)
+        }
+      })
+    }
   })
 }
 

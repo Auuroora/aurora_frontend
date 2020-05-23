@@ -11,7 +11,8 @@ import {
   Icon,
   GridRow,
   DropDownMenu,
-  View
+  View,
+  Spinner
 } from '@shoutem/ui'
 import CardItem from '../../Components/CardItem'
 import Title from '../../Components/Title'
@@ -27,7 +28,6 @@ import axios from '../../axiosConfig'
 class HomeScreen extends Component{
   constructor(props) {
     super(props)
-    this.renderRow = this.renderRow.bind(this)
     this.state = {
       postList: [],
       filters: [
@@ -35,7 +35,11 @@ class HomeScreen extends Component{
         { name: 'Tag', value: 'Tag' },
         { name: 'Price', value: 'Price' },
       ],
+      isLoading: true,
+      pageNum: 1
     }
+  }
+  componentDidMount() {
     this.getPostList()
   }
 
@@ -45,8 +49,12 @@ class HomeScreen extends Component{
         filter_info: true
       }
     }
-    const res = await axios.get('/posts', params)
-    await this.setState({postList: res.data})
+    const res = await axios.get('/posts?page=' + this.state.pageNum, params)
+    await this.setState({
+      postList: res.data.posts,
+      isLoading: false
+    })
+    console.log(res.data)
     return res.data
   }
 
@@ -125,12 +133,16 @@ class HomeScreen extends Component{
             }
           />
         </ImageBackground>
-        <ListView
-          styleName='inline'
-          data={groupedData}
-          onRefresh={this.getPostList}
-          renderRow={this.renderRow}
-        />
+        {this.state.isLoading ? (
+          <Spinner styleName='large'/>
+        ) : (
+          <ListView
+            styleName='inline'
+            data={groupedData}
+            onRefresh={this.getPostList}
+            renderRow={this.renderRow}
+          />
+        )}
       </Screen>
     )
   }

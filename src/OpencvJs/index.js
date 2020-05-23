@@ -7,6 +7,19 @@ const OpenCV = NativeModules.RNOpenCvLibrary
 
 const loadImg = (imgPath, rowSize, colSize) => {
   return new Promise((resolve, reject) => {
+    if (Platform.OS === 'android'){
+      resolve(true)
+    }
+    else{
+      OpenCV.initCV(imgPath, (error, data) => {
+        if (data) {
+          resolve(data)
+        }
+        else {
+          reject(error)
+        }
+      })
+    }
     //img와 함께 row(세로)와 col(가로)를 넘겨주면 됨
     OpenCV.initCV(imgPath, rowSize, colSize, (error, data) => {
       if (data) {

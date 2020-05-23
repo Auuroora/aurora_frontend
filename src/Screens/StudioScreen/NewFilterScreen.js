@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import {Dimensions} from 'react-native'
+
 // Import UI Modules
 import Slider from '@react-native-community/slider'
 import {
@@ -27,6 +29,9 @@ import {
   onChangeHue
 
 } from '../../OpencvJs'
+
+const { width, height } = Dimensions.get('window')
+
 
 
 export default class NewFilterScreen extends React.Component {
@@ -66,7 +71,7 @@ export default class NewFilterScreen extends React.Component {
       sliderValue: null,
       editFunction: null
     }
-    loadImg(this.state.image.data)
+    loadImg(this.state.image.data, width, height)
       .then(() => {
         this.setState({isImageLoaded: true})
       })

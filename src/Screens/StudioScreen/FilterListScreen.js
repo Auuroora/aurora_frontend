@@ -102,13 +102,16 @@ class FilterListScreen extends Component{
     const res = await fetch(filterInfo)
     const preset = await res.json()
     let resultImg = null
-    loadImg(this.state.originalFile, width, height)
+
+    const imageDownSizeWidth = width
+    const imageDownSizeHeight = this.state.imageFile.height * (width / this.state.imageFile.width)
+
+    loadImg(this.state.originalFile, imageDownSizeWidth, imageDownSizeHeight)
+    
     for( let key in preset ) {
       for( let type in preset[key]) {
         const modifyFunc = this.mapCvFunction(type)
-        console.log(type)
         try {
-          console.log(preset[key][type])
           resultImg = await modifyFunc(preset[key][type])
           this.setState({modifiedFile: resultImg})
         } catch (e) {
@@ -150,7 +153,7 @@ class FilterListScreen extends Component{
     return (
       <Screen>
         <LargeTile
-          image={{ uri: 'data:image/jpeg;base64,' + this.state.imageFile.data }}
+          image={this.state.imageFile.data }
           onClickTile={this.onClickLargeTile}
         ></LargeTile>
         <Screen styleName='fill-parent'>

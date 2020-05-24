@@ -74,7 +74,6 @@ class HomeScreen extends Component{
       isLoading: true
     })
     const res = await this.getPostList(this.state.pageNum)
-    console.log(res)
     this.state.postList.concat(res.posts)
 
     await this.setState({

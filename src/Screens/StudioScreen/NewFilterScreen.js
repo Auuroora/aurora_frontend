@@ -69,13 +69,18 @@ export default class NewFilterScreen extends React.Component {
       sliderValue: null,
       editFunction: null
     }
-    loadImg(this.state.image.data, width, height)
+
+    const imageDownSizeWidth = width
+    const imageDownSizeHeight = this.state.imageFile.height * (width / this.state.imageFile.width)
+
+    loadImg(this.state.originalFile, imageDownSizeWidth, imageDownSizeHeight)
       .then(() => {
         this.setState({isImageLoaded: true})
       })
       .catch((err) => {
         console.log(err)
       })
+
   }
 
   mapCvFunction = (type) => {
@@ -95,7 +100,6 @@ export default class NewFilterScreen extends React.Component {
 
   // User Event
   onChangeSliderValue = async (val) => {
-    console.log(val)
     this.setState(prevState => ({
       editValue: {
         ...prevState.editValue,
@@ -116,7 +120,6 @@ export default class NewFilterScreen extends React.Component {
     } catch (e) {
       console.log(e)
     }
-    console.log(this.state.editValue)
   }
 
   onPressCategoryTile = (val) => {
@@ -128,15 +131,12 @@ export default class NewFilterScreen extends React.Component {
   onPressValueTile = async (val) => {
     await this.setState({selectedValue: val})
     const selected = this.state.editValue[this.state.selectedCategory][this.state.selectedValue]
-    console.log(selected)
     this.setState({sliderValue: selected})
     this.setState({editFunction: this.mapCvFunction(val)})
-    console.log('selected Value : ' + this.state.selectedValue)
   }
 
   componentDidUpdate = (prevProps) => {
     if (prevProps.isDone !== this.props.isDone && this.props.isDone) {
-      console.log(this.props.isDone)
       this.props.onNewFilterDone(this.state.image.data, this.state.editValue)
       // TODO: close and reset all variables
     }

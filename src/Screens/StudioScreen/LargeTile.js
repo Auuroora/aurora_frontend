@@ -30,9 +30,14 @@ export default function LargeTile (props) {
         style ={{width: width}}
         source={ props.image }
       >
-        <Tile>
+        <Tile styleName="clear">
           <Title styleName="md-gutter-bottom">{props.title}</Title>
-          <Subtitle styleName="sm-gutter-horizontal">{props.tempData}</Subtitle>
+          <Subtitle 
+            styleName="sm-gutter-horizontal"
+            style={{color: '#000000'}}
+          >
+            {'이미지를 선택하고 필터를 적용하세요.'}
+          </Subtitle>
         </Tile>
       </ImageBackground>
     </TouchableOpacity>

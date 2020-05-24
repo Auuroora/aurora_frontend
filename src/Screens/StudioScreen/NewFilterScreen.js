@@ -32,8 +32,6 @@ import {
 
 const { width, height } = Dimensions.get('window')
 
-
-
 export default class NewFilterScreen extends React.Component {
   static propTypes = {
     image: PropTypes.object,

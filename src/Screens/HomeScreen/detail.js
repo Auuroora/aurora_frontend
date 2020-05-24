@@ -2,7 +2,6 @@
 import React, { Component } from 'react'
 
 import {
-  StatusBar,
   Dimensions
 } from 'react-native'
 
@@ -153,25 +152,24 @@ class DetailScreen extends Component {
   }
   render () {
     return (
-      <View>
+      <Screen>
+        <NavigationBar
+          styleName='inline'
+          centerComponent={<Title title={'Details'}/>}
+          rightComponent={
+            <View 
+              style={{marginTop: 25}}
+              styleName="horizontal space-between">
+              <Button onPress={() => {this.onClickCart()}}>
+                <Icon name="cart" />
+              </Button>
+              <Button onPress={this.onClickPreview}>
+                <Icon name="take-a-photo" />
+              </Button>
+            </View>
+          }
+        />
         <ScrollView style ={{width: '100%', height: '90%'}}>
-          <StatusBar barStyle="dark-content"/>
-          <NavigationBar
-            styleName='inline'
-            centerComponent={<Title title={'Details'}/>}
-            rightComponent={
-              <View 
-                style={{marginTop: 25}}
-                styleName="horizontal space-between">
-                <Button onPress={() => {this.onClickCart()}}>
-                  <Icon name="cart" />
-                </Button>
-                <Button onPress={this.onClickPreview}>
-                  <Icon name="take-a-photo" />
-                </Button>
-              </View>
-            }
-          />
           {this.state.isLoading ? (
             <Spinner styleName='large'/>
           ) : (
@@ -234,14 +232,13 @@ class DetailScreen extends Component {
             </Card>
           )}
           <Comment></Comment>
+          <View  styleName="horizontal space-between" style ={{width: '100%', height: '10%'}}>
+            <TextInput 
+              placeholder={'Write Comment'} style ={{width: '90%'}}/>
+            <Icons name="comments" style ={{fontSize:20}}/>
+          </View>
         </ScrollView>
-        <View  styleName="horizontal space-between" style ={{width: '100%', height: '10%'}}>
-          <TextInput 
-            placeholder={'Write Comment'} style ={{width: '90%'}}/>
-          <Icons name="comments" style ={{fontSize:20}}/>
-        </View>
-          
-      </View>
+      </Screen>
     )
   }
 }

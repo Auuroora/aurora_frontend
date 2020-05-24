@@ -92,14 +92,15 @@ class FilterListScreen extends Component{
     if(type === 'Temperature') return updateTemperature
     if(type === 'Vignette') return onChangeVignette
     if(type === 'Grain') return onChangeGrain
-    if(type === 'Gamma') return onChangeGamma
+    if(type === 'Gamma') return onChangeHue // err
     if(type === 'Exposure') return onChangeExposure
     if(type === 'Clarity') return onChangeClarity
     if(type === 'Tint') return onChangeTint
     if(type === 'Vibrance') return onChangeVibrance
     if(type === 'Value') return onChangeValue
-    if(type === 'Saturation') return onChangeSaturation
     if(type === 'Hue') return onChangeHue
+    if(type === 'asdf') return onChangeHue // have to remove
+    return () => {console.log(type)}
   }
 
   onClickFilter = async (filterInfo) => {
@@ -118,6 +119,7 @@ class FilterListScreen extends Component{
     
     for( let key in preset ) {
       for( let type in preset[key]) {
+        console.log(type)
         const modifyFunc = this.mapCvFunction(type)
         try {
           resultImg = await modifyFunc(preset[key][type])
@@ -159,17 +161,22 @@ class FilterListScreen extends Component{
         return 1
       })
     return (
-      <Screen>
+      <Screen style={{
+        backgroundColor: '#0A0A0A'
+      }}>
         <LargeTile
           image={this.state.imageFile.data }
           onClickTile={this.onClickLargeTile}
         ></LargeTile>
-        <Screen styleName='fill-parent'>
-          <ListView
-            data={groupedData}
-            renderRow={this.renderRow}
-          />
-        </Screen>
+        <ListView
+          style={{
+            listContent: {
+              backgroundColor: '#0A0A0A'
+            }
+          }}
+          data={groupedData}
+          renderRow={this.renderRow}
+        />
       </Screen>
     )
   }

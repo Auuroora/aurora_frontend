@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import {
   Screen,
+  View,
   Image,
   Text,
   Button,
@@ -35,14 +36,16 @@ class ProfileTab extends Component{
   render(){
     const profile = this.state.profile
     return (
-      <Screen>
-        <Screen 
+      <Screen style={{
+        backgroundColor: '#333333'
+      }}>
+        <View 
           style={{
             flexDirection:'row',
             paddingTop:10
           }}
         >
-          <Screen 
+          <View 
             style={{
               flex:1,
               alignItems:'center'
@@ -54,80 +57,97 @@ class ProfileTab extends Component{
               }}
               style={{
                 width: 80,
-                height:80,
-                borderRadius:37.5
+                height: 80,
+                borderRadius: 37.5
               }}
             />
             <Subtitle 
               style={{
                 fontWeight: 'bold',
+                color: '#FFFFFF',
                 marginTop: 5
               }}
             >
               {profile.name}
             </Subtitle>
-          </Screen>
-          <Screen 
+          </View>
+          <View 
             style={{
               flex:3,
-              marginTop: 20
+              marginTop: 20,
             }}
           >
-            <Screen 
+            <View 
               style={{
                 flexDirection:'row',
                 justifyContent:'space-around'
               }}
             >
-              <Screen 
+              <View 
                 style={{
                   alignItems:'center'
                 }}
               >
-                <Text>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    color: '#FEFEFE',
+                  }}
+                >
                   {profile.posts}
                 </Text>
                 <Text 
                   style={{
-                    fontSize:12, color:'gray'
+                    fontSize:12,
+                    color: '#FFFFFF',
                   }}
                 >
                   Posts
                 </Text>
-              </Screen>
+              </View>
               
-              <Screen style={{alignItems:'center'}}>
-                <Text>
+              <View style={{alignItems:'center'}}>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    color: '#FEFEFE',
+                  }}
+                >
                   {profile.follower}
                 </Text>
                 <Text 
                   style={{
                     fontSize:12,
-                    color:'gray'
+                    color: '#FFFFFF',
                   }}
                 >
                   follower
                 </Text>
-              </Screen>
-              <Screen 
+              </View>
+              <View 
                 style={{
                   alignItems:'center'
                 }}
               >
-                <Text>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    color: '#FEFEFE',
+                  }}
+                >
                   {profile.following}
                 </Text>
                 <Text 
                   style={{
                     fontSize:12,
-                    color:'gray'
+                    color: '#FFFFFF',
                   }}
                 >
                   Following
                 </Text>
-              </Screen>
-            </Screen>
-            <Screen 
+              </View>
+            </View>
+            <View 
               style={{
                 flexDirection:'row'
               }}
@@ -141,16 +161,13 @@ class ProfileTab extends Component{
                   marginLeft:10,
                   justifyContent:'center',
                   height:height / 30,
-                  marginTop:10}}
+                  marginTop:10
+                }}
               >
                 <Icon name="edit" />
               </Button>
 
-              <Button 
-                bordered
-                dark
-                small
-                icon
+              <Button
                 onPress={() =>{this.onClickSetting()}}
                 style={{
                   flex:1,
@@ -158,24 +175,28 @@ class ProfileTab extends Component{
                   marginLeft:5,
                   justifyContent:'center',
                   height:height / 30,
-                  marginTop:10}}
+                  marginTop:10,
+                }}
               >
                 <Icon name="settings"/>
               </Button>
-            </Screen>
-          </Screen>
-        </Screen>
-        <Screen 
+            </View>
+          </View>
+        </View>
+        <View 
           style={{
             paddingHorizontal:10,
             paddingVertical:10,
-            marginTop:50
           }}
         >
-          <Subtitle numberOfLines={2}>
+          <Subtitle numberOfLines={2}
+            style={{
+              color: '#FEFEFE'
+            }}
+          >
             {profile.description}
           </Subtitle>
-        </Screen>
+        </View>
       </Screen>
     )
   }

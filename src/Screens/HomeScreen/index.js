@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {
-  StatusBar,
   Dimensions
 } from 'react-native'
 import { 
@@ -12,8 +11,7 @@ import {
   Icon,
   GridRow,
   DropDownMenu,
-  View,
-  Spinner
+  View
 } from '@shoutem/ui'
 import CardItem from '../../Components/CardItem'
 import Title from '../../Components/Title'
@@ -112,8 +110,11 @@ class HomeScreen extends Component{
     return (
       //TODO: 무한 스크롤 적용해야함 
       //TODO: Component 로 뽑아내기
-      <Screen>
-        <StatusBar barStyle="dark-content" hidden = {true}/>
+      <Screen
+        style={{
+          backgroundColor: '#0A0A0A'
+        }}
+      >
         <ImageBackground
           source={require('../../assets/image/Header.jpg')}
           styleName="large-ultra-wide"
@@ -158,8 +159,11 @@ class HomeScreen extends Component{
         </ImageBackground>
         <ListView
           style={{
-            height: height + 500,
-            width: width
+            height: height,
+            width: width,
+            listContent: {
+              backgroundColor: '#0A0A0A',
+            }
           }}
           data={groupedData}
           onLoadMore={this.loadMore}

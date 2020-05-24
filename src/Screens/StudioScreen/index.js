@@ -2,9 +2,6 @@ import React, { Component } from 'react'
 
 // Import UI Components
 import {
-  StatusBar
-} from 'react-native'
-import {
   Screen,
   NavigationBar,
 } from '@shoutem/ui'
@@ -185,7 +182,6 @@ class StudioScreen extends Component {
         styleName='fill-parent'
         style={{backgroundColor: '#1E1E1E'}}
       >
-        <StatusBar barStyle="dark-content"/>
         <NavigationBar
           styleName='inline clear'
           centerComponent={<Title title={'Studio'}/>}

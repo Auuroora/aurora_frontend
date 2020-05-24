@@ -1,8 +1,5 @@
 /* eslint-disable react/prop-types */
 import React, {Component} from 'react'
-import {
-  StatusBar
-} from 'react-native'
 import { 
   NavigationBar,
   ImageBackground,
@@ -62,7 +59,6 @@ class UploadScreen extends Component{
     let currentView = this.bindScreen()
     return (
       <Screen styleName='fill-parent' style ={{backgroundColor: 'white'}}>
-        <StatusBar barStyle="dark-content"/>
         <ImageBackground
           source={require('../../assets/image/Header.jpg')}
           styleName="large-ultra-wide"

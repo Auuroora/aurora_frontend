@@ -44,13 +44,12 @@ class HomeScreen extends Component{
   }
   componentDidMount() {
     this.getPostList(1)
-      .then(
-        (res) => {
-          this.setState({
-            postList: res.posts,
-            isLoading: false
-          })
+      .then((res) => {
+        this.setState({
+          postList: res.posts,
+          isLoading: false
         })
+      })
       .catch(e => {
         console.log(e)
         alert('error : ' + e)
@@ -146,7 +145,7 @@ class HomeScreen extends Component{
               <Title title={'Home'} topMargin={50}/>
             }
             rightComponent={
-              <View styleName="horizontal">
+              <View styleName="horizontal space-between">
                 <Button styleName="clear" >
                   <Icon name="search" style ={{color  :"white"}}/>
                 </Button>

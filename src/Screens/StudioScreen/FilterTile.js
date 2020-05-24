@@ -3,11 +3,9 @@ import { Dimensions } from 'react-native'
 import PropTypes from 'prop-types'
 
 import { 
-  ImageBackground,
-  Tile,
-  Text,
+  Image,
   TouchableOpacity,
-  Overlay
+  Caption
 } from '@shoutem/ui'
 
 FilterTile.propTypes = {
@@ -22,39 +20,35 @@ export default function FilterTile (props) {
   const { width, height } = Dimensions.get('window')
 
   let tileStyle = {
-    width: 0,
-    height: 0
-  }
-
-  if (props.size === 'medium') {
-    tileStyle.width = width / 3.5
-    tileStyle.height = height / 12
-  } 
-
-  if (props.size === 'small') {
-    tileStyle.width = width / 6
-    tileStyle.height = width / 6
+    width: width / 10,
+    height: width / 10
   }
 
   return (
     <TouchableOpacity 
       onPress={() => props.onPressTile(props.title)}
       styleName="flexible"
+      style={{
+        backgroundColor: '#0A0A0A',
+        padding: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
     >
-      <ImageBackground
+      <Image
         source={props.image}
         style={tileStyle}
       >
-        <Tile
-          styleName='clear'
-        >
-          <Overlay styleName="fill-parent">
-            <Text>
-              {props.title}
-            </Text>
-          </Overlay>
-        </Tile>
-      </ImageBackground>
+      </Image>
+      <Caption 
+        styleName='h-center'
+        style={{
+          color: '#FEFEFE',
+          width: 80
+        }}
+      >
+        {props.title}
+      </Caption>
     </TouchableOpacity>    
   )
 }

@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {
   StatusBar,
+  Dimensions
 } from 'react-native'
 import { 
   NavigationBar,
@@ -25,6 +26,8 @@ import axios from '../../axiosConfig'
  * 2. Add Sort and icon to Navigation
  */
 
+const { width, height } = Dimensions.get('window')
+
 class HomeScreen extends Component{
   constructor(props) {
     super(props)
@@ -40,22 +43,43 @@ class HomeScreen extends Component{
     }
   }
   componentDidMount() {
-    this.getPostList()
+    this.getPostList(1)
+      .then(
+        (res) => {
+          this.setState({
+            postList: res.posts,
+            isLoading: false
+          })
+        })
+      .catch(e => {
+        console.log(e)
+        alert('error : ' + e)
+      })
   }
 
-  getPostList = async () => {
+  getPostList = async (page) => {
     const params = {
       params: {
         filter_info: true
       }
     }
-    const res = await axios.get('/posts?page=' + this.state.pageNum, params)
+    const res = await axios.get('/posts?page=' + page, params)
+    return res.data
+  }
+
+  loadMore = async () => {
+    if(this.state.isLoading) return
     await this.setState({
-      postList: res.data.posts,
+      pageNum : this.state.pageNum + 1,
+      isLoading: true
+    })
+    const res = await this.getPostList(this.state.pageNum)
+    this.state.postList.concat(res.posts)
+
+    await this.setState({
       isLoading: false
     })
-    console.log(res.data)
-    return res.data
+
   }
 
   renderRow = (rowData) => {  
@@ -89,7 +113,7 @@ class HomeScreen extends Component{
     return (
       //TODO: 무한 스크롤 적용해야함 
       //TODO: Component 로 뽑아내기
-      <Screen styleName='fill-parent'>
+      <Screen>
         <StatusBar barStyle="dark-content" hidden = {true}/>
         <ImageBackground
           source={require('../../assets/image/Header.jpg')}
@@ -133,16 +157,16 @@ class HomeScreen extends Component{
             }
           />
         </ImageBackground>
-        {this.state.isLoading ? (
-          <Spinner styleName='large'/>
-        ) : (
-          <ListView
-            styleName='inline'
-            data={groupedData}
-            onRefresh={this.getPostList}
-            renderRow={this.renderRow}
-          />
-        )}
+        <ListView
+          style={{
+            height: height + 500,
+            width: width
+          }}
+          data={groupedData}
+          onLoadMore={this.loadMore}
+          onRefresh={this.getPostList}
+          renderRow={this.renderRow}
+        />
       </Screen>
     )
   }

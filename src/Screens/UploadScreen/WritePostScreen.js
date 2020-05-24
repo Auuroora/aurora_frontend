@@ -45,10 +45,9 @@ class WritePostScreen extends Component{
           price: this.state.price
         }
       }
-      console.log(data)
+
       return axios.post('/posts', data,{headers:headers})
         .then((response) => {
-          console.log(response.data)
           alert('게시글 작성이 완료되었습니다.')
         }).catch((err) => {
           console.log(err)

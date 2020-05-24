@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   Button,
-  Icon
+  Icon,
+  Text
 } from '@shoutem/ui'
 
 RightButton.propTypes = {
@@ -20,7 +21,11 @@ export default function RightButton (props) {
     ) : 
     (
       <Button onPress={props.onPressNew}>
-        <Icon name="edit" />
+        <Text
+          style={{color: '#0395FF', marginTop: 40, marginRight: 15}}
+        >
+          New
+        </Text>
       </Button>
     )
 }

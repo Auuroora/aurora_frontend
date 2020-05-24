@@ -160,6 +160,7 @@ const onChangeExposure = (val) => {
 }
 
 const onChangeGamma = (val) => {
+  val = val / 100
   return new Promise((resolve, reject) => {
     if (Platform.OS === 'android') {
       // this is for android callback customize

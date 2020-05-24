@@ -8,6 +8,7 @@ import {
   Subtitle,
   TouchableOpacity,
   Caption,
+  Button,
   Icon
 } from '@shoutem/ui'
 
@@ -21,12 +22,21 @@ CardItem.propTypes = {
   price: PropTypes.string,
   postId: PropTypes.number
 }
+async function onClickLike(){
+  console.log("like click")
 
+  /*
+  지금 like info 못 불러옴.
+  like 버튼 누르면 
+  post하는 api 구현
+  */
+}
 export default function CardItem (props) {
 
   const moveToDetail = () => {
     props.navigation.navigate("Detail", {
-      postId: props.postId
+      postId: props.postId,
+      liked: props.liked
     })
   }
 
@@ -54,8 +64,19 @@ export default function CardItem (props) {
             <Caption
               style={{color: '#FFFFFF'}}
             >{props.price}</Caption>
-            <Icon style={{color: '#FFFFFF'}}
-              name = "like"/>
+            <TouchableOpacity  onPress={() => onClickLike()} >
+              {props.liked ? (
+                <Image
+                  source={ require('../assets/image/heart_pink.png' )}
+                  style={{ width: 20, height: 20, color :'white', marginRight :5 }}
+                />
+              ) : (
+                <Image
+                  source={ require('../assets/image/heart-white.png' )}
+                  style={{ width: 17, height: 17,  marginRight :5 }}
+                />
+              )}
+            </TouchableOpacity>
           </View>
         </View>
       </Tile>

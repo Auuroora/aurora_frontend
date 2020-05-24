@@ -42,7 +42,7 @@ export default function FilterTile (props) {
       styleName="flexible"
     >
       <ImageBackground
-        source={{ uri: props.image }}
+        source={props.image}
         style={tileStyle}
       >
         <Tile

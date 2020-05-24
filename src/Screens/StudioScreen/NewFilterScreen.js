@@ -10,6 +10,7 @@ import {
   View,
   Spinner,
   ListView,
+  Screen
 } from '@shoutem/ui'
 import FilterTile from './FilterTile'
 
@@ -113,7 +114,7 @@ export default class NewFilterScreen extends React.Component {
     if(type === 'Hue') return onChangeHue
   }
 
-  // User Event
+  // User Event for image operation
   onChangeSliderValue = async (val) => {
     this.setState(prevState => ({
       editValue: {
@@ -124,7 +125,6 @@ export default class NewFilterScreen extends React.Component {
         },
       }
     }))
-
     try {
       const resultImg = await this.state.editFunction(val)
       this.setState({ 
@@ -138,22 +138,18 @@ export default class NewFilterScreen extends React.Component {
   }
 
   onPressCategoryTile = (val) => {
-    console.log(val)
     this.setState({selectedCategory: val})
     this.setState({selectedValue: null})
   }
 
   onPressValueTile = async (val) => {
-    const selected = this.state.editValue[this.state.selectedCategory][val]
-    console.log(val)
-    console.log(this.state.editValueRange[val])
+    const selectedValueTile = this.state.editValue[this.state.selectedCategory][val]
+    
     await this.setState({
-
       selectedValue: val,
-      sliderValue: selected,
+      sliderValue: selectedValueTile,
       editFunction: this.mapCvFunction(val),
       selectedValueRange: this.state.editValueRange[val],
-
     })
   }
 
@@ -186,7 +182,8 @@ export default class NewFilterScreen extends React.Component {
         key={data.key}
         onPressTile={this.onPressCategoryTile.bind(this)}
         size={'medium'}
-        image={'https://stores.selzstatic.com/nvyn50kugf4/assets/settings/lightscape-735108-unsplash.jpg?v=20200323080941'}
+        style={{borderRadius: 20}}
+        image={require('../../assets/image/Header.jpg')}
       />
     )
   }
@@ -197,7 +194,7 @@ export default class NewFilterScreen extends React.Component {
         onPressTile={this.onPressValueTile.bind(this)}
         title={data}
         size={'small'}
-        image={'https://stores.selzstatic.com/nvyn50kugf4/assets/settings/lightscape-735108-unsplash.jpg?v=20200323080941'}
+        image={require('../../assets/image/Header.jpg')}
       />
     )
   }
@@ -205,8 +202,12 @@ export default class NewFilterScreen extends React.Component {
   render () {
     let imageView = this.bindImageView()
     return (
-      <View
-        style={{flex: 1, paddingTop: 90}}
+      <Screen
+        style={{
+          flex: 1,
+          paddingTop: 90,
+          backgroundColor: '#0A0A0A'
+        }}
       >
         {imageView}
         <View
@@ -250,8 +251,7 @@ export default class NewFilterScreen extends React.Component {
             renderRow={this.renderCategoryRow}
           />
         </View>
-        
-      </View>
+      </Screen>
     )
   }
 }

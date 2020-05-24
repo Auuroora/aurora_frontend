@@ -15,8 +15,16 @@ LeftButton.propTypes = {
 export default function LeftButton (props) {
   return props.isNewFilter ? 
     (
-      <Button onPress={props.onPressCancel}>
-        <Icon name="close" />
+      <Button onPress={props.onPressCancel}
+      >
+        <Icon 
+          name="close"
+          style={{
+            color: '#FFFFFF',
+            margin: 10,
+            marginTop: 40
+          }}
+        />
       </Button>
     ) : 
     (

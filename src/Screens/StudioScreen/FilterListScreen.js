@@ -88,10 +88,18 @@ class FilterListScreen extends Component{
   }
 
   mapCvFunction = (type) => {
+    if(type === 'Saturation') return onChangeSaturation
     if(type === 'Temperature') return updateTemperature
+    if(type === 'Vignette') return onChangeVignette
+    if(type === 'Grain') return onChangeGrain
+    if(type === 'Gamma') return onChangeGamma
+    if(type === 'Exposure') return onChangeExposure
+    if(type === 'Clarity') return onChangeClarity
     if(type === 'Tint') return onChangeTint
     if(type === 'Vibrance') return onChangeVibrance
-    else return () => {return this.state.imageFile.data}
+    if(type === 'Value') return onChangeValue
+    if(type === 'Saturation') return onChangeSaturation
+    if(type === 'Hue') return onChangeHue
   }
 
   onClickFilter = async (filterInfo) => {

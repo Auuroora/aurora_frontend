@@ -181,10 +181,13 @@ class StudioScreen extends Component {
     let currentView = this.bindScreen()
 
     return (
-      <Screen styleName='fill-parent'>
+      <Screen 
+        styleName='fill-parent'
+        style={{backgroundColor: '#1E1E1E'}}
+      >
         <StatusBar barStyle="dark-content"/>
         <NavigationBar
-          styleName='inline'
+          styleName='inline clear'
           centerComponent={<Title title={'Studio'}/>}
           rightComponent={
             <RightButton 

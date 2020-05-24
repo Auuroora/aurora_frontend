@@ -54,7 +54,7 @@ export default class NewFilterScreen extends React.Component {
         Brightness: {
           Vignette: 0,
           asdf: 0,
-          Gamma: 0,
+          Gamma: 100,
           Exposure: 0,
           Value: 0,
         },
@@ -64,16 +64,31 @@ export default class NewFilterScreen extends React.Component {
           Vibrance: 0
         }
       },
+      editValueRange: {
+        Temperature: { min: -100, max : 100 },
+        Saturation: { min: -100, max : 100 },
+        Tint: { min: -100, max : 100 },
+        Hue: { min: -100, max : 100 },
+        Vignette: { min: -100, max : 100 },
+        asdf: { min: -100, max : 100 },
+        Gamma: { min: 1, max : 200 },
+        Exposure: { min: -100, max : 100 },
+        Value: { min: -100, max : 100 },
+        Grain: { min: 0, max : 100 },
+        Clarity: { min: -100, max : 100 },
+        Vibrance: { min: -100, max : 100 }
+      },
       selectedCategory: null,
       selectedValue: null,
+      selectedValueRange: null,
       sliderValue: null,
-      editFunction: null
+      editFunction: null,
     }
 
     const imageDownSizeWidth = width
-    const imageDownSizeHeight = this.state.imageFile.height * (width / this.state.imageFile.width)
+    const imageDownSizeHeight = this.state.image.height * (width / this.state.image.width)
 
-    loadImg(this.state.originalFile, imageDownSizeWidth, imageDownSizeHeight)
+    loadImg(this.state.image.data, imageDownSizeWidth, imageDownSizeHeight)
       .then(() => {
         this.setState({isImageLoaded: true})
       })
@@ -129,10 +144,17 @@ export default class NewFilterScreen extends React.Component {
   }
 
   onPressValueTile = async (val) => {
-    await this.setState({selectedValue: val})
-    const selected = this.state.editValue[this.state.selectedCategory][this.state.selectedValue]
-    this.setState({sliderValue: selected})
-    this.setState({editFunction: this.mapCvFunction(val)})
+    const selected = this.state.editValue[this.state.selectedCategory][val]
+    console.log(val)
+    console.log(this.state.editValueRange[val])
+    await this.setState({
+
+      selectedValue: val,
+      sliderValue: selected,
+      editFunction: this.mapCvFunction(val),
+      selectedValueRange: this.state.editValueRange[val],
+
+    })
   }
 
   componentDidUpdate = (prevProps) => {
@@ -202,8 +224,8 @@ export default class NewFilterScreen extends React.Component {
           {this.state.selectedCategory && this.state.selectedValue ? (
             <Slider
               style={{width: 200, height: 40}}
-              minimumValue={-100}
-              maximumValue={100}
+              minimumValue={this.state.selectedValueRange.min}
+              maximumValue={this.state.selectedValueRange.max}
               step={3}
               onValueChange={(val) => this.onChangeSliderValue(val)}
               value={this.state.sliderValue}

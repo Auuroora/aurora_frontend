@@ -14,7 +14,6 @@ import {
   NavigationBar,
   View,
   Card,
-  Icon,
   ListView,
   Heading,
   Subtitle,
@@ -23,6 +22,7 @@ import {
   Divider,
   ScrollView,
   Spinner,
+  Icon,
   TextInput
 } from '@shoutem/ui'
 import ImageViewer from 'react-native-image-zoom-viewer'
@@ -32,6 +32,7 @@ import { AWS_S3_STORAGE_URL } from 'react-native-dotenv'
 import axios from '../../axiosConfig'
 
 import Comment from './commentList'
+import Icons from 'react-native-vector-icons/FontAwesome'
 const { width, height } = Dimensions.get('window')
 
 
@@ -91,8 +92,9 @@ class DetailScreen extends Component {
                   <Icon name="cart" />
                 </Button>
                 <Button>
-                  <Icon name="take-a-photo" />
+                  <Icons name="camera"  style ={{fontSize:20}}/>
                 </Button>
+                
               </View>
             }
           />
@@ -104,7 +106,7 @@ class DetailScreen extends Component {
               styleName="flexible"
             >
               <Image
-                style={{width: width*0.7, height: width*0.7, }}
+                style={{width: width, height: width}}
                 source={{ uri: AWS_S3_STORAGE_URL + this.state.postData.filter_info.filter_name}}
               />
               <View styleName="content">
@@ -137,8 +139,12 @@ class DetailScreen extends Component {
           )}
           <Comment></Comment>
         </ScrollView>
-          <TextInput  style ={{width: '100%', height: '10%'}}
-            placeholder={'Write Comment'}/>
+        <View  styleName="horizontal space-between" style ={{width: '100%', height: '10%'}}>
+          <TextInput 
+            placeholder={'Write Comment'} style ={{width: '90%'}}/>
+          <Icons name="comments" style ={{fontSize:20}}/>
+        </View>
+          
       </View>
     )
   }

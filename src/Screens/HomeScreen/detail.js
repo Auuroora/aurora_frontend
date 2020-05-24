@@ -3,8 +3,7 @@ import React, { Component } from 'react'
 
 import {
   StatusBar,
-  Dimensions,
-  Modal
+  Dimensions
 } from 'react-native'
 
 // Import UI components
@@ -22,12 +21,14 @@ import {
   Text,
   Divider,
   Spinner,
+  TouchableOpacity
 } from '@shoutem/ui'
-import ImageViewer from 'react-native-image-zoom-viewer'
 
 import Title from '../../Components/Title'
 import { AWS_S3_STORAGE_URL } from 'react-native-dotenv'
 import axios from '../../axiosConfig'
+import ImagePicker from 'react-native-image-picker'
+import ImageView from 'react-native-image-view'
 
 const { width, height } = Dimensions.get('window')
 
@@ -36,9 +37,6 @@ const { width, height } = Dimensions.get('window')
  * 1. 장바구니에 추가하는 api 작성 필요
  장바구니 추가 이벤트 + API 호출 → 장바구니에 추가되었다는 메세지 출력
  */
-function onClickCart(){
-  
-}
 
 class DetailScreen extends Component {
   constructor (props) {
@@ -46,9 +44,66 @@ class DetailScreen extends Component {
     this.state = {
       postId: props.route.params.postId,
       postData : null,
-      isLoading: true
+      isLoading: true,
+      imageFile: [],
+      isPreview: false
     }
     this.getPostInfo(this.state.postId)
+  }
+
+  onClickPostImage = () => {
+    this.setState({
+      imageFile: [{
+        source: { uri: AWS_S3_STORAGE_URL + this.state.postData.filter_info.filter_name},
+        title: 'Image Preview',
+        width: width,
+
+      }],
+      isPreview: true,
+    })
+  }
+
+  onClickPreview = () => {
+    const ImagePickerOptions = {
+      title: 'Select Image',
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    }
+
+    ImagePicker.showImagePicker(ImagePickerOptions, async response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker')
+        return
+      }
+      if (response.error) {
+        return
+      }
+      if (response.customButton) {
+        return
+      } 
+
+      // apply image filter 
+  
+  
+      // watermark
+
+
+      this.setState({
+        imageFile: [{
+          source: response,
+          title: 'Image Preview',
+          width: response.width,
+          height: response.height,
+        }],
+        isPreview: true
+      })
+    })
+  }
+
+  onClickCart = () => {
+    
   }
 
   getPostInfo = async (postId) => {
@@ -83,10 +138,10 @@ class DetailScreen extends Component {
             <View 
               style={{marginTop: 25}}
               styleName="horizontal space-between">
-              <Button onPress={() => {onClickCart()}}>
+              <Button onPress={() => {this.onClickCart()}}>
                 <Icon name="cart" />
               </Button>
-              <Button>
+              <Button onPress={this.onClickPreview}>
                 <Icon name="take-a-photo" />
               </Button>
             </View>
@@ -99,10 +154,22 @@ class DetailScreen extends Component {
             style={{width: width}}
             styleName="flexible"
           >
-            <Image
-              style={{width: width, height: width}}
-              source={{ uri: AWS_S3_STORAGE_URL + this.state.postData.filter_info.filter_name}}
+            <ImageView
+              images={this.state.imageFile}
+              imageIndex={0}
+              isVisible={this.state.isPreview}
+              isSwipeCloseEnabled={true}
+              onClose={() => {this.setState({isPreview: false})}}
             />
+
+            <TouchableOpacity
+              onPress={this.onClickPostImage}
+            >
+              <Image
+                style={{width: width, height: width}}
+                source={{ uri: AWS_S3_STORAGE_URL + this.state.postData.filter_info.filter_name}}
+              />
+            </TouchableOpacity>
             
             <View styleName="content">
               <Heading numberOfLines={2}>{this.state.postData.post_info.title}</Heading>

@@ -32,7 +32,7 @@ import { AWS_S3_STORAGE_URL } from 'react-native-dotenv'
 import axios from '../../axiosConfig'
 
 import Comment from './commentList'
-import Icons from 'react-native-vector-icons/FontAwesome'
+import Icons from 'react-native-vector-icons/dist/Ionicons'
 const { width, height } = Dimensions.get('window')
 
 
@@ -50,7 +50,7 @@ class DetailScreen extends Component {
     this.state = {
       postId: props.route.params.postId,
       postData : null,
-      isLoading: true
+      isLoading: true,
     }
     this.getPostInfo(this.state.postId)
   }
@@ -67,6 +67,26 @@ class DetailScreen extends Component {
     const res = await axios.get('/posts/' + postId, params)
     await this.setState({postData : res.data})
     this.setState({isLoading: false})
+  }
+  onClickLike = async() => {
+    const data = {
+      liker:"user",
+      likeable:"post",
+      likeable_id :this.state.postId
+    }
+    const params = {
+      params: {
+        user_info: true,
+        filter_info: true,
+        tag_info: true,
+        like_info: true
+      }
+    }
+    await axios.post('/likes', data)
+    const res = await axios.get('/posts/' + this.state.postId, params)
+    await this.setState({postData : res.data})
+    console.log( res.data.like_info.liked)
+    console.log( res.data.like_info.liked)
   }
 
   renderTagRow = (data) => {
@@ -88,13 +108,12 @@ class DetailScreen extends Component {
               <View 
                 style={{marginTop: 25}}
                 styleName="horizontal space-between">
-                <Button onPress={() => {onClickCart()}}>
+                <Button onPress={() => {this.onClickCart()}}>
                   <Icon name="cart" />
                 </Button>
                 <Button>
                   <Icons name="camera"  style ={{fontSize:20}}/>
                 </Button>
-                
               </View>
             }
           />
@@ -113,9 +132,19 @@ class DetailScreen extends Component {
                 <Heading numberOfLines={2}>{this.state.postData.post_info.title}</Heading>
                 <View styleName="horizontal space-between">
                   <Subtitle>판매 가격 : {this.state.postData.post_info.price}</Subtitle>
-                  <Button>
+                  <Button onPress={() => this.onClickLike()}>
                     <View styleName="horizontal space-between">
-                      <Icon name="like"/>
+                      {this.state.postData.like_info.liked ? (
+                        <Image
+                          source={ require('../../assets/image/heart_pink.png' )}
+                          style={{ width: 20, height: 20, color :'red', marginRight :10 }}
+                        />
+                      ) : (
+                        <Image
+                          source={ require('../../assets/image/heart.png' )}
+                          style={{ width: 20, height: 20,  marginRight :10 }}
+                        />
+                      )}
                       <Text>{this.state.postData.like_info.liked_count}</Text>
                     </View>
                   </Button>

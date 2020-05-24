@@ -1,8 +1,5 @@
 #pragma once
 
-/*********************************************************************
-*	??
-*********************************************************************/
 #define ORANGE 15
 #define YELLOW 30
 #define CHARTREUSE 45
@@ -126,3 +123,7 @@
 #define WINDOW_NAME "Doroddong Test"
 
 #define KERNEL_SIZE 7
+
+#define BGR_CHANGED 1
+#define HLS_CHANGED 2
+#define HSV_CHANGED 3

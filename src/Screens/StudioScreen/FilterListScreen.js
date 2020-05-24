@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Dimensions} from 'react-native'
 import {
   ListView,
   GridRow,
@@ -34,6 +35,8 @@ import {
  * 3. Add Get all own Filter API call function
  * 4. Add PropTypes
  */
+
+const { width, height } = Dimensions.get('window')
 
 const ImagePickerOptions = {
   title: 'Select Image',
@@ -99,7 +102,7 @@ class FilterListScreen extends Component{
     const res = await fetch(filterInfo)
     const preset = await res.json()
     let resultImg = null
-    loadImg(this.state.originalFile)
+    loadImg(this.state.originalFile, width, height)
     for( let key in preset ) {
       for( let type in preset[key]) {
         const modifyFunc = this.mapCvFunction(type)

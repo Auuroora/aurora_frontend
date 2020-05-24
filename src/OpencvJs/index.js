@@ -5,13 +5,13 @@ import {
 
 const OpenCV = NativeModules.RNOpenCvLibrary
 
-const loadImg = (imgPath) => {
+const loadImg = (imgPath, rowSize, colSize) => {
   return new Promise((resolve, reject) => {
     if (Platform.OS === 'android'){
       resolve(true)
     }
     else{
-      OpenCV.initCV(imgPath, (error, data) => {
+      OpenCV.initCV(imgPath, rowSize, colSize, (error, data) => {
         if (data) {
           resolve(data)
         }

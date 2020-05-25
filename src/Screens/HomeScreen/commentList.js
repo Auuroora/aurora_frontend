@@ -33,14 +33,6 @@ export default class Comments extends Component {
         style={styles.root}
         data={this.state.data}
         extraData={this.state}
-        ItemSeparatorComponent={() => {
-          return (
-            <View style={styles.separator}/>
-          )
-        }}
-        keyExtractor={(item)=>{
-          return item.id
-        }}
         renderItem={(item) => {
           const Notification = item.item
           return(

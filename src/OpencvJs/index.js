@@ -1,21 +1,16 @@
-import { 
-  NativeModules,
-  Platform 
-} from 'react-native'
+import { NativeModules, Platform } from "react-native"
 
 const OpenCV = NativeModules.RNOpenCvLibrary
 
 const loadImg = (imgPath, rowSize, colSize) => {
   return new Promise((resolve, reject) => {
-    if (Platform.OS === 'android'){
+    if (Platform.OS === "android") {
       resolve(true)
-    }
-    else{
+    } else {
       OpenCV.initCV(imgPath, rowSize, colSize, (error, data) => {
         if (data) {
           resolve(data)
-        }
-        else {
+        } else {
           reject(error)
         }
       })
@@ -25,10 +20,10 @@ const loadImg = (imgPath, rowSize, colSize) => {
 
 const updateTemperature = (val) => {
   return new Promise((resolve, reject) => {
-    if (Platform.OS === 'android') {
+    if (Platform.OS === "android") {
       // this is for android callback customize
     } else {
-      OpenCV.onChangeTemperature(val,(error, data) => {
+      OpenCV.onChangeTemperature(val, (error, data) => {
         if (data) {
           resolve(data)
         }
@@ -42,10 +37,10 @@ const updateTemperature = (val) => {
 
 const onChangeHue = (val) => {
   return new Promise((resolve, reject) => {
-    if (Platform.OS === 'android') {
+    if (Platform.OS === "android") {
       // this is for android callback customize
     } else {
-      OpenCV.onChangeHue(val,(error, data) => {
+      OpenCV.onChangeHue(val, (error, data) => {
         if (data) {
           resolve(data)
         }
@@ -59,10 +54,10 @@ const onChangeHue = (val) => {
 
 const onChangeSaturation = (val) => {
   return new Promise((resolve, reject) => {
-    if (Platform.OS === 'android') {
+    if (Platform.OS === "android") {
       // this is for android callback customize
     } else {
-      OpenCV.onChangeSaturation(val,(error, data) => {
+      OpenCV.onChangeSaturation(val, (error, data) => {
         if (data) {
           resolve(data)
         }
@@ -76,10 +71,10 @@ const onChangeSaturation = (val) => {
 
 const onChangeValue = (val) => {
   return new Promise((resolve, reject) => {
-    if (Platform.OS === 'android') {
+    if (Platform.OS === "android") {
       // this is for android callback customize
     } else {
-      OpenCV.onChangeValue(val,(error, data) => {
+      OpenCV.onChangeValue(val, (error, data) => {
         if (data) {
           resolve(data)
         }
@@ -93,10 +88,10 @@ const onChangeValue = (val) => {
 
 const onChangeVibrance = (val) => {
   return new Promise((resolve, reject) => {
-    if (Platform.OS === 'android') {
+    if (Platform.OS === "android") {
       // this is for android callback customize
     } else {
-      OpenCV.onChangeVibrance(val,(error, data) => {
+      OpenCV.onChangeVibrance(val, (error, data) => {
         if (data) {
           resolve(data)
         }
@@ -110,10 +105,10 @@ const onChangeVibrance = (val) => {
 
 const onChangeTint = (val) => {
   return new Promise((resolve, reject) => {
-    if (Platform.OS === 'android') {
+    if (Platform.OS === "android") {
       // this is for android callback customize
     } else {
-      OpenCV.onChangeTint(val,(error, data) => {
+      OpenCV.onChangeTint(val, (error, data) => {
         if (data) {
           resolve(data)
         }
@@ -127,10 +122,10 @@ const onChangeTint = (val) => {
 
 const onChangeClarity = (val) => {
   return new Promise((resolve, reject) => {
-    if (Platform.OS === 'android') {
+    if (Platform.OS === "android") {
       // this is for android callback customize
     } else {
-      OpenCV.onChangeClarity(val,(error, data) => {
+      OpenCV.onChangeClarity(val, (error, data) => {
         if (data) {
           resolve(data)
         }
@@ -144,10 +139,10 @@ const onChangeClarity = (val) => {
 
 const onChangeExposure = (val) => {
   return new Promise((resolve, reject) => {
-    if (Platform.OS === 'android') {
+    if (Platform.OS === "android") {
       // this is for android callback customize
     } else {
-      OpenCV.onChangeExposure(val,(error, data) => {
+      OpenCV.onChangeExposure(val, (error, data) => {
         if (data) {
           resolve(data)
         }
@@ -160,12 +155,11 @@ const onChangeExposure = (val) => {
 }
 
 const onChangeGamma = (val) => {
-  val = val / 100
   return new Promise((resolve, reject) => {
-    if (Platform.OS === 'android') {
+    if (Platform.OS === "android") {
       // this is for android callback customize
     } else {
-      OpenCV.onChangeGamma(val,(error, data) => {
+      OpenCV.onChangeGamma(val, (error, data) => {
         if (data) {
           resolve(data)
         }
@@ -179,10 +173,10 @@ const onChangeGamma = (val) => {
 
 const onChangeGrain = (val) => {
   return new Promise((resolve, reject) => {
-    if (Platform.OS === 'android') {
+    if (Platform.OS === "android") {
       // this is for android callback customize
     } else {
-      OpenCV.onChangeGrain(val,(error, data) => {
+      OpenCV.onChangeGrain(val, (error, data) => {
         if (data) {
           resolve(data)
         }
@@ -196,10 +190,10 @@ const onChangeGrain = (val) => {
 
 const onChangeVignette = (val) => {
   return new Promise((resolve, reject) => {
-    if (Platform.OS === 'android') {
+    if (Platform.OS === "android") {
       // this is for android callback customize
     } else {
-      OpenCV.onChangeVignette(val,(error, data) => {
+      OpenCV.onChangeVignette(val, (error, data) => {
         if (data) {
           resolve(data)
         }
@@ -223,5 +217,5 @@ export {
   onChangeVibrance,
   onChangeValue,
   onChangeSaturation,
-  onChangeHue
+  onChangeHue,
 }

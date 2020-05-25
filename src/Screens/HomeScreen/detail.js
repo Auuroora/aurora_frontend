@@ -139,8 +139,6 @@ class DetailScreen extends Component {
     await axios.post('/likes', data)
     const res = await axios.get('/posts/' + this.state.postId, params)
     await this.setState({postData : res.data})
-    console.log( res.data.like_info.liked)
-    console.log( res.data.like_info.liked)
   }
 
   renderTagRow = (data) => {
@@ -197,7 +195,7 @@ class DetailScreen extends Component {
                 <Heading numberOfLines={2}>{this.state.postData.post_info.title}</Heading>
                 <View styleName="horizontal space-between">
                   <Subtitle>판매 가격 : {this.state.postData.post_info.price}</Subtitle>
-                  <Button onPress={() => this.onClickLike()}>
+                  <Button onPress={() => this.onClickLike(this.props)}>
                     <View styleName="horizontal space-between">
                       {this.state.postData.like_info.liked ? (
                         <Image

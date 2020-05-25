@@ -71,15 +71,23 @@ class HomeScreen extends Component{
       pageNum : this.state.pageNum + 1,
       isLoading: true
     })
-    const res = await this.getPostList(this.state.pageNum)
-    this.state.postList.concat(res.posts)
-    
+    const res = await this.getPostList(this.state.pageNum)    
     await this.setState({
       isLoading: false
     })
 
   }
-
+  onClickLike = async(postid) => {
+    console.log("CCCCC")
+    console.log(postid)
+    const data = {
+      liker:"user",
+      likeable:"post",
+      likeable_id :postid
+    }
+    await axios.post('/likes', data)
+    this.componentDidMount()
+  }
   renderRow = (rowData) => {  
     const cellViews = rowData.map((post, id) => {
       return (
@@ -90,8 +98,9 @@ class HomeScreen extends Component{
           image={AWS_S3_STORAGE_URL + post.filter_info.filter_name} 
           title={post.post_info.title} 
           price={post.post_info.price}
-          // liked = {post.like_info.liked}
-          liked = {false}
+          liked_count = {post.like_info.liked_count}
+          liked = {post.like_info.liked}
+          onClickLike = {this.onClickLike}
         />
       )
     })
@@ -104,6 +113,7 @@ class HomeScreen extends Component{
   onClickShopping = () =>{
     this.props.navigation.navigate("Shopping")
   }
+  
   render(){
     // groupByRows(data, column number, grouping number)
     const groupedData = GridRow.groupByRows(this.state.postList, 2, 

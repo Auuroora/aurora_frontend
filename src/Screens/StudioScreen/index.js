@@ -102,13 +102,6 @@ class StudioScreen extends Component {
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4()
   }
 
-  /* onNewFilterDone 
-   * After Making filter, 
-   * 1. upload preset, image to s3
-   * 2. call api and save data to database
-   * 3. Save to Local
-   * 4. exit NewFilterScreen
-   */
   onNewFilterDone = async (image, preset) => {
     try {
       const imageUri = await this.urlToBlob('data:image/jpeg;base64,' + image)
@@ -190,6 +183,7 @@ class StudioScreen extends Component {
               onPressDone={this.onPressDone}
               onPressNew={this.onChooseFileforNew} 
               isNewFilter={this.state.isNewFilter}
+              isUploading={this.state.isUploading}
             />
           }
           leftComponent={

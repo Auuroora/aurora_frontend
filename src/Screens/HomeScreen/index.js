@@ -1,5 +1,6 @@
 import React, { Component } from "react"
-import { StatusBar, Dimensions } from "react-native"
+import { Dimensions } from "react-native"
+
 import {
   NavigationBar,
   ImageBackground,
@@ -38,6 +39,7 @@ class HomeScreen extends Component {
       pageNum: 1
     }
   }
+
   componentDidMount() {
     this.getPostList(1)
       .then((res) => {
@@ -61,7 +63,7 @@ class HomeScreen extends Component {
     }
     const res = await axios.get("/posts?page=" + page, params)
     return res.data
-  };
+  }
 
   loadMore = async () => {
     if (this.state.isLoading) return
@@ -75,7 +77,7 @@ class HomeScreen extends Component {
     await this.setState({
       isLoading: false,
     })
-  };
+  }
 
   onClickLike = async(postid) => {
     console.log(postid)
@@ -112,16 +114,15 @@ class HomeScreen extends Component {
   }
   onClickShopping = () => {
     this.props.navigation.navigate("Shopping")
-  };
+  }
+
   render() {
-    // groupByRows(data, column number, grouping number)
+
     const groupedData = GridRow.groupByRows(this.state.postList, 2, () => {
       return 1
     })
-    return (
-    //TODO: 무한 스크롤 적용해야함
-    //TODO: Component 로 뽑아내기
 
+    return (
       <Screen
         style={{
           backgroundColor: '#0A0A0A'

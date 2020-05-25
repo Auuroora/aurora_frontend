@@ -34,7 +34,9 @@ import ImageView from 'react-native-image-view'
 
 import Comment from './commentList'
 import Icons from 'react-native-vector-icons/dist/Ionicons'
-const { width, height } = Dimensions.get('window')
+
+
+const { width } = Dimensions.get('window')
 
 
 /* TODO
@@ -56,6 +58,20 @@ class DetailScreen extends Component {
     }
     this.getPostInfo(this.state.postId)
     this.getCommentInfo(this.state.postId)
+  }
+
+  getPostInfo = async (postId) => {
+    const params = {
+      params: {
+        user_info: true,
+        filter_info: true,
+        tag_info: true,
+        like_info: true
+      }
+    }
+    const res = await axios.get('/posts/' + postId, params)
+    await this.setState({postData : res.data})
+    this.setState({isLoading: false})
   }
 
   onClickPostImage = () => {
@@ -94,7 +110,6 @@ class DetailScreen extends Component {
   
   
       // watermark
-
 
       this.setState({
         imageFile: [{

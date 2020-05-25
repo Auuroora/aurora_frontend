@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { 
   View,
   Button,
-  Icon
+  Text
 } from '@shoutem/ui'
 
 LeftButton.propTypes = {
@@ -17,14 +17,16 @@ export default function LeftButton (props) {
     (
       <Button onPress={props.onPressCancel}
       >
-        <Icon 
+        <Text 
           name="close"
           style={{
             color: '#FFFFFF',
             margin: 10,
             marginTop: 40
           }}
-        />
+        >
+          Close
+        </Text>
       </Button>
     ) : 
     (

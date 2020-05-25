@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, {Component} from 'react'
 import {
-  StyleSheet,
-  StatusBar
+  StyleSheet
 } from 'react-native'
 
 import Profile from './Profile'
@@ -23,15 +22,17 @@ import axios from '../../axiosConfig'
 class MypageScreen extends Component{
   constructor(props) {
     super(props)
-    this.renderRow = this.renderRow.bind(this)
+
     this.state = {
       posts: [],
       isLoading: true,
       user: null,
       userPostCount: null
     }
+
     this.getMypageInfo()
   }
+
   getMypageInfo = async () => {
     const params = {
       params: {
@@ -41,10 +42,12 @@ class MypageScreen extends Component{
     const postData = await axios.get('/mypost', params)
     const userData = await axios.get('/user/my')
     
-    await this.setState({posts: postData.data})
-    await this.setState({user: userData.data})
-    await this.setState({userPostCount: this.state.posts.length})
-    await this.setState({isLoading: false})
+    await this.setState({
+      posts: postData.data,
+      user: userData.data,
+      userPostCount: this.state.posts.length,
+      isLoading: false
+    })
   }
 
   renderRow(rowData) {  
@@ -66,12 +69,12 @@ class MypageScreen extends Component{
       </GridRow>
     )
   }
+  
   render(){
-    // groupByRows(data, column number, grouping number)
-    const groupedData = GridRow.groupByRows(this.state.posts, 2, 
-      () => {
-        return 1
-      })
+    const groupedData = GridRow.groupByRows(this.state.posts, 2, () => {
+      return 1
+    })
+
     return (
       <Screen styleName='fill-parent'
         style={{backgroundColor: '#0A0A0A'}}
@@ -104,7 +107,7 @@ class MypageScreen extends Component{
                 }
               }}
               data={groupedData}
-              renderRow={this.renderRow}
+              renderRow={this.renderRow.bind(this)}
             />
           </View>
         )}

@@ -149,6 +149,7 @@ class DetailScreen extends Component {
       }
     }
     const res = await axios.get('/comments', params)
+    console.log(res.data)
     await this.setState({commentData : res.data})
   }
   postCommentInfo = async () => {
@@ -297,6 +298,7 @@ class DetailScreen extends Component {
               <Comment 
                 key={id}
                 comment = {comment.comment_info.body}
+                // name = {comment.user_info.author_name}
               />
             )
           })}

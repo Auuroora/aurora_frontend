@@ -58,10 +58,12 @@ class HomeScreen extends Component {
     const params = {
       params: {
         filter_info: true,
-        like_info :true
+        like_info :true,
+        comment_info: true
       },
     }
     const res = await axios.get("/posts?page=" + page, params)
+    console.log(res.data)
     return res.data
   }
 
@@ -100,7 +102,8 @@ class HomeScreen extends Component {
           image={AWS_S3_STORAGE_URL + post.filter_info.filter_name} 
           title={post.post_info.title} 
           price={post.post_info.price}
-          liked_count = {post.like_info.liked_count}
+          likedCount = {post.like_info.liked_count}
+          commentCount = {post.comment_info.comments_count}
           liked = {post.like_info.liked}
           onClickLike = {this.onClickLike}
         />

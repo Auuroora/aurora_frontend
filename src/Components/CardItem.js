@@ -34,8 +34,9 @@ export default function CardItem (props) {
   const moveToDetail = () => {
     props.navigation.navigate("Detail", {
       postId: props.postId,
-      liked_count: props.liked_count,
+      likedCount: props.likedCount,
       liked: props.liked_count,
+      commentCount: props.commentCount,
     })
   }
   return (
@@ -62,20 +63,30 @@ export default function CardItem (props) {
             <Caption
               style={{color: '#FFFFFF'}}
             >{props.price}</Caption>
-            <TouchableOpacity onPress={() => onPressFunction(props)}>
+            <TouchableOpacity  onPress={() => onPressFunction(props)}>
               <View styleName="horizontal space-between">
-                {props.liked ? (
+                <View styleName="horizontal space-between">
+
                   <Image
-                    source={ require('../assets/image/heart_pink.png' )}
+                    source={ require('../assets/image/comment.png' )}
                     style={{ width: 20, height: 20, color :'white', marginRight :5 }}
                   />
-                ) : (
-                  <Image
-                    source={ require('../assets/image/heart-white.png' )}
-                    style={{ width: 17, height: 17,  marginRight :5 }}
-                  />
-                )}
-                <Text>{props.liked_count}</Text>
+                  <Text>{props.commentCount}</Text>
+                </View>
+                <View styleName="horizontal space-between" style ={{marginLeft:10}}>
+                  {props.liked ? (
+                    <Image
+                      source={ require('../assets/image/heart_pink.png' )}
+                      style={{ width: 20, height: 20, color :'white', marginRight :5 }}
+                    />
+                  ) : (
+                    <Image
+                      source={ require('../assets/image/heart-white.png' )}
+                      style={{ width: 17, height: 17,  marginRight :5 }}
+                    />
+                  )}
+                  <Text>{props.likedCount}</Text>
+                </View>
               </View>
             </TouchableOpacity>
           </View>

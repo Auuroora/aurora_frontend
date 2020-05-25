@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { 
-  Card,
   Image,
   TouchableOpacity,
 } from '@shoutem/ui'

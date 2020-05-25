@@ -1,5 +1,8 @@
 import React from 'react'
-import { Dimensions } from 'react-native'
+import { 
+  Dimensions,
+  StyleSheet
+} from 'react-native'
 import PropTypes from 'prop-types'
 
 import { 
@@ -17,7 +20,7 @@ FilterTile.propTypes = {
 
 export default function FilterTile (props) {
 
-  const { width, height } = Dimensions.get('window')
+  const { width } = Dimensions.get('window')
 
   let tileStyle = {
     width: width / 10,
@@ -28,12 +31,7 @@ export default function FilterTile (props) {
     <TouchableOpacity 
       onPress={() => props.onPressTile(props.title)}
       styleName="flexible"
-      style={{
-        backgroundColor: '#0A0A0A',
-        padding: 5,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
+      style={styles.valueOpacity}
     >
       <Image
         source={props.image}
@@ -42,13 +40,23 @@ export default function FilterTile (props) {
       </Image>
       <Caption 
         styleName='h-center'
-        style={{
-          color: '#FEFEFE',
-          width: 80
-        }}
+        style={styles.valueName}
       >
         {props.title}
       </Caption>
     </TouchableOpacity>    
   )
 }
+
+const styles = StyleSheet.create({
+  valueOpacity: {
+    backgroundColor: '#0A0A0A',
+    padding: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  valueName: {
+    color: '#FEFEFE',
+    width: 80
+  }
+})  

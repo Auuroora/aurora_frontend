@@ -1,5 +1,8 @@
 #pragma once
 
+/*********************************************************************
+*	����
+*********************************************************************/
 #define ORANGE 15
 #define YELLOW 30
 #define CHARTREUSE 45
@@ -64,7 +67,7 @@
 #define CHECK_TIME_PRINT(str, start, end) printf("%s%f(s)\n", str, static_cast<double>(end - start) / cv::getTickFrequency())
 
 /*********************************************************************
-*	??
+*	����
 *********************************************************************/
 #define ZERO 0
 #define ONE 1
@@ -103,8 +106,8 @@
 #define CLARITY_MID 100
 
 #define GAMMA_MIN 0
-#define GAMMA_MAX 200
-#define GAMMA_MID 0
+#define GAMMA_MAX 400
+#define GAMMA_MID 200
 
 #define EXPOSURE_MIN 0
 #define EXPOSURE_MAX 200
@@ -127,3 +130,7 @@
 #define BGR_CHANGED 1
 #define HLS_CHANGED 2
 #define HSV_CHANGED 3
+
+#define BGRINDEX (int)BGR
+#define HLSINDEX (int)HLS
+#define HSVINDEX (int)HSV

@@ -36,7 +36,7 @@ class HomeScreen extends Component {
         { name: "Price", value: "Price" },
       ],
       isLoading: true,
-      pageNum: 1,
+      pageNum: 1
     }
   }
 
@@ -58,9 +58,12 @@ class HomeScreen extends Component {
     const params = {
       params: {
         filter_info: true,
+        like_info :true,
+        comment_info: true
       },
     }
     const res = await axios.get("/posts?page=" + page, params)
+    console.log(res.data)
     return res.data
   }
 
@@ -78,22 +81,40 @@ class HomeScreen extends Component {
     })
   }
 
-  renderRow = (rowData) => {
+  onClickLike = async(postid) => {
+    console.log(postid)
+    const data = {
+      liker:"user",
+      likeable:"post",
+      likeable_id :postid
+    }
+    await axios.post('/likes', data)
+    this.componentDidMount()
+  }
+
+  renderRow = (rowData) => {  
     const cellViews = rowData.map((post, id) => {
       return (
         <CardItem
           navigation={this.props.navigation}
           key={id}
           postId={post.post_info.id}
-          image={AWS_S3_STORAGE_URL + post.filter_info.filter_name}
-          title={post.post_info.title}
+          image={AWS_S3_STORAGE_URL + post.filter_info.filter_name} 
+          title={post.post_info.title} 
           price={post.post_info.price}
+          likedCount = {post.like_info.liked_count}
+          commentCount = {post.comment_info.comments_count}
+          liked = {post.like_info.liked}
+          onClickLike = {this.onClickLike}
         />
       )
     })
-    return <GridRow columns={2}>{cellViews}</GridRow>
+    return (
+      <GridRow columns={2}>
+        {cellViews}
+      </GridRow>
+    )
   }
-
   onClickShopping = () => {
     this.props.navigation.navigate("Shopping")
   }

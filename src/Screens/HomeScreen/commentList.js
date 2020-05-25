@@ -3,65 +3,32 @@ import {
   StyleSheet,
   Text,
   View,
-  FlatList,
 } from 'react-native'
 import { 
   Icon,
   Button
 } from '@shoutem/ui'
-export default class Comments extends Component {
 
+export default class Comments extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      data:[
-        {id:1, name:"Frank Odalthh",    comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
-        {id:2, name:"John DoeLink",     comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
-        {id:3, name:"March SoulLaComa", comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
-        {id:4, name:"Finn DoRemiFaso",  comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
-        {id:5, name:"Maria More More",  comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
-        {id:6, name:"Clark June Boom!", comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
-        {id:7, name:"The googler",      comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
-      ]
-    }
   }
 
   render() {
-    return (
-      <FlatList
-        styleName='fill-parent'
-        style={styles.root}
-        data={this.state.data}
-        extraData={this.state}
-        ItemSeparatorComponent={() => {
-          return (
-            <View style={styles.separator}/>
-          )
-        }}
-        keyExtractor={(item)=>{
-          return item.id
-        }}
-        renderItem={(item) => {
-          const Notification = item.item
-          return(
-            <View style={styles.container}>
-              <View style={styles.content}>
-                <View style={styles.contentHeader}>
-                  <Text  style={styles.name}>{Notification.name}</Text>
-                  <View style={styles.contentHeader}>
-                    <Text style={styles.time}>
+    return(
+      <View style={styles.container}>
+        <View style={styles.content}>
+          <View style={styles.contentHeader}>
+            <Text  style={styles.name}>NickName</Text>
+            <View style={styles.contentHeader}>
+              <Text style={styles.time}>
                     9:58 am
-                    </Text>
-                    <Button>
-                      <Icon name="comment" style={styles.comment}/>
-                    </Button>
-                  </View>
-                </View>
-                <Text rkType='primary3 mediumLine'>{Notification.comment}</Text>
-              </View>
+              </Text>
             </View>
-          )
-        }}/>
+          </View>
+          <Text rkType='primary3 mediumLine'>{this.props.comment}</Text>
+        </View>
+      </View>
     )
   }
 }
@@ -77,7 +44,7 @@ const styles = StyleSheet.create({
     paddingRight: 16,
     paddingVertical: 12,
     flexDirection: 'row',
-    alignItems: 'flex-start'
+    backgroundColor: "white",
   },
   content: {
     marginLeft: 16,
@@ -87,16 +54,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 6
-  },
-  separator: {
-    height: 1,
-    backgroundColor: "#CCCCCC"
-  },
-  image:{
-    width:45,
-    height:45,
-    borderRadius:20,
-    marginLeft:20
   },
   time:{
     fontSize:11,

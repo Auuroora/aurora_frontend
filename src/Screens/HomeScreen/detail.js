@@ -293,15 +293,15 @@ class DetailScreen extends Component {
               />
             </TouchableOpacity>
           </View>
-          {this.state.commentData.map((comment, id) => {
+          {/* {this.state.commentData.map((comment, id) => {
             return (
               <Comment 
                 key={id}
                 comment = {comment.comment_info.body}
-                // name = {comment.user_info.author_name}
+                name = {comment.user_info.author_name}
               />
             )
-          })}
+          })} */}
         </ScrollView>
       </Screen>
     )

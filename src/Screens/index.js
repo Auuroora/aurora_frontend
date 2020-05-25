@@ -1,8 +1,8 @@
 /* eslint-disable react/display-name */
 // Import React module and components
-import React from "react";
-import { Text } from "react-native";
-import { connect } from "react-redux";
+import React from "react"
+import { Text } from "react-native"
+import { connect } from "react-redux"
 
 // Import navigations
 import { NavigationContainer, DarkTheme } from '@react-navigation/native'
@@ -10,25 +10,25 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 // Import UI module
-import Icon from "react-native-vector-icons/Ionicons";
+import Icon from "react-native-vector-icons/Ionicons"
 
 // Screen Import
-import HomeScreen from "./HomeScreen";
-import SettingScreen from "./SettingScreen";
-import StudioScreen from "./StudioScreen";
-import UploadScreen from "./UploadScreen";
-import MypageScreen from "./MypageScreen";
-import LoginScreen from "./LoginScreen";
-import DetailScreen from "./HomeScreen/detail";
-import TempSettingScreen from "./TempSettingScreen";
-import ShoppingScreen from "./ShoppingScreen";
+import HomeScreen from "./HomeScreen"
+import SettingScreen from "./SettingScreen"
+import StudioScreen from "./StudioScreen"
+import UploadScreen from "./UploadScreen"
+import MypageScreen from "./MypageScreen"
+import LoginScreen from "./LoginScreen"
+import DetailScreen from "./HomeScreen/detail"
+import TempSettingScreen from "./TempSettingScreen"
+import ShoppingScreen from "./ShoppingScreen"
 // Import functions
 import {
   getUserData,
   removeUserData,
   setUserData,
   storeUserData,
-} from "../Store/actions/authAction";
+} from "../Store/actions/authAction"
 
 
 const Stack = createStackNavigator()
@@ -36,7 +36,7 @@ const Tab = createBottomTabNavigator()
 
 const mapStateToProps = (state) => ({
   token: state.auth.token,
-});
+})
 
 const mapDispatchToProps = (dispatch) => ({
   storeUserData: (data) => dispatch(storeUserData(data)),
@@ -62,7 +62,7 @@ function HomeStack() {
         component={ShoppingScreen}
       />
     </Stack.Navigator>
-  );
+  )
 }
 
 function Settingstack() {
@@ -79,7 +79,7 @@ function Settingstack() {
         component={TempSettingScreen}
       />
     </Stack.Navigator>
-  );
+  )
 }
 function MypageStack() {
   return (
@@ -95,7 +95,7 @@ function MypageStack() {
         component={Settingstack}
       />
     </Stack.Navigator>
-  );
+  )
 }
 function TabStack() {
   return (
@@ -144,12 +144,12 @@ function TabStack() {
         component={MypageStack}
       />
     </Tab.Navigator>
-  );
+  )
 }
 
 class RootNavigator extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     // Line for test token
     // removeUserData("userToken");
 
@@ -157,15 +157,15 @@ class RootNavigator extends React.Component {
     getUserData("userToken")
       .then((data) => {
         if (!data) {
-          this.props.storeUserData({ token: null });
-          return;
+          this.props.storeUserData({ token: null })
+          return
         }
-        this.props.storeUserData({ token: data });
-        this.setState({ isLoggedin: data });
+        this.props.storeUserData({ token: data })
+        this.setState({ isLoggedin: data })
       })
       .catch((err) => {
-        alert("Failed to login : ", err);
-      });
+        alert("Failed to login : ", err)
+      })
   }
 
   render() {
@@ -187,11 +187,11 @@ class RootNavigator extends React.Component {
           )}
         </Stack.Navigator>
       </NavigationContainer>
-    );
+    )
   }
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(RootNavigator);
+)(RootNavigator)

@@ -22,6 +22,7 @@ import {
   Spinner,
   Icon,
   TextInput,
+  GridRow,
   TouchableOpacity
 } from '@shoutem/ui'
 
@@ -49,9 +50,12 @@ class DetailScreen extends Component {
       postData : null,
       isLoading: true,
       imageFile: [],
-      isPreview: false
+      isPreview: false,
+      myComment: [],
+      commentData:[]
     }
     this.getPostInfo(this.state.postId)
+    this.getCommentInfo(this.state.postId)
   }
 
   onClickPostImage = () => {
@@ -60,7 +64,6 @@ class DetailScreen extends Component {
         source: { uri: AWS_S3_STORAGE_URL + this.state.postData.filter_info.filter_name},
         title: 'Image Preview',
         width: width,
-
       }],
       isPreview: true,
     })
@@ -122,6 +125,34 @@ class DetailScreen extends Component {
     await this.setState({postData : res.data})
     this.setState({isLoading: false})
   }
+  
+  getCommentInfo = async (postId) => {
+    const params = {
+      params: {
+        commentable_type : "Post",
+        commentable_id :postId
+      }
+    }
+    const res = await axios.get('/comments', params)
+    await this.setState({commentData : res.data})
+  }
+  postCommentInfo = async () => {
+    const data = {
+      comment: {
+        commentable_type : "Post",
+        commentable_id : this.state.postId,
+        body :this.state.myComment
+      }
+    }
+    await axios.post('/comments', data).then(() =>{
+      alert("댓글을 작성 하였습니다.")
+    })
+      .catch((err) => {
+        alert("Failed to Write Comment : ", err)
+      })
+    
+    this.getCommentInfo(this.state.postId)
+  }
   onClickLike = async() => {
     const data = {
       liker:"user",
@@ -148,6 +179,7 @@ class DetailScreen extends Component {
       </Button>
     )
   }
+  
   render () {
     return (
       <Screen>
@@ -167,7 +199,7 @@ class DetailScreen extends Component {
             </View>
           }
         />
-        <ScrollView style ={{width: '100%', height: '90%'}}>
+        <ScrollView styleName = "fill-parent">
           {this.state.isLoading ? (
             <Spinner styleName='large'/>
           ) : (
@@ -229,12 +261,30 @@ class DetailScreen extends Component {
               </View>
             </Card>
           )}
-          <Comment></Comment>
-          <View  styleName="horizontal space-between" style ={{width: '100%', height: '10%'}}>
+          <View 
+            styleName="horizontal space-between" 
+            style ={{width: '100%', height: '10%', backgroundColor: 'white'}}>
             <TextInput 
-              placeholder={'Write Comment'} style ={{width: '90%'}}/>
-            <Icons name="comments" style ={{fontSize:20}}/>
+              placeholder={'Write Comment'} 
+              style ={{placeholderTextColor: 'black', width: '90%', backgroundColor: 'white' }}
+              
+              value={this.state.myComment}
+              onChangeText={(text) => this.setState({myComment: text})}/>
+            <TouchableOpacity onPress={() => this.postCommentInfo()}>
+              <Image
+                source={ require('../../assets/image/blog.png' )}
+                style={{ width: 25, height: 25, color :'white', marginBottom :15, marginRight :15}}
+              />
+            </TouchableOpacity>
           </View>
+          {this.state.commentData.map((comment, id) => {
+            return (
+              <Comment 
+                key={id}
+                comment = {comment.comment_info.body}
+              />
+            )
+          })}
         </ScrollView>
       </Screen>
     )

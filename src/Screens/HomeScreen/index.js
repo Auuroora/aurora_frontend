@@ -35,7 +35,7 @@ class HomeScreen extends Component {
         { name: "Price", value: "Price" },
       ],
       isLoading: true,
-      pageNum: 1,
+      pageNum: 1
     }
   }
   componentDidMount() {

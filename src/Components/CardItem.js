@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { 
   View,
-  Card,
+  Tile,
   Image,
   Subtitle,
   TouchableOpacity,
@@ -35,21 +35,30 @@ export default function CardItem (props) {
       styleName="flexible"
       onPress={moveToDetail}
     >
-      <Card styleName="flexible">
+      <Tile 
+        styleName="flexible dark"
+        style={{backgroundColor: '#222222'}}
+      >
         <Image
           style={{width: (180/375) * width, height: (180/375) * width}}
           styleName="medium-square"
           source={{ uri: props.image  }}
         />
-        <View styleName="content"
-        >
-          <Subtitle numberOfLines={2}>{props.title}</Subtitle>
+        <View styleName="content">
+          <Subtitle numberOfLines={2}
+            style={{color: '#FFFFFF', fontWeight: 'bold', fontSize: 16}}
+          >
+            {props.title}
+          </Subtitle>
           <View styleName="horizontal space-between">
-            <Caption>{props.price}</Caption>
-            <Icon name = "like"/>
+            <Caption
+              style={{color: '#FFFFFF'}}
+            >{props.price}</Caption>
+            <Icon style={{color: '#FFFFFF'}}
+              name = "like"/>
           </View>
         </View>
-      </Card>
+      </Tile>
     </TouchableOpacity>
   )
 }

@@ -16,7 +16,11 @@ export default function RightButton (props) {
   return props.isNewFilter ? 
     (
       <Button onPress={props.onPressDone}>
-        <Icon name="stamp" />
+        <Text
+          style={{color: '#0395FF', marginTop: 40, marginRight: 15}}
+        >
+          Done
+        </Text>
       </Button>
     ) : 
     (

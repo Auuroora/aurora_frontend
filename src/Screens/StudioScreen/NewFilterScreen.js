@@ -10,6 +10,9 @@ import {
   View,
   Spinner,
   ListView,
+  Screen,
+  Text,
+  Title
 } from '@shoutem/ui'
 import FilterTile from './FilterTile'
 
@@ -32,6 +35,8 @@ import {
 
 const { width, height } = Dimensions.get('window')
 
+//TODO : fix Slider Value reset problem
+
 export default class NewFilterScreen extends React.Component {
   static propTypes = {
     image: PropTypes.object,
@@ -44,33 +49,25 @@ export default class NewFilterScreen extends React.Component {
     this.state = {
       image: props.image,
       isImageLoaded: false,
-      editValue: {
-        Color: {
-          Temperature: 0,
-          Saturation: 0,
-          Tint: 0,
-          Hue: 0
-        },
-        Brightness: {
-          Vignette: 0,
-          asdf: 0,
-          Gamma: 100,
-          Exposure: 0,
-          Value: 0,
-        },
-        Etc: {
-          Grain: 0,
-          Clarity: 0,
-          Vibrance: 0
-        }
+      values: {
+        Temperature: 0,
+        Saturation: 0,
+        Tint: 0,
+        Hue: 0,
+        Vignette: 0,
+        Gamma: 100,
+        Exposure: 0,
+        Value: 0,
+        Grain: 0,
+        Clarity: 0,
+        Vibrance: 0
       },
-      editValueRange: {
+      valuesRange: {
         Temperature: { min: -100, max : 100 },
         Saturation: { min: -100, max : 100 },
         Tint: { min: -100, max : 100 },
         Hue: { min: -100, max : 100 },
         Vignette: { min: -100, max : 100 },
-        asdf: { min: -100, max : 100 },
         Gamma: { min: 1, max : 200 },
         Exposure: { min: -100, max : 100 },
         Value: { min: -100, max : 100 },
@@ -83,6 +80,8 @@ export default class NewFilterScreen extends React.Component {
       selectedValueRange: null,
       sliderValue: null,
       editFunction: null,
+      imageWidth: 0,
+      imageHeight: 0
     }
 
     const imageDownSizeWidth = width
@@ -90,7 +89,12 @@ export default class NewFilterScreen extends React.Component {
 
     loadImg(this.state.image.data, imageDownSizeWidth, imageDownSizeHeight)
       .then(() => {
-        this.setState({isImageLoaded: true})
+        this.setState({})
+        this.setState({
+          imageWidth: imageDownSizeWidth,
+          imageHeight: imageDownSizeHeight,
+          isImageLoaded: true
+        })
       })
       .catch((err) => {
         console.log(err)
@@ -113,18 +117,29 @@ export default class NewFilterScreen extends React.Component {
     if(type === 'Hue') return onChangeHue
   }
 
-  // User Event
+  mapTileIcon = (type) => {
+    if(type === 'Saturation') return require('../../assets/tile/Saturation.png')
+    if(type === 'Temperature') return require('../../assets/tile/Temperature.png')
+    if(type === 'Vignette') return require('../../assets/tile/Vignette.png')
+    if(type === 'Grain') return require('../../assets/tile/Grain.png')
+    if(type === 'Gamma') return require('../../assets/tile/Gamma.png')
+    if(type === 'Exposure') return require('../../assets/tile/Exposure.png')
+    if(type === 'Clarity') return require('../../assets/tile/Clarity.png')
+    if(type === 'Tint') return require('../../assets/tile/Tint.png')
+    if(type === 'Vibrance') return require('../../assets/tile/Vibrance.png')
+    if(type === 'Value') return require('../../assets/tile/Value.png')
+    if(type === 'Saturation') return require('../../assets/tile/Saturation.png')
+    if(type === 'Hue') return require('../../assets/tile/Hue.png')
+  }
+
+  // User Event for image operation
   onChangeSliderValue = async (val) => {
-    this.setState(prevState => ({
-      editValue: {
-        ...prevState.editValue,
-        [this.state.selectedCategory]: {
-          ...this.state.editValue[this.state.selectedCategory],
-          [this.state.selectedValue]: val
-        },
+    await this.setState(prevState => ({
+      values: {
+        ...prevState.values,
+        [this.state.selectedValue]: val
       }
     }))
-
     try {
       const resultImg = await this.state.editFunction(val)
       this.setState({ 
@@ -137,29 +152,22 @@ export default class NewFilterScreen extends React.Component {
     }
   }
 
-  onPressCategoryTile = (val) => {
-    console.log(val)
-    this.setState({selectedCategory: val})
-    this.setState({selectedValue: null})
-  }
-
   onPressValueTile = async (val) => {
-    const selected = this.state.editValue[this.state.selectedCategory][val]
-    console.log(val)
-    console.log(this.state.editValueRange[val])
+    const selectedValueTile = this.state.values[val]
+    console.log(val + selectedValueTile)
     await this.setState({
-
+      sliderValue: selectedValueTile
+    })
+    await this.setState({
       selectedValue: val,
-      sliderValue: selected,
       editFunction: this.mapCvFunction(val),
-      selectedValueRange: this.state.editValueRange[val],
-
+      selectedValueRange: this.state.valuesRange[val],
     })
   }
 
   componentDidUpdate = (prevProps) => {
     if (prevProps.isDone !== this.props.isDone && this.props.isDone) {
-      this.props.onNewFilterDone(this.state.image.data, this.state.editValue)
+      this.props.onNewFilterDone(this.state.image.data, this.state.values)
       // TODO: close and reset all variables
     }
   }
@@ -170,6 +178,10 @@ export default class NewFilterScreen extends React.Component {
       return (
         <Image
           source={{ uri: 'data:image/jpeg;base64,' + this.state.image.data }}
+          style={{
+            width: this.state.imageWidth,
+            height: this.state.imageHeight,
+          }}
           styleName='large'
         />
       )
@@ -178,26 +190,14 @@ export default class NewFilterScreen extends React.Component {
       <Spinner styleName='large'/>
     )
   }
-  // For Rendering Category Tile
-  renderCategoryRow = (data) => {
-    return (
-      <FilterTile
-        title={data}
-        key={data.key}
-        onPressTile={this.onPressCategoryTile.bind(this)}
-        size={'medium'}
-        image={'https://stores.selzstatic.com/nvyn50kugf4/assets/settings/lightscape-735108-unsplash.jpg?v=20200323080941'}
-      />
-    )
-  }
   // For Rendering Value Tile
-  renderRow = (data) => {
+  renderValueTile = (data) => {
     return (
       <FilterTile
         onPressTile={this.onPressValueTile.bind(this)}
         title={data}
         size={'small'}
-        image={'https://stores.selzstatic.com/nvyn50kugf4/assets/settings/lightscape-735108-unsplash.jpg?v=20200323080941'}
+        image={this.mapTileIcon(data)}
       />
     )
   }
@@ -205,8 +205,11 @@ export default class NewFilterScreen extends React.Component {
   render () {
     let imageView = this.bindImageView()
     return (
-      <View
-        style={{flex: 1, paddingTop: 90}}
+      <Screen
+        style={{
+          flex: 1,
+          backgroundColor: '#0A0A0A'
+        }}
       >
         {imageView}
         <View
@@ -214,44 +217,60 @@ export default class NewFilterScreen extends React.Component {
             flex: 1,
             justifyContent: 'flex-end'
           }}
-        ></View>
-        <View
-          style={{
-            flex: 0,
-            marginBottom: 30
-          }}
         >
-          {this.state.selectedCategory && this.state.selectedValue ? (
-            <Slider
-              style={{width: 200, height: 40}}
-              minimumValue={this.state.selectedValueRange.min}
-              maximumValue={this.state.selectedValueRange.max}
-              step={3}
-              onValueChange={(val) => this.onChangeSliderValue(val)}
-              value={this.state.sliderValue}
-              minimumTrackTintColor="#FFFFFF"
-              maximumTrackTintColor="#000000"
-            />
-          ) : (
-            null
-          )}
-          {this.state.selectedCategory ? (
+          <View
+            style={{
+              flex: 0,
+              marginBottom: 10  
+            }}
+          >
+            {this.state.selectedValue ? (
+              <View style={{marginBottom: 10}}>
+                <Title        
+                  styleName='h-center'
+                  style={{
+                    color: '#FEFEFE'
+                  }}
+                >
+                  {this.state.values[this.state.selectedValue]}
+                </Title>
+                
+                <Slider
+                  style={{width: width * 0.9, height: 40, marginLeft: width * 0.05, marginRight: width * 0.05}}
+                  minimumValue={this.state.selectedValueRange.min}
+                  maximumValue={this.state.selectedValueRange.max}
+                  step={3}
+                  value={this.state.sliderValue}
+                  onValueChange={(val) => this.onChangeSliderValue(val)}
+                  minimumTrackTintColor="#FFFFFF"
+                  maximumTrackTintColor="#252526"
+                />
+
+                <View styleName='horizontal space-between'>
+                  <Text
+                    style={{marginLeft: 20}}
+                  >
+                    {this.state.selectedValueRange.min}
+                  </Text>
+                  <Text
+                    style={{marginRight: 20}}
+                  >
+                    {this.state.selectedValueRange.max}
+                  </Text>
+                </View>
+              </View>
+            ) : (
+              null
+            )}
             <ListView
-              data={Object.keys(this.state.editValue[this.state.selectedCategory])}
+              data={Object.keys(this.state.values)}
               horizontal={true}
-              renderRow={this.renderRow}
+              renderRow={this.renderValueTile}
             />
-          ) : (
-            null
-          )}
-          <ListView
-            data={Object.keys(this.state.editValue)}
-            horizontal={true}
-            renderRow={this.renderCategoryRow}
-          />
+          </View>
+
         </View>
-        
-      </View>
+      </Screen>
     )
   }
 }

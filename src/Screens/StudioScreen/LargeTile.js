@@ -35,7 +35,7 @@ export default function LargeTile (props) {
           {props.image === null ? (
             <Subtitle 
               styleName="sm-gutter-horizontal"
-              style={{color: '#000000'}}
+              style={{color: '#FFFFFF'}}
             >
               {'이미지를 선택하고 필터를 적용하세요.'}
             </Subtitle>

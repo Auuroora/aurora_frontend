@@ -5,9 +5,9 @@ import { Text } from "react-native";
 import { connect } from "react-redux";
 
 // Import navigations
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer, DarkTheme } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 // Import UI module
 import Icon from "react-native-vector-icons/Ionicons";
@@ -30,8 +30,9 @@ import {
   storeUserData,
 } from "../Store/actions/authAction";
 
-const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
+
+const Stack = createStackNavigator()
+const Tab = createBottomTabNavigator()
 
 const mapStateToProps = (state) => ({
   token: state.auth.token,
@@ -39,8 +40,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   storeUserData: (data) => dispatch(storeUserData(data)),
-  signout: () => dispatch(signout()),
-});
+  signout: () => dispatch(signout())
+})
 
 function HomeStack() {
   return (
@@ -102,29 +103,24 @@ function TabStack() {
       screenOptions={({ route }) => ({
         // eslint-disable-next-line react/prop-types
         tabBarIcon: ({ focused, color, size }) => {
-          let icon = "▲";
-
-          if (route.name === "Home") {
-            icon = <Icon name="md-home" size={30} color="black" />;
-          } else if (route.name === "Mypage") {
-            icon = <Icon name="md-person" size={30} color="black" />;
-          } else if (route.name === "Studio") {
-            icon = <Icon name="ios-color-filter" size={30} color="black" />;
-          } else if (route.name === "Upload") {
-            icon = <Icon name="md-arrow-round-up" size={30} color="black" />;
+          let icon = "▲"
+          
+          if(route.name === 'Home'){
+            icon =<Icon name="md-home" size={30}/>
+          } else if(route.name === 'Mypage'){
+            icon =<Icon name="md-person" size={30}/>
+          } else if(route.name === 'Studio'){
+            icon =<Icon name="ios-color-filter" size={30}/>
+          } else if(route.name === 'Upload'){
+            icon =<Icon name="md-arrow-round-up" size={30}/>
           }
-          return (
-            <Text
-              style={{ color: (focused && "#46c3ad") || "#888", marginTop: 5 }}
-            >
-              {icon}
-            </Text>
-          );
-        },
+          return <Text style={{color: focused && "#FF6787" || "#FEFEFE", marginTop: 5}}>{icon}</Text>
+          
+        }
       })}
       tabBarOptions={{
         activeTintColor: "#FF6787",
-        inactiveTintColor: "#888",
+        inactiveTintColor: "#FEFEFE",
       }}
     >
       <Tab.Screen
@@ -174,8 +170,8 @@ class RootNavigator extends React.Component {
 
   render() {
     return (
-      <NavigationContainer>
-        <Stack.Navigator>
+      <NavigationContainer theme={DarkTheme}>
+        <Stack.Navigator >
           {this.props.token === null ? (
             <Stack.Screen
               options={{ headerShown: false }}

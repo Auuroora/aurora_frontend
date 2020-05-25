@@ -9,11 +9,10 @@ import {
   Icon,
   GridRow,
   DropDownMenu,
-  View,
-  Spinner,
-} from "@shoutem/ui";
-import CardItem from "../../Components/CardItem";
-import Title from "../../Components/Title";
+  View
+} from '@shoutem/ui'
+import CardItem from '../../Components/CardItem'
+import Title from '../../Components/Title'
 
 import { AWS_S3_STORAGE_URL } from "react-native-dotenv";
 import axios from "../../axiosConfig";
@@ -44,13 +43,13 @@ class HomeScreen extends Component {
       .then((res) => {
         this.setState({
           postList: res.posts,
-          isLoading: false,
-        });
+          isLoading: false
+        })
       })
-      .catch((e) => {
-        console.log(e);
-        alert("error : " + e);
-      });
+      .catch(e => {
+        console.log(e)
+        alert('error : ' + e)
+      })
   }
 
   getPostList = async (page) => {
@@ -103,8 +102,12 @@ class HomeScreen extends Component {
     return (
       //TODO: 무한 스크롤 적용해야함
       //TODO: Component 로 뽑아내기
-      <Screen>
-        <StatusBar barStyle="dark-content" hidden={true} />
+
+      <Screen
+        style={{
+          backgroundColor: '#0A0A0A'
+        }}
+      >
         <ImageBackground
           source={require("../../assets/image/Header.jpg")}
           styleName="large-ultra-wide"
@@ -139,9 +142,9 @@ class HomeScreen extends Component {
             }
             centerComponent={<Title title={"Home"} topMargin={50} />}
             rightComponent={
-              <View styleName="horizontal">
-                <Button styleName="clear">
-                  <Icon name="search" style={{ color: "white" }} />
+              <View styleName="horizontal space-between">
+                <Button styleName="clear" >
+                  <Icon name="search" style ={{color  :"white"}}/>
                 </Button>
                 <Button
                   styleName="clear"
@@ -157,8 +160,11 @@ class HomeScreen extends Component {
         </ImageBackground>
         <ListView
           style={{
-            height: height + 500,
+            height: height,
             width: width,
+            listContent: {
+              backgroundColor: '#0A0A0A',
+            }
           }}
           data={groupedData}
           onLoadMore={this.loadMore}

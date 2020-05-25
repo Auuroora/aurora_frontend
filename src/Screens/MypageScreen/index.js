@@ -73,10 +73,11 @@ class MypageScreen extends Component{
         return 1
       })
     return (
-      <Screen styleName='fill-parent'>
-        <StatusBar barStyle="dark-content"/>
+      <Screen styleName='fill-parent'
+        style={{backgroundColor: '#0A0A0A'}}
+      >
         <NavigationBar
-          styleName='inline'
+          styleName='inline clear'
           centerComponent={<Title title={'MyPage'}/>}
         />
         {this.state.isLoading ? (
@@ -97,6 +98,11 @@ class MypageScreen extends Component{
         ) : (
           <View style={styles.card_container}>
             <ListView
+              style={{
+                listContent: {
+                  backgroundColor: '#0A0A0A'
+                }
+              }}
               data={groupedData}
               renderRow={this.renderRow}
             />

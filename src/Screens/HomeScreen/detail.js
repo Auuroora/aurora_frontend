@@ -2,7 +2,6 @@
 import React, { Component } from 'react'
 
 import {
-  StatusBar,
   Dimensions
 } from 'react-native'
 
@@ -13,14 +12,16 @@ import {
   NavigationBar,
   View,
   Card,
-  Icon,
   ListView,
   Heading,
   Subtitle,
   Button,
   Text,
   Divider,
+  ScrollView,
   Spinner,
+  Icon,
+  TextInput,
   TouchableOpacity
 } from '@shoutem/ui'
 
@@ -30,6 +31,8 @@ import axios from '../../axiosConfig'
 import ImagePicker from 'react-native-image-picker'
 import ImageView from 'react-native-image-view'
 
+import Comment from './commentList'
+import Icons from 'react-native-vector-icons/dist/Ionicons'
 const { width, height } = Dimensions.get('window')
 
 
@@ -119,6 +122,26 @@ class DetailScreen extends Component {
     await this.setState({postData : res.data})
     this.setState({isLoading: false})
   }
+  onClickLike = async() => {
+    const data = {
+      liker:"user",
+      likeable:"post",
+      likeable_id :this.state.postId
+    }
+    const params = {
+      params: {
+        user_info: true,
+        filter_info: true,
+        tag_info: true,
+        like_info: true
+      }
+    }
+    await axios.post('/likes', data)
+    const res = await axios.get('/posts/' + this.state.postId, params)
+    await this.setState({postData : res.data})
+    console.log( res.data.like_info.liked)
+    console.log( res.data.like_info.liked)
+  }
 
   renderTagRow = (data) => {
     return (
@@ -129,8 +152,7 @@ class DetailScreen extends Component {
   }
   render () {
     return (
-      <Screen styleName='fill-parent'>
-        <StatusBar barStyle="dark-content"/>
+      <Screen>
         <NavigationBar
           styleName='inline'
           centerComponent={<Title title={'Details'}/>}
@@ -147,59 +169,75 @@ class DetailScreen extends Component {
             </View>
           }
         />
-        {this.state.isLoading ? (
-          <Spinner styleName='large'/>
-        ) : (
-          <Card 
-            style={{width: width}}
-            styleName="flexible"
-          >
-            <ImageView
-              images={this.state.imageFile}
-              imageIndex={0}
-              isVisible={this.state.isPreview}
-              isSwipeCloseEnabled={true}
-              onClose={() => {this.setState({isPreview: false})}}
-            />
-
-            <TouchableOpacity
-              onPress={this.onClickPostImage}
+        <ScrollView style ={{width: '100%', height: '90%'}}>
+          {this.state.isLoading ? (
+            <Spinner styleName='large'/>
+          ) : (
+            <Card 
+              style={{width: width}}
+              styleName="flexible"
             >
-              <Image
-                style={{width: width, height: width}}
-                source={{ uri: AWS_S3_STORAGE_URL + this.state.postData.filter_info.filter_name}}
+              <ImageView
+                images={this.state.imageFile}
+                imageIndex={0}
+                isVisible={this.state.isPreview}
+                isSwipeCloseEnabled={true}
+                onClose={() => {this.setState({isPreview: false})}}
               />
-            </TouchableOpacity>
-            
-            <View styleName="content">
-              <Heading numberOfLines={2}>{this.state.postData.post_info.title}</Heading>
-              <View styleName="horizontal space-between">
-                <Subtitle>판매 가격 : {this.state.postData.post_info.price}</Subtitle>
-                <Button>
-                  <View styleName="horizontal space-between">
-                    <Icon name="like"/>
-                    <Text>{this.state.postData.like_info.liked_count}</Text>
-                  </View>
-                </Button>
-              </View>
-  
-              <ListView
-                style={{width: '50%'}}
-                data={this.state.postData.tag_info.tag_list}
-                horizontal={true}
-                renderRow={this.renderTagRow}
-              />
-              <Divider></Divider>
-              <View
-                style={{flex: 50}}
+
+              <TouchableOpacity
+                onPress={this.onClickPostImage}
               >
-                <Text>
-                  {this.state.postData.post_info.description}
-                </Text>
+                <Image
+                  style={{width: width, height: width}}
+                  source={{ uri: AWS_S3_STORAGE_URL + this.state.postData.filter_info.filter_name}}
+                />
+              </TouchableOpacity>
+              <View styleName="content">
+                <Heading numberOfLines={2}>{this.state.postData.post_info.title}</Heading>
+                <View styleName="horizontal space-between">
+                  <Subtitle>판매 가격 : {this.state.postData.post_info.price}</Subtitle>
+                  <Button onPress={() => this.onClickLike()}>
+                    <View styleName="horizontal space-between">
+                      {this.state.postData.like_info.liked ? (
+                        <Image
+                          source={ require('../../assets/image/heart_pink.png' )}
+                          style={{ width: 20, height: 20, color :'red', marginRight :10 }}
+                        />
+                      ) : (
+                        <Image
+                          source={ require('../../assets/image/heart.png' )}
+                          style={{ width: 20, height: 20,  marginRight :10 }}
+                        />
+                      )}
+                      <Text>{this.state.postData.like_info.liked_count}</Text>
+                    </View>
+                  </Button>
+                </View>
+                <ListView
+                  style={{width: '50%'}}
+                  data={this.state.postData.tag_info.tag_list}
+                  horizontal={true}
+                  renderRow={this.renderTagRow}
+                />
+                <Divider></Divider>
+                <View
+                  style={{flex: 40}}
+                >
+                  <Text>
+                    {this.state.postData.post_info.description}
+                  </Text>
+                </View>
               </View>
-            </View>
-          </Card>
-        )}
+            </Card>
+          )}
+          <Comment></Comment>
+          <View  styleName="horizontal space-between" style ={{width: '100%', height: '10%'}}>
+            <TextInput 
+              placeholder={'Write Comment'} style ={{width: '90%'}}/>
+            <Icons name="comments" style ={{fontSize:20}}/>
+          </View>
+        </ScrollView>
       </Screen>
     )
   }

@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {
-  StatusBar,
   Dimensions
 } from 'react-native'
 import { 
@@ -80,7 +79,6 @@ class ShoppingScreen extends Component{
   render(){
     return (
       <Screen styleName='fill-parent'>
-        <StatusBar barStyle="dark-content" hidden = {true}/>
         <ImageBackground
           source={{uri: 'https://stores.selzstatic.com/nvyn50kugf4/assets/settings/lightscape-735108-unsplash.jpg?v=20200323080941'}}
           styleName="large-ultra-wide"

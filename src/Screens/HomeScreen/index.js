@@ -166,8 +166,7 @@ class HomeScreen extends Component{
             }
           }}
           data={groupedData}
-          onLoadMore={this.loadMore}
-          onRefresh={this.getPostList}
+          onRefresh={() => this.getPostList(1)}
           renderRow={this.renderRow}
         />
       </Screen>

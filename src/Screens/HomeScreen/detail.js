@@ -279,11 +279,10 @@ class DetailScreen extends Component {
           )}
           <View 
             styleName="horizontal space-between" 
-            style ={{width: '100%', height: '10%', backgroundColor: 'white'}}>
+            style ={{width: '100%', height: '5%', backgroundColor: 'white'}}>
             <TextInput 
               placeholder={'Write Comment'} 
               style ={{placeholderTextColor: 'black', width: '90%', backgroundColor: 'white' }}
-              
               value={this.state.myComment}
               onChangeText={(text) => this.setState({myComment: text})}/>
             <TouchableOpacity onPress={() => this.postCommentInfo()}>
@@ -293,7 +292,7 @@ class DetailScreen extends Component {
               />
             </TouchableOpacity>
           </View>
-          {/* {this.state.commentData.map((comment, id) => {
+          {this.state.commentData.map((comment, id) => {
             return (
               <Comment 
                 key={id}
@@ -301,7 +300,7 @@ class DetailScreen extends Component {
                 name = {comment.user_info.author_name}
               />
             )
-          })} */}
+          })}
         </ScrollView>
       </Screen>
     )

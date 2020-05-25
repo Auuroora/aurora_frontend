@@ -19,7 +19,7 @@ export default class Comments extends Component {
       <View style={styles.container}>
         <View style={styles.content}>
           <View style={styles.contentHeader}>
-            <Text  style={styles.name}>NickName</Text>
+            <Text  style={styles.name}>{this.props.name}</Text>
             <View style={styles.contentHeader}>
               <Text style={styles.time}>
                     9:58 am

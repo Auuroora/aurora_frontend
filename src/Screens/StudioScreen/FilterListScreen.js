@@ -118,15 +118,12 @@ class FilterListScreen extends Component{
     loadImg(this.state.originalFile, imageDownSizeWidth, imageDownSizeHeight)
     
     for( let key in preset ) {
-      for( let type in preset[key]) {
-        console.log(type)
-        const modifyFunc = this.mapCvFunction(type)
-        try {
-          resultImg = await modifyFunc(preset[key][type])
-          this.setState({modifiedFile: resultImg})
-        } catch (e) {
-          console.log(e)
-        }
+      const modifyFunc = this.mapCvFunction(key)
+      try {
+        resultImg = await modifyFunc(preset[key])
+        this.setState({modifiedFile: resultImg})
+      } catch (e) {
+        console.log(e)
       }
     }
     await this.setState(prevState => ({

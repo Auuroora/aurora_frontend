@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { StatusBar, Dimensions } from "react-native";
+import React, { Component } from "react"
+import { StatusBar, Dimensions } from "react-native"
 import {
   NavigationBar,
   ImageBackground,
@@ -14,19 +14,19 @@ import {
 import CardItem from '../../Components/CardItem'
 import Title from '../../Components/Title'
 
-import { AWS_S3_STORAGE_URL } from "react-native-dotenv";
-import axios from "../../axiosConfig";
+import { AWS_S3_STORAGE_URL } from "react-native-dotenv"
+import axios from "../../axiosConfig"
 
 /* TODO
  * 1. Add SearchBar and icon to Navigation
  * 2. Add Sort and icon to Navigation
  */
 
-const { width, height } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window")
 
 class HomeScreen extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       postList: [],
       filters: [
@@ -36,7 +36,7 @@ class HomeScreen extends Component {
       ],
       isLoading: true,
       pageNum: 1,
-    };
+    }
   }
   componentDidMount() {
     this.getPostList(1)
@@ -57,23 +57,23 @@ class HomeScreen extends Component {
       params: {
         filter_info: true,
       },
-    };
-    const res = await axios.get("/posts?page=" + page, params);
-    return res.data;
+    }
+    const res = await axios.get("/posts?page=" + page, params)
+    return res.data
   };
 
   loadMore = async () => {
-    if (this.state.isLoading) return;
+    if (this.state.isLoading) return
     await this.setState({
       pageNum: this.state.pageNum + 1,
       isLoading: true,
-    });
-    const res = await this.getPostList(this.state.pageNum);
-    this.state.postList.concat(res.posts);
+    })
+    const res = await this.getPostList(this.state.pageNum)
+    this.state.postList.concat(res.posts)
 
     await this.setState({
       isLoading: false,
-    });
+    })
   };
 
   renderRow = (rowData) => {
@@ -87,21 +87,21 @@ class HomeScreen extends Component {
           title={post.post_info.title}
           price={post.post_info.price}
         />
-      );
-    });
-    return <GridRow columns={2}>{cellViews}</GridRow>;
+      )
+    })
+    return <GridRow columns={2}>{cellViews}</GridRow>
   };
   onClickShopping = () => {
-    this.props.navigation.navigate("Shopping");
+    this.props.navigation.navigate("Shopping")
   };
   render() {
     // groupByRows(data, column number, grouping number)
     const groupedData = GridRow.groupByRows(this.state.postList, 2, () => {
-      return 1;
-    });
+      return 1
+    })
     return (
-      //TODO: 무한 스크롤 적용해야함
-      //TODO: Component 로 뽑아내기
+    //TODO: 무한 스크롤 적용해야함
+    //TODO: Component 로 뽑아내기
 
       <Screen
         style={{
@@ -149,7 +149,7 @@ class HomeScreen extends Component {
                 <Button
                   styleName="clear"
                   onPress={() => {
-                    this.onClickShopping();
+                    this.onClickShopping()
                   }}
                 >
                   <Icon name="cart" style={{ color: "white" }} />
@@ -171,8 +171,8 @@ class HomeScreen extends Component {
           renderRow={this.renderRow}
         />
       </Screen>
-    );
+    )
   }
 }
 
-export default HomeScreen;
+export default HomeScreen

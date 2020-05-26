@@ -7,7 +7,7 @@ const loadImg = (imgPath, rowSize, colSize) => {
     if (Platform.OS === "android") {
       resolve(true);
     } else {
-      OpenCV.initCV(imgPath, ,rowSize, colSize, (error, data) => {
+      OpenCV.initCV(imgPath, rowSize, colSize, (error, data) => {
         if (data) {
           resolve(data);
         } else {

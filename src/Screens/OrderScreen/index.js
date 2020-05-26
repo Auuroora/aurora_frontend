@@ -92,6 +92,9 @@ class OrderScreen extends Component {
       </View>
     )
   }
+  onClickShopping = () => {
+    this.props.navigation.navigate("Shopping")
+  }
 
   onClickPayment = () => {
     alert("Payment")
@@ -116,11 +119,13 @@ class OrderScreen extends Component {
           renderRow={this.renderRow}
         />
         <Divider styleName="line" />
-        <Button>
-          <Icon
-            style={{ color: '#FF6787' }}
-            name="plus-button" />
-          <Text style={{ color: '#FF6787', fontWeight: "bold" }}>더 담으러 가기</Text>
+        <Button
+          onPress={() => this.onClickShopping()}>
+          <Icon style={{ color: '#FF6787' }} name="plus-button" />
+          <Text
+            style={{ color: '#FF6787', fontWeight: "bold" }}>
+            더 담으러 가기
+            </Text>
         </Button>
         <Button styleName="clear"
           style={{

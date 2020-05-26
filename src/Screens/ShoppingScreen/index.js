@@ -102,11 +102,22 @@ class ShoppingScreen extends Component {
           renderRow={this.renderRow}
         />
         <Button styleName="clear"
+          style={{
+            backgroundColor: '#FF6787',
+            height: 50,
+            marginHorizontal: 10,
+            marginTop: 10,
+            marginBottom: 10,
+          }}
           onPress={() => {
             this.onClickOrder()
           }}
         >
-          <Text>선택한 x개 구매하러가기</Text>
+          <Text
+            style={{
+              fontSize: 15,
+              fontColor: 'black'
+            }}>선택한 x개 구매하러가기</Text>
         </Button>
       </Screen>
     )

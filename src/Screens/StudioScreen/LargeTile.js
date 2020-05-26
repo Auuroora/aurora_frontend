@@ -8,8 +8,7 @@ import {
   Tile,
   Title,
   Subtitle,
-  TouchableOpacity,
-  Divider
+  TouchableOpacity
 } from '@shoutem/ui'
 
 LargeTile.propTypes = {
@@ -18,7 +17,7 @@ LargeTile.propTypes = {
   tempData: PropTypes.string
 }
 
-const { width, height } = Dimensions.get('window')
+const { width } = Dimensions.get('window')
 
 export default function LargeTile (props) {
   return (
@@ -27,8 +26,8 @@ export default function LargeTile (props) {
     >
       <ImageBackground
         styleName="large"
-        style ={{width: width}}
-        source={ { uri: 'data:image/jpeg;base64,' + props.image } }
+        style ={{ width: width }}
+        source={{ uri: 'data:image/jpeg;base64,' + props.image } }
       >
         <Tile styleName="clear">
           <Title styleName="md-gutter-bottom">{props.title}</Title>

@@ -1,18 +1,21 @@
 import React, { Component } from 'react'
-import { Dimensions } from 'react-native'
+import {
+  Dimensions,
+  StyleSheet
+} from 'react-native'
+
 import {
   ListView,
   GridRow,
   Screen,
 } from '@shoutem/ui'
+
 import LargeTile from './LargeTile'
 import axios from '../../axiosConfig'
 import ImagePicker from 'react-native-image-picker'
 import SmallTile from './SmallTile'
-
 import { AWS_S3_STORAGE_URL } from 'react-native-dotenv'
 
-// Import OpenCV Libraries
 import {
   loadImg,
   updateTemperature,
@@ -29,14 +32,7 @@ import {
 
 } from '../../OpencvJs'
 
-/* TODO
- * 1. Add Case for no own filter
- * 2. Add Filter List
- * 3. Add Get all own Filter API call function
- * 4. Add PropTypes
- */
-
-const { width, height } = Dimensions.get('window')
+const { width } = Dimensions.get('window')
 
 const ImagePickerOptions = {
   title: 'Select Image',
@@ -117,16 +113,14 @@ class FilterListScreen extends Component {
 
     loadImg(this.state.originalFile, imageDownSizeWidth, imageDownSizeHeight)
 
+
     for (let key in preset) {
-      for (let type in preset[key]) {
-        console.log(type)
-        const modifyFunc = this.mapCvFunction(type)
-        try {
-          resultImg = await modifyFunc(preset[key][type])
-          this.setState({ modifiedFile: resultImg })
-        } catch (e) {
-          console.log(e)
-        }
+      const modifyFunc = this.mapCvFunction(key)
+      try {
+        resultImg = await modifyFunc(preset[key])
+        this.setState({ modifiedFile: resultImg })
+      } catch (e) {
+        console.log(e)
       }
     }
     await this.setState(prevState => ({
@@ -156,14 +150,12 @@ class FilterListScreen extends Component {
     )
   }
   render() {
-    const groupedData = GridRow.groupByRows(this.state.filter_list, 3,
-      () => {
-        return 1
-      })
+    const groupedData = GridRow.groupByRows(this.state.filter_list, 3, () => {
+      return 1
+    })
+
     return (
-      <Screen style={{
-        backgroundColor: '#0A0A0A'
-      }}>
+      <Screen style={styles.darkScreen}>
         <LargeTile
           image={this.state.imageFile.data}
           onClickTile={this.onClickLargeTile}
@@ -182,3 +174,10 @@ class FilterListScreen extends Component {
   }
 }
 export default FilterListScreen
+
+
+const styles = StyleSheet.create({
+  darkScreen: {
+    backgroundColor: '#0A0A0A'
+  }
+})  

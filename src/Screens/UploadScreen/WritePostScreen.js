@@ -31,10 +31,6 @@ class WritePostScreen extends Component{
     }
   }
   onClickUpload = async () => {
-    const userData = await AsyncStorage.getItem('@Aurora:' + 'userToken')
-    const headers = {
-      'Authorization': userData
-    }
     if (this.state.title && this.state.tag && this.state.description  && this.props.filterId && this.state.price) {
       const data = {
         post:{
@@ -46,7 +42,7 @@ class WritePostScreen extends Component{
         }
       }
 
-      return axios.post('/posts', data,{headers:headers})
+      return axios.post('/posts', data)
         .then((response) => {
           alert('게시글 작성이 완료되었습니다.')
         }).catch((err) => {

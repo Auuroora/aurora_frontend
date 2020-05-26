@@ -8,10 +8,13 @@ import {
   Subtitle,
   TouchableOpacity,
   Caption,
+  Text,
+  Button,
   Icon
 } from '@shoutem/ui'
 
 import { Dimensions } from 'react-native'
+import axios from '../axiosConfig'
 
 const { width } = Dimensions.get('window')
 
@@ -19,17 +22,23 @@ CardItem.propTypes = {
   image: PropTypes.string,
   title: PropTypes.string,
   price: PropTypes.string,
-  postId: PropTypes.number
+  postId: PropTypes.number,
+  onClickLike: PropTypes.func
 }
-
+const onPressFunction = (props) =>{
+  console.log(props.postId)
+  props.onClickLike(props.postId) 
+}
 export default function CardItem (props) {
 
   const moveToDetail = () => {
     props.navigation.navigate("Detail", {
-      postId: props.postId
+      postId: props.postId,
+      likedCount: props.likedCount,
+      liked: props.liked_count,
+      commentCount: props.commentCount,
     })
   }
-
   return (
     <TouchableOpacity 
       styleName="flexible"
@@ -54,8 +63,32 @@ export default function CardItem (props) {
             <Caption
               style={{color: '#FFFFFF'}}
             >{props.price}</Caption>
-            <Icon style={{color: '#FFFFFF'}}
-              name = "like"/>
+            <TouchableOpacity  onPress={() => onPressFunction(props)}>
+              <View styleName="horizontal space-between">
+                <View styleName="horizontal space-between">
+
+                  <Image
+                    source={ require('../assets/image/comment.png' )}
+                    style={{ width: 20, height: 20, color :'white', marginRight :5 }}
+                  />
+                  <Text>{props.commentCount}</Text>
+                </View>
+                <View styleName="horizontal space-between" style ={{marginLeft:10}}>
+                  {props.liked ? (
+                    <Image
+                      source={ require('../assets/image/heart_pink.png' )}
+                      style={{ width: 20, height: 20, color :'white', marginRight :5 }}
+                    />
+                  ) : (
+                    <Image
+                      source={ require('../assets/image/heart-white.png' )}
+                      style={{ width: 17, height: 17,  marginRight :5 }}
+                    />
+                  )}
+                  <Text>{props.likedCount}</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
       </Tile>

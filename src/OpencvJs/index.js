@@ -1,22 +1,22 @@
-import { NativeModules, Platform } from "react-native";
+import { NativeModules, Platform } from "react-native"
 
-const OpenCV = NativeModules.RNOpenCvLibrary;
+const OpenCV = NativeModules.RNOpenCvLibrary
 
 const loadImg = (imgPath, rowSize, colSize) => {
   return new Promise((resolve, reject) => {
     if (Platform.OS === "android") {
-      resolve(true);
+      resolve(true)
     } else {
       OpenCV.initCV(imgPath, rowSize, colSize, (error, data) => {
         if (data) {
-          resolve(data);
+          resolve(data)
         } else {
-          reject(error);
+          reject(error)
         }
-      });
+      })
     }
-  });
-};
+  })
+}
 
 const updateTemperature = (val) => {
   return new Promise((resolve, reject) => {
@@ -25,15 +25,15 @@ const updateTemperature = (val) => {
     } else {
       OpenCV.onChangeTemperature(val, (error, data) => {
         if (data) {
-          resolve(data);
+          resolve(data)
         }
         if (error) {
-          reject(error);
+          reject(error)
         }
-      });
+      })
     }
-  });
-};
+  })
+}
 
 const onChangeHue = (val) => {
   return new Promise((resolve, reject) => {
@@ -42,15 +42,15 @@ const onChangeHue = (val) => {
     } else {
       OpenCV.onChangeHue(val, (error, data) => {
         if (data) {
-          resolve(data);
+          resolve(data)
         }
         if (error) {
-          reject(error);
+          reject(error)
         }
-      });
+      })
     }
-  });
-};
+  })
+}
 
 const onChangeSaturation = (val) => {
   return new Promise((resolve, reject) => {
@@ -59,15 +59,15 @@ const onChangeSaturation = (val) => {
     } else {
       OpenCV.onChangeSaturation(val, (error, data) => {
         if (data) {
-          resolve(data);
+          resolve(data)
         }
         if (error) {
-          reject(error);
+          reject(error)
         }
-      });
+      })
     }
-  });
-};
+  })
+}
 
 const onChangeValue = (val) => {
   return new Promise((resolve, reject) => {
@@ -76,15 +76,15 @@ const onChangeValue = (val) => {
     } else {
       OpenCV.onChangeValue(val, (error, data) => {
         if (data) {
-          resolve(data);
+          resolve(data)
         }
         if (error) {
-          reject(error);
+          reject(error)
         }
-      });
+      })
     }
-  });
-};
+  })
+}
 
 const onChangeVibrance = (val) => {
   return new Promise((resolve, reject) => {
@@ -93,15 +93,15 @@ const onChangeVibrance = (val) => {
     } else {
       OpenCV.onChangeVibrance(val, (error, data) => {
         if (data) {
-          resolve(data);
+          resolve(data)
         }
         if (error) {
-          reject(error);
+          reject(error)
         }
-      });
+      })
     }
-  });
-};
+  })
+}
 
 const onChangeTint = (val) => {
   return new Promise((resolve, reject) => {
@@ -110,15 +110,15 @@ const onChangeTint = (val) => {
     } else {
       OpenCV.onChangeTint(val, (error, data) => {
         if (data) {
-          resolve(data);
+          resolve(data)
         }
         if (error) {
-          reject(error);
+          reject(error)
         }
-      });
+      })
     }
-  });
-};
+  })
+}
 
 const onChangeClarity = (val) => {
   return new Promise((resolve, reject) => {
@@ -127,15 +127,15 @@ const onChangeClarity = (val) => {
     } else {
       OpenCV.onChangeClarity(val, (error, data) => {
         if (data) {
-          resolve(data);
+          resolve(data)
         }
         if (error) {
-          reject(error);
+          reject(error)
         }
-      });
+      })
     }
-  });
-};
+  })
+}
 
 const onChangeExposure = (val) => {
   return new Promise((resolve, reject) => {
@@ -144,15 +144,15 @@ const onChangeExposure = (val) => {
     } else {
       OpenCV.onChangeExposure(val, (error, data) => {
         if (data) {
-          resolve(data);
+          resolve(data)
         }
         if (error) {
-          reject(error);
+          reject(error)
         }
-      });
+      })
     }
-  });
-};
+  })
+}
 
 const onChangeGamma = (val) => {
   return new Promise((resolve, reject) => {
@@ -161,15 +161,15 @@ const onChangeGamma = (val) => {
     } else {
       OpenCV.onChangeGamma(val, (error, data) => {
         if (data) {
-          resolve(data);
+          resolve(data)
         }
         if (error) {
-          reject(error);
+          reject(error)
         }
-      });
+      })
     }
-  });
-};
+  })
+}
 
 const onChangeGrain = (val) => {
   return new Promise((resolve, reject) => {
@@ -178,15 +178,15 @@ const onChangeGrain = (val) => {
     } else {
       OpenCV.onChangeGrain(val, (error, data) => {
         if (data) {
-          resolve(data);
+          resolve(data)
         }
         if (error) {
-          reject(error);
+          reject(error)
         }
-      });
+      })
     }
-  });
-};
+  })
+}
 
 const onChangeVignette = (val) => {
   return new Promise((resolve, reject) => {
@@ -195,15 +195,15 @@ const onChangeVignette = (val) => {
     } else {
       OpenCV.onChangeVignette(val, (error, data) => {
         if (data) {
-          resolve(data);
+          resolve(data)
         }
         if (error) {
-          reject(error);
+          reject(error)
         }
-      });
+      })
     }
-  });
-};
+  })
+}
 
 export {
   loadImg,
@@ -218,4 +218,4 @@ export {
   onChangeValue,
   onChangeSaturation,
   onChangeHue,
-};
+}

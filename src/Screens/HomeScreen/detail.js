@@ -22,6 +22,7 @@ import {
   Spinner,
   Icon,
   TextInput,
+  GridRow,
   TouchableOpacity
 } from '@shoutem/ui'
 
@@ -33,7 +34,9 @@ import ImageView from 'react-native-image-view'
 
 import Comment from './commentList'
 import Icons from 'react-native-vector-icons/dist/Ionicons'
-const { width, height } = Dimensions.get('window')
+
+
+const { width } = Dimensions.get('window')
 
 
 /* TODO
@@ -49,9 +52,26 @@ class DetailScreen extends Component {
       postData : null,
       isLoading: true,
       imageFile: [],
-      isPreview: false
+      isPreview: false,
+      myComment: [],
+      commentData:[]
     }
     this.getPostInfo(this.state.postId)
+    this.getCommentInfo(this.state.postId)
+  }
+
+  getPostInfo = async (postId) => {
+    const params = {
+      params: {
+        user_info: true,
+        filter_info: true,
+        tag_info: true,
+        like_info: true
+      }
+    }
+    const res = await axios.get('/posts/' + postId, params)
+    await this.setState({postData : res.data})
+    this.setState({isLoading: false})
   }
 
   onClickPostImage = () => {
@@ -60,7 +80,6 @@ class DetailScreen extends Component {
         source: { uri: AWS_S3_STORAGE_URL + this.state.postData.filter_info.filter_name},
         title: 'Image Preview',
         width: width,
-
       }],
       isPreview: true,
     })
@@ -92,7 +111,6 @@ class DetailScreen extends Component {
   
       // watermark
 
-
       this.setState({
         imageFile: [{
           source: response,
@@ -122,6 +140,35 @@ class DetailScreen extends Component {
     await this.setState({postData : res.data})
     this.setState({isLoading: false})
   }
+  
+  getCommentInfo = async (postId) => {
+    const params = {
+      params: {
+        commentable_type : "Post",
+        commentable_id :postId
+      }
+    }
+    const res = await axios.get('/comments', params)
+    console.log(res.data)
+    await this.setState({commentData : res.data})
+  }
+  postCommentInfo = async () => {
+    const data = {
+      comment: {
+        commentable_type : "Post",
+        commentable_id : this.state.postId,
+        body :this.state.myComment
+      }
+    }
+    await axios.post('/comments', data).then(() =>{
+      alert("댓글을 작성 하였습니다.")
+    })
+      .catch((err) => {
+        alert("Failed to Write Comment : ", err)
+      })
+    
+    this.getCommentInfo(this.state.postId)
+  }
   onClickLike = async() => {
     const data = {
       liker:"user",
@@ -139,8 +186,6 @@ class DetailScreen extends Component {
     await axios.post('/likes', data)
     const res = await axios.get('/posts/' + this.state.postId, params)
     await this.setState({postData : res.data})
-    console.log( res.data.like_info.liked)
-    console.log( res.data.like_info.liked)
   }
 
   renderTagRow = (data) => {
@@ -150,6 +195,7 @@ class DetailScreen extends Component {
       </Button>
     )
   }
+  
   render () {
     return (
       <Screen>
@@ -169,7 +215,7 @@ class DetailScreen extends Component {
             </View>
           }
         />
-        <ScrollView style ={{width: '100%', height: '90%'}}>
+        <ScrollView styleName = "fill-parent">
           {this.state.isLoading ? (
             <Spinner styleName='large'/>
           ) : (
@@ -197,7 +243,7 @@ class DetailScreen extends Component {
                 <Heading numberOfLines={2}>{this.state.postData.post_info.title}</Heading>
                 <View styleName="horizontal space-between">
                   <Subtitle>판매 가격 : {this.state.postData.post_info.price}</Subtitle>
-                  <Button onPress={() => this.onClickLike()}>
+                  <Button onPress={() => this.onClickLike(this.props)}>
                     <View styleName="horizontal space-between">
                       {this.state.postData.like_info.liked ? (
                         <Image
@@ -231,12 +277,30 @@ class DetailScreen extends Component {
               </View>
             </Card>
           )}
-          <Comment></Comment>
-          <View  styleName="horizontal space-between" style ={{width: '100%', height: '10%'}}>
+          <View 
+            styleName="horizontal space-between" 
+            style ={{width: '100%', height: '5%', backgroundColor: 'white'}}>
             <TextInput 
-              placeholder={'Write Comment'} style ={{width: '90%'}}/>
-            <Icons name="comments" style ={{fontSize:20}}/>
+              placeholder={'Write Comment'} 
+              style ={{placeholderTextColor: 'black', width: '90%', backgroundColor: 'white' }}
+              value={this.state.myComment}
+              onChangeText={(text) => this.setState({myComment: text})}/>
+            <TouchableOpacity onPress={() => this.postCommentInfo()}>
+              <Image
+                source={ require('../../assets/image/blog.png' )}
+                style={{ width: 25, height: 25, color :'white', marginBottom :15, marginRight :15}}
+              />
+            </TouchableOpacity>
           </View>
+          {this.state.commentData.map((comment, id) => {
+            return (
+              <Comment 
+                key={id}
+                comment = {comment.comment_info.body}
+                name = {comment.user_info.author_name}
+              />
+            )
+          })}
         </ScrollView>
       </Screen>
     )

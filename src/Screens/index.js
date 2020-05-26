@@ -22,6 +22,7 @@ import LoginScreen from "./LoginScreen"
 import DetailScreen from "./HomeScreen/detail"
 import TempSettingScreen from "./TempSettingScreen"
 import ShoppingScreen from "./ShoppingScreen"
+import OrderScreen from "./OrderScreen"
 // Import functions
 import {
   getUserData,
@@ -60,6 +61,11 @@ function HomeStack() {
         options={{ headerShown: false }}
         name="Shopping"
         component={ShoppingScreen}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Order"
+        component={OrderScreen}
       />
     </Stack.Navigator>
   )
@@ -104,18 +110,18 @@ function TabStack() {
         // eslint-disable-next-line react/prop-types
         tabBarIcon: ({ focused, color, size }) => {
           let icon = "▲"
-          
-          if(route.name === 'Home'){
-            icon =<Icon name="md-home" size={30}/>
-          } else if(route.name === 'Mypage'){
-            icon =<Icon name="md-person" size={30}/>
-          } else if(route.name === 'Studio'){
-            icon =<Icon name="ios-color-filter" size={30}/>
-          } else if(route.name === 'Upload'){
-            icon =<Icon name="md-arrow-round-up" size={30}/>
+
+          if (route.name === 'Home') {
+            icon = <Icon name="md-home" size={30} />
+          } else if (route.name === 'Mypage') {
+            icon = <Icon name="md-person" size={30} />
+          } else if (route.name === 'Studio') {
+            icon = <Icon name="ios-color-filter" size={30} />
+          } else if (route.name === 'Upload') {
+            icon = <Icon name="md-arrow-round-up" size={30} />
           }
-          return <Text style={{color: focused && "#FF6787" || "#FEFEFE", marginTop: 5}}>{icon}</Text>
-          
+          return <Text style={{ color: focused && "#FF6787" || "#FEFEFE", marginTop: 5 }}>{icon}</Text>
+
         }
       })}
       tabBarOptions={{
@@ -179,12 +185,12 @@ class RootNavigator extends React.Component {
               component={LoginScreen}
             />
           ) : (
-            <Stack.Screen
-              options={{ headerShown: false }}
-              name="TabStack"
-              component={TabStack}
-            />
-          )}
+              <Stack.Screen
+                options={{ headerShown: false }}
+                name="TabStack"
+                component={TabStack}
+              />
+            )}
         </Stack.Navigator>
       </NavigationContainer>
     )

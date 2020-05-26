@@ -204,7 +204,7 @@ public:
 		cv::Mat logo = cv::imread("./aurora_watermark.png", cv::IMREAD_COLOR);
 
 		this->set_logo_img(logo);
-		cv::resize(this->image.logo, this->image.logo, cv::Size(this->col, this->row), 0, 0, cv::INTER_LINEAR);
+		// cv::resize(this->image.logo, this->image.logo, cv::Size(this->col, this->row), 0, 0, cv::INTER_LINEAR);
 	}
 
 	/* filter matrix initialize */

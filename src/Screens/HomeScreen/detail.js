@@ -149,7 +149,6 @@ class DetailScreen extends Component {
       }
     }
     const res = await axios.get('/comments', params)
-    console.log(res.data)
     await this.setState({commentData : res.data})
   }
   postCommentInfo = async () => {
@@ -163,20 +162,20 @@ class DetailScreen extends Component {
     
     if(this.state.myComment){
       
-    await axios.post('/comments', data).then(() =>{
-      alert("댓글을 작성 하였습니다.")
-    })
-      .catch((err) => {
-        alert("Failed to Write Comment : ", err)
+      await axios.post('/comments', data).then(() =>{
+        alert("댓글을 작성 하였습니다.")
       })
+        .catch((err) => {
+          alert("Failed to Write Comment : ", err)
+        })
     
-    this.getCommentInfo(this.state.postId)
-  }
-  else{
-    
-    alert("댓글을 작성하여주세요")
-  }
+      this.getCommentInfo(this.state.postId)
     }
+    else{
+    
+      alert("댓글을 작성하여주세요")
+    }
+  }
   onClickLike = async() => {
     const data = {
       liker:"user",
@@ -198,28 +197,50 @@ class DetailScreen extends Component {
 
   renderTagRow = (data) => {
     return (
-      <Button>
-        <Text>{data}</Text>
+      <Button 
+        style={{
+          backgroundColor: '#1E1E1E',
+          marginRight:5,
+          borderRadius:10,
+        }}>
+        <Text
+          style={{
+            color: 'white',
+          }}>{data}</Text>
       </Button>
     )
   }
   
   render () {
     return (
-      <Screen>
+      
+      <Screen 
+        style={{backgroundColor: '#1E1E1E'}}
+      >
         <NavigationBar
-          styleName='inline'
+          styleName='inline clear'
+          style={{
+            container: {
+              backgroundColor: '#1E1E1E'
+            },
+          }}
           centerComponent={<Title title={'Details'}/>}
           rightComponent={
             <View 
               style={{marginTop: 25}}
-              styleName="horizontal space-between">
-              <Button onPress={() => {this.onClickCart()}}>
-                <Icon name="cart" />
-              </Button>
-              <Button onPress={this.onClickPreview}>
-                <Icon name="take-a-photo" />
-              </Button>
+              styleName="horizontal space-between ">
+              <TouchableOpacity onPress={() => {this.onClickCart()}}>
+                <Image
+                  source={ require('../../assets/image/add-to-cart.png' )}
+                  style={{ width: 22, height: 22, color :'white', marginRight : 20 }}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={this.onClickPreview}>
+                <Image
+                  source={ require('../../assets/image/photo-camera.png' )}
+                  style={{ width: 23, height: 23, color :'white', marginRight : 20 }}
+                />
+              </TouchableOpacity>
             </View>
           }
         />
@@ -247,11 +268,21 @@ class DetailScreen extends Component {
                   source={{ uri: AWS_S3_STORAGE_URL + this.state.postData.filter_info.filter_name}}
                 />
               </TouchableOpacity>
-              <View styleName="content">
-                <Heading numberOfLines={2}>{this.state.postData.post_info.title}</Heading>
+              <View 
+                styleName="content" 
+                style={{
+                  backgroundColor: '#1E1E1E',
+                }}>
+                <Heading 
+                  numberOfLines={2}
+                  style={{
+                    color: 'white',
+                  }}>
+                  {this.state.postData.post_info.title}
+                </Heading>
                 <View styleName="horizontal space-between">
                   <Subtitle>판매 가격 : {this.state.postData.post_info.price}</Subtitle>
-                  <Button onPress={() => this.onClickLike(this.props)}>
+                  <TouchableOpacity onPress={() => this.onClickLike(this.props)}>
                     <View styleName="horizontal space-between">
                       {this.state.postData.like_info.liked ? (
                         <Image
@@ -260,25 +291,38 @@ class DetailScreen extends Component {
                         />
                       ) : (
                         <Image
-                          source={ require('../../assets/image/heart.png' )}
+                          source={ require('../../assets/image/heart-white.png' )}
                           style={{ width: 20, height: 20,  marginRight :10 }}
                         />
                       )}
-                      <Text>{this.state.postData.like_info.liked_count}</Text>
+                      <Text
+                        style={{
+                          color: 'white',
+                        }}>
+                        {this.state.postData.like_info.liked_count}
+                      </Text>
                     </View>
-                  </Button>
+                  </TouchableOpacity>
                 </View>
                 <ListView
-                  style={{width: '50%'}}
+                  style={{
+                    width: '50%',
+                    listContent: {
+                      backgroundColor: '#1E1E1E',
+                    }
+                  }}
                   data={this.state.postData.tag_info.tag_list}
                   horizontal={true}
                   renderRow={this.renderTagRow}
                 />
                 <Divider></Divider>
                 <View
-                  style={{flex: 40}}
+                  style={{
+                    flex: 40,
+                    backgroundColor: '#1E1E1E',
+                  }}
                 >
-                  <Text>
+                  <Text style={{ color: "white" }}>
                     {this.state.postData.post_info.description}
                   </Text>
                 </View>
@@ -287,15 +331,23 @@ class DetailScreen extends Component {
           )}
           <View 
             styleName="horizontal space-between" 
-            style ={{width: '100%', height: '5%', backgroundColor: 'white'}}>
+            style ={{
+              width: '100%', 
+              height: '5%', 
+              backgroundColor: '#1E1E1E'
+            }}>
             <TextInput 
               placeholder={'Write Comment'} 
-              style ={{placeholderTextColor: 'black', width: '90%', backgroundColor: 'white' }}
+              style ={{
+                placeholderTextColor: 'white', 
+                width: '90%', 
+                backgroundColor: '#1E1E1E'
+              }}
               value={this.state.myComment}
               onChangeText={(text) => this.setState({myComment: text})}/>
             <TouchableOpacity onPress={() => this.postCommentInfo()}>
               <Image
-                source={ require('../../assets/image/blog.png' )}
+                source={ require('../../assets/image/blogging.png' )}
                 style={{ width: 25, height: 25, color :'white', marginBottom :15, marginRight :15}}
               />
             </TouchableOpacity>

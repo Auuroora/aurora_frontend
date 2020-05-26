@@ -63,7 +63,6 @@ class HomeScreen extends Component {
       },
     }
     const res = await axios.get("/posts?page=" + page, params)
-    console.log(res.data)
     return res.data
   }
 

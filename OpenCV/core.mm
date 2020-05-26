@@ -100,7 +100,6 @@ void update_hue(int pos)
 		imginfo.filter.diff,
 		imginfo.filter.hls_filters[HLSINDEX::H]);
 	imginfo.trackbar.hue = pos;
-	imginfo.changed_color_space = HLS_CHANGED;
 }
 
 void update_saturation(int pos)
@@ -111,7 +110,6 @@ void update_saturation(int pos)
 		imginfo.filter.diff,
 		imginfo.filter.hls_filters[HLSINDEX::S]);
 	imginfo.trackbar.saturation = pos;
-	imginfo.changed_color_space = HLS_CHANGED;
 }
 
 void update_lightness(int pos)
@@ -122,7 +120,6 @@ void update_lightness(int pos)
 		imginfo.filter.diff,
 		imginfo.filter.hls_filters[HLSINDEX::L]);
 	imginfo.trackbar.lightness = pos;
-	imginfo.changed_color_space = HLS_CHANGED;
 }
 
 void update_temperature(int pos)
@@ -140,7 +137,6 @@ void update_temperature(int pos)
 		cv::add(imginfo.filter.bgr_filters[BGRINDEX::B], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::B]);
 
 	imginfo.trackbar.temperature = pos;
-	imginfo.changed_color_space = BGR_CHANGED;
 }
 
 void update_vibrance(int pos)
@@ -159,7 +155,6 @@ void update_vibrance(int pos)
 
 	// 변경치 업데이트
 	imginfo.trackbar.vibrance = pos;
-	imginfo.changed_color_space = HLS_CHANGED;
 }
 
 void update_highlight_hue(int pos)
@@ -176,7 +171,6 @@ void update_highlight_hue(int pos)
 
 	// 변경치 업데이트
 	imginfo.trackbar.highlight_hue = pos;
-	imginfo.changed_color_space = HLS_CHANGED;
 }
 
 void update_highlight_saturation(int pos)
@@ -193,7 +187,6 @@ void update_highlight_saturation(int pos)
 
 	// 변경치 업데이트
 	imginfo.trackbar.highlight_sat = pos;
-	imginfo.changed_color_space = HLS_CHANGED;
 }
 
 void update_shadow_hue(int pos)
@@ -213,7 +206,6 @@ void update_shadow_hue(int pos)
 
 	// 변경치 업데이트
 	imginfo.trackbar.highlight_hue = pos;
-	imginfo.changed_color_space = HLS_CHANGED;
 }
 
 void update_shadow_saturation(int pos)
@@ -230,7 +222,6 @@ void update_shadow_saturation(int pos)
 
 	// 변경치 업데이트
 	imginfo.trackbar.highlight_sat = pos;
-	imginfo.changed_color_space = HLS_CHANGED;
 }
 
 /*********************************************************************
@@ -241,7 +232,6 @@ void update_tint(int pos)
 	imginfo.filter.diff.setTo((pos - imginfo.trackbar.tint) / 5.0);
 	cv::add(imginfo.filter.bgr_filters[BGRINDEX::G], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::G]);
 	imginfo.trackbar.tint = pos;
-	imginfo.changed_color_space = BGR_CHANGED;
 }
 
 void update_clarity(int pos)
@@ -268,7 +258,6 @@ void update_clarity(int pos)
 	cv::add(imginfo.filter.bgr_filters[BGRINDEX::R], imginfo.filter.clarity_mask_split[BGRINDEX::R], imginfo.filter.bgr_filters[BGRINDEX::R]);
 
 	imginfo.trackbar.clarity = pos;
-	imginfo.changed_color_space = BGR_CHANGED;
 }
 
 // Refactoring : a,b 구하는건 함수로
@@ -337,7 +326,6 @@ void update_brightness_and_constrast(int brightness_pos, int constrast_pos)
 
 	imginfo.trackbar.brightness = brightness_pos;
 	imginfo.trackbar.constrast = constrast_pos;
-	imginfo.changed_color_space = BGR_CHANGED;
 }
 
 void update_exposure(int pos)
@@ -371,32 +359,28 @@ void update_exposure(int pos)
 		cv::subtract(imginfo.filter.bgr_filters[BGRINDEX::R], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::R]);
 	}
 	imginfo.trackbar.exposure = pos;
-	imginfo.changed_color_space = BGR_CHANGED;
 }
 
 // float 처리를 해야 가능
-void update_gamma(double pos)
+void update_gamma(int pos)
 {
-	// double gammaValue=gamma/100.0;
-	// double inv_gamma=1/gammaValue;
 	imginfo.filter.diff = imginfo.filter.gamma_mask.clone();
 
-	cv::pow(imginfo.filter.diff, -imginfo.trackbar.gamma, imginfo.filter.diff);
+	cv::pow(imginfo.filter.diff, -imginfo.trackbar.gamma / 100.0, imginfo.filter.diff);
 	cv::multiply(255, imginfo.filter.diff, imginfo.filter.diff);
-	cv::cvtColor(imginfo.filter.diff, imginfo.filter.diff, CV_8U);
+	imginfo.filter.diff.convertTo(imginfo.filter.diff, CV_16S);
 	cv::subtract(imginfo.filter.hls_filters[HLSINDEX::L], imginfo.filter.diff, imginfo.filter.hls_filters[HLSINDEX::L]);
 
 	imginfo.filter.diff = imginfo.filter.gamma_mask.clone();
 
-	cv::pow(imginfo.filter.diff, pos, imginfo.filter.diff);
+	cv::pow(imginfo.filter.diff, -pos / 100.0, imginfo.filter.diff);
 	cv::multiply(255, imginfo.filter.diff, imginfo.filter.diff);
-	cv::cvtColor(imginfo.filter.diff, imginfo.filter.diff, CV_8U);
+	imginfo.filter.diff.convertTo(imginfo.filter.diff, CV_16S);
 	cv::add(imginfo.filter.hls_filters[HLSINDEX::L], imginfo.filter.diff, imginfo.filter.hls_filters[HLSINDEX::L]);
 
-	cv::cvtColor(imginfo.filter.diff, imginfo.filter.diff, CV_16S);
+	imginfo.filter.diff.convertTo(imginfo.filter.diff, CV_16S);
 
 	imginfo.trackbar.gamma = pos;
-	imginfo.changed_color_space = HLS_CHANGED;
 }
 
 void update_grain(int pos)
@@ -409,7 +393,6 @@ void update_grain(int pos)
 	cv::add(imginfo.filter.hls_filters[HLSINDEX::L], imginfo.filter.diff, imginfo.filter.hls_filters[HLSINDEX::L]);
 
 	imginfo.trackbar.grain = pos;
-	imginfo.changed_color_space = HLS_CHANGED;
 }
 
 void update_vignette(int pos)
@@ -439,5 +422,4 @@ void update_vignette(int pos)
 	}
 
 	imginfo.trackbar.vignette = pos;
-	imginfo.changed_color_space = HLS_CHANGED;
 }

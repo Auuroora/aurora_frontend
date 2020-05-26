@@ -85,7 +85,7 @@ void update_clarity(int pos);
 void on_change_clarity(int pos, void *ptr);
 
 void update_exposure(int pos);
-void update_gamma(double pos);
+void update_gamma(int pos);
 void update_grain(int pos);
 void update_vignette(int pos);
 
@@ -163,7 +163,7 @@ public:
 		int tint;
 		int clarity;
 		int exposure;
-		double gamma;
+		int gamma;
 		int grain;
 		int vignette;
 
@@ -231,7 +231,7 @@ public:
 
 		/*****************************************************************************/
 		// Gamma
-		this->filter.hls_filters[HLSINDEX::L].convertTo(this->filter.gamma_mask, CV_32F);
+		this->image.hls_origins[HLSINDEX::L].convertTo(this->filter.gamma_mask, CV_32F);
 		cv::multiply(1.0 / 255.0, this->filter.gamma_mask, this->filter.gamma_mask);
 
 		//Clarity

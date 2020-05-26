@@ -53,7 +53,7 @@ class DetailScreen extends Component {
       isLoading: true,
       imageFile: [],
       isPreview: false,
-      myComment: [],
+      myComment: '',
       commentData:[]
     }
     this.getPostInfo(this.state.postId)
@@ -160,6 +160,9 @@ class DetailScreen extends Component {
         body :this.state.myComment
       }
     }
+    
+    if(this.state.myComment){
+      
     await axios.post('/comments', data).then(() =>{
       alert("댓글을 작성 하였습니다.")
     })
@@ -169,6 +172,11 @@ class DetailScreen extends Component {
     
     this.getCommentInfo(this.state.postId)
   }
+  else{
+    
+    alert("댓글을 작성하여주세요")
+  }
+    }
   onClickLike = async() => {
     const data = {
       liker:"user",

@@ -58,7 +58,7 @@ class UploadScreen extends Component{
   render(){
     let currentView = this.bindScreen()
     return (
-      <Screen styleName='fill-parent' style ={{backgroundColor: 'white'}}>
+      <Screen styleName='fill-parent' style ={{ backgroundColor:'#1E1E1E'}}>
         <ImageBackground
           source={require('../../assets/image/Header.jpg')}
           styleName="large-ultra-wide"

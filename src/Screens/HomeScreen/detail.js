@@ -31,12 +31,10 @@ import { AWS_S3_STORAGE_URL } from 'react-native-dotenv'
 import axios from '../../axiosConfig'
 import ImagePicker from 'react-native-image-picker'
 import ImageView from 'react-native-image-view'
-
 import Comment from './commentList'
-import Icons from 'react-native-vector-icons/dist/Ionicons'
 
 
-const { width } = Dimensions.get('window')
+const { width, height } = Dimensions.get('window')
 
 
 /* TODO
@@ -329,19 +327,21 @@ class DetailScreen extends Component {
               </View>
             </Card>
           )}
+          
           <View 
             styleName="horizontal space-between" 
             style ={{
-              width: '100%', 
-              height: '5%', 
-              backgroundColor: '#1E1E1E'
+              justifyContent: 'center',
+              width: width, 
+              height: '4%', 
+              backgroundColor: '#1E1E1E',
             }}>
             <TextInput 
               placeholder={'Write Comment'} 
               style ={{
                 placeholderTextColor: 'white', 
                 width: '90%', 
-                backgroundColor: '#1E1E1E'
+                backgroundColor: '#1E1E1E',
               }}
               value={this.state.myComment}
               onChangeText={(text) => this.setState({myComment: text})}/>

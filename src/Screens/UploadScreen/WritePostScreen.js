@@ -60,18 +60,24 @@ class WritePostScreen extends Component{
   }
   render(){
     return (
-      <View>
+      <View 
+        style ={{
+          backgroundColor: '#1E1E1E'
+        }}>
         <View 
           name = "Filter"
           styleName ="horizontal space-between"
-          style ={{margin :10}}
+          style ={{
+            margin :10
+          }}
         >
           <TouchableOpacity 
             onPress ={this.props.onPressNew} 
             styleName="flexible">
             {this.props.imageFile === null ? (
               <Image
-                style ={{ height: height*0.11, width :height*0.11 ,padding :10}}
+                style ={{ height: height*0.11, width :height*0.11 ,padding :10, 
+                  backgroundColor: '#1E1E1E'}}
                 source={ require('../../assets/image/interface.png') }
               />
             ) : (
@@ -85,7 +91,11 @@ class WritePostScreen extends Component{
           <Divider styleName="line">
             <TextInput
               placeholder={'Write Filter Title'}
-              style ={{ paddingTop:15, backgroundColor: 'white', height: height/10, width :width*0.7}}
+              style ={{ 
+                paddingTop:15, 
+                backgroundColor: '#1E1E1E', 
+                placeholderTextColor: 'white', 
+                height: height/10, width :width*0.7}}
               value={this.state.title}
               maxLength={50}
               onChangeText={(text) => this.setState({title: text})}/>
@@ -94,8 +104,12 @@ class WritePostScreen extends Component{
         <View styleName ="horizontal space-between" name = "Description" style ={{ margin :10}}>
           <Divider styleName="line">
             <TextInput
+              style ={{
+                height: height*0.2, width : width,
+                placeholderTextColor: 'white', 
+                backgroundColor: '#1E1E1E'
+              }}
               placeholder={'Write Filter Description'}
-              style ={{ height: height*0.2, width : width }}
               value={this.state.description}
               maxLength={300}
               multiline
@@ -106,7 +120,11 @@ class WritePostScreen extends Component{
           <Divider styleName="line">
             <TextInput
               placeholder={'Write Filter Tag using #'}
-              style ={{ hpadding:15, height: height/12, width :width}}
+              style ={{
+                height: height/12, width :width,
+                placeholderTextColor: 'white', 
+                backgroundColor: '#1E1E1E'
+              }}
               value={this.state.tag}
               maxLength={300}
               onChangeText={(text) => this.setState({tag: text})}/>
@@ -117,7 +135,12 @@ class WritePostScreen extends Component{
             <TextInput
               placeholder={'Write Filter Price'}
               maxLength={10}
-              style ={{ padding:15, height: height/12, width :width}}
+              style ={{ 
+                padding:15, 
+                height: height/12, 
+                width :width,
+                placeholderTextColor: 'white', 
+                backgroundColor: '#1E1E1E'}}
               value={this.state.price}
               onChangeText={(text) => this.setState({price: text})}/>
           </Divider>

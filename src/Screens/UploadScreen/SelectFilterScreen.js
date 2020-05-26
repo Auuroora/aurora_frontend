@@ -51,6 +51,11 @@ class SelectFilterScreen extends Component{
     return (   
       <Screen styleName='fill-parent'>
         <ListView
+          style={{
+            listContent: {
+              backgroundColor: '#0A0A0A',
+            }
+          }}
           data={groupedData}
           renderRow={this.renderRow}
         />

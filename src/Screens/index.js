@@ -69,6 +69,11 @@ function HomeStack() {
         name="Order"
         component={OrderScreen}
       />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Payment"
+        component={PaymentScreen}
+      />
     </Stack.Navigator>
   )
 }

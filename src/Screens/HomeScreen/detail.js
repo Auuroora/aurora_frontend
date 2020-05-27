@@ -157,7 +157,6 @@ class DetailScreen extends Component {
         body :this.state.myComment
       }
     }
-    
     if(this.state.myComment){
       
       await axios.post('/comments', data).then(() =>{
@@ -166,8 +165,8 @@ class DetailScreen extends Component {
         .catch((err) => {
           alert("Failed to Write Comment : ", err)
         })
-    
       this.getCommentInfo(this.state.postId)
+      this.setState({myComment:''})
     }
     else{
     

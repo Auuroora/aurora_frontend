@@ -87,7 +87,7 @@ class HomeScreen extends Component {
       likeable:"post",
       likeable_id :postid
     }
-    await axios.post('/likes', data)
+    // await axios.post('/likes', data)
     this.componentDidMount()
   }
 

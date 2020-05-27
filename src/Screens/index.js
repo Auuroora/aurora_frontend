@@ -23,6 +23,8 @@ import DetailScreen from "./HomeScreen/detail"
 import TempSettingScreen from "./TempSettingScreen"
 import ShoppingScreen from "./ShoppingScreen"
 import OrderScreen from "./OrderScreen"
+import PaymentScreen from "./PaymentScreen"
+
 // Import functions
 import {
   getUserData,

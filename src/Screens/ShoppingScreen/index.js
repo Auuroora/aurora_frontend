@@ -117,7 +117,7 @@ class ShoppingScreen extends Component {
             style={{
               fontSize: 15,
               fontColor: 'black'
-            }}>선택한 x개 구매하러가기</Text>
+            }}>담은 목록(x개) 구매하러가기</Text>
         </Button>
       </Screen>
     )

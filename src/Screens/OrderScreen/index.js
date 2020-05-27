@@ -97,9 +97,17 @@ class OrderScreen extends Component {
   }
 
   onClickPayment = () => {
-    alert("Payment")
-    // this.props.navigation.navigate("Payment")
+    var userMoney =Math.random()*4000;
+    userMoney=Math.floor(userMoney)
+    if (userMoney>=this.state.orderPrice){
+      alert("잔액:"+userMoney+" 잔액이 충분하군요! 결제 완료!")
+    }
+    else{
+      alert("잔액:"+userMoney+" 잔액이 부족합니다! 충전 페이지로 넘어갑니다.")
+      this.props.navigation.navigate("Payment")
+    }
   }
+  
   render() {
     return (
       <Screen styleName='fill-parent'>

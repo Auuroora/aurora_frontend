@@ -160,6 +160,7 @@ class RootNavigator extends React.Component {
           this.props.storeUserData({ token: null })
           return
         }
+        console.log(data)
         this.props.storeUserData({ token: data })
         this.setState({ isLoggedin: data })
       })

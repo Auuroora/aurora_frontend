@@ -5,7 +5,7 @@ import {
   ImageBackground,
   Screen,
   Icon,
-  Button,
+  TouchableOpacity,
 } from '@shoutem/ui'
 
 import AsyncStorage from '@react-native-community/async-storage'
@@ -25,19 +25,70 @@ class UploadScreen extends Component{
     this.state = {
       imageFile: null,
       isSelectFilter: false,
+      filterData:[],
+      filter_id: '',
+      userId:-1,
+      title: '',
+      description: '',
+      tag:'',
+      price:'',
     } 
+    this.getUserFilterData()
   }
   onChooseFilter = () => {
     this.setState({
       isSelectFilter: true,
     })
   }
-  onPressDone = async(filter_id, filter_url) => {
+  
+  getUserFilterData = () => {
+    axios.get('/myfilter').then(res => {
+      const filterData = res.data
+      this.setState({
+        filterData:filterData,
+      }) 
+    })
+  }
+  onEndWriting = async (text, text_input) => {
+    if(text == 'title') this.setState({title:text_input})
+    else if(text == 'description') this.setState({description:text_input})
+    else if(text == 'tag') this.setState({tag:text_input})
+    else if(text == 'price') this.setState({price:text_input})
+  }
+
+  onPressDone = async(filter_id, filter_url, userId) => {
     this.setState({
       isSelectFilter: false,
       filterId: filter_id,
-      imageFile: filter_url
+      userId: userId,
+      imageFile: filter_url,
     })
+  }
+  onClickUpload = () =>{
+    if (this.state.title && this.state.tag && this.state.description  && this.state.filterId && this.state.price) {
+      const data = {
+        post:{
+          title: this.state.title,
+          description: this.state.description,
+          filter_id: this.state.filterId,
+          tag_list: this.state.tag,
+          price: this.state.price,
+          user_id : this.state.userId
+        }
+      }
+      console.log(data)
+      return axios.post('/posts', data)
+        .then(() => {
+          alert('게시글 작성이 완료되었습니다.')
+
+        }).catch((err) => {
+          console.log(err)
+          alert('게시글 작성이 실패하였습니다.')
+        })
+    }
+    else{
+      alert('모든 부분을 작성하여 주세요.')
+    }
   }
 
   bindScreen = () => {
@@ -46,6 +97,8 @@ class UploadScreen extends Component{
         <SelectFilterScreen
           onPressDone={this.onPressDone} 
           isSelectFilter={this.state.isSelectFilter}
+          filterData = {this.state.filterData}
+          userId ={this.state.userId}
           state={this.state}/>)
     }
     return (
@@ -53,6 +106,8 @@ class UploadScreen extends Component{
         onPressNew={this.onChooseFilter}
         filterId={this.state.filterId} 
         imageFile={this.state.imageFile}
+        onEndWriting ={this.onEndWriting}
+        onChangeTextHandler={(text) => this.setState({title: text})}
       />)
   }
   render(){
@@ -66,17 +121,18 @@ class UploadScreen extends Component{
           <NavigationBar
             styleName="clear"
             leftComponent={
-              <Button>
+              <TouchableOpacity>
                 <Icon name="left-arrow" />
-              </Button>
+              </TouchableOpacity>
             }
             centerComponent={
               <Title title={'Upload'} topMargin={50}/>
             }
             rightComponent={
-              <Button>
-                <Icon name="share" style ={{color  :"white"}}/>
-              </Button>
+              <TouchableOpacity
+                onPress={() => {this.onClickUpload()}}>
+                <Icon name="share" style ={{color  :"white", marginRight:15}} />
+              </TouchableOpacity>
             }
           />
         </ImageBackground>

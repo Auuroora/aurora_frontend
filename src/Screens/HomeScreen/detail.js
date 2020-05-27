@@ -169,7 +169,6 @@ class DetailScreen extends Component {
       this.setState({myComment:''})
     }
     else{
-    
       alert("댓글을 작성하여주세요")
     }
   }

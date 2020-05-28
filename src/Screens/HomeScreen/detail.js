@@ -20,9 +20,7 @@ import {
   Divider,
   ScrollView,
   Spinner,
-  Icon,
   TextInput,
-  GridRow,
   TouchableOpacity
 } from '@shoutem/ui'
 
@@ -32,6 +30,7 @@ import axios from '../../axiosConfig'
 import ImagePicker from 'react-native-image-picker'
 import ImageView from 'react-native-image-view'
 import Comment from './commentList'
+import ImgToBase64 from 'react-native-image-base64'
 
 
 const { width, height } = Dimensions.get('window')
@@ -105,9 +104,8 @@ class DetailScreen extends Component {
       } 
 
       // apply image filter 
-  
-  
-      // watermark
+
+      const res = await ImgToBase64.getBase64String(AWS_S3_STORAGE_URL + 'assets/watermark.png')
 
       this.setState({
         imageFile: [{

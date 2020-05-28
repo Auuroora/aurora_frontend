@@ -61,32 +61,6 @@ class DetailScreen extends Component {
     
   }
 
-  /*
-  {
-    "post_info": {
-        "id": 30,
-        "title": "ttt",
-        "description": "dfds s\nDFA dd#",
-        "price": "1,000원",
-        "created_at": "2020-05-28 11:23"
-    },
-    "user_info": null,
-    "filter_info": null,
-    "tag_info": null,
-    "like_info": null,
-    "comment_info": {
-        "comments_count": 0
-    },
-    "current_user_info": {
-        "name": "김지환",
-        "id": 2,
-        "case": 0
-    }
-    {"line_filter" :
-  {"filter_id" : "1",
-  "amount" : "1000"}
-}
-} */
   getPostInfo = async (postId) => {
     const params = {
       params: {
@@ -98,6 +72,7 @@ class DetailScreen extends Component {
     }
     const res = await axios.get('/posts/' + postId, params)
     await this.setState({postData : res.data})
+    console.log(this.state.postData)
     this.setState({isLoading: false})
   }
 
@@ -152,7 +127,7 @@ class DetailScreen extends Component {
   onClickCart = async() => {
     const data = {
       line_filter: {
-        filter_id : this.state.postData.filter_info.filter_id,
+        filter_id : this.state.postData.filter_info.id,
         amount : this.state.postData.post_info.price
       }
     }

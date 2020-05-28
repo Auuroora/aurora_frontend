@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {
-  Dimensions
+  Dimensions,
+  CheckBox
 } from 'react-native'
 import {
   NavigationBar,
@@ -35,38 +36,9 @@ class OrderScreen extends Component {
       orderCount: 0,
       orderPrice: 2000,
       orderList: [
-        // {
-        //   "name": "Gaspar Brasserie",
-        //   "address": "185 Sutter St, San Francisco, CA 94109",
-        //   "price": 500,
-        //   "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-1.jpg" },
-        // },
-        // {
-        //   "name": "Chalk Point Kitchen",
-        //   "address": "527 Broome St, New York, NY 10013",
-        //   "price": 500,
-        //   "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-2.jpg" },
-        // },
-        // {
-        //   "name": "Kyoto Amber Upper East",
-        //   "address": "225 Mulberry St, New York, NY 10012",
-        //   "price": 500,
-        //   "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
-        // },
-        // {
-        //   "name": "Sushibo",
-        //   "address": "35 Sipes Key, New York, NY 10012",
-        //   "price": 500,
-        //   "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-5.jpg" },
-        // },
-        // {
-        //   "name": "Mastergrill",
-        //   "address": "550 Upton Rue, San Francisco, CA 94109",
-        //   "price": 500,
-        //   "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-6.jpg" },
-        // }
       ],
     }
+    this.ongetCartList()
   }
 
   ongetCartList(){
@@ -93,6 +65,12 @@ class OrderScreen extends Component {
               삭제
             </Text>
           </Button>
+          <CheckBox
+            center
+            title='Click Here'
+            value = { this.state.check }
+            onChange = {() => this.checkBox_Test(item)}
+          />
         </Row>
       </View>
     )
@@ -102,7 +80,7 @@ class OrderScreen extends Component {
   }
 
   onClickPayment = () => {
-    var userMoney =Math.random()*4000;
+    var userMoney =Math.random()*4000
     userMoney=Math.floor(userMoney)
     if (userMoney>=this.state.orderPrice){
       alert("잔액:"+userMoney+" 잔액이 충분하군요! 결제 완료!")
@@ -114,11 +92,10 @@ class OrderScreen extends Component {
   }
   
   render() {
-    this.ongetCartList()
     return (
       <Screen styleName='fill-parent'>
         <ImageBackground
-          source={{ uri: 'https://stores.selzstatic.com/nvyn50kugf4/assets/settings/lightscape-735108-unsplash.jpg?v=20200323080941' }}
+          source={require("../../assets/image/Header.jpg")}
           styleName="large-ultra-wide"
         >
           <NavigationBar
@@ -139,7 +116,7 @@ class OrderScreen extends Component {
           <Text
             style={{ color: '#FF6787', fontWeight: "bold" }}>
             더 담으러 가기
-            </Text>
+          </Text>
         </Button>
         <Button styleName="clear"
           style={{

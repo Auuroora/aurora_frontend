@@ -54,51 +54,51 @@ cv::Mat get_preview_image(
 );
 
 // change hls
-void update_hue(int pos);
-void on_change_hue(int pos, void *ptr);
+// void update_hue(int pos);
+// void on_change_hue(int pos, void *ptr);
 
-void update_saturation(int pos);
-void on_change_saturation(int v, void *ptr);
+// void update_saturation(int pos);
+// void on_change_saturation(int v, void *ptr);
 
-void update_lightness(int pos);
-void on_change_lightness(int v, void *ptr);
+// void update_lightness(int pos);
+// void on_change_lightness(int v, void *ptr);
 
-void update_vibrance(int pos);
-void on_change_vibrance(int v, void *ptr);
+// void update_vibrance(int pos);
+// void on_change_vibrance(int v, void *ptr);
 
-void update_highlight_saturation(int pos);
-void on_change_highlight_saturation(int curPos, void *ptr);
+// void update_highlight_saturation(int pos);
+// void on_change_highlight_saturation(int curPos, void *ptr);
 
-void update_highlight_hue(int pos);
-void on_change_highlight_hue(int curPos, void *ptr);
+// void update_highlight_hue(int pos);
+// void on_change_highlight_hue(int curPos, void *ptr);
 
-void update_shadow_hue(int pos);
-void on_change_shadow_hue(int curPos, void *ptr);
+// void update_shadow_hue(int pos);
+// void on_change_shadow_hue(int curPos, void *ptr);
 
-void update_shadow_saturation(int pos);
-void on_change_shadow_saturation(int curPos, void *ptr);
+// void update_shadow_saturation(int pos);
+// void on_change_shadow_saturation(int curPos, void *ptr);
 
-// change bgr
-void update_temperature(int pos);
-void on_change_temperature(int v, void *ptr);
+// // change bgr
+// void update_temperature(int pos);
+// void on_change_temperature(int v, void *ptr);
 
-void update_brightness_and_constrast(int brightness_pos, int constrast_pos);
-void on_change_bright(int pos, void *ptr);
+// void update_brightness_and_constrast(int brightness_pos, int constrast_pos);
+// void on_change_bright(int pos, void *ptr);
 
-void update_tint(int pos);
-void on_change_tint(int pos, void *ptr);
+// void update_tint(int pos);
+// void on_change_tint(int pos, void *ptr);
 
-void on_change_constrast(int pos, void *ptr);
+// void on_change_constrast(int pos, void *ptr);
 
-void update_clarity(int pos);
-void on_change_clarity(int pos, void *ptr);
+// void update_clarity(int pos);
+// void on_change_clarity(int pos, void *ptr);
 
-void update_exposure(int pos);
-void update_gamma(int pos);
-void update_grain(int pos);
-void update_vignette(int pos);
+// void update_exposure(int pos);
+// void update_gamma(int pos);
+// void update_grain(int pos);
+// void update_vignette(int pos);
 
-void on_change_bright(int pos, void *ptr);
+// void on_change_bright(int pos, void *ptr);
 
 // void on_change_exposure(int pos, void *ptr);
 // void on_change_gamma(int pos, void *ptr);

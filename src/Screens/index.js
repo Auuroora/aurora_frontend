@@ -21,7 +21,6 @@ import MypageScreen from "./MypageScreen"
 import LoginScreen from "./LoginScreen"
 import DetailScreen from "./HomeScreen/detail"
 import TempSettingScreen from "./TempSettingScreen"
-import ShoppingScreen from "./ShoppingScreen"
 import OrderScreen from "./OrderScreen"
 import PaymentScreen from "./PaymentScreen"
 
@@ -58,11 +57,6 @@ function HomeStack() {
         options={{ headerShown: false }}
         name="Detail"
         component={DetailScreen}
-      />
-      <Stack.Screen
-        options={{ headerShown: false }}
-        name="Shopping"
-        component={ShoppingScreen}
       />
       <Stack.Screen
         options={{ headerShown: false }}

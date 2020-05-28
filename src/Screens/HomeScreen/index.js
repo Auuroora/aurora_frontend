@@ -133,7 +133,7 @@ class HomeScreen extends Component {
     )
   }
   onClickShopping = () => {
-    this.props.navigation.navigate("Shopping")
+    this.props.navigation.navigate("Order")
   }
   render() {
     const groupedData = GridRow.groupByRows(this.state.postList, 2, () => {

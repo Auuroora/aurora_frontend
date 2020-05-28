@@ -58,18 +58,63 @@ void downsize_image(cv::Mat &src, cv::Mat &dst, int downsizedCol, int downsizedR
 	}
 }
 
-cv::Mat get_preview_image(cv::Mat &img, cv::Mat logo)
-{
-	cv::Mat res = img.clone();
-	cv::addWeighted(img, 1, logo, 0.3, 0, res);
-	return res;
+cv::Mat cut_image(cv::Mat src, int start_x, int start_y, int end_x, int end_y) {
+	cv::Mat dst(src, cv::Rect(start_x, start_y, end_x, end_y));
+	return dst;
+}
+
+// return img + logo
+cv::Mat get_watermarked_image(cv::Mat src_img, cv::Mat src_logo, int width, int height) {
+	cv::Mat res_img, res_logo;
+
+	cv::resize(src_logo, res_logo, src_img.size(), 0, 0, cv::INTER_AREA);
+	cv::addWeighted(src_img, 1, res_logo, 0.3, 0, res_img);
+
+	if (width && height) 
+		cv::resize(res_img, res_img, cv::Size(width, height), 0, 0, cv::INTER_AREA);
+
+	return res_img;
+}
+
+// return img + logo + filter
+cv::Mat get_preview_image(
+	cv::Mat& src_img, cv::Mat src_logo,
+	int hue, int saturation, int lightness, int vibrance,
+	int highlight_hue, int highlight_sat, int shadow_hue, int shadow_sat,
+	int temperature, int tint, int brightness, int grain,
+	int clarity, int exposure, int gamma, int vignette, int constrast,
+	int width, int height /* for downsizing */
+) {
+	WorkingImgInfo preview_info;
+	preview_info.init_all(src_img, width, height);
+
+	preview_info.update_hue(hue);
+	preview_info.update_saturation(saturation);
+	preview_info.update_lightness(lightness);
+	preview_info.update_vibrance(vibrance);
+	preview_info.update_highlight_hue(highlight_hue);
+	preview_info.update_highlight_saturation(highlight_sat);
+	preview_info.update_shadow_hue(shadow_hue);
+	preview_info.update_shadow_saturation(shadow_sat);
+	preview_info.update_temperature(temperature);
+	preview_info.update_tint(tint);
+	//preview_info.update_brightness_and_constrast(brightness);
+	preview_info.update_grain(grain);
+	preview_info.update_clarity(clarity);
+	preview_info.update_exposure(exposure);
+	//preview_info.update_gamma(gamma); std::cout << "hiii\n";
+	preview_info.update_vignette(vignette);
+	//preview_info.update_brightness_and_constrast(constrast);
+
+	preview_info.apply_filter();
+	return get_watermarked_image(preview_info.image.res, src_logo, width, height);
 }
 
 /*****************************************************************************
 *							applyFilter
 *	add bgr filter -> convert to hsv -> add hsv filter -> convert to bgr(res)
 *****************************************************************************/
-void apply_filter()
+void WorkingImgInfo::apply_filter()
 {
    imginfo.image.hls.convertTo(imginfo.image.hls, CV_16SC3);
    imginfo.image.bgr.convertTo(imginfo.image.bgr, CV_16SC3);
@@ -92,7 +137,7 @@ void apply_filter()
    imginfo.image.hls.convertTo(imginfo.image.hls, CV_8UC3);
 }
 
-void update_hue(int pos)
+void WorkingImgInfo::update_hue(int pos)
 {
 	imginfo.filter.diff.setTo(pos - imginfo.trackbar.hue);
 	cv::add(
@@ -102,7 +147,7 @@ void update_hue(int pos)
 	imginfo.trackbar.hue = pos;
 }
 
-void update_saturation(int pos)
+void WorkingImgInfo::update_saturation(int pos)
 {
 	imginfo.filter.diff.setTo(pos - imginfo.trackbar.saturation);
 	cv::add(
@@ -112,7 +157,7 @@ void update_saturation(int pos)
 	imginfo.trackbar.saturation = pos;
 }
 
-void update_lightness(int pos)
+void WorkingImgInfo::update_lightness(int pos)
 {
 	imginfo.filter.diff.setTo(pos - imginfo.trackbar.lightness);
 	cv::add(
@@ -122,7 +167,7 @@ void update_lightness(int pos)
 	imginfo.trackbar.lightness = pos;
 }
 
-void update_temperature(int pos)
+void WorkingImgInfo::update_temperature(int pos)
 {
 	imginfo.filter.diff.setTo(abs(imginfo.trackbar.temperature));
 	if (imginfo.trackbar.temperature >= 0)
@@ -139,7 +184,7 @@ void update_temperature(int pos)
 	imginfo.trackbar.temperature = pos;
 }
 
-void update_vibrance(int pos)
+void WorkingImgInfo::update_vibrance(int pos)
 {
 	cv::Mat w;
 	cv::divide(
@@ -157,7 +202,7 @@ void update_vibrance(int pos)
 	imginfo.trackbar.vibrance = pos;
 }
 
-void update_highlight_hue(int pos)
+void WorkingImgInfo::update_highlight_hue(int pos)
 {
 	cv::Mat tmp = imginfo.filter.hls_filters[HLSINDEX::H].clone();
 	cv::addWeighted(
@@ -173,7 +218,7 @@ void update_highlight_hue(int pos)
 	imginfo.trackbar.highlight_hue = pos;
 }
 
-void update_highlight_saturation(int pos)
+void WorkingImgInfo::update_highlight_saturation(int pos)
 {
 	cv::Mat tmp = imginfo.filter.hls_filters[HLSINDEX::S].clone();
 	cv::addWeighted(
@@ -189,7 +234,7 @@ void update_highlight_saturation(int pos)
 	imginfo.trackbar.highlight_sat = pos;
 }
 
-void update_shadow_hue(int pos)
+void WorkingImgInfo::update_shadow_hue(int pos)
 {
 	cv::Mat tmp = imginfo.filter.hls_filters[HLSINDEX::H].clone();
 	cv::Mat tmp2;
@@ -208,7 +253,7 @@ void update_shadow_hue(int pos)
 	imginfo.trackbar.highlight_hue = pos;
 }
 
-void update_shadow_saturation(int pos)
+void WorkingImgInfo::update_shadow_saturation(int pos)
 {
 	cv::Mat tmp = imginfo.filter.hls_filters[HLSINDEX::S].clone();
 	cv::addWeighted(
@@ -227,14 +272,14 @@ void update_shadow_saturation(int pos)
 /*********************************************************************
 *	이하 동훈이 코드
 *********************************************************************/
-void update_tint(int pos)
+void WorkingImgInfo::update_tint(int pos)
 {
 	imginfo.filter.diff.setTo((pos - imginfo.trackbar.tint) / 5.0);
 	cv::add(imginfo.filter.bgr_filters[BGRINDEX::G], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::G]);
 	imginfo.trackbar.tint = pos;
 }
 
-void update_clarity(int pos)
+void WorkingImgInfo::update_clarity(int pos)
 {
 	double clarity_value;
 	clarity_value = imginfo.trackbar.clarity / (double)10.0;
@@ -261,7 +306,7 @@ void update_clarity(int pos)
 }
 
 // Refactoring : a,b 구하는건 함수로
-void update_brightness_and_constrast(int brightness_pos, int constrast_pos)
+void WorkingImgInfo::update_brightness_and_constrast(int brightness_pos, int constrast_pos)
 {
 	double a, b;
 	if (imginfo.trackbar.constrast > 0)
@@ -328,7 +373,7 @@ void update_brightness_and_constrast(int brightness_pos, int constrast_pos)
 	imginfo.trackbar.constrast = constrast_pos;
 }
 
-void update_exposure(int pos)
+void WorkingImgInfo::update_exposure(int pos)
 {
 	imginfo.filter.diff.setTo(abs(imginfo.trackbar.exposure));
 
@@ -362,7 +407,7 @@ void update_exposure(int pos)
 }
 
 // float 처리를 해야 가능
-void update_gamma(int pos)
+void WorkingImgInfo::update_gamma(int pos)
 {
 	imginfo.filter.diff = imginfo.filter.gamma_mask.clone();
 
@@ -383,7 +428,7 @@ void update_gamma(int pos)
 	imginfo.trackbar.gamma = pos;
 }
 
-void update_grain(int pos)
+void WorkingImgInfo::update_grain(int pos)
 {
 	imginfo.filter.diff.convertTo(imginfo.filter.diff, CV_32F);
 	imginfo.filter.diff = imginfo.filter.grain_mask.clone();
@@ -395,7 +440,7 @@ void update_grain(int pos)
 	imginfo.trackbar.grain = pos;
 }
 
-void update_vignette(int pos)
+void WorkingImgInfo::update_vignette(int pos)
 {
 	imginfo.filter.diff = imginfo.filter.gaussian_kernel.clone();
 

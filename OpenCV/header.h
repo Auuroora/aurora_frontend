@@ -42,54 +42,63 @@ double weight_per_color(int color, int val);
 double weight_per_saturation(int val, int mu);
 double weight_per_value(int val, int mu);
 void apply_filter();
-cv::Mat get_preview_image(cv::Mat &img, cv::Mat logo);
+cv::Mat cut_image(cv::Mat src, int start_x, int start_y, int end_x, int end_y);
+cv::Mat get_watermarked_image(cv::Mat src_img, cv::Mat src_logo, int width = 0, int height = 0);
+cv::Mat get_preview_image(
+	cv::Mat& src_img, cv::Mat src_logo,
+	int hue = 0, int saturation = 0, int lightness = 0, int vibrance = 0,
+	int highlight_hue = 0, int highlight_sat = 0, int shadow_hue = 0, int shadow_sat = 0,
+	int temperature = 0, int tint = 0, int brightness = 0, int grain = 0,
+	int clarity = 0, int exposure = 0, int gamma = 0, int vignette = 0, int constrast = 0,
+	int width = 0, int height = 0 /* for downsizing */
+);
 
 // change hls
-void update_hue(int pos);
-void on_change_hue(int pos, void *ptr);
+// void update_hue(int pos);
+// void on_change_hue(int pos, void *ptr);
 
-void update_saturation(int pos);
-void on_change_saturation(int v, void *ptr);
+// void update_saturation(int pos);
+// void on_change_saturation(int v, void *ptr);
 
-void update_lightness(int pos);
-void on_change_lightness(int v, void *ptr);
+// void update_lightness(int pos);
+// void on_change_lightness(int v, void *ptr);
 
-void update_vibrance(int pos);
-void on_change_vibrance(int v, void *ptr);
+// void update_vibrance(int pos);
+// void on_change_vibrance(int v, void *ptr);
 
-void update_highlight_saturation(int pos);
-void on_change_highlight_saturation(int curPos, void *ptr);
+// void update_highlight_saturation(int pos);
+// void on_change_highlight_saturation(int curPos, void *ptr);
 
-void update_highlight_hue(int pos);
-void on_change_highlight_hue(int curPos, void *ptr);
+// void update_highlight_hue(int pos);
+// void on_change_highlight_hue(int curPos, void *ptr);
 
-void update_shadow_hue(int pos);
-void on_change_shadow_hue(int curPos, void *ptr);
+// void update_shadow_hue(int pos);
+// void on_change_shadow_hue(int curPos, void *ptr);
 
-void update_shadow_saturation(int pos);
-void on_change_shadow_saturation(int curPos, void *ptr);
+// void update_shadow_saturation(int pos);
+// void on_change_shadow_saturation(int curPos, void *ptr);
 
-// change bgr
-void update_temperature(int pos);
-void on_change_temperature(int v, void *ptr);
+// // change bgr
+// void update_temperature(int pos);
+// void on_change_temperature(int v, void *ptr);
 
-void update_brightness_and_constrast(int brightness_pos, int constrast_pos);
-void on_change_bright(int pos, void *ptr);
+// void update_brightness_and_constrast(int brightness_pos, int constrast_pos);
+// void on_change_bright(int pos, void *ptr);
 
-void update_tint(int pos);
-void on_change_tint(int pos, void *ptr);
+// void update_tint(int pos);
+// void on_change_tint(int pos, void *ptr);
 
-void on_change_constrast(int pos, void *ptr);
+// void on_change_constrast(int pos, void *ptr);
 
-void update_clarity(int pos);
-void on_change_clarity(int pos, void *ptr);
+// void update_clarity(int pos);
+// void on_change_clarity(int pos, void *ptr);
 
-void update_exposure(int pos);
-void update_gamma(int pos);
-void update_grain(int pos);
-void update_vignette(int pos);
+// void update_exposure(int pos);
+// void update_gamma(int pos);
+// void update_grain(int pos);
+// void update_vignette(int pos);
 
-void on_change_bright(int pos, void *ptr);
+// void on_change_bright(int pos, void *ptr);
 
 // void on_change_exposure(int pos, void *ptr);
 // void on_change_gamma(int pos, void *ptr);
@@ -175,6 +184,24 @@ public:
 	*	method
 	*********************************************************************/
 	/* first initialize */
+  void update_hue(int pos);
+	void update_saturation(int pos);
+	void update_lightness(int pos);
+	void update_vibrance(int pos);
+	void update_highlight_saturation(int pos);
+	void update_highlight_hue(int pos);
+	void update_shadow_hue(int pos);
+	void update_shadow_saturation(int pos);
+	void update_temperature(int pos);
+	void update_brightness_and_constrast(int brightness_pos, int constrast_pos);
+	void update_tint(int pos);
+	void update_clarity(int pos);
+	void update_exposure(int pos);
+	void update_gamma(int pos);
+	void update_grain(int pos);
+	void update_vignette(int pos);
+	void apply_filter();
+
 	void init_all(cv::Mat &img, int downsized_col, int downsized_row)
 	{
 		// this->originImg = cv::imread("./aurora_watermark.png", cv::IMREAD_COLOR);

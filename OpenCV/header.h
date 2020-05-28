@@ -193,7 +193,8 @@ public:
 	void update_shadow_hue(int pos);
 	void update_shadow_saturation(int pos);
 	void update_temperature(int pos);
-	void update_brightness_and_contrast(int brightness_pos, int contrast_pos);
+	void update_brightness(int pos);
+	void update_contrast(int pos);
 	void update_tint(int pos);
 	void update_clarity(int pos);
 	void update_exposure(int pos);

@@ -98,13 +98,13 @@ cv::Mat get_preview_image(
 	preview_info.update_shadow_saturation(shadow_sat);
 	preview_info.update_temperature(temperature);
 	preview_info.update_tint(tint);
-	//preview_info.update_brightness_and_contrast(brightness);
+	preview_info.update_brightness(brightness);
+	preview_info.update_contrast(contrast);
 	preview_info.update_grain(grain);
 	preview_info.update_clarity(clarity);
 	preview_info.update_exposure(exposure);
-	//preview_info.update_gamma(gamma); std::cout << "hiii\n";
+	preview_info.update_gamma(gamma);
 	preview_info.update_vignette(vignette);
-	//preview_info.update_brightness_and_contrast(contrast);
 
 	preview_info.apply_filter();
 	return get_watermarked_image(preview_info.image.res, src_logo, width, height);
@@ -282,21 +282,21 @@ void WorkingImgInfo::update_tint(int pos)
 void WorkingImgInfo::update_clarity(int pos)
 {
 	double clarity_value;
-	clarity_value = imginfo.trackbar.clarity / (double)10.0;
+	clarity_value = imginfo.trackbar.clarity / (double)20.0;
 
 	cv::addWeighted(imginfo.image.bgr, clarity_value, imginfo.filter.clarity_filter, -clarity_value, 0, imginfo.filter.clarity_mask_U);
-	imginfo.filter.clarity_mask_U.convertTo(imginfo.filter.clarity_mask_S, CV_16SC3, 0.8);
+	imginfo.filter.clarity_mask_U.convertTo(imginfo.filter.clarity_mask_S, CV_16SC3, 0.5);
 	// cout<<imginfo.filter.clarity_mask_U.type()<<endl;
 	cv::split(imginfo.filter.clarity_mask_S, imginfo.filter.clarity_mask_split);
 	cv::subtract(imginfo.filter.bgr_filters[BGRINDEX::B], imginfo.filter.clarity_mask_split[BGRINDEX::B], imginfo.filter.bgr_filters[BGRINDEX::B]);
 	cv::subtract(imginfo.filter.bgr_filters[BGRINDEX::G], imginfo.filter.clarity_mask_split[BGRINDEX::G], imginfo.filter.bgr_filters[BGRINDEX::G]);
 	cv::subtract(imginfo.filter.bgr_filters[BGRINDEX::R], imginfo.filter.clarity_mask_split[BGRINDEX::R], imginfo.filter.bgr_filters[BGRINDEX::R]);
 
-	clarity_value = pos / (double)10.0;
+	clarity_value = pos / (double)20.0;
 
 	cv::addWeighted(imginfo.image.bgr, clarity_value, imginfo.filter.clarity_filter, -clarity_value, 0, imginfo.filter.clarity_mask_U);
 	// cout<<imginfo.filter.clarity_mask_U.type()<<endl;
-	imginfo.filter.clarity_mask_U.convertTo(imginfo.filter.clarity_mask_S, CV_16SC3, 0.8);
+	imginfo.filter.clarity_mask_U.convertTo(imginfo.filter.clarity_mask_S, CV_16SC3, 0.5);
 	cv::split(imginfo.filter.clarity_mask_S, imginfo.filter.clarity_mask_split);
 	cv::add(imginfo.filter.bgr_filters[BGRINDEX::B], imginfo.filter.clarity_mask_split[BGRINDEX::B], imginfo.filter.bgr_filters[BGRINDEX::B]);
 	cv::add(imginfo.filter.bgr_filters[BGRINDEX::G], imginfo.filter.clarity_mask_split[BGRINDEX::G], imginfo.filter.bgr_filters[BGRINDEX::G]);
@@ -305,8 +305,74 @@ void WorkingImgInfo::update_clarity(int pos)
 	imginfo.trackbar.clarity = pos;
 }
 
-// Refactoring : a,b 구하는건 함수로
-void WorkingImgInfo::update_brightness_and_contrast(int brightness_pos, int contrast_pos)
+
+void WorkingImgInfo::update_brightness(int brightness_pos)
+{
+	double a, b;
+	if (imginfo.trackbar.contrast > 0)
+	{
+		double delta = MAX_7B_F * imginfo.trackbar.contrast / MAX_8B_F;
+		a = MAX_8B_F / (MAX_8B_F - delta * 2);
+		b = a * (imginfo.trackbar.brightness - delta);
+	}
+	else
+	{
+		double delta = -MAX_7B_F * imginfo.trackbar.contrast / MAX_8B_F;
+		a = (MAX_8B_F - delta * 2) / MAX_8B_F;
+		b = a * imginfo.trackbar.brightness + delta;
+	}
+
+	cv::multiply(imginfo.image.bgr_origins[BGRINDEX::B], a - 1, imginfo.filter.diff);
+	imginfo.filter.diff.convertTo(imginfo.filter.diff, CV_16S);
+	cv::subtract(imginfo.filter.bgr_filters[BGRINDEX::B], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::B]);
+
+	cv::multiply(imginfo.image.bgr_origins[BGRINDEX::G], a - 1, imginfo.filter.diff);
+	imginfo.filter.diff.convertTo(imginfo.filter.diff, CV_16S);
+	cv::subtract(imginfo.filter.bgr_filters[BGRINDEX::G], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::G]);
+
+	cv::multiply(imginfo.image.bgr_origins[BGRINDEX::R], a - 1, imginfo.filter.diff);
+	imginfo.filter.diff.convertTo(imginfo.filter.diff, CV_16S);
+	cv::subtract(imginfo.filter.bgr_filters[BGRINDEX::R], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::R]);
+
+	imginfo.filter.diff.setTo(b);
+	cv::subtract(imginfo.filter.bgr_filters[BGRINDEX::B], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::B]);
+	cv::subtract(imginfo.filter.bgr_filters[BGRINDEX::G], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::G]);
+	cv::subtract(imginfo.filter.bgr_filters[BGRINDEX::R], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::R]);
+
+	if (imginfo.trackbar.contrast > 0)
+	{
+		double delta = MAX_7B_F * imginfo.trackbar.contrast / MAX_8B_F;
+		a = MAX_8B_F / (MAX_8B_F - delta * 2);
+		b = a * (brightness_pos - delta);
+	}
+	else
+	{
+		double delta = -MAX_7B_F * imginfo.trackbar.contrast / MAX_8B_F;
+		a = (MAX_8B_F - delta * 2) / MAX_8B_F;
+		b = a * brightness_pos + delta;
+	}
+
+	cv::multiply(imginfo.image.bgr_origins[BGRINDEX::B], a - 1, imginfo.filter.diff);
+	imginfo.filter.diff.convertTo(imginfo.filter.diff, CV_16S);
+	cv::add(imginfo.filter.bgr_filters[BGRINDEX::B], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::B]);
+
+	cv::multiply(imginfo.image.bgr_origins[BGRINDEX::G], a - 1, imginfo.filter.diff);
+	imginfo.filter.diff.convertTo(imginfo.filter.diff, CV_16S);
+	cv::add(imginfo.filter.bgr_filters[BGRINDEX::G], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::G]);
+
+	cv::multiply(imginfo.image.bgr_origins[BGRINDEX::R], a - 1, imginfo.filter.diff);
+	imginfo.filter.diff.convertTo(imginfo.filter.diff, CV_16S);
+	cv::add(imginfo.filter.bgr_filters[BGRINDEX::R], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::R]);
+
+	imginfo.filter.diff.setTo(b);
+	cv::add(imginfo.filter.bgr_filters[BGRINDEX::B], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::B]);
+	cv::add(imginfo.filter.bgr_filters[BGRINDEX::G], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::G]);
+	cv::add(imginfo.filter.bgr_filters[BGRINDEX::R], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::R]);
+
+	imginfo.trackbar.brightness = brightness_pos;
+}
+
+void WorkingImgInfo::update_contrast(int contrast_pos)
 {
 	double a, b;
 	if (imginfo.trackbar.contrast > 0)
@@ -343,13 +409,13 @@ void WorkingImgInfo::update_brightness_and_contrast(int brightness_pos, int cont
 	{
 		double delta = MAX_7B_F * contrast_pos / MAX_8B_F;
 		a = MAX_8B_F / (MAX_8B_F - delta * 2);
-		b = a * (brightness_pos - delta);
+		b = a * (imginfo.trackbar.brightness - delta);
 	}
 	else
 	{
 		double delta = -MAX_7B_F * contrast_pos / MAX_8B_F;
 		a = (MAX_8B_F - delta * 2) / MAX_8B_F;
-		b = a * brightness_pos + delta;
+		b = a * imginfo.trackbar.brightness + delta;
 	}
 
 	cv::multiply(imginfo.image.bgr_origins[BGRINDEX::B], a - 1, imginfo.filter.diff);
@@ -369,9 +435,76 @@ void WorkingImgInfo::update_brightness_and_contrast(int brightness_pos, int cont
 	cv::add(imginfo.filter.bgr_filters[BGRINDEX::G], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::G]);
 	cv::add(imginfo.filter.bgr_filters[BGRINDEX::R], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::R]);
 
-	imginfo.trackbar.brightness = brightness_pos;
 	imginfo.trackbar.contrast = contrast_pos;
 }
+
+// Refactoring : a,b 구하는건 함수로
+// void WorkingImgInfo::update_brightness_and_contrast(int brightness_pos, int contrast_pos)
+// {
+// 	double a, b;
+// 	if (imginfo.trackbar.contrast > 0)
+// 	{
+// 		double delta = MAX_7B_F * imginfo.trackbar.contrast / MAX_8B_F;
+// 		a = MAX_8B_F / (MAX_8B_F - delta * 2);
+// 		b = a * (imginfo.trackbar.brightness - delta);
+// 	}
+// 	else
+// 	{
+// 		double delta = -MAX_7B_F * imginfo.trackbar.contrast / MAX_8B_F;
+// 		a = (MAX_8B_F - delta * 2) / MAX_8B_F;
+// 		b = a * imginfo.trackbar.brightness + delta;
+// 	}
+
+// 	cv::multiply(imginfo.image.bgr_origins[BGRINDEX::B], a - 1, imginfo.filter.diff);
+// 	imginfo.filter.diff.convertTo(imginfo.filter.diff, CV_16S);
+// 	cv::subtract(imginfo.filter.bgr_filters[BGRINDEX::B], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::B]);
+
+// 	cv::multiply(imginfo.image.bgr_origins[BGRINDEX::G], a - 1, imginfo.filter.diff);
+// 	imginfo.filter.diff.convertTo(imginfo.filter.diff, CV_16S);
+// 	cv::subtract(imginfo.filter.bgr_filters[BGRINDEX::G], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::G]);
+
+// 	cv::multiply(imginfo.image.bgr_origins[BGRINDEX::R], a - 1, imginfo.filter.diff);
+// 	imginfo.filter.diff.convertTo(imginfo.filter.diff, CV_16S);
+// 	cv::subtract(imginfo.filter.bgr_filters[BGRINDEX::R], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::R]);
+
+// 	imginfo.filter.diff.setTo(b);
+// 	cv::subtract(imginfo.filter.bgr_filters[BGRINDEX::B], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::B]);
+// 	cv::subtract(imginfo.filter.bgr_filters[BGRINDEX::G], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::G]);
+// 	cv::subtract(imginfo.filter.bgr_filters[BGRINDEX::R], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::R]);
+
+// 	if (contrast_pos > 0)
+// 	{
+// 		double delta = MAX_7B_F * contrast_pos / MAX_8B_F;
+// 		a = MAX_8B_F / (MAX_8B_F - delta * 2);
+// 		b = a * (brightness_pos - delta);
+// 	}
+// 	else
+// 	{
+// 		double delta = -MAX_7B_F * contrast_pos / MAX_8B_F;
+// 		a = (MAX_8B_F - delta * 2) / MAX_8B_F;
+// 		b = a * brightness_pos + delta;
+// 	}
+
+// 	cv::multiply(imginfo.image.bgr_origins[BGRINDEX::B], a - 1, imginfo.filter.diff);
+// 	imginfo.filter.diff.convertTo(imginfo.filter.diff, CV_16S);
+// 	cv::add(imginfo.filter.bgr_filters[BGRINDEX::B], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::B]);
+
+// 	cv::multiply(imginfo.image.bgr_origins[BGRINDEX::G], a - 1, imginfo.filter.diff);
+// 	imginfo.filter.diff.convertTo(imginfo.filter.diff, CV_16S);
+// 	cv::add(imginfo.filter.bgr_filters[BGRINDEX::G], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::G]);
+
+// 	cv::multiply(imginfo.image.bgr_origins[BGRINDEX::R], a - 1, imginfo.filter.diff);
+// 	imginfo.filter.diff.convertTo(imginfo.filter.diff, CV_16S);
+// 	cv::add(imginfo.filter.bgr_filters[BGRINDEX::R], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::R]);
+
+// 	imginfo.filter.diff.setTo(b);
+// 	cv::add(imginfo.filter.bgr_filters[BGRINDEX::B], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::B]);
+// 	cv::add(imginfo.filter.bgr_filters[BGRINDEX::G], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::G]);
+// 	cv::add(imginfo.filter.bgr_filters[BGRINDEX::R], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::R]);
+
+// 	imginfo.trackbar.brightness = brightness_pos;
+// 	imginfo.trackbar.contrast = contrast_pos;
+// }
 
 void WorkingImgInfo::update_exposure(int pos)
 {
@@ -433,7 +566,7 @@ void WorkingImgInfo::update_grain(int pos)
 	imginfo.filter.diff.convertTo(imginfo.filter.diff, CV_32F);
 	imginfo.filter.diff = imginfo.filter.grain_mask.clone();
 
-	cv::multiply(imginfo.filter.diff, (pos - imginfo.trackbar.grain) / 5.0, imginfo.filter.diff);
+	cv::multiply(imginfo.filter.diff, (pos - imginfo.trackbar.grain) / 30.0, imginfo.filter.diff);
 	imginfo.filter.diff.convertTo(imginfo.filter.diff, CV_16S);
 	cv::add(imginfo.filter.hls_filters[HLSINDEX::L], imginfo.filter.diff, imginfo.filter.hls_filters[HLSINDEX::L]);
 

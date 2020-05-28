@@ -42,7 +42,16 @@ double weight_per_color(int color, int val);
 double weight_per_saturation(int val, int mu);
 double weight_per_value(int val, int mu);
 void apply_filter();
-cv::Mat get_preview_image(cv::Mat &img, cv::Mat logo);
+cv::Mat cut_image(cv::Mat src, int start_x, int start_y, int end_x, int end_y);
+cv::Mat get_watermarked_image(cv::Mat src_img, cv::Mat src_logo, int width = 0, int height = 0);
+cv::Mat get_preview_image(
+	cv::Mat& src_img, cv::Mat src_logo,
+	int hue = 0, int saturation = 0, int lightness = 0, int vibrance = 0,
+	int highlight_hue = 0, int highlight_sat = 0, int shadow_hue = 0, int shadow_sat = 0,
+	int temperature = 0, int tint = 0, int brightness = 0, int grain = 0,
+	int clarity = 0, int exposure = 0, int gamma = 0, int vignette = 0, int constrast = 0,
+	int width = 0, int height = 0 /* for downsizing */
+);
 
 // change hls
 void update_hue(int pos);

@@ -18,22 +18,6 @@ const loadImg = (imgPath, rowSize, colSize) => {
   })
 }
 
-const updateTemperature = (val) => {
-  return new Promise((resolve, reject) => {
-    if (Platform.OS === "android") {
-      // this is for android callback customize
-    } else {
-      OpenCV.onChangeTemperature(val, (error, data) => {
-        if (data) {
-          resolve(data)
-        }
-        if (error) {
-          reject(error)
-        }
-      })
-    }
-  })
-}
 
 const onChangeHue = (val) => {
   return new Promise((resolve, reject) => {
@@ -51,6 +35,24 @@ const onChangeHue = (val) => {
     }
   })
 }
+
+const onChangeTemperature = (val) => {
+  return new Promise((resolve, reject) => {
+    if (Platform.OS === "android") {
+      // this is for android callback customize
+    } else {
+      OpenCV.onChangeTemperature(val, (error, data) => {
+        if (data) {
+          resolve(data)
+        }
+        if (error) {
+          reject(error)
+        }
+      })
+    }
+  })
+}
+
 
 const onChangeSaturation = (val) => {
   return new Promise((resolve, reject) => {
@@ -207,7 +209,7 @@ const onChangeVignette = (val) => {
 
 export {
   loadImg,
-  updateTemperature,
+  onChangeTemperature,
   onChangeVignette,
   onChangeGrain,
   onChangeGamma,

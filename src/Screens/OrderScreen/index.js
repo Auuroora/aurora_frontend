@@ -91,7 +91,7 @@ class OrderScreen extends Component {
             </Text>
           </Button>
           <CheckBox
-            style={{backgroundColor:'white'}}
+            style={{backgroundColor:'#1E1E1E'}}
             value={this.state.checked}
             onChange={() => this.toggleCheckbox(orderList.filter_id)}/>
         </Row>
@@ -103,9 +103,10 @@ class OrderScreen extends Component {
     this.props.navigation.navigate("Home")
   }
 
-  onClickPayment = () => {
-    var userMoney =Math.random()*4000
-    userMoney=Math.floor(userMoney)
+  onClickPayment = async() => {
+    const userData = await axios.get('/user/my')
+    var userMoney = userData.data.cash
+
     if (userMoney>=this.state.orderPrice){
       alert("잔액:"+userMoney+" 잔액이 충분하군요! 결제 완료!")
     }

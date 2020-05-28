@@ -55,10 +55,7 @@ class DetailScreen extends Component {
       commentData:[]
     }
     this.getPostInfo(this.state.postId)
-    this.getCommentInfo(this.state.postId)
-    console.log("DD")
-    console.log(this.state.postData)
-    
+    this.getCommentInfo(this.state.postId) 
   }
 
   getPostInfo = async (postId) => {

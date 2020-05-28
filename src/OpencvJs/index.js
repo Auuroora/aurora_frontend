@@ -206,12 +206,12 @@ const onChangeClarity = (val) => {
   })
 }
 
-const onChangeBrightnessAndConstrast = (val) => {
+const onChangeBrightnessAndContrast = (val) => {
   return new Promise((resolve, reject) => {
     if (Platform.OS === "android") {
       // this is for android callback customize
     } else {
-      OpenCV.onChangeBrightnessAndConstrast(val, (error, data) => {
+      OpenCV.onChangeBrightnessAndContrast(val, (error, data) => {
         if (data) {
           resolve(data)
         }
@@ -304,7 +304,7 @@ export {
   onChangeShadowSaturation,
   onChangeTint,
   onChangeClarity,
-  onChangeBrightnessAndConstrast,
+  onChangeBrightnessAndContrast,
   onChangeExposure,
   onChangeGamma,
   onChangeGrain,

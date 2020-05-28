@@ -19,23 +19,27 @@ import FilterTile from './FilterTile'
 // Import OpenCV Libraries
 import {
   loadImg,
-  onChangeTemperature,
-  onChangeVignette,
-  onChangeGrain,
-  onChangeGamma,
-  onChangeExposure,
-  onChangeClarity,
-  onChangeTint,
-  onChangeVibrance,
-  onChangeValue,
+  onChangeHue,
   onChangeSaturation,
-  onChangeHue
-
+  onChangeLightness,
+  onChangeTemperature,
+  onChangeVibrance,
+  onChangeHighlightHue,
+  onChangeHighlightSaturation,
+  onChangeShadowHue,
+  onChangeShadowSaturation,
+  onChangeTint,
+  onChangeClarity,
+  onChangeBrightnessAndConstrast,
+  onChangeExposure,
+  onChangeGamma,
+  onChangeGrain,
+  onChangeVignette,
 } from '../../OpencvJs'
 
 const { width, height } = Dimensions.get('window')
 
-//TODO : fix Slider Value reset problem
+//TODO : fix Slider Lightness reset problem
 
 export default class NewFilterScreen extends React.Component {
   static propTypes = {
@@ -50,30 +54,42 @@ export default class NewFilterScreen extends React.Component {
       image: props.image,
       isImageLoaded: false,
       values: {
-        Temperature: 0,
-        Saturation: 0,
-        Tint: 0,
         Hue: 0,
-        Vignette: 0,
-        Gamma: 100,
-        Exposure: 0,
-        Value: 0,
-        Grain: 0,
+        Saturation: 0,
+        Lightness: 0,
+        Temperature: 0,
+        Vibrance:0,
+        HighlightHue:0,
+        HighlightSaturation:0,
+        ShadowHue:0,
+        ShadowSaturation:0,
+        Tint: 0,
         Clarity: 0,
-        Vibrance: 0
+        Brightness:0,
+        Constrast:0,
+        Exposure: 0,
+        Gamma: 100,
+        Grain: 0,
+        Vignette: 0,
       },
       valuesRange: {
-        Temperature: { min: -100, max : 100 },
-        Saturation: { min: -100, max : 100 },
-        Tint: { min: -100, max : 100 },
         Hue: { min: -100, max : 100 },
-        Vignette: { min: -100, max : 100 },
-        Gamma: { min: 1, max : 200 },
-        Exposure: { min: -100, max : 100 },
-        Value: { min: -100, max : 100 },
-        Grain: { min: 0, max : 100 },
+        Saturation: { min: -100, max : 100 },
+        Lightness: { min: -100, max : 100 },
+        Temperature: { min: -100, max : 100 },
+        Vibrance: { min: -100, max : 100 },
+        HighlightHue: { min: -100, max : 100 },
+        HighlightSaturation: { min: -100, max : 100 },
+        ShadowHue: { min: -100, max : 100 },
+        ShadowSaturation: { min: -100, max : 100 },
+        Tint: { min: -100, max : 100 },
         Clarity: { min: -100, max : 100 },
-        Vibrance: { min: -100, max : 100 }
+        Brightness: { min: -100, max : 100 },
+        Constrast: { min: -100, max : 100 },
+        Exposure: { min: -100, max : 100 },
+        Gamma: { min: 1, max : 200 },
+        Grain: { min: 0, max : 100 },
+        Vignette: { min: -100, max : 100 },
       },
       selectedCategory: null,
       selectedValue: null,
@@ -103,33 +119,43 @@ export default class NewFilterScreen extends React.Component {
   }
 
   mapCvFunction = (type) => {
-    if(type === 'Saturation') return onChangeSaturation
-    if(type === 'Temperature') return onChangeTemperature
-    if(type === 'Vignette') return onChangeVignette
-    if(type === 'Grain') return onChangeGrain
-    if(type === 'Gamma') return onChangeGamma
-    if(type === 'Exposure') return onChangeExposure
-    if(type === 'Clarity') return onChangeClarity
-    if(type === 'Tint') return onChangeTint
-    if(type === 'Vibrance') return onChangeVibrance
-    if(type === 'Value') return onChangeValue
-    if(type === 'Saturation') return onChangeSaturation
     if(type === 'Hue') return onChangeHue
+    if(type === 'Saturation') return onChangeSaturation
+    if(type === 'Lightness') return onChangeLightness
+    if(type === 'Temperature') return onChangeTemperature
+    if(type === 'Vibrance') return onChangeVibrance
+    if(type === 'HighlightHue') return onChangeHighlightHue
+    if(type === 'HighlightSaturation') return onChangeHighlightSaturation
+    if(type === 'ShadowHue') return onChangeShadowHue
+    if(type === 'ShadowSaturation') return onChangeShadowSaturation
+    if(type === 'Tint') return onChangeTint
+    if(type === 'Clarity') return onChangeClarity
+    if(type === 'Brightness') return onChangeBrightnessAndConstrast
+    if(type === 'Constrast') return onChangeBrightnessAndConstrast
+    if(type === 'Exposure') return onChangeExposure
+    if(type === 'Gamma') return onChangeGamma
+    if(type === 'Grain') return onChangeGrain
+    if(type === 'Vignette') return onChangeVignette
   }
 
   mapTileIcon = (type) => {
-    if(type === 'Saturation') return require('../../assets/tile/Saturation.png')
-    if(type === 'Temperature') return require('../../assets/tile/Temperature.png')
-    if(type === 'Vignette') return require('../../assets/tile/Vignette.png')
-    if(type === 'Grain') return require('../../assets/tile/Grain.png')
-    if(type === 'Gamma') return require('../../assets/tile/Gamma.png')
-    if(type === 'Exposure') return require('../../assets/tile/Exposure.png')
-    if(type === 'Clarity') return require('../../assets/tile/Clarity.png')
-    if(type === 'Tint') return require('../../assets/tile/Tint.png')
-    if(type === 'Vibrance') return require('../../assets/tile/Vibrance.png')
-    if(type === 'Value') return require('../../assets/tile/Value.png')
-    if(type === 'Saturation') return require('../../assets/tile/Saturation.png')
     if(type === 'Hue') return require('../../assets/tile/Hue.png')
+    if(type === 'Saturation') return require('../../assets/tile/Saturation.png')
+    if(type === 'Lightness') return require('../../assets/tile/Lightness.png')
+    if(type === 'Temperature') return require('../../assets/tile/Temperature.png')
+    if(type === 'Vibrance') return require('../../assets/tile/Vibrance.png')
+    if(type === 'HighlightHue') return require('../../assets/tile/HighlightHue.png')
+    // if(type === 'HighlightSaturation') return require('../../assets/tile/HighlightSaturation.png')
+    // if(type === 'ShadowHue') return require('../../assets/tile/ShadowHue.png')
+    // if(type === 'ShadowSaturation') return require('../../assets/tile/ShadowSaturation.png')
+    if(type === 'Tint') return require('../../assets/tile/Tint.png')
+    if(type === 'Clarity') return require('../../assets/tile/Clarity.png')
+    // if(type === 'Brightness') return require('../../assets/tile/Brightness.png')
+    // if(type === 'Constrast') return require('../../assets/tile/Constrast.png')
+    if(type === 'Exposure') return require('../../assets/tile/Exposure.png')
+    if(type === 'Gamma') return require('../../assets/tile/Gamma.png')
+    if(type === 'Grain') return require('../../assets/tile/Grain.png')
+    if(type === 'Vignette') return require('../../assets/tile/Vignette.png')
   }
 
   // User Event for image operation
@@ -190,7 +216,7 @@ export default class NewFilterScreen extends React.Component {
       <Spinner styleName='large'/>
     )
   }
-  // For Rendering Value Tile
+  // For Rendering Lightness Tile
   renderValueTile = (data) => {
     return (
       <FilterTile

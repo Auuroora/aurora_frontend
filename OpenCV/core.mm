@@ -114,7 +114,7 @@ cv::Mat get_preview_image(
 *							applyFilter
 *	add bgr filter -> convert to hsv -> add hsv filter -> convert to bgr(res)
 *****************************************************************************/
-void apply_filter()
+void WorkingImgInfo::apply_filter()
 {
    imginfo.image.hls.convertTo(imginfo.image.hls, CV_16SC3);
    imginfo.image.bgr.convertTo(imginfo.image.bgr, CV_16SC3);
@@ -137,7 +137,7 @@ void apply_filter()
    imginfo.image.hls.convertTo(imginfo.image.hls, CV_8UC3);
 }
 
-void update_hue(int pos)
+void WorkingImgInfo::update_hue(int pos)
 {
 	imginfo.filter.diff.setTo(pos - imginfo.trackbar.hue);
 	cv::add(
@@ -147,7 +147,7 @@ void update_hue(int pos)
 	imginfo.trackbar.hue = pos;
 }
 
-void update_saturation(int pos)
+void WorkingImgInfo::update_saturation(int pos)
 {
 	imginfo.filter.diff.setTo(pos - imginfo.trackbar.saturation);
 	cv::add(
@@ -157,7 +157,7 @@ void update_saturation(int pos)
 	imginfo.trackbar.saturation = pos;
 }
 
-void update_lightness(int pos)
+void WorkingImgInfo::update_lightness(int pos)
 {
 	imginfo.filter.diff.setTo(pos - imginfo.trackbar.lightness);
 	cv::add(
@@ -167,7 +167,7 @@ void update_lightness(int pos)
 	imginfo.trackbar.lightness = pos;
 }
 
-void update_temperature(int pos)
+void WorkingImgInfo::update_temperature(int pos)
 {
 	imginfo.filter.diff.setTo(abs(imginfo.trackbar.temperature));
 	if (imginfo.trackbar.temperature >= 0)
@@ -184,7 +184,7 @@ void update_temperature(int pos)
 	imginfo.trackbar.temperature = pos;
 }
 
-void update_vibrance(int pos)
+void WorkingImgInfo::update_vibrance(int pos)
 {
 	cv::Mat w;
 	cv::divide(
@@ -202,7 +202,7 @@ void update_vibrance(int pos)
 	imginfo.trackbar.vibrance = pos;
 }
 
-void update_highlight_hue(int pos)
+void WorkingImgInfo::update_highlight_hue(int pos)
 {
 	cv::Mat tmp = imginfo.filter.hls_filters[HLSINDEX::H].clone();
 	cv::addWeighted(
@@ -218,7 +218,7 @@ void update_highlight_hue(int pos)
 	imginfo.trackbar.highlight_hue = pos;
 }
 
-void update_highlight_saturation(int pos)
+void WorkingImgInfo::update_highlight_saturation(int pos)
 {
 	cv::Mat tmp = imginfo.filter.hls_filters[HLSINDEX::S].clone();
 	cv::addWeighted(
@@ -234,7 +234,7 @@ void update_highlight_saturation(int pos)
 	imginfo.trackbar.highlight_sat = pos;
 }
 
-void update_shadow_hue(int pos)
+void WorkingImgInfo::update_shadow_hue(int pos)
 {
 	cv::Mat tmp = imginfo.filter.hls_filters[HLSINDEX::H].clone();
 	cv::Mat tmp2;
@@ -253,7 +253,7 @@ void update_shadow_hue(int pos)
 	imginfo.trackbar.highlight_hue = pos;
 }
 
-void update_shadow_saturation(int pos)
+void WorkingImgInfo::update_shadow_saturation(int pos)
 {
 	cv::Mat tmp = imginfo.filter.hls_filters[HLSINDEX::S].clone();
 	cv::addWeighted(
@@ -272,14 +272,14 @@ void update_shadow_saturation(int pos)
 /*********************************************************************
 *	이하 동훈이 코드
 *********************************************************************/
-void update_tint(int pos)
+void WorkingImgInfo::update_tint(int pos)
 {
 	imginfo.filter.diff.setTo((pos - imginfo.trackbar.tint) / 5.0);
 	cv::add(imginfo.filter.bgr_filters[BGRINDEX::G], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::G]);
 	imginfo.trackbar.tint = pos;
 }
 
-void update_clarity(int pos)
+void WorkingImgInfo::update_clarity(int pos)
 {
 	double clarity_value;
 	clarity_value = imginfo.trackbar.clarity / (double)10.0;
@@ -306,7 +306,7 @@ void update_clarity(int pos)
 }
 
 // Refactoring : a,b 구하는건 함수로
-void update_brightness_and_constrast(int brightness_pos, int constrast_pos)
+void WorkingImgInfo::update_brightness_and_constrast(int brightness_pos, int constrast_pos)
 {
 	double a, b;
 	if (imginfo.trackbar.constrast > 0)
@@ -373,7 +373,7 @@ void update_brightness_and_constrast(int brightness_pos, int constrast_pos)
 	imginfo.trackbar.constrast = constrast_pos;
 }
 
-void update_exposure(int pos)
+void WorkingImgInfo::update_exposure(int pos)
 {
 	imginfo.filter.diff.setTo(abs(imginfo.trackbar.exposure));
 
@@ -407,7 +407,7 @@ void update_exposure(int pos)
 }
 
 // float 처리를 해야 가능
-void update_gamma(int pos)
+void WorkingImgInfo::update_gamma(int pos)
 {
 	imginfo.filter.diff = imginfo.filter.gamma_mask.clone();
 
@@ -428,7 +428,7 @@ void update_gamma(int pos)
 	imginfo.trackbar.gamma = pos;
 }
 
-void update_grain(int pos)
+void WorkingImgInfo::update_grain(int pos)
 {
 	imginfo.filter.diff.convertTo(imginfo.filter.diff, CV_32F);
 	imginfo.filter.diff = imginfo.filter.grain_mask.clone();
@@ -440,7 +440,7 @@ void update_grain(int pos)
 	imginfo.trackbar.grain = pos;
 }
 
-void update_vignette(int pos)
+void WorkingImgInfo::update_vignette(int pos)
 {
 	imginfo.filter.diff = imginfo.filter.gaussian_kernel.clone();
 

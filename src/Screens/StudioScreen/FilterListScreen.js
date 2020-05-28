@@ -29,7 +29,7 @@ import {
   onChangeShadowSaturation,
   onChangeTint,
   onChangeClarity,
-  onChangeBrightnessAndConstrast,
+  onChangeBrightnessAndContrast,
   onChangeExposure,
   onChangeGamma,
   onChangeGrain,
@@ -100,7 +100,7 @@ class FilterListScreen extends Component {
     if (type === 'ShadowSaturation') return onChangeShadowSaturation
     if (type === 'Tint') return onChangeTint
     if (type === 'Clarity') return onChangeClarity
-    if (type === 'BrightnessAndConstrast') return onChangeBrightnessAndConstrast
+    if (type === 'BrightnessAndContrast') return onChangeBrightnessAndContrast
     if (type === 'Exposure') return onChangeExposure
     if (type === 'Gamma') return onChangeGamma
     if (type === 'Grain') return onChangeGrain

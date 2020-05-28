@@ -149,9 +149,9 @@ RCT_EXPORT_METHOD(onChangeClarity: (NSInteger)value callback:(RCTResponseSenderB
   callback(@[[NSNull null], encodedString]);
 }
 
-RCT_EXPORT_METHOD(onChangeBrightnessAndConstrast: (NSInteger)BrightnessValue ConstrastValue:(NSInteger)ConstrastValue callback:(RCTResponseSenderBlock)callback) {
-  NSLog(@"%d %d", (int)BrightnessValue,(int)ConstrastValue);
-  Mat res_img = on_change_brightness_and_constrast((int)BrightnessValue,(int)ConstrastValue);
+RCT_EXPORT_METHOD(onChangeBrightnessAndContrast: (NSInteger)BrightnessValue ContrastValue:(NSInteger)ContrastValue callback:(RCTResponseSenderBlock)callback) {
+  NSLog(@"%d %d", (int)BrightnessValue,(int)ContrastValue);
+  Mat res_img = on_change_brightness_and_contrast((int)BrightnessValue,(int)ContrastValue);
   
   UIImage* result = MatToUIImage(res_img);
   
@@ -276,8 +276,8 @@ Mat on_change_clarity(int cur_pos){
   return imginfo.get_res_img();
 }
 
-Mat on_change_brightness_and_constrast(int brightness_pos,int constrast_pos){
-  imginfo.update_brightness_and_constrast(brightness_pos,constrast_pos);
+Mat on_change_brightness_and_contrast(int brightness_pos,int contrast_pos){
+  imginfo.update_brightness_and_contrast(brightness_pos,contrast_pos);
   imginfo.apply_filter();
   return imginfo.get_res_img();
 }

@@ -30,7 +30,7 @@ import {
   onChangeShadowSaturation,
   onChangeTint,
   onChangeClarity,
-  onChangeBrightnessAndConstrast,
+  onChangeBrightnessAndContrast,
   onChangeExposure,
   onChangeGamma,
   onChangeGrain,
@@ -66,7 +66,7 @@ export default class NewFilterScreen extends React.Component {
         Tint: 0,
         Clarity: 0,
         Brightness:0,
-        Constrast:0,
+        Contrast:0,
         Exposure: 0,
         Gamma: 100,
         Grain: 0,
@@ -85,7 +85,7 @@ export default class NewFilterScreen extends React.Component {
         Tint: { min: -100, max : 100 },
         Clarity: { min: -100, max : 100 },
         Brightness: { min: -100, max : 100 },
-        Constrast: { min: -100, max : 100 },
+        Contrast: { min: -100, max : 100 },
         Exposure: { min: -100, max : 100 },
         Gamma: { min: 1, max : 200 },
         Grain: { min: 0, max : 100 },
@@ -130,8 +130,8 @@ export default class NewFilterScreen extends React.Component {
     if(type === 'ShadowSaturation') return onChangeShadowSaturation
     if(type === 'Tint') return onChangeTint
     if(type === 'Clarity') return onChangeClarity
-    if(type === 'Brightness') return onChangeBrightnessAndConstrast
-    if(type === 'Constrast') return onChangeBrightnessAndConstrast
+    if(type === 'Brightness') return onChangeBrightnessAndContrast
+    if(type === 'Contrast') return onChangeBrightnessAndContrast
     if(type === 'Exposure') return onChangeExposure
     if(type === 'Gamma') return onChangeGamma
     if(type === 'Grain') return onChangeGrain
@@ -145,13 +145,13 @@ export default class NewFilterScreen extends React.Component {
     if(type === 'Temperature') return require('../../assets/tile/Temperature.png')
     if(type === 'Vibrance') return require('../../assets/tile/Vibrance.png')
     if(type === 'HighlightHue') return require('../../assets/tile/HighlightHue.png')
-    // if(type === 'HighlightSaturation') return require('../../assets/tile/HighlightSaturation.png')
-    // if(type === 'ShadowHue') return require('../../assets/tile/ShadowHue.png')
-    // if(type === 'ShadowSaturation') return require('../../assets/tile/ShadowSaturation.png')
+    if(type === 'HighlightSaturation') return require('../../assets/tile/HighlightSaturation.png')
+    if(type === 'ShadowHue') return require('../../assets/tile/ShadowHue.png')
+    if(type === 'ShadowSaturation') return require('../../assets/tile/ShadowSaturation.png')
     if(type === 'Tint') return require('../../assets/tile/Tint.png')
     if(type === 'Clarity') return require('../../assets/tile/Clarity.png')
-    // if(type === 'Brightness') return require('../../assets/tile/Brightness.png')
-    // if(type === 'Constrast') return require('../../assets/tile/Constrast.png')
+    if(type === 'Brightness') return require('../../assets/tile/Brightness.png')
+    if(type === 'Contrast') return require('../../assets/tile/Contrast.png')
     if(type === 'Exposure') return require('../../assets/tile/Exposure.png')
     if(type === 'Gamma') return require('../../assets/tile/Gamma.png')
     if(type === 'Grain') return require('../../assets/tile/Grain.png')

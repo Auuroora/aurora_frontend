@@ -49,7 +49,7 @@ cv::Mat get_preview_image(
 	int hue = 0, int saturation = 0, int lightness = 0, int vibrance = 0,
 	int highlight_hue = 0, int highlight_sat = 0, int shadow_hue = 0, int shadow_sat = 0,
 	int temperature = 0, int tint = 0, int brightness = 0, int grain = 0,
-	int clarity = 0, int exposure = 0, int gamma = 0, int vignette = 0, int constrast = 0,
+	int clarity = 0, int exposure = 0, int gamma = 0, int vignette = 0, int contrast = 0,
 	int width = 0, int height = 0 /* for downsizing */
 );
 
@@ -82,13 +82,13 @@ cv::Mat get_preview_image(
 // void update_temperature(int pos);
 // void on_change_temperature(int v, void *ptr);
 
-// void update_brightness_and_constrast(int brightness_pos, int constrast_pos);
+// void update_brightness_and_contrast(int brightness_pos, int contrast_pos);
 // void on_change_bright(int pos, void *ptr);
 
 // void update_tint(int pos);
 // void on_change_tint(int pos, void *ptr);
 
-// void on_change_constrast(int pos, void *ptr);
+// void on_change_contrast(int pos, void *ptr);
 
 // void update_clarity(int pos);
 // void on_change_clarity(int pos, void *ptr);
@@ -176,7 +176,7 @@ public:
 		int grain;
 		int vignette;
 
-		int constrast;
+		int contrast;
 		int brightness;
 	} trackbar;
 
@@ -193,7 +193,7 @@ public:
 	void update_shadow_hue(int pos);
 	void update_shadow_saturation(int pos);
 	void update_temperature(int pos);
-	void update_brightness_and_constrast(int brightness_pos, int constrast_pos);
+	void update_brightness_and_contrast(int brightness_pos, int contrast_pos);
 	void update_tint(int pos);
 	void update_clarity(int pos);
 	void update_exposure(int pos);
@@ -316,7 +316,7 @@ public:
 		this->trackbar.gamma = pos;
 		this->trackbar.grain = pos;
 		this->trackbar.vignette = pos;
-		this->trackbar.constrast = pos;
+		this->trackbar.contrast = pos;
 		this->trackbar.brightness = pos;
 
 		this->changed_color_space = 0;

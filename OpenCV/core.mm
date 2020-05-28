@@ -82,7 +82,7 @@ cv::Mat get_preview_image(
 	int hue, int saturation, int lightness, int vibrance,
 	int highlight_hue, int highlight_sat, int shadow_hue, int shadow_sat,
 	int temperature, int tint, int brightness, int grain,
-	int clarity, int exposure, int gamma, int vignette, int constrast,
+	int clarity, int exposure, int gamma, int vignette, int contrast,
 	int width, int height /* for downsizing */
 ) {
 	WorkingImgInfo preview_info;
@@ -98,13 +98,13 @@ cv::Mat get_preview_image(
 	preview_info.update_shadow_saturation(shadow_sat);
 	preview_info.update_temperature(temperature);
 	preview_info.update_tint(tint);
-	//preview_info.update_brightness_and_constrast(brightness);
+	//preview_info.update_brightness_and_contrast(brightness);
 	preview_info.update_grain(grain);
 	preview_info.update_clarity(clarity);
 	preview_info.update_exposure(exposure);
 	//preview_info.update_gamma(gamma); std::cout << "hiii\n";
 	preview_info.update_vignette(vignette);
-	//preview_info.update_brightness_and_constrast(constrast);
+	//preview_info.update_brightness_and_contrast(contrast);
 
 	preview_info.apply_filter();
 	return get_watermarked_image(preview_info.image.res, src_logo, width, height);
@@ -306,18 +306,18 @@ void WorkingImgInfo::update_clarity(int pos)
 }
 
 // Refactoring : a,b 구하는건 함수로
-void WorkingImgInfo::update_brightness_and_constrast(int brightness_pos, int constrast_pos)
+void WorkingImgInfo::update_brightness_and_contrast(int brightness_pos, int contrast_pos)
 {
 	double a, b;
-	if (imginfo.trackbar.constrast > 0)
+	if (imginfo.trackbar.contrast > 0)
 	{
-		double delta = MAX_7B_F * imginfo.trackbar.constrast / MAX_8B_F;
+		double delta = MAX_7B_F * imginfo.trackbar.contrast / MAX_8B_F;
 		a = MAX_8B_F / (MAX_8B_F - delta * 2);
 		b = a * (imginfo.trackbar.brightness - delta);
 	}
 	else
 	{
-		double delta = -MAX_7B_F * imginfo.trackbar.constrast / MAX_8B_F;
+		double delta = -MAX_7B_F * imginfo.trackbar.contrast / MAX_8B_F;
 		a = (MAX_8B_F - delta * 2) / MAX_8B_F;
 		b = a * imginfo.trackbar.brightness + delta;
 	}
@@ -339,15 +339,15 @@ void WorkingImgInfo::update_brightness_and_constrast(int brightness_pos, int con
 	cv::subtract(imginfo.filter.bgr_filters[BGRINDEX::G], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::G]);
 	cv::subtract(imginfo.filter.bgr_filters[BGRINDEX::R], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::R]);
 
-	if (constrast_pos > 0)
+	if (contrast_pos > 0)
 	{
-		double delta = MAX_7B_F * constrast_pos / MAX_8B_F;
+		double delta = MAX_7B_F * contrast_pos / MAX_8B_F;
 		a = MAX_8B_F / (MAX_8B_F - delta * 2);
 		b = a * (brightness_pos - delta);
 	}
 	else
 	{
-		double delta = -MAX_7B_F * constrast_pos / MAX_8B_F;
+		double delta = -MAX_7B_F * contrast_pos / MAX_8B_F;
 		a = (MAX_8B_F - delta * 2) / MAX_8B_F;
 		b = a * brightness_pos + delta;
 	}
@@ -370,7 +370,7 @@ void WorkingImgInfo::update_brightness_and_constrast(int brightness_pos, int con
 	cv::add(imginfo.filter.bgr_filters[BGRINDEX::R], imginfo.filter.diff, imginfo.filter.bgr_filters[BGRINDEX::R]);
 
 	imginfo.trackbar.brightness = brightness_pos;
-	imginfo.trackbar.constrast = constrast_pos;
+	imginfo.trackbar.contrast = contrast_pos;
 }
 
 void WorkingImgInfo::update_exposure(int pos)

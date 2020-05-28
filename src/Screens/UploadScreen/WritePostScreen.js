@@ -28,50 +28,52 @@ class WritePostScreen extends Component{
       tag : '',
       description: '',
       price: '',
+      user_id:null,
     }
   }
-  onClickUpload = async () => {
-    if (this.state.title && this.state.tag && this.state.description  && this.props.filterId && this.state.price) {
-      const data = {
-        post:{
-          title: this.state.title,
-          description: this.state.description,
-          filter_id: this.props.filterId,
-          tag_list: this.state.tag,
-          price: this.state.price
-        }
-      }
+  
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+  handleSubmit = (e) => {
+    // 페이지 리로딩 방지
+    e.preventDefault()
+    // 상태값을 onCreate 를 통하여 부모에게 전달
+    this.props.onCreate(this.state)
+    // 상태 초기화
+    this.setState({
+      name: '',
+      phone: ''
+    })
+  }
 
-      return axios.post('/posts', data)
-        .then((response) => {
-          alert('게시글 작성이 완료되었습니다.')
-        }).catch((err) => {
-          console.log(err)
-          alert('게시글 작성이 실패하였습니다.')
-        })
-    }
-    else{
-      alert('모든 부분을 작성하여 주세요.')
-    }
-  }
   onPressFunction = (props) =>{
     // title,tag,description, filter_id, price
     props.onClickUpload(this.state.title,this.state.tag, this.state.description, this.state.fiterId, this.state.price) 
   }
-  render(){
+
+  render(){  
     return (
-      <View>
+      <View 
+        style ={{
+          backgroundColor: '#1E1E1E'
+        }}>
         <View 
           name = "Filter"
           styleName ="horizontal space-between"
-          style ={{margin :10}}
+          style ={{
+            margin :10
+          }}
         >
           <TouchableOpacity 
             onPress ={this.props.onPressNew} 
             styleName="flexible">
             {this.props.imageFile === null ? (
               <Image
-                style ={{ height: height*0.11, width :height*0.11 ,padding :10}}
+                style ={{ height: height*0.11, width :height*0.11 ,padding :10, 
+                  backgroundColor: '#1E1E1E'}}
                 source={ require('../../assets/image/interface.png') }
               />
             ) : (
@@ -84,21 +86,33 @@ class WritePostScreen extends Component{
           </TouchableOpacity>
           <Divider styleName="line">
             <TextInput
+              name = "title"
               placeholder={'Write Filter Title'}
-              style ={{ paddingTop:15, backgroundColor: 'white', height: height/10, width :width*0.7}}
+              style ={{ 
+                paddingTop:15, 
+                backgroundColor: '#1E1E1E', 
+                placeholderTextColor: 'white', 
+                height: height/10, width :width*0.7}}
               value={this.state.title}
               maxLength={50}
-              onChangeText={(text) => this.setState({title: text})}/>
+              onEndEditing ={()=>{ this.props.onEndWriting("title", this.state.title)}}
+              onChangeText={(text) => this.setState({title: text})}>
+            </TextInput>
           </Divider>
         </View>
         <View styleName ="horizontal space-between" name = "Description" style ={{ margin :10}}>
           <Divider styleName="line">
             <TextInput
+              style ={{
+                height: height*0.2, width : width,
+                placeholderTextColor: 'white', 
+                backgroundColor: '#1E1E1E'
+              }}
               placeholder={'Write Filter Description'}
-              style ={{ height: height*0.2, width : width }}
               value={this.state.description}
               maxLength={300}
               multiline
+              onSubmitEditing ={()=>{this.props.onEndWriting("description", this.state.description)}}
               onChangeText={(text) => this.setState({description: text})}/>
           </Divider>
         </View>
@@ -106,9 +120,14 @@ class WritePostScreen extends Component{
           <Divider styleName="line">
             <TextInput
               placeholder={'Write Filter Tag using #'}
-              style ={{ hpadding:15, height: height/12, width :width}}
+              style ={{
+                height: height/12, width :width,
+                placeholderTextColor: 'white', 
+                backgroundColor: '#1E1E1E'
+              }}
               value={this.state.tag}
               maxLength={300}
+              onEndEditing ={()=>{ this.props.onEndWriting("tag", this.state.tag)}}
               onChangeText={(text) => this.setState({tag: text})}/>
           </Divider>
         </View>
@@ -117,17 +136,16 @@ class WritePostScreen extends Component{
             <TextInput
               placeholder={'Write Filter Price'}
               maxLength={10}
-              style ={{ padding:15, height: height/12, width :width}}
+              style ={{ 
+                padding:15, 
+                height: height/12, 
+                width :width,
+                placeholderTextColor: 'white', 
+                backgroundColor: '#1E1E1E'}}
               value={this.state.price}
+              onEndEditing ={()=>{this.props.onEndWriting("price", this.state.price)}}
               onChangeText={(text) => this.setState({price: text})}/>
           </Divider>
-        </View>
-        <View style ={{paddingTop:10, alignItems: 'center',}}>
-          <Button styleName="secondary" style ={{width:100}} 
-            onPress={() => {this.onClickUpload()}}>
-            <Icon name="share" />
-            <Text>UPLOAD</Text>
-          </Button>
         </View>
       </View>
     )

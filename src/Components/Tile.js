@@ -12,11 +12,12 @@ const { width } = Dimensions.get('window')
 Tile.propTypes = {
   image: PropTypes.string,
   filterId: PropTypes.number,
+  userId: PropTypes.number,
   onPressDone: PropTypes.func
 }
 
 const onPressFunction = (props) =>{
-  props.onPressDone(props.filterId, props.image) 
+  props.onPressDone(props.filterId, props.image, props.userId) 
 }
 export default function Tile (props) {
   return (

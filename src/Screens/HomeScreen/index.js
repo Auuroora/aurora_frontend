@@ -63,7 +63,6 @@ class HomeScreen extends Component {
       },
     }
     const res = await axios.get("/posts?page=" + page, params)
-    console.log(res.data)
     return res.data
   }
 
@@ -88,7 +87,7 @@ class HomeScreen extends Component {
       likeable:"post",
       likeable_id :postid
     }
-    await axios.post('/likes', data)
+    // await axios.post('/likes', data)
     this.componentDidMount()
   }
 

@@ -26,6 +26,7 @@ class SelectFilterScreen extends Component{
           key={id}
           image={AWS_S3_STORAGE_URL + filter.filter_info.filter_name} 
           filterId={filter.filter_info.filter_id}
+          userId={filter.current_user_info.id}
           onPressDone ={this.props.onPressDone} 
         />
       )
@@ -38,11 +39,8 @@ class SelectFilterScreen extends Component{
   }
 
   render(){
-    axios.get('/filters',{"user_info" : "true"}).then(res => {
-      const filterData = res.data
-      this.setState({filter_list:filterData}) 
-    })
-    const filter_list = this.state.filter_list
+    const filter_list = this.props.filterData
+
     const groupedData = GridRow.groupByRows(filter_list, 3, 
       () => {
         return 1
@@ -51,6 +49,11 @@ class SelectFilterScreen extends Component{
     return (   
       <Screen styleName='fill-parent'>
         <ListView
+          style={{
+            listContent: {
+              backgroundColor: '#0A0A0A',
+            }
+          }}
           data={groupedData}
           renderRow={this.renderRow}
         />

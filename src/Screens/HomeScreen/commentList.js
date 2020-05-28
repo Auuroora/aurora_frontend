@@ -26,7 +26,10 @@ export default class Comments extends Component {
               </Text>
             </View>
           </View>
-          <Text rkType='primary3 mediumLine'>{this.props.comment}</Text>
+          <Text 
+            rkType='primary3 mediumLine'
+            style={styles.comment}
+          >{this.props.comment}</Text>
         </View>
       </View>
     )
@@ -34,17 +37,12 @@ export default class Comments extends Component {
 }
 
 const styles = StyleSheet.create({
-  root: {
-    backgroundColor: "#ffffff",
-    marginTop:10,
-    flex: 1
-  },
   container: {
-    paddingLeft: 19,
-    paddingRight: 16,
+    paddingLeft: 10,
+    paddingRight: 14,
     paddingVertical: 12,
     flexDirection: 'row',
-    backgroundColor: "white",
+    backgroundColor: '#1E1E1E',
   },
   content: {
     marginLeft: 16,
@@ -61,10 +59,12 @@ const styles = StyleSheet.create({
   },
   comment:{  
     fontSize:15,
+    color:"#808080",
     marginLeft:15
   },
   name:{
     fontSize:16,
+    color:'white',
     fontWeight:"bold",
   },
 })  

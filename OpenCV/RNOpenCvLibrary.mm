@@ -174,9 +174,7 @@ RCT_EXPORT_METHOD(onChangeExposure: (NSInteger)value callback:(RCTResponseSender
 
 //파라미터가 float로 !! 에러로 인해 우선 NSInteger로 
 RCT_EXPORT_METHOD(onChangeGamma: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
-  value = value/100.0;
-  NSLog(@"%d", value);
-  Mat res_img = on_change_gamma((double)value);
+  Mat res_img = on_change_gamma((int)value);
   
   UIImage* result = MatToUIImage(res_img);
   
@@ -291,8 +289,8 @@ Mat on_change_exposure(int cur_pos){
   return imginfo.get_res_img();
 }
 
-Mat on_change_gamma(double cur_pos){
-  update_gamma(cur_pos);
+Mat on_change_gamma(int cur_pos){
+  update_gamma(cur_pos-100);
   apply_filter();
   return imginfo.get_res_img();
 }

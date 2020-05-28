@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import {
   Dimensions,
   StyleSheet
@@ -14,7 +14,7 @@ import LargeTile from './LargeTile'
 import axios from '../../axiosConfig'
 import ImagePicker from 'react-native-image-picker'
 import SmallTile from './SmallTile'
-import {AWS_S3_STORAGE_URL} from 'react-native-dotenv'
+import { AWS_S3_STORAGE_URL } from 'react-native-dotenv'
 
 import {
   loadImg,
@@ -42,14 +42,14 @@ const ImagePickerOptions = {
   },
 }
 
-class FilterListScreen extends Component{
+class FilterListScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      imageFile : {
+      imageFile: {
         data: null
       },
-      filterId :null,
+      filterId: null,
       filter_list: [],
       isImageSelected: false
     }
@@ -57,9 +57,9 @@ class FilterListScreen extends Component{
   }
 
   getFilterList = async () => {
-    const res = await axios.get('/filters',{"user_info" : "true"})
+    const res = await axios.get('/filters', { "user_info": "true" })
     const filterData = res.data
-    await this.setState({filter_list:filterData}) 
+    await this.setState({ filter_list: filterData })
   }
 
   onChooseFiletoApply = async () => {
@@ -84,23 +84,23 @@ class FilterListScreen extends Component{
   }
 
   mapCvFunction = (type) => {
-    if(type === 'Saturation') return onChangeSaturation
-    if(type === 'Temperature') return updateTemperature
-    if(type === 'Vignette') return onChangeVignette
-    if(type === 'Grain') return onChangeGrain
-    if(type === 'Gamma') return onChangeHue // err
-    if(type === 'Exposure') return onChangeExposure
-    if(type === 'Clarity') return onChangeClarity
-    if(type === 'Tint') return onChangeTint
-    if(type === 'Vibrance') return onChangeVibrance
-    if(type === 'Value') return onChangeValue
-    if(type === 'Hue') return onChangeHue
-    if(type === 'asdf') return onChangeHue // have to remove
-    return () => {console.log(type)}
+    if (type === 'Saturation') return onChangeSaturation
+    if (type === 'Temperature') return updateTemperature
+    if (type === 'Vignette') return onChangeVignette
+    if (type === 'Grain') return onChangeGrain
+    if (type === 'Gamma') return onChangeGamma // err
+    if (type === 'Exposure') return onChangeExposure
+    if (type === 'Clarity') return onChangeClarity
+    if (type === 'Tint') return onChangeTint
+    if (type === 'Vibrance') return onChangeVibrance
+    if (type === 'Value') return onChangeValue
+    if (type === 'Hue') return onChangeHue
+    if (type === 'asdf') return onChangeHue // have to remove
+    return () => { console.log(type) }
   }
 
   onClickFilter = async (filterInfo) => {
-    if(!this.state.isImageSelected) {
+    if (!this.state.isImageSelected) {
       alert('이미지를 선택해주세요.')
       return
     }
@@ -112,12 +112,13 @@ class FilterListScreen extends Component{
     const imageDownSizeHeight = this.state.imageFile.height * (width / this.state.imageFile.width)
 
     loadImg(this.state.originalFile, imageDownSizeWidth, imageDownSizeHeight)
-    
-    for( let key in preset ) {
+
+
+    for (let key in preset) {
       const modifyFunc = this.mapCvFunction(key)
       try {
         resultImg = await modifyFunc(preset[key])
-        this.setState({modifiedFile: resultImg})
+        this.setState({ modifiedFile: resultImg })
       } catch (e) {
         console.log(e)
       }
@@ -129,15 +130,15 @@ class FilterListScreen extends Component{
       }
     }))
   }
-  
+
   renderRow = (rowData) => {
     const cellViews = rowData.map((filter, id) => {
       return (
-        <SmallTile 
+        <SmallTile
           selectFilter={this.onClickFilter}
           key={id}
           filter={AWS_S3_STORAGE_URL + filter.filter_info.filter_data_path}
-          image={AWS_S3_STORAGE_URL + filter.filter_info.filter_name} 
+          image={AWS_S3_STORAGE_URL + filter.filter_info.filter_name}
           filterId={filter.filter_info.filter_id}
         />
       )
@@ -148,7 +149,7 @@ class FilterListScreen extends Component{
       </GridRow>
     )
   }
-  render(){
+  render() {
     const groupedData = GridRow.groupByRows(this.state.filter_list, 3, () => {
       return 1
     })
@@ -156,7 +157,7 @@ class FilterListScreen extends Component{
     return (
       <Screen style={styles.darkScreen}>
         <LargeTile
-          image={this.state.imageFile.data }
+          image={this.state.imageFile.data}
           onClickTile={this.onClickLargeTile}
         ></LargeTile>
         <ListView

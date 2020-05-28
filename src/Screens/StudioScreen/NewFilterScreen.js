@@ -19,7 +19,7 @@ import FilterTile from './FilterTile'
 // Import OpenCV Libraries
 import {
   loadImg,
-  updateTemperature,
+  onChangeTemperature,
   onChangeVignette,
   onChangeGrain,
   onChangeGamma,
@@ -104,7 +104,7 @@ export default class NewFilterScreen extends React.Component {
 
   mapCvFunction = (type) => {
     if(type === 'Saturation') return onChangeSaturation
-    if(type === 'Temperature') return updateTemperature
+    if(type === 'Temperature') return onChangeTemperature
     if(type === 'Vignette') return onChangeVignette
     if(type === 'Grain') return onChangeGrain
     if(type === 'Gamma') return onChangeGamma

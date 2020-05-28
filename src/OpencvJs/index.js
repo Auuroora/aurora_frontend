@@ -36,24 +36,6 @@ const onChangeHue = (val) => {
   })
 }
 
-const onChangeTemperature = (val) => {
-  return new Promise((resolve, reject) => {
-    if (Platform.OS === "android") {
-      // this is for android callback customize
-    } else {
-      OpenCV.onChangeTemperature(val, (error, data) => {
-        if (data) {
-          resolve(data)
-        }
-        if (error) {
-          reject(error)
-        }
-      })
-    }
-  })
-}
-
-
 const onChangeSaturation = (val) => {
   return new Promise((resolve, reject) => {
     if (Platform.OS === "android") {
@@ -71,12 +53,29 @@ const onChangeSaturation = (val) => {
   })
 }
 
-const onChangeValue = (val) => {
+const onChangeLightness = (val) => {
   return new Promise((resolve, reject) => {
     if (Platform.OS === "android") {
       // this is for android callback customize
     } else {
-      OpenCV.onChangeValue(val, (error, data) => {
+      OpenCV.onChangeLightness(val, (error, data) => {
+        if (data) {
+          resolve(data)
+        }
+        if (error) {
+          reject(error)
+        }
+      })
+    }
+  })
+}
+
+const onChangeTemperature = (val) => {
+  return new Promise((resolve, reject) => {
+    if (Platform.OS === "android") {
+      // this is for android callback customize
+    } else {
+      OpenCV.onChangeTemperature(val, (error, data) => {
         if (data) {
           resolve(data)
         }
@@ -94,6 +93,74 @@ const onChangeVibrance = (val) => {
       // this is for android callback customize
     } else {
       OpenCV.onChangeVibrance(val, (error, data) => {
+        if (data) {
+          resolve(data)
+        }
+        if (error) {
+          reject(error)
+        }
+      })
+    }
+  })
+}
+
+const onChangeHighlightHue = (val) => {
+  return new Promise((resolve, reject) => {
+    if (Platform.OS === "android") {
+      // this is for android callback customize
+    } else {
+      OpenCV.onChangeTemperature(val, (error, data) => {
+        if (data) {
+          resolve(data)
+        }
+        if (error) {
+          reject(error)
+        }
+      })
+    }
+  })
+}
+
+const onChangeHighlightSaturation = (val) => {
+  return new Promise((resolve, reject) => {
+    if (Platform.OS === "android") {
+      // this is for android callback customize
+    } else {
+      OpenCV.onChangeHighlightSaturation(val, (error, data) => {
+        if (data) {
+          resolve(data)
+        }
+        if (error) {
+          reject(error)
+        }
+      })
+    }
+  })
+}
+
+const onChangeShadowHue = (val) => {
+  return new Promise((resolve, reject) => {
+    if (Platform.OS === "android") {
+      // this is for android callback customize
+    } else {
+      OpenCV.onChangeShadowHue(val, (error, data) => {
+        if (data) {
+          resolve(data)
+        }
+        if (error) {
+          reject(error)
+        }
+      })
+    }
+  })
+}
+
+const onChangeShadowSaturation = (val) => {
+  return new Promise((resolve, reject) => {
+    if (Platform.OS === "android") {
+      // this is for android callback customize
+    } else {
+      OpenCV.onChangeShadowSaturation(val, (error, data) => {
         if (data) {
           resolve(data)
         }
@@ -128,6 +195,23 @@ const onChangeClarity = (val) => {
       // this is for android callback customize
     } else {
       OpenCV.onChangeClarity(val, (error, data) => {
+        if (data) {
+          resolve(data)
+        }
+        if (error) {
+          reject(error)
+        }
+      })
+    }
+  })
+}
+
+const onChangeBrightnessAndConstrast = (val) => {
+  return new Promise((resolve, reject) => {
+    if (Platform.OS === "android") {
+      // this is for android callback customize
+    } else {
+      OpenCV.onChangeBrightnessAndConstrast(val, (error, data) => {
         if (data) {
           resolve(data)
         }
@@ -209,15 +293,20 @@ const onChangeVignette = (val) => {
 
 export {
   loadImg,
-  onChangeTemperature,
-  onChangeVignette,
-  onChangeGrain,
-  onChangeGamma,
-  onChangeExposure,
-  onChangeClarity,
-  onChangeTint,
-  onChangeVibrance,
-  onChangeValue,
-  onChangeSaturation,
   onChangeHue,
+  onChangeSaturation,
+  onChangeLightness,
+  onChangeTemperature,
+  onChangeVibrance,
+  onChangeHighlightHue,
+  onChangeHighlightSaturation,
+  onChangeShadowHue,
+  onChangeShadowSaturation,
+  onChangeTint,
+  onChangeClarity,
+  onChangeBrightnessAndConstrast,
+  onChangeExposure,
+  onChangeGamma,
+  onChangeGrain,
+  onChangeVignette,
 }

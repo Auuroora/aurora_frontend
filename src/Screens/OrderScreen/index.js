@@ -37,6 +37,8 @@ class OrderScreen extends Component {
       orderPrice: 2000,
       orderList: [
       ],
+      checked:false,
+      checkList:[]
     }
     this.ongetCartList()
   }
@@ -45,38 +47,60 @@ class OrderScreen extends Component {
     axios.get('/line_filters').then((res)=>{
       console.log(res.data)
       this.setState({orderList:res.data})
+      
+      this.setState({checkList:0})
+    })
+  }
+  toggleCheckbox = async(filter_id)=> {
+    console.log("select")
+    console.log(filter_id)
+    this.setState({ checked: !this.state.checked})
+    await axios.put('/line_filters/'+filter_id).then((res)=>{
+      console.log(res.data)
+    })
+  }
+  onPressRemove = async(filter_id) =>{
+    console.log("remove")
+    await axios.delete('/line_filters/'+filter_id).then((res)=>{
+      console.log(res.data)
     })
   }
   renderRow(orderList) {
     return (
-      <View styleName="stretch" style={{ marginHorizontal: 1, marginTop: 5, borderRadius: 2 }}>
-        <Row>
+      <View style={{ backgroundColor: 'gray'}}>
+        <Row
+          style ={{ backgroundColor: '#1E1E1E'}}>
           <Image
             style={{ height: height * 0.15, width: height * 0.15 }}
             source={{ uri: "https://shoutem.github.io/static/getting-started/restaurant-6.jpg" }}
           />
           <View styleName="vertical stretch space-between">
-            <Subtitle>{orderList.filter_id}</Subtitle>
-            <Subtitle>{orderList.amount}</Subtitle>
+            <Subtitle style={{
+              color: 'white'
+            }}>{orderList.filter_id}</Subtitle>
+            <Subtitle style={{
+              color: 'white'
+            }}>{orderList.amount}</Subtitle>
           </View>
-          <Button onPress={this.props.onPressRemove}>
-            <Text style={{ color: '#0395FF', marginTop: 40, marginRight: 15 }}
+          <Button 
+            onPress={()=>this.onPressRemove(orderList.filter_id)}  
+            style ={{ bolderColor: '#1E1E1E', backgroundColor: '#1E1E1E', height:30,  marginRight: 15 }}>
+            <Text style={{ color: 'white', marginTop: 10, marginRight: 15 }}
             >
               삭제
             </Text>
           </Button>
           <CheckBox
-            center
-            title='Click Here'
-            value = { this.state.check }
-            onChange = {() => this.checkBox_Test(item)}
-          />
+            style={{backgroundColor:'white'}}
+            value={this.state.checked}
+            onChange={() => this.toggleCheckbox(orderList.filter_id)}/>
         </Row>
+        <Divider styleName="line" />
       </View>
     )
   }
   onClickShopping = () => {
-    this.props.navigation.navigate("Shopping")
+    this.props.navigation.navigate("Home")
   }
 
   onClickPayment = () => {
@@ -93,7 +117,8 @@ class OrderScreen extends Component {
   
   render() {
     return (
-      <Screen styleName='fill-parent'>
+      <Screen styleName='fill-parent'
+        style={{ backgroundColor: 'gray'}}>
         <ImageBackground
           source={require("../../assets/image/Header.jpg")}
           styleName="large-ultra-wide"
@@ -109,22 +134,28 @@ class OrderScreen extends Component {
           data={this.state.orderList}
           renderRow={this.renderRow}
         />
-        <Divider styleName="line" />
         <Button
-          onPress={() => this.onClickShopping()}>
-          <Icon style={{ color: '#FF6787' }} name="plus-button" />
+          onPress={() => this.onClickShopping()}
+          style={{
+            backgroundColor: '#1E1E1E',
+            height: 50,
+            marginHorizontal: 5,
+            marginTop: 2,
+            marginBottom: 2,
+          }}>
+          <Icon style={{ color: 'white'}} name="plus-button" />
           <Text
-            style={{ color: '#FF6787', fontWeight: "bold" }}>
+            style={{ color: 'white', fontWeight: "bold" }}>
             더 담으러 가기
           </Text>
         </Button>
-        <Button styleName="clear"
+        <Button 
           style={{
-            backgroundColor: '#FF6787',
+            backgroundColor: '#1E1E1E',
             height: 50,
-            marginHorizontal: 10,
-            marginTop: 10,
-            marginBottom: 10,
+            marginHorizontal: 5,
+            marginTop: 2,
+            marginBottom: 2,
           }}
           onPress={() => {
             this.onClickPayment()
@@ -140,11 +171,13 @@ class OrderScreen extends Component {
           }}>
             <Text style={{
               fontSize: 15,
-              fontColor: 'black'
+              fontColor: 'white'
             }}>{this.state.orderList.length}
             </Text>
           </View>
-          <Subtitle>  {this.state.orderPrice}원 결제하기</Subtitle>
+          <Subtitle style={{
+            color: 'white'
+          }}>  {this.state.orderPrice}원 결제하기</Subtitle>
         </Button>
       </Screen >
     )

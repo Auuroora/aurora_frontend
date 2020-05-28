@@ -18,17 +18,22 @@ import { AWS_S3_STORAGE_URL } from 'react-native-dotenv'
 
 import {
   loadImg,
-  onChangeTemperature,
-  onChangeVignette,
-  onChangeGrain,
-  onChangeGamma,
-  onChangeExposure,
-  onChangeClarity,
-  onChangeTint,
-  onChangeVibrance,
-  onChangeValue,
+  onChangeHue,
   onChangeSaturation,
-  onChangeHue
+  onChangeLightness,
+  onChangeTemperature,
+  onChangeVibrance,
+  onChangeHighlightHue,
+  onChangeHighlightSaturation,
+  onChangeShadowHue,
+  onChangeShadowSaturation,
+  onChangeTint,
+  onChangeClarity,
+  onChangeBrightnessAndConstrast,
+  onChangeExposure,
+  onChangeGamma,
+  onChangeGrain,
+  onChangeVignette,
 
 } from '../../OpencvJs'
 
@@ -84,18 +89,22 @@ class FilterListScreen extends Component {
   }
 
   mapCvFunction = (type) => {
-    if (type === 'Saturation') return onChangeSaturation
-    if (type === 'Temperature') return onChangeTemperature
-    if (type === 'Vignette') return onChangeVignette
-    if (type === 'Grain') return onChangeGrain
-    if (type === 'Gamma') return onChangeGamma // err
-    if (type === 'Exposure') return onChangeExposure
-    if (type === 'Clarity') return onChangeClarity
-    if (type === 'Tint') return onChangeTint
-    if (type === 'Vibrance') return onChangeVibrance
-    if (type === 'Value') return onChangeValue
     if (type === 'Hue') return onChangeHue
-    if (type === 'asdf') return onChangeHue // have to remove
+    if (type === 'Saturation') return onChangeSaturation
+    if (type === 'Lightness') return onChangeLightness
+    if (type === 'Temperature') return onChangeTemperature
+    if (type === 'Vibrance') return onChangeVibrance
+    if (type === 'HighlightHue') return onChangeHighlightHue
+    if (type === 'HighlightSaturation') return onChangeHighlightSaturation
+    if (type === 'ShadowHue') return onChangeShadowHue
+    if (type === 'ShadowSaturation') return onChangeShadowSaturation
+    if (type === 'Tint') return onChangeTint
+    if (type === 'Clarity') return onChangeClarity
+    if (type === 'BrightnessAndConstrast') return onChangeBrightnessAndConstrast
+    if (type === 'Exposure') return onChangeExposure
+    if (type === 'Gamma') return onChangeGamma
+    if (type === 'Grain') return onChangeGrain
+    if (type === 'Vignette') return onChangeVignette
     return () => { console.log(type) }
   }
 

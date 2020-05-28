@@ -139,7 +139,6 @@ class HomeScreen extends Component {
     const groupedData = GridRow.groupByRows(this.state.postList, 2, () => {
       return 1
     })
-  
     return (
       <Screen
         style={{

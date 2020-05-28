@@ -38,7 +38,6 @@ class OrderScreen extends Component {
       orderList: [
       ],
       checked:false,
-      checkList:[]
     }
     this.ongetCartList()
   }
@@ -47,8 +46,7 @@ class OrderScreen extends Component {
     axios.get('/line_filters').then((res)=>{
       console.log(res.data)
       this.setState({orderList:res.data})
-      
-      this.setState({checkList:0})
+
     })
   }
   toggleCheckbox = async(filter_id)=> {

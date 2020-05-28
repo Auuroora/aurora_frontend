@@ -49,17 +49,17 @@ class OrderScreen extends Component {
 
     })
   }
-  toggleCheckbox = async(filter_id)=> {
+  toggleCheckbox = async(id)=> {
     console.log("select")
-    console.log(filter_id)
+    console.log(id)
     this.setState({ checked: !this.state.checked})
-    await axios.put('/line_filters/'+filter_id).then((res)=>{
+    await axios.put('/line_filters/'+id).then((res)=>{
       console.log(res.data)
     })
   }
-  onPressRemove = async(filter_id) =>{
+  onPressRemove = async(id) =>{
     console.log("remove")
-    await axios.delete('/line_filters/'+filter_id).then((res)=>{
+    await axios.delete('/line_filters/'+id).then((res)=>{
       console.log(res.data)
     })
   }
@@ -81,7 +81,7 @@ class OrderScreen extends Component {
             }}>{orderList.amount}</Subtitle>
           </View>
           <Button 
-            onPress={()=>this.onPressRemove(orderList.filter_id)}  
+            onPress={()=>this.onPressRemove(orderList.id)}  
             style ={{ bolderColor: '#1E1E1E', backgroundColor: '#1E1E1E', height:30,  marginRight: 15 }}>
             <Text style={{ color: 'white', marginTop: 10, marginRight: 15 }}
             >
@@ -91,7 +91,7 @@ class OrderScreen extends Component {
           <CheckBox
             style={{backgroundColor:'#1E1E1E'}}
             value={this.state.checked}
-            onChange={() => this.toggleCheckbox(orderList.filter_id)}/>
+            onChange={() => this.toggleCheckbox(orderList.id)}/>
         </Row>
         <Divider styleName="line" />
       </View>

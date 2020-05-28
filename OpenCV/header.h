@@ -184,6 +184,24 @@ public:
 	*	method
 	*********************************************************************/
 	/* first initialize */
+  void update_hue(int pos);
+	void update_saturation(int pos);
+	void update_lightness(int pos);
+	void update_vibrance(int pos);
+	void update_highlight_saturation(int pos);
+	void update_highlight_hue(int pos);
+	void update_shadow_hue(int pos);
+	void update_shadow_saturation(int pos);
+	void update_temperature(int pos);
+	void update_brightness_and_constrast(int brightness_pos, int constrast_pos);
+	void update_tint(int pos);
+	void update_clarity(int pos);
+	void update_exposure(int pos);
+	void update_gamma(int pos);
+	void update_grain(int pos);
+	void update_vignette(int pos);
+	void apply_filter();
+
 	void init_all(cv::Mat &img, int downsized_col, int downsized_row)
 	{
 		// this->originImg = cv::imread("./aurora_watermark.png", cv::IMREAD_COLOR);

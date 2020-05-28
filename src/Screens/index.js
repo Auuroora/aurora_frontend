@@ -106,6 +106,7 @@ function MypageStack() {
         options={{ headerShown: false }}
         name="Settingstack"
         component={Settingstack}
+        
       />
     </Stack.Navigator>
   )
@@ -140,6 +141,12 @@ function TabStack() {
         options={{ headerShown: false }}
         name="Home"
         component={HomeStack}
+        listeners={({navigation}) =>({
+          tabPress: e => {
+            console.log("?")
+            navigation.navigate('Home',{isDone : true})
+          },
+        })}
       />
       <Tab.Screen
         options={{ headerShown: false }}
@@ -193,12 +200,12 @@ class RootNavigator extends React.Component {
               component={LoginScreen}
             />
           ) : (
-              <Stack.Screen
-                options={{ headerShown: false }}
-                name="TabStack"
-                component={TabStack}
-              />
-            )}
+            <Stack.Screen
+              options={{ headerShown: false }}
+              name="TabStack"
+              component={TabStack}
+            />
+          )}
         </Stack.Navigator>
       </NavigationContainer>
     )

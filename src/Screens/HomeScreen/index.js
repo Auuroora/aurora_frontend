@@ -53,6 +53,25 @@ class HomeScreen extends Component {
         alert('error : ' + e)
       })
   }
+  componentDidUpdate(){
+    // console.log(prevProps.isDone)
+    // console.log(this.props.route.params.isDone)
+    // console.log("rerolad")
+    // if (prevProps.isDone !== this.props.isDone && this.props.isDone) {
+    //   console.log("rerolad")
+    //   this.getPostList(1)
+    //     .then((res) => {
+    //       this.setState({
+    //         postList: res.posts,
+    //         isLoading: false
+    //       })
+    //     })
+    //     .catch(e => {
+    //       console.log(e)
+    //       alert('error : ' + e)
+    //     })
+    // }
+  }
 
   getPostList = async (page) => {
     const params = {
@@ -87,10 +106,9 @@ class HomeScreen extends Component {
       likeable:"post",
       likeable_id :postid
     }
-    // await axios.post('/likes', data)
+    await axios.post('/likes', data)
     this.componentDidMount()
   }
-
   renderRow = (rowData) => {  
     const cellViews = rowData.map((post, id) => {
       return (
@@ -117,13 +135,11 @@ class HomeScreen extends Component {
   onClickShopping = () => {
     this.props.navigation.navigate("Shopping")
   }
-
   render() {
-
     const groupedData = GridRow.groupByRows(this.state.postList, 2, () => {
       return 1
     })
-
+  
     return (
       <Screen
         style={{

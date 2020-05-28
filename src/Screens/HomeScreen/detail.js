@@ -56,8 +56,37 @@ class DetailScreen extends Component {
     }
     this.getPostInfo(this.state.postId)
     this.getCommentInfo(this.state.postId)
+    console.log("DD")
+    console.log(this.state.postData)
+    
   }
 
+  /*
+  {
+    "post_info": {
+        "id": 30,
+        "title": "ttt",
+        "description": "dfds s\nDFA dd#",
+        "price": "1,000원",
+        "created_at": "2020-05-28 11:23"
+    },
+    "user_info": null,
+    "filter_info": null,
+    "tag_info": null,
+    "like_info": null,
+    "comment_info": {
+        "comments_count": 0
+    },
+    "current_user_info": {
+        "name": "김지환",
+        "id": 2,
+        "case": 0
+    }
+    {"line_filter" :
+  {"filter_id" : "1",
+  "amount" : "1000"}
+}
+} */
   getPostInfo = async (postId) => {
     const params = {
       params: {
@@ -106,7 +135,6 @@ class DetailScreen extends Component {
 
       // apply image filter 
   
-  
       // watermark
 
       this.setState({
@@ -121,24 +149,22 @@ class DetailScreen extends Component {
     })
   }
 
-  onClickCart = () => {
-    
-  }
-
-  getPostInfo = async (postId) => {
-    const params = {
-      params: {
-        user_info: true,
-        filter_info: true,
-        tag_info: true,
-        like_info: true
+  onClickCart = async() => {
+    const data = {
+      line_filter: {
+        filter_id : this.state.postData.filter_info.filter_id,
+        amount : this.state.postData.post_info.price
       }
     }
-    const res = await axios.get('/posts/' + postId, params)
-    await this.setState({postData : res.data})
-    this.setState({isLoading: false})
+    console.log(data)
+    await axios.post('/line_filters', data).then((res) =>{
+      console.log(res.data)
+      alert("장바구니에 담았습니다")
+    })
+      .catch((err) => {
+        alert("Failed to Add bucket : ", err)
+      })
   }
-  
   getCommentInfo = async (postId) => {
     const params = {
       params: {
@@ -209,7 +235,6 @@ class DetailScreen extends Component {
   
   render () {
     return (
-      
       <Screen 
         style={{backgroundColor: '#1E1E1E'}}
       >

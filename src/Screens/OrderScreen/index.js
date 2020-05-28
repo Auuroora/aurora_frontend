@@ -35,52 +35,57 @@ class OrderScreen extends Component {
       orderCount: 0,
       orderPrice: 2000,
       orderList: [
-        {
-          "name": "Gaspar Brasserie",
-          "address": "185 Sutter St, San Francisco, CA 94109",
-          "price": 500,
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-1.jpg" },
-        },
-        {
-          "name": "Chalk Point Kitchen",
-          "address": "527 Broome St, New York, NY 10013",
-          "price": 500,
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-2.jpg" },
-        },
-        {
-          "name": "Kyoto Amber Upper East",
-          "address": "225 Mulberry St, New York, NY 10012",
-          "price": 500,
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
-        },
-        {
-          "name": "Sushibo",
-          "address": "35 Sipes Key, New York, NY 10012",
-          "price": 500,
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-5.jpg" },
-        },
-        {
-          "name": "Mastergrill",
-          "address": "550 Upton Rue, San Francisco, CA 94109",
-          "price": 500,
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-6.jpg" },
-        }
+        // {
+        //   "name": "Gaspar Brasserie",
+        //   "address": "185 Sutter St, San Francisco, CA 94109",
+        //   "price": 500,
+        //   "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-1.jpg" },
+        // },
+        // {
+        //   "name": "Chalk Point Kitchen",
+        //   "address": "527 Broome St, New York, NY 10013",
+        //   "price": 500,
+        //   "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-2.jpg" },
+        // },
+        // {
+        //   "name": "Kyoto Amber Upper East",
+        //   "address": "225 Mulberry St, New York, NY 10012",
+        //   "price": 500,
+        //   "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
+        // },
+        // {
+        //   "name": "Sushibo",
+        //   "address": "35 Sipes Key, New York, NY 10012",
+        //   "price": 500,
+        //   "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-5.jpg" },
+        // },
+        // {
+        //   "name": "Mastergrill",
+        //   "address": "550 Upton Rue, San Francisco, CA 94109",
+        //   "price": 500,
+        //   "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-6.jpg" },
+        // }
       ],
     }
   }
 
+  ongetCartList(){
+    axios.get('/line_filters').then((res)=>{
+      console.log(res.data)
+      this.setState({orderList:res.data})
+    })
+  }
   renderRow(orderList) {
     return (
       <View styleName="stretch" style={{ marginHorizontal: 1, marginTop: 5, borderRadius: 2 }}>
         <Row>
           <Image
             style={{ height: height * 0.15, width: height * 0.15 }}
-            source={{ uri: orderList.image.url }}
+            source={{ uri: "https://shoutem.github.io/static/getting-started/restaurant-6.jpg" }}
           />
           <View styleName="vertical stretch space-between">
-            <Subtitle>{orderList.name}</Subtitle>
-            <Subtitle>{orderList.address}</Subtitle>
-            <Subtitle>{orderList.price}</Subtitle>
+            <Subtitle>{orderList.filter_id}</Subtitle>
+            <Subtitle>{orderList.amount}</Subtitle>
           </View>
           <Button onPress={this.props.onPressRemove}>
             <Text style={{ color: '#0395FF', marginTop: 40, marginRight: 15 }}
@@ -109,6 +114,7 @@ class OrderScreen extends Component {
   }
   
   render() {
+    this.ongetCartList()
     return (
       <Screen styleName='fill-parent'>
         <ImageBackground

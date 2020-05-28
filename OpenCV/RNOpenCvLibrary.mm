@@ -85,49 +85,49 @@ RCT_EXPORT_METHOD(onChangeVibrance: (NSInteger)value callback:(RCTResponseSender
   callback(@[[NSNull null], encodedString]);
 }
 
-// RCT_EXPORT_METHOD(onChangeHighlightHue: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
-//   NSLog(@"%d", (int)value);
-//   Mat res_img = on_change_highlight_hue((int)value);
+RCT_EXPORT_METHOD(onChangeHighlightHue: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
+  NSLog(@"%d", (int)value);
+  Mat res_img = on_change_highlight_hue((int)value);
   
-//   UIImage* result = MatToUIImage(res_img);
+  UIImage* result = MatToUIImage(res_img);
   
-//   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
-//   NSString *encodedString = [imageData base64Encoding];
-//   callback(@[[NSNull null], encodedString]);
-// }
+  NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
+  NSString *encodedString = [imageData base64Encoding];
+  callback(@[[NSNull null], encodedString]);
+}
 
-// RCT_EXPORT_METHOD(onChangeHighlightSaturation: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
-//   NSLog(@"%d", (int)value);
-//   Mat res_img = on_change_highlight_saturation((int)value);
+RCT_EXPORT_METHOD(onChangeHighlightSaturation: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
+  NSLog(@"%d", (int)value);
+  Mat res_img = on_change_highlight_saturation((int)value);
   
-//   UIImage* result = MatToUIImage(res_img);
+  UIImage* result = MatToUIImage(res_img);
   
-//   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
-//   NSString *encodedString = [imageData base64Encoding];
-//   callback(@[[NSNull null], encodedString]);
-// }
+  NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
+  NSString *encodedString = [imageData base64Encoding];
+  callback(@[[NSNull null], encodedString]);
+}
 
-// RCT_EXPORT_METHOD(onShadowHue: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
-//   NSLog(@"%d", (int)value);
-//   Mat res_img = on_change_shadow_hue((int)value);
+RCT_EXPORT_METHOD(onShadowHue: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
+  NSLog(@"%d", (int)value);
+  Mat res_img = on_change_shadow_hue((int)value);
   
-//   UIImage* result = MatToUIImage(res_img);
+  UIImage* result = MatToUIImage(res_img);
   
-//   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
-//   NSString *encodedString = [imageData base64Encoding];
-//   callback(@[[NSNull null], encodedString]);
-// }
+  NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
+  NSString *encodedString = [imageData base64Encoding];
+  callback(@[[NSNull null], encodedString]);
+}
 
-// RCT_EXPORT_METHOD(onShadowSaturation: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
-//   NSLog(@"%d", (int)value);
-//   Mat res_img = on_change_shadow_saturation((int)value);
+RCT_EXPORT_METHOD(onShadowSaturation: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
+  NSLog(@"%d", (int)value);
+  Mat res_img = on_change_shadow_saturation((int)value);
   
-//   UIImage* result = MatToUIImage(res_img);
+  UIImage* result = MatToUIImage(res_img);
   
-//   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
-//   NSString *encodedString = [imageData base64Encoding];
-//   callback(@[[NSNull null], encodedString]);
-// }
+  NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
+  NSString *encodedString = [imageData base64Encoding];
+  callback(@[[NSNull null], encodedString]);
+}
 
 RCT_EXPORT_METHOD(onChangeTint: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   Mat res_img = on_change_tint((int)value);
@@ -149,17 +149,17 @@ RCT_EXPORT_METHOD(onChangeClarity: (NSInteger)value callback:(RCTResponseSenderB
   callback(@[[NSNull null], encodedString]);
 }
 
-//파라미터 2개
-// RCT_EXPORT_METHOD(onChangeBrightnessAndConstrast: (NSInteger)BrightnessValue ConstrastValue:(NSInteger)ConstrastValue callback:(RCTResponseSenderBlock)callback) {
-//   NSLog(@"%d %d", (int)BrightnessValue,(int)ConstrastValue);
-//   Mat res_img = on_change_brightness_and_constrast((int)BrightnessValue,(int)ConstrastValue);
+파라미터 2개
+RCT_EXPORT_METHOD(onChangeBrightnessAndConstrast: (NSInteger)BrightnessValue ConstrastValue:(NSInteger)ConstrastValue callback:(RCTResponseSenderBlock)callback) {
+  NSLog(@"%d %d", (int)BrightnessValue,(int)ConstrastValue);
+  Mat res_img = on_change_brightness_and_constrast((int)BrightnessValue,(int)ConstrastValue);
   
-//   UIImage* result = MatToUIImage(res_img);
+  UIImage* result = MatToUIImage(res_img);
   
-//   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
-//   NSString *encodedString = [imageData base64Encoding];
-//   callback(@[[NSNull null], encodedString]);
-// }
+  NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
+  NSString *encodedString = [imageData base64Encoding];
+  callback(@[[NSNull null], encodedString]);
+}
 
 RCT_EXPORT_METHOD(onChangeExposure: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (int)value);
@@ -241,29 +241,29 @@ Mat on_change_vibrance(int cur_pos){
   return imginfo.get_res_img();
 }
 
-// Mat on_change_highlight_hue(int cur_pos){
-//   update_highlight_hue(cur_pos);
-//   apply_filter();
-//   return imginfo.get_res_img();
-// }
+Mat on_change_highlight_hue(int cur_pos){
+  update_highlight_hue(cur_pos);
+  apply_filter();
+  return imginfo.get_res_img();
+}
 
-// Mat on_change_highlight_saturation(int cur_pos){
-//   update_highlight_saturation(cur_pos);
-//   apply_filter();
-//   return imginfo.get_res_img();
-// }
+Mat on_change_highlight_saturation(int cur_pos){
+  update_highlight_saturation(cur_pos);
+  apply_filter();
+  return imginfo.get_res_img();
+}
 
-// Mat on_change_shadow_hue(int cur_pos){
-//   update_shadow_hue(cur_pos);
-//   apply_filter();
-//   return imginfo.get_res_img();
-// }
+Mat on_change_shadow_hue(int cur_pos){
+  update_shadow_hue(cur_pos);
+  apply_filter();
+  return imginfo.get_res_img();
+}
 
-// Mat on_change_shadow_saturation(int cur_pos){
-//   update_shadow_saturation(cur_pos);
-//   apply_filter();
-//   return imginfo.get_res_img();
-// }
+Mat on_change_shadow_saturation(int cur_pos){
+  update_shadow_saturation(cur_pos);
+  apply_filter();
+  return imginfo.get_res_img();
+}
 
 Mat on_change_tint(int cur_pos){
   update_tint(cur_pos);

@@ -18,7 +18,7 @@ import { AWS_S3_STORAGE_URL } from 'react-native-dotenv'
 
 import {
   loadImg,
-  updateTemperature,
+  onChangeTemperature,
   onChangeVignette,
   onChangeGrain,
   onChangeGamma,
@@ -85,7 +85,7 @@ class FilterListScreen extends Component {
 
   mapCvFunction = (type) => {
     if (type === 'Saturation') return onChangeSaturation
-    if (type === 'Temperature') return updateTemperature
+    if (type === 'Temperature') return onChangeTemperature
     if (type === 'Vignette') return onChangeVignette
     if (type === 'Grain') return onChangeGrain
     if (type === 'Gamma') return onChangeGamma // err

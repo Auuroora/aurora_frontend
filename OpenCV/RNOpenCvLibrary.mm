@@ -107,7 +107,7 @@ RCT_EXPORT_METHOD(onChangeHighlightSaturation: (NSInteger)value callback:(RCTRes
   callback(@[[NSNull null], encodedString]);
 }
 
-RCT_EXPORT_METHOD(onShadowHue: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(onChangeShadowHue: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (int)value);
   Mat res_img = on_change_shadow_hue((int)value);
   
@@ -118,7 +118,7 @@ RCT_EXPORT_METHOD(onShadowHue: (NSInteger)value callback:(RCTResponseSenderBlock
   callback(@[[NSNull null], encodedString]);
 }
 
-RCT_EXPORT_METHOD(onShadowSaturation: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(onChangeShadowSaturation: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (int)value);
   Mat res_img = on_change_shadow_saturation((int)value);
   
@@ -149,9 +149,20 @@ RCT_EXPORT_METHOD(onChangeClarity: (NSInteger)value callback:(RCTResponseSenderB
   callback(@[[NSNull null], encodedString]);
 }
 
-RCT_EXPORT_METHOD(onChangeBrightnessAndConstrast: (NSInteger)BrightnessValue ConstrastValue:(NSInteger)ConstrastValue callback:(RCTResponseSenderBlock)callback) {
-  NSLog(@"%d %d", (int)BrightnessValue,(int)ConstrastValue);
-  Mat res_img = on_change_brightness_and_constrast((int)BrightnessValue,(int)ConstrastValue);
+RCT_EXPORT_METHOD(onChangeBrightness: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
+  NSLog(@"%d", (int)value);
+  Mat res_img = on_change_brightness((int)value);
+  
+  UIImage* result = MatToUIImage(res_img);
+  
+  NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
+  NSString *encodedString = [imageData base64Encoding];
+  callback(@[[NSNull null], encodedString]);
+}
+
+RCT_EXPORT_METHOD(onChangeContrast: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
+  NSLog(@"%d", (int)value);
+  Mat res_img = on_change_contrast((int)value);
   
   UIImage* result = MatToUIImage(res_img);
   
@@ -224,11 +235,6 @@ Mat on_change_lightness(int cur_pos){
 }
 
 Mat on_change_temperature(int cur_pos) {
-  // NSLog(@"rows: %d", imginfo.origin_img.rows);
-  // NSLog(@"cols: %d", imginfo.origin_img.cols);
-  // NSLog(@"channels: %d", imginfo.origin_img.channels());
-  // NSLog(@"type: %d", imginfo.origin_img.type());
-  
 	imginfo.update_temperature(cur_pos);
 	imginfo.apply_filter();
   return imginfo.get_res_img();
@@ -276,8 +282,14 @@ Mat on_change_clarity(int cur_pos){
   return imginfo.get_res_img();
 }
 
-Mat on_change_brightness_and_constrast(int brightness_pos,int constrast_pos){
-  imginfo.update_brightness_and_constrast(brightness_pos,constrast_pos);
+Mat on_change_brightness(int cur_pos){
+  imginfo.update_brightness(cur_pos);
+  imginfo.apply_filter();
+  return imginfo.get_res_img();
+}
+
+Mat on_change_contrast(int cur_pos){
+  imginfo.update_contrast(cur_pos);
   imginfo.apply_filter();
   return imginfo.get_res_img();
 }

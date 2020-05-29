@@ -126,7 +126,7 @@ const onChangeHighlightHue = (val) => {
     if (Platform.OS === "android") {
       // this is for android callback customize
     } else {
-      OpenCV.onChangeTemperature(val, (error, data) => {
+      OpenCV.onChangeHighlightHue(val, (error, data) => {
         if (data) {
           resolve(data)
         }
@@ -223,12 +223,29 @@ const onChangeClarity = (val) => {
   })
 }
 
-const onChangeBrightnessAndConstrast = (val) => {
+const onChangeBrightness = (val) => {
   return new Promise((resolve, reject) => {
     if (Platform.OS === "android") {
       // this is for android callback customize
     } else {
-      OpenCV.onChangeBrightnessAndConstrast(val, (error, data) => {
+      OpenCV.onChangeBrightness(val, (error, data) => {
+        if (data) {
+          resolve(data)
+        }
+        if (error) {
+          reject(error)
+        }
+      })
+    }
+  })
+}
+
+const onChangeContrast = (val) => {
+  return new Promise((resolve, reject) => {
+    if (Platform.OS === "android") {
+      // this is for android callback customize
+    } else {
+      OpenCV.onChangeContrast(val, (error, data) => {
         if (data) {
           resolve(data)
         }
@@ -322,7 +339,8 @@ export {
   onChangeShadowSaturation,
   onChangeTint,
   onChangeClarity,
-  onChangeBrightnessAndConstrast,
+  onChangeBrightness,
+  onChangeContrast,
   onChangeExposure,
   onChangeGamma,
   onChangeGrain,

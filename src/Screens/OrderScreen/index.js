@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {
-  Dimensions
+  Dimensions,
+  CheckBox
 } from 'react-native'
 import {
   NavigationBar,
@@ -35,70 +36,75 @@ class OrderScreen extends Component {
       orderCount: 0,
       orderPrice: 2000,
       orderList: [
-        {
-          "name": "Gaspar Brasserie",
-          "address": "185 Sutter St, San Francisco, CA 94109",
-          "price": 500,
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-1.jpg" },
-        },
-        {
-          "name": "Chalk Point Kitchen",
-          "address": "527 Broome St, New York, NY 10013",
-          "price": 500,
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-2.jpg" },
-        },
-        {
-          "name": "Kyoto Amber Upper East",
-          "address": "225 Mulberry St, New York, NY 10012",
-          "price": 500,
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
-        },
-        {
-          "name": "Sushibo",
-          "address": "35 Sipes Key, New York, NY 10012",
-          "price": 500,
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-5.jpg" },
-        },
-        {
-          "name": "Mastergrill",
-          "address": "550 Upton Rue, San Francisco, CA 94109",
-          "price": 500,
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-6.jpg" },
-        }
       ],
+      checked:false,
     }
+    this.ongetCartList()
   }
 
+  ongetCartList(){
+    axios.get('/line_filters').then((res)=>{
+      console.log(res.data)
+      this.setState({orderList:res.data})
+
+    })
+  }
+  toggleCheckbox = async(id)=> {
+    console.log("select")
+    console.log(id)
+    this.setState({ checked: !this.state.checked})
+    await axios.put('/line_filters/'+id).then((res)=>{
+      console.log(res.data)
+    })
+  }
+  onPressRemove = async(id) =>{
+    console.log("remove")
+    await axios.delete('/line_filters/'+id).then((res)=>{
+      console.log(res.data)
+    })
+  }
   renderRow(orderList) {
     return (
-      <View styleName="stretch" style={{ marginHorizontal: 1, marginTop: 5, borderRadius: 2 }}>
-        <Row>
+      <View style={{ backgroundColor: 'gray'}}>
+        <Row
+          style ={{ backgroundColor: '#1E1E1E'}}>
           <Image
             style={{ height: height * 0.15, width: height * 0.15 }}
-            source={{ uri: orderList.image.url }}
+            source={{ uri: "https://shoutem.github.io/static/getting-started/restaurant-6.jpg" }}
           />
           <View styleName="vertical stretch space-between">
-            <Subtitle>{orderList.name}</Subtitle>
-            <Subtitle>{orderList.address}</Subtitle>
-            <Subtitle>{orderList.price}</Subtitle>
+            <Subtitle style={{
+              color: 'white'
+            }}>{orderList.filter_id}</Subtitle>
+            <Subtitle style={{
+              color: 'white'
+            }}>{orderList.amount}</Subtitle>
           </View>
-          <Button onPress={this.props.onPressRemove}>
-            <Text style={{ color: '#0395FF', marginTop: 40, marginRight: 15 }}
+          <Button 
+            onPress={()=>this.onPressRemove(orderList.id)}  
+            style ={{ bolderColor: '#1E1E1E', backgroundColor: '#1E1E1E', height:30,  marginRight: 15 }}>
+            <Text style={{ color: 'white', marginTop: 10, marginRight: 15 }}
             >
               삭제
             </Text>
           </Button>
+          <CheckBox
+            style={{backgroundColor:'#1E1E1E'}}
+            value={this.state.checked}
+            onChange={() => this.toggleCheckbox(orderList.id)}/>
         </Row>
+        <Divider styleName="line" />
       </View>
     )
   }
   onClickShopping = () => {
-    this.props.navigation.navigate("Shopping")
+    this.props.navigation.navigate("Home")
   }
 
-  onClickPayment = () => {
-    var userMoney =Math.random()*4000;
-    userMoney=Math.floor(userMoney)
+  onClickPayment = async() => {
+    const userData = await axios.get('/user/my')
+    var userMoney = userData.data.cash
+
     if (userMoney>=this.state.orderPrice){
       alert("잔액:"+userMoney+" 잔액이 충분하군요! 결제 완료!")
     }
@@ -110,9 +116,10 @@ class OrderScreen extends Component {
   
   render() {
     return (
-      <Screen styleName='fill-parent'>
+      <Screen styleName='fill-parent'
+        style={{ backgroundColor: 'gray'}}>
         <ImageBackground
-          source={{ uri: 'https://stores.selzstatic.com/nvyn50kugf4/assets/settings/lightscape-735108-unsplash.jpg?v=20200323080941' }}
+          source={require("../../assets/image/Header.jpg")}
           styleName="large-ultra-wide"
         >
           <NavigationBar
@@ -126,22 +133,28 @@ class OrderScreen extends Component {
           data={this.state.orderList}
           renderRow={this.renderRow}
         />
-        <Divider styleName="line" />
         <Button
-          onPress={() => this.onClickShopping()}>
-          <Icon style={{ color: '#FF6787' }} name="plus-button" />
-          <Text
-            style={{ color: '#FF6787', fontWeight: "bold" }}>
-            더 담으러 가기
-            </Text>
-        </Button>
-        <Button styleName="clear"
+          onPress={() => this.onClickShopping()}
           style={{
-            backgroundColor: '#FF6787',
+            backgroundColor: '#1E1E1E',
             height: 50,
-            marginHorizontal: 10,
-            marginTop: 10,
-            marginBottom: 10,
+            marginHorizontal: 5,
+            marginTop: 2,
+            marginBottom: 2,
+          }}>
+          <Icon style={{ color: 'white'}} name="plus-button" />
+          <Text
+            style={{ color: 'white', fontWeight: "bold" }}>
+            더 담으러 가기
+          </Text>
+        </Button>
+        <Button 
+          style={{
+            backgroundColor: '#1E1E1E',
+            height: 50,
+            marginHorizontal: 5,
+            marginTop: 2,
+            marginBottom: 2,
           }}
           onPress={() => {
             this.onClickPayment()
@@ -157,11 +170,13 @@ class OrderScreen extends Component {
           }}>
             <Text style={{
               fontSize: 15,
-              fontColor: 'black'
+              fontColor: 'white'
             }}>{this.state.orderList.length}
             </Text>
           </View>
-          <Subtitle>  {this.state.orderPrice}원 결제하기</Subtitle>
+          <Subtitle style={{
+            color: 'white'
+          }}>  {this.state.orderPrice}원 결제하기</Subtitle>
         </Button>
       </Screen >
     )

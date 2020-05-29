@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { WebView } from 'react-native-webview';
+import { WebView } from 'react-native-webview'
 import {
   StatusBar,
   Dimensions
@@ -23,6 +23,7 @@ import Title from '../../Components/Title'
  * 1. 장바구니에 담긴 리스트 자료 api로 요청 후 보여주기
  * 2. +버튼 누를 경우, 결제 api호출
  */
+//Todo
 
 const { height } = Dimensions.get('window')
 class PaymentScreen extends Component{
@@ -32,7 +33,7 @@ class PaymentScreen extends Component{
         source={{uri: 'http://aurora-application.ap-northeast-2.elasticbeanstalk.com/package_page?user_id=1'}}
         style={{marginTop: 20}}
       />
-    );
+    )
   }
 }
 

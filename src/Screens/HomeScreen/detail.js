@@ -54,7 +54,7 @@ class DetailScreen extends Component {
       commentData:[]
     }
     this.getPostInfo(this.state.postId)
-    this.getCommentInfo(this.state.postId)
+    this.getCommentInfo(this.state.postId) 
   }
 
   getPostInfo = async (postId) => {
@@ -68,6 +68,7 @@ class DetailScreen extends Component {
     }
     const res = await axios.get('/posts/' + postId, params)
     await this.setState({postData : res.data})
+    console.log(this.state.postData)
     this.setState({isLoading: false})
   }
 
@@ -104,7 +105,6 @@ class DetailScreen extends Component {
       } 
 
       // apply image filter 
-
       const res = await ImgToBase64.getBase64String(AWS_S3_STORAGE_URL + 'assets/watermark.png')
 
       this.setState({
@@ -119,24 +119,22 @@ class DetailScreen extends Component {
     })
   }
 
-  onClickCart = () => {
-    
-  }
-
-  getPostInfo = async (postId) => {
-    const params = {
-      params: {
-        user_info: true,
-        filter_info: true,
-        tag_info: true,
-        like_info: true
+  onClickCart = async() => {
+    const data = {
+      line_filter: {
+        filter_id : this.state.postData.filter_info.id,
+        amount : this.state.postData.post_info.price
       }
     }
-    const res = await axios.get('/posts/' + postId, params)
-    await this.setState({postData : res.data})
-    this.setState({isLoading: false})
+    console.log(data)
+    await axios.post('/line_filters', data).then((res) =>{
+      console.log(res.data)
+      alert("장바구니에 담았습니다")
+    })
+      .catch((err) => {
+        alert("Failed to Add bucket : ", err)
+      })
   }
-  
   getCommentInfo = async (postId) => {
     const params = {
       params: {
@@ -207,7 +205,6 @@ class DetailScreen extends Component {
   
   render () {
     return (
-      
       <Screen 
         style={{backgroundColor: '#1E1E1E'}}
       >

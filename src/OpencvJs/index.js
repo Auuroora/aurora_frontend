@@ -2,18 +2,35 @@ import { NativeModules, Platform } from "react-native"
 
 const OpenCV = NativeModules.RNOpenCvLibrary
 
-const loadImg = (imgPath, rowSize, colSize) => {
+const loadImg = (img, rowSize, colSize) => {
   return new Promise((resolve, reject) => {
     if (Platform.OS === "android") {
       resolve(true)
     } else {
-      OpenCV.initCV(imgPath, rowSize, colSize, (error, data) => {
+      OpenCV.initCV(img, rowSize, colSize, (error, data) => {
         if (data) {
           resolve(data)
         } else {
           reject(error)
         }
       })
+    }
+  })
+}
+
+const getPreview = (image, logo, hue, saturation, lightness, vibrance, highlight_hue, highlight_sat, shadow_hue, shadow_sat, temperature, tint, brightness, grain, clarity, exposure, gamma, vignette, constrast, width, height) => {
+  return new Promise((resolve, reject) => {
+    if (Platform.OS === 'android') {
+      // and
+    } else {
+      OpenCV.getPreview(image, logo, hue, saturation, lightness, vibrance, highlight_hue, highlight_sat, shadow_hue, shadow_sat, temperature
+        , tint, brightness, grain, clarity, exposure, gamma, vignette, constrast, width, height, (error, data) => {
+          if (data) {
+            resolve(data)
+          } else {
+            reject(error)
+          }
+        })
     }
   })
 }
@@ -293,6 +310,7 @@ const onChangeVignette = (val) => {
 
 export {
   loadImg,
+  getPreview,
   onChangeHue,
   onChangeSaturation,
   onChangeLightness,

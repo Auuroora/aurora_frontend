@@ -14,29 +14,10 @@ import LargeTile from './LargeTile'
 import axios from '../../axiosConfig'
 import ImagePicker from 'react-native-image-picker'
 import SmallTile from './SmallTile'
+
 import { AWS_S3_STORAGE_URL } from 'react-native-dotenv'
-
-import {
-  loadImg,
-  onChangeHue,
-  onChangeSaturation,
-  onChangeLightness,
-  onChangeTemperature,
-  onChangeVibrance,
-  onChangeHighlightHue,
-  onChangeHighlightSaturation,
-  onChangeShadowHue,
-  onChangeShadowSaturation,
-  onChangeTint,
-  onChangeClarity,
-  onChangeBrightness,
-  onChangeContrast,
-  onChangeExposure,
-  onChangeGamma,
-  onChangeGrain,
-  onChangeVignette,
-
-} from '../../OpencvJs'
+import { loadImg } from '../../OpencvJs'
+import { mapCvFunction } from '../../utils'
 
 const { width } = Dimensions.get('window')
 
@@ -89,27 +70,6 @@ class FilterListScreen extends Component {
     this.onChooseFiletoApply()
   }
 
-  mapCvFunction = (type) => {
-    if (type === 'Hue') return onChangeHue
-    if (type === 'Saturation') return onChangeSaturation
-    if (type === 'Lightness') return onChangeLightness
-    if (type === 'Temperature') return onChangeTemperature
-    if (type === 'Vibrance') return onChangeVibrance
-    if (type === 'HighlightHue') return onChangeHighlightHue
-    if (type === 'HighlightSaturation') return onChangeHighlightSaturation
-    if (type === 'ShadowHue') return onChangeShadowHue
-    if (type === 'ShadowSaturation') return onChangeShadowSaturation
-    if (type === 'Tint') return onChangeTint
-    if (type === 'Clarity') return onChangeClarity
-    if (type === 'Brightness') return onChangeBrightness
-    if (type === 'Contrast') return onChangeContrast
-    if (type === 'Exposure') return onChangeExposure
-    if (type === 'Gamma') return onChangeGamma
-    if (type === 'Grain') return onChangeGrain
-    if (type === 'Vignette') return onChangeVignette
-    return () => { console.log(type) }
-  }
-
   onClickFilter = async (filterInfo) => {
     if (!this.state.isImageSelected) {
       alert('이미지를 선택해주세요.')
@@ -124,9 +84,8 @@ class FilterListScreen extends Component {
 
     loadImg(this.state.originalFile, imageDownSizeWidth, imageDownSizeHeight)
 
-
     for (let key in preset) {
-      const modifyFunc = this.mapCvFunction(key)
+      const modifyFunc = mapCvFunction(key)
       try {
         resultImg = await modifyFunc(preset[key])
         this.setState({ modifiedFile: resultImg })
@@ -134,6 +93,7 @@ class FilterListScreen extends Component {
         console.log(e)
       }
     }
+
     await this.setState(prevState => ({
       imageFile: {
         ...prevState.imageFile,

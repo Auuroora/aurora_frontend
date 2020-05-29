@@ -31,15 +31,19 @@ import ImagePicker from 'react-native-image-picker'
 import ImageView from 'react-native-image-view'
 import Comment from './commentList'
 import ImgToBase64 from 'react-native-image-base64'
+import { loadImg, getWatermarkedImg } from '../../OpencvJs'
+import { mapCvFunction } from '../../utils'
 
 
+const ImagePickerOptions = {
+  title: 'Select Image',
+  storageOptions: {
+    skipBackup: true,
+    path: 'images',
+  },
+}
 const { width, height } = Dimensions.get('window')
 
-
-/* TODO
- * 1. 장바구니에 추가하는 api 작성 필요
- 장바구니 추가 이벤트 + API 호출 → 장바구니에 추가되었다는 메세지 출력
- */
 
 class DetailScreen extends Component {
   constructor (props) {
@@ -68,7 +72,6 @@ class DetailScreen extends Component {
     }
     const res = await axios.get('/posts/' + postId, params)
     await this.setState({postData : res.data})
-    console.log(this.state.postData)
     this.setState({isLoading: false})
   }
 
@@ -83,16 +86,8 @@ class DetailScreen extends Component {
     })
   }
 
-  onClickPreview = () => {
-    const ImagePickerOptions = {
-      title: 'Select Image',
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    }
-
-    ImagePicker.showImagePicker(ImagePickerOptions, async response => {
+  onClickPreview = async () => {
+    ImagePicker.showImagePicker(ImagePickerOptions, async (response) => {
       if (response.didCancel) {
         console.log('User cancelled image picker')
         return
@@ -100,16 +95,29 @@ class DetailScreen extends Component {
       if (response.error) {
         return
       }
-      if (response.customButton) {
-        return
-      } 
 
-      // apply image filter 
+      await loadImg(response.data, response.width, response.height)
+
+      const filter = await fetch(AWS_S3_STORAGE_URL + this.state.postData.filter_info.filter_data_path)
+      const preset = await filter.json()
+
+      let resultImg = null
+
+      for (let key in preset) {
+        const modifyFunc = mapCvFunction(key)
+        try {
+          resultImg = await modifyFunc(preset[key])
+        } catch (e) {
+          console.log(e)
+        }
+      }
+
       const res = await ImgToBase64.getBase64String(AWS_S3_STORAGE_URL + 'assets/watermark.png')
+      const preview = await getWatermarkedImg(resultImg, res, response.width, response.height)
 
       this.setState({
         imageFile: [{
-          source: response,
+          source: { uri: 'data:image/jpeg;base64,' + preview},
           title: 'Image Preview',
           width: response.width,
           height: response.height,
@@ -135,6 +143,7 @@ class DetailScreen extends Component {
         alert("Failed to Add bucket : ", err)
       })
   }
+
   getCommentInfo = async (postId) => {
     const params = {
       params: {
@@ -145,6 +154,7 @@ class DetailScreen extends Component {
     const res = await axios.get('/comments', params)
     await this.setState({commentData : res.data})
   }
+
   postCommentInfo = async () => {
     const data = {
       comment: {
@@ -168,6 +178,7 @@ class DetailScreen extends Component {
       alert("댓글을 작성하여주세요")
     }
   }
+
   onClickLike = async() => {
     const data = {
       liker:"user",

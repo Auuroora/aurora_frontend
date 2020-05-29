@@ -18,23 +18,22 @@ const loadImg = (img, rowSize, colSize) => {
   })
 }
 
-const getPreview = (image, logo, hue, saturation, lightness, vibrance, highlight_hue, highlight_sat, shadow_hue, shadow_sat, temperature, tint, brightness, grain, clarity, exposure, gamma, vignette, constrast, width, height) => {
+const getWatermarkedImg = (img, logo, width, height) => {
+  console.log(img)
   return new Promise((resolve, reject) => {
     if (Platform.OS === 'android') {
-      // and
+      // do func
     } else {
-      OpenCV.getPreview(image, logo, hue, saturation, lightness, vibrance, highlight_hue, highlight_sat, shadow_hue, shadow_sat, temperature
-        , tint, brightness, grain, clarity, exposure, gamma, vignette, constrast, width, height, (error, data) => {
-          if (data) {
-            resolve(data)
-          } else {
-            reject(error)
-          }
-        })
+      OpenCV.getWatermarkedImg(img, logo, width, height, (err, data) => {
+        if (data) {
+          resolve(data)
+        } else {
+          reject(err)
+        }
+      })
     }
   })
 }
-
 
 const onChangeHue = (val) => {
   return new Promise((resolve, reject) => {
@@ -327,7 +326,6 @@ const onChangeVignette = (val) => {
 
 export {
   loadImg,
-  getPreview,
   onChangeHue,
   onChangeSaturation,
   onChangeLightness,
@@ -345,4 +343,5 @@ export {
   onChangeGamma,
   onChangeGrain,
   onChangeVignette,
+  getWatermarkedImg
 }

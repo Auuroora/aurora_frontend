@@ -53,7 +53,6 @@ class MypageScreen extends Component{
       isLoading: false,
       userCash: userData.data.cash
     })
-    console.log(this.state.user)
   }
 
   renderRow(rowData) {  
@@ -81,8 +80,6 @@ class MypageScreen extends Component{
       user: userData.data,
       userCash: userData.data.cash
     })
-    console.log("refresh")
-    console.log(this.state.user)
   }
   render(){
     const groupedData = GridRow.groupByRows(this.state.posts, 2, () => {
@@ -96,19 +93,21 @@ class MypageScreen extends Component{
           styleName='inline clear'
           centerComponent={<Title title={'MyPage'}/>}
           rightComponent ={
-          
-            <View styleName="horizontal space-between">
+            <View 
+              styleName="horizontal space-between" 
+              style={{ marginTop : 15 }}
+            >
               <TouchableOpacity onPress={() => {this.onRefresh()}}>
                 <Image
                   source={ require('../../assets/image/refresh.png' )}
-                  style={{ width: 22, height: 22, color :'white', marginRight : 5 }}
+                  style={{ width: 18, height: 18, color :'white', marginRight : 5 }}
                 />
               </TouchableOpacity>
               <Subtitle 
                 style={{
-                  fontSize:15,
+                  fontSize:16,
                   color: '#FFFFFF',
-                  marginTop: 5
+                  paddingTop:15      
                 }}
               >
                 Cash: ${this.state.userCash}</Subtitle>

@@ -100,7 +100,7 @@ function MypageStack() {
         options={{ headerShown: false }}
         name="Settingstack"
         component={Settingstack}
-        
+
       />
     </Stack.Navigator>
   )

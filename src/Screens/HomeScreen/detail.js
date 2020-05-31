@@ -6,7 +6,7 @@ import {
 } from 'react-native'
 
 // Import UI components
-import { 
+import {
   Image,
   Screen,
   NavigationBar,
@@ -58,7 +58,7 @@ class DetailScreen extends Component {
       commentData:[]
     }
     this.getPostInfo(this.state.postId)
-    this.getCommentInfo(this.state.postId) 
+    this.getCommentInfo(this.state.postId)
   }
 
   getPostInfo = async (postId) => {
@@ -131,14 +131,16 @@ class DetailScreen extends Component {
     const data = {
       line_filter: {
         filter_id : this.state.postData.filter_info.id,
+        post_id: this.state.postData.post_info.id,
         amount : this.state.postData.post_info.price
       }
     }
     console.log(data)
-    await axios.post('/line_filters', data).then((res) =>{
-      console.log(res.data)
-      alert("장바구니에 담았습니다")
-    })
+    await axios.post('/line_filters', data)
+      .then((res) =>{
+        console.log(res.data)
+        alert("장바구니에 담았습니다")
+      })
       .catch((err) => {
         alert("Failed to Add bucket : ", err)
       })
@@ -164,7 +166,7 @@ class DetailScreen extends Component {
       }
     }
     if(this.state.myComment){
-      
+
       await axios.post('/comments', data).then(() =>{
         alert("댓글을 작성 하였습니다.")
       })
@@ -200,7 +202,7 @@ class DetailScreen extends Component {
 
   renderTagRow = (data) => {
     return (
-      <Button 
+      <Button
         style={{
           backgroundColor: '#1E1E1E',
           marginRight:5,
@@ -214,10 +216,10 @@ class DetailScreen extends Component {
       </Button>
     )
   }
-  
+
   render () {
     return (
-      <Screen 
+      <Screen
         style={{backgroundColor: '#1E1E1E'}}
       >
         <NavigationBar
@@ -229,7 +231,7 @@ class DetailScreen extends Component {
           }}
           centerComponent={<Title title={'Details'}/>}
           rightComponent={
-            <View 
+            <View
               style={{marginTop: 25}}
               styleName="horizontal space-between ">
               <TouchableOpacity onPress={() => {this.onClickCart()}}>
@@ -251,7 +253,7 @@ class DetailScreen extends Component {
           {this.state.isLoading ? (
             <Spinner styleName='large'/>
           ) : (
-            <Card 
+            <Card
               style={{width: width}}
               styleName="flexible"
             >
@@ -271,12 +273,12 @@ class DetailScreen extends Component {
                   source={{ uri: AWS_S3_STORAGE_URL + this.state.postData.filter_info.filter_name}}
                 />
               </TouchableOpacity>
-              <View 
-                styleName="content" 
+              <View
+                styleName="content"
                 style={{
                   backgroundColor: '#1E1E1E',
                 }}>
-                <Heading 
+                <Heading
                   numberOfLines={2}
                   style={{
                     color: 'white',
@@ -335,20 +337,20 @@ class DetailScreen extends Component {
               </View>
             </Card>
           )}
-          
-          <View 
-            styleName="horizontal space-between" 
+
+          <View
+            styleName="horizontal space-between"
             style ={{
               justifyContent: 'center',
-              width: width, 
-              height: '4%', 
+              width: width,
+              height: '4%',
               backgroundColor: '#1E1E1E',
             }}>
-            <TextInput 
-              placeholder={'Write Comment'} 
+            <TextInput
+              placeholder={'Write Comment'}
               style ={{
-                placeholderTextColor: 'white', 
-                width: '90%', 
+                placeholderTextColor: 'white',
+                width: '90%',
                 backgroundColor: '#1E1E1E',
               }}
               value={this.state.myComment}
@@ -362,7 +364,7 @@ class DetailScreen extends Component {
           </View>
           {this.state.commentData.map((comment, id) => {
             return (
-              <Comment 
+              <Comment
                 key={id}
                 comment = {comment.comment_info.body}
                 name = {comment.user_info.author_name}

@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
+import CheckBox from '@react-native-community/checkbox';
 import {
   Dimensions,
-  CheckBox
+  Switch
 } from 'react-native'
 import {
   NavigationBar,
@@ -34,66 +35,73 @@ class OrderScreen extends Component {
 
     this.state = {
       orderCount: 0,
-      orderPrice: 2000,
+      orderPrice: 0,
       orderList: [
       ],
       userCash: null,
       checked:false,
     }
     this.ongetCartList()
-    this.onRefresh()
+    this.getUserInfo()
   }
 
   ongetCartList(){
     axios.get('/line_filters').then((res)=>{
-      console.log(res.data)
-      this.setState({orderList:res.data})
-
+      this.setState({
+        orderList:res.data,
+        orderPrice:res.data[0].order_info.total
+      })
     })
   }
   toggleCheckbox = async(id)=> {
-    console.log("select")
-    console.log(id)
+    console.log("select: " + id)
     this.setState({ checked: !this.state.checked})
-    await axios.put('/line_filters/'+id).then((res)=>{
-      console.log(res.data)
-    })
+    const res = await axios.put('/line_filters/'+id)
+    await this.setState({ orderPrice: res.data.order_info.total })
+    this.ongetCartList();
   }
   onPressRemove = async(id) =>{
     console.log("remove")
     await axios.delete('/line_filters/'+id).then((res)=>{
       console.log(res.data)
     })
+    this.ongetCartList();
   }
-  renderRow(orderList) {
+  renderRow(order) {
     return (
       <View style={{ backgroundColor: 'gray'}}>
         <Row
           style ={{ backgroundColor: '#1E1E1E'}}>
           <Image
-            style={{ height: height * 0.15, width: height * 0.15 }}
-            source={{ uri: "https://shoutem.github.io/static/getting-started/restaurant-6.jpg" }}
+            style={{ height: height * 0.12, width: height * 0.12 }}
+            source={{uri: AWS_S3_STORAGE_URL + order.filter_info.filter_name}}
           />
-          <View styleName="vertical stretch space-between">
-            <Subtitle style={{
-              color: 'white'
-            }}>{orderList.filter_id}</Subtitle>
-            <Subtitle style={{
-              color: 'white'
-            }}>{orderList.amount}</Subtitle>
+          <View styleName="vertical stretch">
+              <Subtitle style={{
+                color: 'white',
+                marginBottom: 0
+              }}>필터명: {order.post_info.post_title}</Subtitle>
+              <Subtitle styleName="md-gutter-right" style={{color: 'white', marginBottom: 15, fontSize: 13}}>금액: {order.line_filter_info.amount} 원</Subtitle>
+            <View styleName="horizontal">
+              <Button
+                onPress={()=>this.onPressRemove(order.line_filter_info.id)}
+                style ={{ bolderColor: '#1E1E1E', backgroundColor: '#1E1E1E',  marginRight: 15 }}>
+                <Text style={{ color: 'white', marginTop: 10, marginBottom:10, arginRight: 15 }}>
+                  삭제
+                </Text>
+              </Button>
+            </View>
           </View>
-          <Button 
-            onPress={()=>this.onPressRemove(orderList.id)}  
-            style ={{ bolderColor: '#1E1E1E', backgroundColor: '#1E1E1E', height:30,  marginRight: 15 }}>
-            <Text style={{ color: 'white', marginTop: 10, marginRight: 15 }}
-            >
-              삭제
-            </Text>
-          </Button>
           <CheckBox
-            style={{backgroundColor:'#1E1E1E'}}
-            value={this.state.checked}
-            onChange={() => this.toggleCheckbox(orderList.id)}/>
+           label=""
+           boxType="square"
+           tintColor={"white"}
+           onTintColor={"white"}
+           onCheckColor={"white"}
+           style={{transform: [{ scaleX: .8 }, { scaleY: .8 }]}}
+           value={order.line_filter_info.check}
+           checked={order.line_filter_info.check}
+           onValueChange={() => this.toggleCheckbox(order.line_filter_info.id)}/>
         </Row>
         <Divider styleName="line" />
       </View>
@@ -104,23 +112,31 @@ class OrderScreen extends Component {
   }
 
   onClickPayment = async() => {
-    var userMoney = this.state.userCash
+    var cash = this.state.userCash
 
-    if (userMoney>=this.state.orderPrice){
-      alert("잔액:"+userMoney+" 잔액이 충분하군요! 결제 완료!")
+    if (Number(this.state.orderPrice) === 0){
+      alert("선택하신 상품이 없습니다.")
+    }
+    else if (cash >= this.state.orderPrice){
+      await axios.post('/orders').then((res)=>{
+        console.log(res.data)
+      })
+      alert("잔액:"+cash+" 결제 완료")
+      this.props.navigation.navigate("Mypage")
     }
     else{
-      alert("잔액:"+userMoney+" 잔액이 부족합니다! 충전 페이지로 넘어갑니다.")
+      alert("잔액:"+cash+" 잔액이 부족합니다. 충전 페이지로 넘어갑니다.")
       this.props.navigation.navigate("Payment")
     }
   }
-  
-  onRefresh = async() => {
-    const userData = await axios.get('/user/my')
+
+  getUserInfo = async () => {
+    const userInfo = await axios.get('/users/my')
     await this.setState({
-      userCash: userData.data.cash
+      userCash: userInfo.data.cash
     })
   }
+
   render() {
     return (
       <Screen styleName='fill-parent'
@@ -134,28 +150,22 @@ class OrderScreen extends Component {
             centerComponent={
               <Title title={'Order'} topMargin={50} />
             }
-            rightComponent ={
-              <View 
-                styleName="horizontal space-between" 
-                style={{ marginTop : 15 }}
-              >
-                <TouchableOpacity onPress={() => {this.onRefresh()}}>
-                  <Image
-                    source={ require('../../assets/image/refresh.png' )}
-                    style={{ width: 18, height: 18, color :'white', marginRight : 5 }}
-                  />
-                </TouchableOpacity>
-                <Subtitle 
-                  style={{
-                    fontSize:16,
-                    color: '#FFFFFF',
-                    paddingTop:15      
-                  }}
-                >
-                  Cash: ${this.state.userCash}</Subtitle>
-              </View>}
           />
         </ImageBackground>
+        <Row styleName="small" style={{ backgroundColor: '#1E1E1E'}}>
+          <Image
+            source={ require('../../assets/image/cash.png' )}
+            style={{ width: 18, height: 18, color :'white', marginRight : 5 }}
+          />
+          <Text style={{color: 'white', marginLeft: 5}}>{this.state.userCash} 원</Text>
+          <TouchableOpacity onPress={() => {this.getUserInfo()}}>
+            <Image
+              source={ require('../../assets/image/refresh.png' )}
+              style={{ width: 18, height: 18, color :'white', marginRight : 5 }}
+            />
+          </TouchableOpacity>
+        </Row>
+        <Divider styleName="line" />
         <ListView
           data={this.state.orderList}
           renderRow={this.renderRow}
@@ -175,7 +185,7 @@ class OrderScreen extends Component {
             더 담으러 가기
           </Text>
         </Button>
-        <Button 
+        <Button
           style={{
             backgroundColor: '#1E1E1E',
             height: 50,

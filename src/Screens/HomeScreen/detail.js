@@ -204,6 +204,7 @@ class DetailScreen extends Component {
         style={{
           backgroundColor: '#1E1E1E',
           marginRight:5,
+          marginTop: 10,
           borderRadius:10,
         }}>
         <Text
@@ -283,7 +284,10 @@ class DetailScreen extends Component {
                   {this.state.postData.post_info.title}
                 </Heading>
                 <View styleName="horizontal space-between">
-                  <Subtitle>판매 가격 : {this.state.postData.post_info.price}</Subtitle>
+                  <Subtitle style={{
+                    color: 'white',
+                    marginTop: 10
+                  }}>판매 가격 : {this.state.postData.post_info.price}원</Subtitle>
                   <TouchableOpacity onPress={() => this.onClickLike(this.props)}>
                     <View styleName="horizontal space-between">
                       {this.state.postData.like_info.liked ? (

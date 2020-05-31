@@ -47,7 +47,9 @@ class SelectFilterScreen extends Component{
       })
     
     return (   
-      <Screen styleName='fill-parent'>
+      <Screen styleName='fill-parent'
+        style={{backgroundColor: '#0A0A0A'}}
+      >
         <ListView
           style={{
             listContent: {

@@ -1,7 +1,9 @@
 /* eslint-disable react/prop-types */
 import React, {Component} from 'react'
 import {
-  StyleSheet
+  StyleSheet,
+  Button,
+  TouchableOpacity
 } from 'react-native'
 
 import Profile from './Profile'
@@ -14,7 +16,6 @@ import {
   Subtitle,
   Spinner,
   Image,
-  TouchableOpacity
 } from '@shoutem/ui'
 import Title from '../../Components/Title'
 import CardItem from '../../Components/CardItem'
@@ -95,22 +96,29 @@ class MypageScreen extends Component{
           rightComponent ={
             <View 
               styleName="horizontal space-between" 
-              style={{ marginTop : 15 }}
+              style={{ marginTop : 25 }}
             >
+              <TouchableOpacity>
+                <Subtitle 
+                  style={{
+                    fontSize: 14,
+                    color: '#FFFFFF',
+                    marginRight: 10,
+                    paddingTop: 10
+                  }}
+                >
+                  {'Cash: ' + this.state.userCash + ' 원'}
+                </Subtitle>
+              </TouchableOpacity>
+
+              
               <TouchableOpacity onPress={() => {this.onRefresh()}}>
                 <Image
                   source={ require('../../assets/image/refresh.png' )}
-                  style={{ width: 18, height: 18, color :'white', marginRight : 5 }}
+                  style={{ width: 20, height: 20, color :'white', marginRight : 15 }}
                 />
               </TouchableOpacity>
-              <Subtitle 
-                style={{
-                  fontSize:16,
-                  color: '#FFFFFF',
-                  paddingTop:15      
-                }}
-              >
-                Cash: ${this.state.userCash}</Subtitle>
+
             </View>}
         />
         {this.state.isLoading ? (

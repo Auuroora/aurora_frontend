@@ -63,16 +63,16 @@ export default function CardItem (props) {
             <Caption
               style={{color: '#FFFFFF'}}
             >{props.price}</Caption>
-            <TouchableOpacity  onPress={() => onPressFunction(props)}>
+            <View styleName="horizontal space-between">
               <View styleName="horizontal space-between">
-                <View styleName="horizontal space-between">
 
-                  <Image
-                    source={ require('../assets/image/comment.png' )}
-                    style={{ width: 20, height: 20, color :'white', marginRight :5 }}
-                  />
-                  <Text>{props.commentCount}</Text>
-                </View>
+                <Image
+                  source={ require('../assets/image/comment.png' )}
+                  style={{ width: 20, height: 20, color :'white', marginRight :5 }}
+                />
+                <Text>{props.commentCount}</Text>
+              </View>
+              <TouchableOpacity  onPress={() => onPressFunction(props)}>
                 <View styleName="horizontal space-between" style ={{marginLeft:10}}>
                   {props.liked ? (
                     <Image
@@ -87,8 +87,8 @@ export default function CardItem (props) {
                   )}
                   <Text>{props.likedCount}</Text>
                 </View>
-              </View>
-            </TouchableOpacity>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Tile>

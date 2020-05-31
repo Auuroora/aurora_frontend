@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import CheckBox from '@react-native-community/checkbox';
 import {
   Dimensions,
   Switch
@@ -16,8 +17,7 @@ import {
   Button,
   Text,
   TouchableOpacity,
-  Divider,
-  Caption
+  Divider
 } from '@shoutem/ui'
 
 import CardItem from '../../Components/CardItem'
@@ -38,9 +38,11 @@ class OrderScreen extends Component {
       orderPrice: 0,
       orderList: [
       ],
+      userCash: null,
       checked:false,
     }
     this.ongetCartList()
+    this.getUserInfo()
   }
 
   ongetCartList(){
@@ -90,11 +92,16 @@ class OrderScreen extends Component {
               </Button>
             </View>
           </View>
-          <Switch
-            style = {{ transform: [{ scaleX: .8 }, { scaleY: .8 }] }}
-            onValueChange={() => this.toggleCheckbox(order.line_filter_info.id)}
-            value={order.line_filter_info.check}
-          />
+          <CheckBox
+           label=""
+           boxType="square"
+           tintColor={"white"}
+           onTintColor={"white"}
+           onCheckColor={"white"}
+           style={{transform: [{ scaleX: .8 }, { scaleY: .8 }]}}
+           value={order.line_filter_info.check}
+           checked={order.line_filter_info.check}
+           onValueChange={() => this.toggleCheckbox(order.line_filter_info.id)}/>
         </Row>
         <Divider styleName="line" />
       </View>
@@ -105,9 +112,8 @@ class OrderScreen extends Component {
   }
 
   onClickPayment = async() => {
-    const userData = await axios.get('/user/my')
-    var cash = userData.data.cash
-    console.log(this.state.orderPrice)
+    var cash = this.state.userCash
+
     if (Number(this.state.orderPrice) === 0){
       alert("선택하신 상품이 없습니다.")
     }
@@ -122,6 +128,13 @@ class OrderScreen extends Component {
       alert("잔액:"+cash+" 잔액이 부족합니다. 충전 페이지로 넘어갑니다.")
       this.props.navigation.navigate("Payment")
     }
+  }
+
+  getUserInfo = async () => {
+    const userInfo = await axios.get('/users/my')
+    await this.setState({
+      userCash: userInfo.data.cash
+    })
   }
 
   render() {
@@ -139,6 +152,20 @@ class OrderScreen extends Component {
             }
           />
         </ImageBackground>
+        <Row styleName="small" style={{ backgroundColor: '#1E1E1E'}}>
+          <Image
+            source={ require('../../assets/image/cash.png' )}
+            style={{ width: 18, height: 18, color :'white', marginRight : 5 }}
+          />
+          <Text style={{color: 'white', marginLeft: 5}}>{this.state.userCash} 원</Text>
+          <TouchableOpacity onPress={() => {this.getUserInfo()}}>
+            <Image
+              source={ require('../../assets/image/refresh.png' )}
+              style={{ width: 18, height: 18, color :'white', marginRight : 5 }}
+            />
+          </TouchableOpacity>
+        </Row>
+        <Divider styleName="line" />
         <ListView
           data={this.state.orderList}
           renderRow={this.renderRow}

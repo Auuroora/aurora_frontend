@@ -18,6 +18,7 @@ import {
 } from '@shoutem/ui'
 
 import Title from '../../Components/Title'
+import axios from "../../axiosConfig"
 
 /* TODO
  * 1. 장바구니에 담긴 리스트 자료 api로 요청 후 보여주기
@@ -27,10 +28,27 @@ import Title from '../../Components/Title'
 
 const { height } = Dimensions.get('window')
 class PaymentScreen extends Component{
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      userId: null
+    }
+    this.getUserInfo()
+  }
+
+  getUserInfo = async () => {
+    const userInfo = await axios.get('/users/my')
+    await this.setState({
+      userId: userInfo.data.id
+    })
+    console.log(userInfo.data)
+  }
+
   render() {
     return (
       <WebView
-        source={{uri: 'http://aurora-application.ap-northeast-2.elasticbeanstalk.com/package_page?user_id=1'}}
+        source={{uri: 'http://aurora-application.ap-northeast-2.elasticbeanstalk.com/package_page?user_id=' + this.state.userId}}
         style={{marginTop: 20}}
       />
     )

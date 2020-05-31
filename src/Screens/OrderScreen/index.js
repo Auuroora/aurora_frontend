@@ -37,9 +37,11 @@ class OrderScreen extends Component {
       orderPrice: 2000,
       orderList: [
       ],
+      userCash: null,
       checked:false,
     }
     this.ongetCartList()
+    this.onRefresh()
   }
 
   ongetCartList(){
@@ -102,8 +104,7 @@ class OrderScreen extends Component {
   }
 
   onClickPayment = async() => {
-    const userData = await axios.get('/user/my')
-    var userMoney = userData.data.cash
+    var userMoney = this.state.userCash
 
     if (userMoney>=this.state.orderPrice){
       alert("잔액:"+userMoney+" 잔액이 충분하군요! 결제 완료!")
@@ -114,6 +115,12 @@ class OrderScreen extends Component {
     }
   }
   
+  onRefresh = async() => {
+    const userData = await axios.get('/user/my')
+    await this.setState({
+      userCash: userData.data.cash
+    })
+  }
   render() {
     return (
       <Screen styleName='fill-parent'
@@ -127,6 +134,26 @@ class OrderScreen extends Component {
             centerComponent={
               <Title title={'Order'} topMargin={50} />
             }
+            rightComponent ={
+              <View 
+                styleName="horizontal space-between" 
+                style={{ marginTop : 15 }}
+              >
+                <TouchableOpacity onPress={() => {this.onRefresh()}}>
+                  <Image
+                    source={ require('../../assets/image/refresh.png' )}
+                    style={{ width: 18, height: 18, color :'white', marginRight : 5 }}
+                  />
+                </TouchableOpacity>
+                <Subtitle 
+                  style={{
+                    fontSize:16,
+                    color: '#FFFFFF',
+                    paddingTop:15      
+                  }}
+                >
+                  Cash: ${this.state.userCash}</Subtitle>
+              </View>}
           />
         </ImageBackground>
         <ListView

@@ -11,7 +11,10 @@ import {
   Screen,
   NavigationBar,
   View,
-  Spinner
+  Subtitle,
+  Spinner,
+  Image,
+  TouchableOpacity
 } from '@shoutem/ui'
 import Title from '../../Components/Title'
 import CardItem from '../../Components/CardItem'
@@ -27,7 +30,8 @@ class MypageScreen extends Component{
       posts: [],
       isLoading: true,
       user: null,
-      userPostCount: null
+      userPostCount: null,
+      userCash: null
     }
 
     this.getMypageInfo()
@@ -46,7 +50,8 @@ class MypageScreen extends Component{
       posts: postData.data,
       user: userData.data,
       userPostCount: this.state.posts.length,
-      isLoading: false
+      isLoading: false,
+      userCash: userData.data.cash
     })
   }
 
@@ -69,12 +74,17 @@ class MypageScreen extends Component{
       </GridRow>
     )
   }
-  
+  onRefresh = async() => {
+    const userData = await axios.get('/user/my')
+    await this.setState({
+      user: userData.data,
+      userCash: userData.data.cash
+    })
+  }
   render(){
     const groupedData = GridRow.groupByRows(this.state.posts, 2, () => {
       return 1
     })
-
     return (
       <Screen styleName='fill-parent'
         style={{backgroundColor: '#0A0A0A'}}
@@ -82,6 +92,26 @@ class MypageScreen extends Component{
         <NavigationBar
           styleName='inline clear'
           centerComponent={<Title title={'MyPage'}/>}
+          rightComponent ={
+            <View 
+              styleName="horizontal space-between" 
+              style={{ marginTop : 15 }}
+            >
+              <TouchableOpacity onPress={() => {this.onRefresh()}}>
+                <Image
+                  source={ require('../../assets/image/refresh.png' )}
+                  style={{ width: 18, height: 18, color :'white', marginRight : 5 }}
+                />
+              </TouchableOpacity>
+              <Subtitle 
+                style={{
+                  fontSize:16,
+                  color: '#FFFFFF',
+                  paddingTop:15      
+                }}
+              >
+                Cash: ${this.state.userCash}</Subtitle>
+            </View>}
         />
         {this.state.isLoading ? (
           <Spinner styleName='large'/>

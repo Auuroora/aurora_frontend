@@ -4,10 +4,13 @@ import React, {Component} from 'react'
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   StyleSheet
 } from 'react-native'
+
+import {
+  TextInput,
+} from '@shoutem/ui'
 
 import {
   widthPercentageToDP as wp,
@@ -52,15 +55,14 @@ class LoginScreen extends Component{
         </View>
         <View style={styles.formArea}>
           <TextInput 
-            style={styles.textForm} 
             placeholder={"Email"}
             value={this.state.emailInput}
             onChangeText={(text) => this.setState({emailInput: text})}
           />
           <TextInput 
-            style={styles.textForm} 
             placeholder={"Password"}
             value={this.state.pwInput}
+            secureTextEntry={true}
             onChangeText={(text) => this.setState({pwInput: text})}
           />
         </View>
@@ -99,15 +101,6 @@ const styles = StyleSheet.create({
   formArea: {
     width: '100%',
     paddingBottom: wp('10%'),
-  },
-  textForm: {
-    borderWidth: 0.5,
-    borderColor: '#888',
-    width: '100%',
-    height: hp('5%'),
-    paddingLeft: 5,
-    paddingRight: 5,
-    marginBottom: 5,
   },
   buttonArea: {
     width: '100%',

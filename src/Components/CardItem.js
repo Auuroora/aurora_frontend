@@ -62,7 +62,7 @@ export default function CardItem (props) {
           <View styleName="horizontal space-between">
             <Caption
               style={{color: '#FFFFFF'}}
-            >{props.price}</Caption>
+            >{props.price} 원</Caption>
             <View styleName="horizontal space-between">
               <View styleName="horizontal space-between">
 

@@ -3,16 +3,15 @@ import React, {Component} from 'react'
 import {
   Dimensions
 } from 'react-native'
+
 import { 
   TextInput,
   TouchableOpacity,
   Image,
-  Icon,
-  Button,
-  Text,
   Divider,
   View
 } from '@shoutem/ui'
+
 import axios from '../../axiosConfig'
 import AsyncStorage from '@react-native-community/async-storage'
 

@@ -68,7 +68,7 @@ cv::Mat get_watermarked_image(cv::Mat src_img, cv::Mat src_logo, int width, int 
 	cv::Mat res_img, res_logo;
 
 	cv::resize(src_logo, res_logo, src_img.size(), 0, 0, cv::INTER_AREA);
-	cv::addWeighted(src_img, 1, res_logo, 0.3, 0, res_img);
+	cv::addWeighted(src_img, 1, res_logo, 0.7, 0, res_img);
 
 	if (width && height) 
 		cv::resize(res_img, res_img, cv::Size(width, height), 0, 0, cv::INTER_AREA);

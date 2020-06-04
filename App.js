@@ -14,6 +14,8 @@ import { Provider } from 'react-redux'
 import configureStore from './src/Store/configureStore'
 
 const store = configureStore()
+console.disableYellowBox = true
+
 
 const App = () => {
   useEffect(() => {

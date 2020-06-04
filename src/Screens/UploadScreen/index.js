@@ -43,9 +43,10 @@ class UploadScreen extends Component{
   
   getUserFilterData = () => {
     axios.get('/myfilter').then(res => {
-      const filterData = res.data
+      const filterData = res.data.my_filter
+      console.log(res.data)
       this.setState({
-        filterData:filterData,
+        filterData: filterData,
       }) 
     })
   }
@@ -65,6 +66,17 @@ class UploadScreen extends Component{
     })
   }
   onClickUpload = () =>{
+    const data = {
+      post:{
+        title: this.state.title,
+        description: this.state.description,
+        filter_id: this.state.filterId,
+        tag_list: this.state.tag,
+        price: this.state.price,
+        user_id : this.state.userId
+      }
+    }
+    console.log(data)
     if (this.state.title && this.state.tag && this.state.description  && this.state.filterId && this.state.price) {
       const data = {
         post:{

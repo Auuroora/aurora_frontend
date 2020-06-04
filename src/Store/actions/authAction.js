@@ -44,10 +44,10 @@ export const requestSignin = (data) => {
     dispatch(signin())
     return axios.post('/auth/login', data)
       .then((response) => {
-        dispatch(signinSuccess())
-        dispatch(storeUserData(response.data))
         setUserData('userToken', response.data.token)
         axios.defaults.headers.common['Authorization'] = response.data.token
+        dispatch(signinSuccess())
+        dispatch(storeUserData(response.data))
       }).catch((error) => {
         dispatch(signinFailure(error))
       })

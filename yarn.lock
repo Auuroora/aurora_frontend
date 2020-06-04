@@ -971,6 +971,11 @@
   dependencies:
     deep-assign "^3.0.0"
 
+"@react-native-community/checkbox@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@react-native-community/checkbox/-/checkbox-0.4.1.tgz#63a8682d7b60d205d539427c2c9bd8951c70673c"
+  integrity sha512-4sDmMj+yV4ti4+CSAOHx7To3g1nEZ7n8hpoIGuUHkJjp+CKOd2dXbdkhGPPFvOGlEeeSkaB6ayGxD4VqevnfOQ==
+
 "@react-native-community/cli-debugger-ui@^3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@react-native-community/cli-debugger-ui/-/cli-debugger-ui-3.0.0.tgz#d01d08d1e5ddc1633d82c7d84d48fff07bd39416"
@@ -6119,6 +6124,13 @@ react-native-camera@^3.22.1:
   integrity sha512-KMi/pagWz9ssODghHHKXypukTFpM14T62ZNbd/UriZZSnvdQxXrddJhwQpH3cnZS2kl03Jupu52vi4AvT36Feg==
   dependencies:
     prop-types "^15.6.2"
+
+react-native-checkbox@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-checkbox/-/react-native-checkbox-2.0.0.tgz#453bbfd2e055a21e69ebe7842414a055d50ff449"
+  integrity sha512-XTI7iZ0KuPYyNCvcg4p4eC5ZenuBkfraFUzec17Vao6DsIcn5AOUKkc6KSwLPVksJyWWlPc832M/HTvni5qk7A==
+  dependencies:
+    prop-types "^15.5.10"
 
 react-native-dotenv@^0.2.0:
   version "0.2.0"

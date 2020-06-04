@@ -38,15 +38,26 @@ class FilterListScreen extends Component {
       },
       filterId: null,
       filter_list: [],
-      isImageSelected: false
+      isImageSelected: false,
+      groupedData: null
     }
+    
     this.getFilterList()
   }
 
   getFilterList = async () => {
-    const res = await axios.get('/filters', { "user_info": "true" })
-    const filterData = res.data
+    const res = await axios.get('/myfilter', { "user_info": "true" })
+    let filterData = res.data.my_filter
+    filterData = filterData.concat(res.data.purchase_filter)
     await this.setState({ filter_list: filterData })
+
+    const groupedData = GridRow.groupByRows(this.state.filter_list, 3, () => {
+      return 1
+    })
+
+    await this.setState({ groupedData: groupedData })
+
+    console.log(this.state.filter_list)
   }
 
   onChooseFiletoApply = async () => {
@@ -108,9 +119,9 @@ class FilterListScreen extends Component {
         <SmallTile
           selectFilter={this.onClickFilter}
           key={id}
-          filter={AWS_S3_STORAGE_URL + filter.filter_info.filter_data_path}
-          image={AWS_S3_STORAGE_URL + filter.filter_info.filter_name}
-          filterId={filter.filter_info.filter_id}
+          filter={AWS_S3_STORAGE_URL + filter.filter_data_path}
+          image={AWS_S3_STORAGE_URL + filter.filter_name}
+          filterId={filter.filter_id}
         />
       )
     })
@@ -121,9 +132,6 @@ class FilterListScreen extends Component {
     )
   }
   render() {
-    const groupedData = GridRow.groupByRows(this.state.filter_list, 3, () => {
-      return 1
-    })
 
     return (
       <Screen style={styles.darkScreen}>
@@ -137,7 +145,8 @@ class FilterListScreen extends Component {
               backgroundColor: '#0A0A0A'
             }
           }}
-          data={groupedData}
+          onRefresh={() => this.getFilterList()}
+          data={this.state.groupedData}
           renderRow={this.renderRow}
         />
       </Screen>

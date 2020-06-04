@@ -24,9 +24,9 @@ class SelectFilterScreen extends Component{
       return (
         <Tile 
           key={id}
-          image={AWS_S3_STORAGE_URL + filter.filter_info.filter_name} 
-          filterId={filter.filter_info.filter_id}
-          userId={filter.current_user_info.id}
+          image={AWS_S3_STORAGE_URL + filter.filter_name} 
+          filterId={filter.id}
+          userId={filter.user_id}
           onPressDone ={this.props.onPressDone} 
         />
       )

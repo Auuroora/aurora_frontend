@@ -36,16 +36,28 @@ class HomeScreen extends Component {
         { name: "Price", value: "Price" },
       ],
       isLoading: true,
-      pageNum: 1
+      pageNum: 1,
+      groupedData: null
     }
   }
 
   componentDidMount() {
+    this.onRefresh()
+  }
+
+  onRefresh = async () => {
     this.getPostList(1)
       .then((res) => {
+
         this.setState({
           postList: res.posts,
           isLoading: false
+        })
+        const groupedData = GridRow.groupByRows(this.state.postList, 2, () => {
+          return 1
+        })
+        this.setState({
+          groupedData: groupedData
         })
       })
       .catch(e => {
@@ -53,6 +65,7 @@ class HomeScreen extends Component {
         alert('error : ' + e)
       })
   }
+
   componentDidUpdate(){
     // console.log(prevProps.isDone)
     // console.log(this.props.route.params.isDone)
@@ -81,7 +94,9 @@ class HomeScreen extends Component {
         comment_info: true
       },
     }
+    console.log(axios.defaults)
     const res = await axios.get("/posts?page=" + page, params)
+    console.log(res)
     return res.data
   }
 
@@ -136,9 +151,6 @@ class HomeScreen extends Component {
     this.props.navigation.navigate("Order")
   }
   render() {
-    const groupedData = GridRow.groupByRows(this.state.postList, 2, () => {
-      return 1
-    })
     return (
       <Screen
         style={{
@@ -203,8 +215,8 @@ class HomeScreen extends Component {
               backgroundColor: '#0A0A0A',
             }
           }}
-          data={groupedData}
-          onRefresh={() => this.getPostList(1)}
+          data={this.state.groupedData}
+          onRefresh={() => this.onRefresh()}
           renderRow={this.renderRow}
         />
       </Screen>

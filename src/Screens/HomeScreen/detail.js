@@ -1,8 +1,10 @@
 /* eslint-disable react/prop-types */
-import React, { Component } from 'react'
+import React, { Component} from 'react'
 
 import {
-  Dimensions
+  Dimensions,
+  Picker,
+  StyleSheet 
 } from 'react-native'
 
 // Import UI components
@@ -33,6 +35,7 @@ import Comment from './commentList'
 import ImgToBase64 from 'react-native-image-base64'
 import { loadImg, getWatermarkedImg } from '../../OpencvJs'
 import { mapCvFunction } from '../../utils'
+import Modal from "react-native-modal"
 
 
 const ImagePickerOptions = {
@@ -57,6 +60,8 @@ class DetailScreen extends Component {
       myComment: '',
       commentData:[],
       userData: '',
+      open: false,
+      reportData: ''
     }
     this.getPostInfo(this.state.postId)
     this.getCommentInfo(this.state.postId)
@@ -73,7 +78,7 @@ class DetailScreen extends Component {
     }
     const res = await axios.get('/posts/' + postId, params)
     await this.setState({postData : res.data})
-    await this.setState({userData : res.data.current_user_info})
+    await this.setState({userData : res.data.user_info})
     this.setState({isLoading: false})
   }
 
@@ -182,6 +187,9 @@ class DetailScreen extends Component {
       alert("댓글을 작성하여주세요")
     }
   }
+  postDeclare = async() =>{
+    // 신고 처리
+  }
 
   onClickLike = async() => {
     const data = {
@@ -269,22 +277,65 @@ class DetailScreen extends Component {
                 height: 40,
                 borderRadius: 37.5
               }}/>
-            <Subtitle 
-              style={{
-                fontWeight: 'bold',
-                color: '#FFFFFF',
-                marginTop: 5,
-                marginLeft: 15
-              }}
-            >
-              {this.state.userData.name}
-            </Subtitle>
-            <TouchableOpacity onPress={() => this.postCommentInfo()}>
-              <Image
-                source={ require('../../assets/image/blogging.png' )}
-                style={{ width: 25, height: 25, color :'white', marginBottom :15, marginRight :15}}
-              />
-            </TouchableOpacity>
+
+            <View>
+              <Subtitle 
+                style={{
+                  fontWeight: 'bold',
+                  color: '#FFFFFF',
+                  marginTop: 5,
+                  marginLeft: 15
+                }}
+              >
+                {this.state.userData.username}
+              </Subtitle>
+              <Text>
+                {this.state.userData.created_at}
+              </Text>
+            </View>
+            <View style = { styles.container }>
+              <Modal
+                isVisible={this.state.open}
+                animationType={'slide'}
+                overlayBackground={'rgba(0, 0, 0, 0.75)'}
+                modalDidOpen={() => console.log('modal did open')}
+                modalDidClose={() => this.setState({open: false})}
+                closeOnTouchOutside={true}
+              >
+                <View>
+                  <Text>This is content inside of modal component</Text>
+                  <TextInput
+                    style={styles.input}
+                    multiline={true}
+                    autoFocus={true}
+                    maxLength={255}
+                    textAlignVertical={'top'}
+                    underlineColorAndroid="transparent"
+                    onChangeText={(text) => this.setState({reportData: text})}/>
+                  <View style ={{flexDirection: 'row'}}>                    
+                    <TouchableOpacity
+                      style={styles.closeButton}
+                      onPress={() => {
+                        this.setState({open: false})
+                      }}>
+                      <Text style={styles.buttonText}>Close</Text>
+                    </TouchableOpacity>    
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() => {
+                        this.setState({open: false})
+                      }}>
+                      <Text style={styles.buttonText}>Submit</Text>
+                    </TouchableOpacity>   
+                  </View>
+                </View>
+              </Modal>
+              <TouchableOpacity onPress={() => this.setState({open: true})}>
+                <Text>
+                Declare
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
 
           {this.state.isLoading ? (
@@ -413,5 +464,66 @@ class DetailScreen extends Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 25,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  button: {
+    marginRight:50,
+    height: 50,
+    borderRadius: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '50%',
+    backgroundColor: '#2AC062',
+    shadowColor: '#2AC062',
+    shadowOpacity: 0.5,
+    shadowOffset: { 
+      height: 10, 
+      width: 0 
+    },
+    shadowRadius: 25,
+  },
+  closeButton: {
+    height: 50,
+    borderRadius: 6,
+    width: '50%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FF3974',
+    shadowColor: '#2AC062',
+    shadowOpacity: 0.5,
+    shadowOffset: { 
+      height: 10, 
+      width: 0 
+    },
+    shadowRadius: 25,
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 22,
+  },
+  image: {
+    marginTop: 150,
+    marginBottom: 10,
+    width: '100%',
+    height: 350,
+  },
+  text: {
+    fontSize: 24,
+    marginBottom: 30,
+    padding: 40,
+  },
+  input: {
+    margin: 15,
+    height: 200,
+    borderColor: "#7a42f4",
+    borderWidth: 1
+  },
+})
 
 export default DetailScreen

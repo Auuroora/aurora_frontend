@@ -36,6 +36,7 @@ import ImgToBase64 from 'react-native-image-base64'
 import { loadImg, getWatermarkedImg } from '../../OpencvJs'
 import { mapCvFunction } from '../../utils'
 import Modal from "react-native-modal"
+import DropDownPicker from 'react-native-dropdown-picker'
 
 
 const ImagePickerOptions = {
@@ -61,7 +62,8 @@ class DetailScreen extends Component {
       commentData:[],
       userData: '',
       open: false,
-      reportData: ''
+      reportData: '',
+      reportKind: 'default'
     }
     this.getPostInfo(this.state.postId)
     this.getCommentInfo(this.state.postId)
@@ -304,6 +306,20 @@ class DetailScreen extends Component {
               >
                 <View>
                   <Text>This is content inside of modal component</Text>
+                  
+                  <DropDownPicker
+                    items={[
+                      {label: '욕설', value: '욕설'},
+                      {label: '저작권 침해', value: '저작권 침해'},
+                    ]}
+                    defaultValue={this.state.country}
+                    placeholder="신고 유형 선택"
+                    containerStyle={{height: 40}}
+                    style={{backgroundColor: '#fafafa'}}
+                    dropDownStyle={{backgroundColor: '#fafafa'}}
+                    onChangeItem={item => this.setState({
+                      reportKind: item.value
+                    })}/>
                   <TextInput
                     style={styles.input}
                     multiline={true}
@@ -312,6 +328,7 @@ class DetailScreen extends Component {
                     textAlignVertical={'top'}
                     underlineColorAndroid="transparent"
                     onChangeText={(text) => this.setState({reportData: text})}/>
+                    
                   <View style ={{flexDirection: 'row'}}>                    
                     <TouchableOpacity
                       style={styles.closeButton}
@@ -522,7 +539,7 @@ const styles = StyleSheet.create({
     margin: 15,
     height: 200,
     borderColor: "#7a42f4",
-    borderWidth: 1
+    // borderWidth: 1
   },
 })
 

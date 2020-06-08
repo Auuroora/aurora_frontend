@@ -156,10 +156,10 @@ class MypageScreen extends Component{
 }
 const styles = StyleSheet.create({
   profile_container:{
-    flex: 2,
+    flex: 1,
   },
   card_container:{
-    flex: 4,
+    flex: 3,
   },
 })
 

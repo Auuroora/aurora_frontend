@@ -3,7 +3,6 @@ import React, { Component} from 'react'
 
 import {
   Dimensions,
-  Picker,
   StyleSheet 
 } from 'react-native'
 
@@ -38,7 +37,13 @@ import { mapCvFunction } from '../../utils'
 import Modal from "react-native-modal"
 import DropDownPicker from 'react-native-dropdown-picker'
 
+/*
+Todo
+1.Component화
+2. 삭제 버튼 자체가 자기 글일 경우에만 나타나도록 --clear
+3. 삭제후 네비게이션 back
 
+ */
 const ImagePickerOptions = {
   title: 'Select Image',
   storageOptions: {
@@ -61,9 +66,10 @@ class DetailScreen extends Component {
       myComment: '',
       commentData:[],
       userData: '',
-      open: false,
+      visibleModal: false,
       reportData: '',
-      reportKind: 'default'
+      reportKind: 'default',
+      isMyPost:false
     }
     this.getPostInfo(this.state.postId)
     this.getCommentInfo(this.state.postId)
@@ -81,6 +87,10 @@ class DetailScreen extends Component {
     const res = await axios.get('/posts/' + postId, params)
     await this.setState({postData : res.data})
     await this.setState({userData : res.data.user_info})
+    if(res.data.user_info.id === res.data.current_user_info.id){
+      await this.setState({isMyPost :true})
+      console.log(this.state.isMyPost)
+    }
     this.setState({isLoading: false})
   }
 
@@ -193,6 +203,22 @@ class DetailScreen extends Component {
     // 신고 처리
   }
 
+  removePost = async() =>{
+    // 게시글 삭제
+    if(this.state.isMyPost){
+      alert("게시글을 삭제하였습니다")
+      const params = {
+        params: {
+          user_id: this.state.userData.id
+        }
+      }
+      console.log(this.state.userData.id)
+      console.log(this.state.postId)
+      await axios.delete('/posts/' + this.state.postId, params)
+      // navigate back 처리 필요 
+      await this.setState({visibleModal: 0})
+    }
+  }
   onClickLike = async() => {
     const data = {
       liker:"user",
@@ -297,62 +323,92 @@ class DetailScreen extends Component {
             </View>
             <View style = { styles.container }>
               <Modal
-                isVisible={this.state.open}
+                isVisible={this.state.visibleModal === 1}
                 animationType={'slide'}
                 overlayBackground={'rgba(0, 0, 0, 0.75)'}
                 modalDidOpen={() => console.log('modal did open')}
-                modalDidClose={() => this.setState({open: false})}
+                modalDidClose={() => this.setState({visibleModal: 0})}
                 closeOnTouchOutside={true}
+                style={styles.bottomModal}
               >
                 <View>
-                  <Text>This is content inside of modal component</Text>
-                  
-                  <DropDownPicker
-                    items={[
-                      {label: '욕설', value: '욕설'},
-                      {label: '저작권 침해', value: '저작권 침해'},
-                    ]}
-                    defaultValue={this.state.country}
-                    placeholder="신고 유형 선택"
-                    containerStyle={{height: 40}}
-                    style={{backgroundColor: '#fafafa'}}
-                    dropDownStyle={{backgroundColor: '#fafafa'}}
-                    onChangeItem={item => this.setState({
-                      reportKind: item.value
-                    })}/>
-                  <TextInput
-                    style={styles.input}
-                    multiline={true}
-                    autoFocus={true}
-                    maxLength={255}
-                    textAlignVertical={'top'}
-                    underlineColorAndroid="transparent"
-                    onChangeText={(text) => this.setState({reportData: text})}/>
-                    
-                  <View style ={{flexDirection: 'row'}}>                    
-                    <TouchableOpacity
-                      style={styles.closeButton}
-                      onPress={() => {
-                        this.setState({open: false})
+                  <TouchableOpacity
+                    onPress={() => this.setState({visibleModal: 2})}
+                    style={styles.button}>
+                    <Text 
+                      style={{
+                        fontWeight: 'bold',
+                        color: '#FFFFFF',
                       }}>
-                      <Text style={styles.buttonText}>Close</Text>
-                    </TouchableOpacity>    
-                    <TouchableOpacity
-                      style={styles.button}
-                      onPress={() => {
-                        this.setState({open: false})
+                        신고</Text>
+                  </TouchableOpacity>
+                  {this.state.isMyPost &&<TouchableOpacity
+                    style={styles.button}
+                    onPress={this.removePost}>
+                    <Text 
+                      style={{
+                        fontWeight: 'bold',
+                        color: '#FFFFFF',
                       }}>
-                      <Text style={styles.buttonText}>Submit</Text>
-                    </TouchableOpacity>   
-                  </View>
+                        삭제</Text>
+                  </TouchableOpacity>
+                  }
                 </View>
               </Modal>
-              <TouchableOpacity onPress={() => this.setState({open: true})}>
-                <Text>
-                Declare
-                </Text>
+              <TouchableOpacity onPress={() => this.setState({visibleModal: 1})}>
+                <Image
+                  source={ require('../../assets/image/more.png' )}
+                  style={{ width: 25, height: 25, color :'white', marginBottom :15, marginRight :15}}
+                />
               </TouchableOpacity>
             </View>
+            <Modal
+              isVisible={this.state.visibleModal === 2}
+              animationType={'slide'}
+              overlayBackground={'rgba(0, 0, 0, 0.75)'}
+              modalDidOpen={() => console.log('modal did open')}
+              modalDidClose={() => this.setState({visibleModal: 0})}
+              closeOnTouchOutside={true}
+            >
+              <View>
+                <DropDownPicker
+                  items={[
+                    {label: '욕설', value: '욕설'},
+                    {label: '저작권 침해', value: '저작권 침해'},
+                  ]}
+                  defaultValue={this.state.country}
+                  placeholder="신고 유형 선택"
+                  containerStyle={{height: 40}}
+                  style={{backgroundColor: '#fafafa'}}
+                  dropDownStyle={{backgroundColor: '#fafafa'}}
+                  onChangeItem={item => this.setState({
+                    reportKind: item.value
+                  })}/>
+                <TextInput
+                  style={styles.input}
+                  multiline={true}
+                  autoFocus={true}
+                  maxLength={255}
+                  textAlignVertical={'top'}
+                  underlineColorAndroid="transparent"
+                  onChangeText={(text) => this.setState({reportData: text})}/>
+                    
+                <View style ={{flexDirection: 'row'}}>                    
+                  <TouchableOpacity
+                    style={styles.closeButton}
+                    onPress={() => {
+                      this.setState({visibleModal: 0})
+                    }}>
+                    <Text style={styles.buttonText}>Close</Text>
+                  </TouchableOpacity>    
+                  <TouchableOpacity
+                    style={styles.submitbutton}
+                    onPress={()=>{this.removePost}}>
+                    <Text style={styles.buttonText}>Submit</Text>
+                  </TouchableOpacity>   
+                </View>
+              </View>
+            </Modal>
           </View>
 
           {this.state.isLoading ? (
@@ -484,12 +540,26 @@ class DetailScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 25,
+    padding: 10,
     flex: 1,
-    alignItems: 'center',
+    alignItems: 'flex-end',
     justifyContent: 'center',
+    backgroundColor:  'rgba(0,0,0,0.2)',
   },
   button: {
+    height: 50,
+    borderRadius: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#2AC062',
+    shadowOpacity: 0.5,
+    shadowOffset: { 
+      height: 10, 
+      width: 0 
+    },
+    shadowRadius: 25,
+  },
+  submitbutton: {
     marginRight:50,
     height: 50,
     borderRadius: 6,
@@ -504,6 +574,11 @@ const styles = StyleSheet.create({
       width: 0 
     },
     shadowRadius: 25,
+  },
+  
+  bottomModal: {
+    justifyContent: "flex-end",
+    margin: 0,
   },
   closeButton: {
     height: 50,
@@ -539,7 +614,7 @@ const styles = StyleSheet.create({
     margin: 15,
     height: 200,
     borderColor: "#7a42f4",
-    // borderWidth: 1
+    borderWidth: 1
   },
 })
 

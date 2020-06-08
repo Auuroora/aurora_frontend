@@ -21,7 +21,7 @@ import {
   ScrollView,
   Spinner,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
 } from '@shoutem/ui'
 
 import Title from '../../Components/Title'
@@ -55,7 +55,8 @@ class DetailScreen extends Component {
       imageFile: [],
       isPreview: false,
       myComment: '',
-      commentData:[]
+      commentData:[],
+      userData: '',
     }
     this.getPostInfo(this.state.postId)
     this.getCommentInfo(this.state.postId)
@@ -72,6 +73,7 @@ class DetailScreen extends Component {
     }
     const res = await axios.get('/posts/' + postId, params)
     await this.setState({postData : res.data})
+    await this.setState({userData : res.data.current_user_info})
     this.setState({isLoading: false})
   }
 
@@ -249,7 +251,42 @@ class DetailScreen extends Component {
             </View>
           }
         />
-        <ScrollView styleName = "fill-parent">
+        <ScrollView styleName = "fill-parent">    
+          <View 
+            style={{
+              flexDirection:'row',
+              paddingTop:10,
+              marginTop:10,
+              marginBottom:20
+            }}
+          >
+            <Image  
+              source={{
+                uri:  "http://dmshopkorea.com/data/bbs/design/201304/3064753709_9d951bfb_0x1800.jpg"
+              }}
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: 37.5
+              }}/>
+            <Subtitle 
+              style={{
+                fontWeight: 'bold',
+                color: '#FFFFFF',
+                marginTop: 5,
+                marginLeft: 15
+              }}
+            >
+              {this.state.userData.name}
+            </Subtitle>
+            <TouchableOpacity onPress={() => this.postCommentInfo()}>
+              <Image
+                source={ require('../../assets/image/blogging.png' )}
+                style={{ width: 25, height: 25, color :'white', marginBottom :15, marginRight :15}}
+              />
+            </TouchableOpacity>
+          </View>
+
           {this.state.isLoading ? (
             <Spinner styleName='large'/>
           ) : (

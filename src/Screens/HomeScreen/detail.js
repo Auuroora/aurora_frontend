@@ -204,7 +204,6 @@ class DetailScreen extends Component {
   }
 
   removePost = async() =>{
-    // 게시글 삭제
     if(this.state.isMyPost){
       alert("게시글을 삭제하였습니다")
       const params = {
@@ -212,12 +211,20 @@ class DetailScreen extends Component {
           user_id: this.state.userData.id
         }
       }
-      console.log(this.state.userData.id)
-      console.log(this.state.postId)
-      await axios.delete('/posts/' + this.state.postId, params)
-      // navigate back 처리 필요 
       await this.setState({visibleModal: 0})
+      axios.delete('/posts/' + this.state.postId, params)
+        .then(() => {
+          alert('게시글 삭제가 완료되었습니다.')
+          this.props.navigation.goBack(null)
+        }).catch((err) => {
+          console.log(err)
+          alert('게시글 삭제가 실패하였습니다.')
+        })
     }
+  }
+  modifyPost = async() =>{
+    await this.setState({visibleModal: 0})
+    // this.props.navigation.navigate("ModifyPost", {postData:this.state.postData})
   }
   onClickLike = async() => {
     const data = {
@@ -342,7 +349,8 @@ class DetailScreen extends Component {
                       }}>
                         신고</Text>
                   </TouchableOpacity>
-                  {this.state.isMyPost &&<TouchableOpacity
+                  {this.state.isMyPost &&
+                  <TouchableOpacity
                     style={styles.button}
                     onPress={this.removePost}>
                     <Text 
@@ -351,6 +359,18 @@ class DetailScreen extends Component {
                         color: '#FFFFFF',
                       }}>
                         삭제</Text>
+                  </TouchableOpacity>
+                  }
+                  {this.state.isMyPost &&
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={this.modifyPost}>
+                    <Text 
+                      style={{
+                        fontWeight: 'bold',
+                        color: '#FFFFFF',
+                      }}>
+                        수정</Text>
                   </TouchableOpacity>
                   }
                 </View>

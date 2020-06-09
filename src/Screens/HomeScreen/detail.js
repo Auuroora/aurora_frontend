@@ -224,7 +224,7 @@ class DetailScreen extends Component {
   }
   modifyPost = async() =>{
     await this.setState({visibleModal: 0})
-    // this.props.navigation.navigate("ModifyPost", {postData:this.state.postData})
+    this.props.navigation.navigate("ModifyPost", {postData:this.state.postData})
   }
   onClickLike = async() => {
     const data = {

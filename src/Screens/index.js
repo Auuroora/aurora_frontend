@@ -19,11 +19,11 @@ import StudioScreen from "./StudioScreen"
 import UploadScreen from "./UploadScreen"
 import MypageScreen from "./MypageScreen"
 import LoginScreen from "./LoginScreen"
-import DetailScreen from "./HomeScreen/detail"
 import TempSettingScreen from "./TempSettingScreen"
 import OrderScreen from "./OrderScreen"
 import PaymentScreen from "./PaymentScreen"
-
+import DetailScreen from "./HomeScreen/detail"
+import ModifyScreen from "./HomeScreen/modifyPost"
 // Import functions
 import {
   getUserData,
@@ -67,6 +67,11 @@ function HomeStack() {
         options={{ headerShown: false }}
         name="Payment"
         component={PaymentScreen}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="ModifyPost"
+        component={ModifyScreen}
       />
     </Stack.Navigator>
   )

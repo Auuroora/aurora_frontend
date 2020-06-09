@@ -40,9 +40,6 @@ import DropDownPicker from 'react-native-dropdown-picker'
 /*
 Todo
 1.Component화
-2. 삭제 버튼 자체가 자기 글일 경우에만 나타나도록 --clear
-3. 삭제후 네비게이션 back
-
  */
 const ImagePickerOptions = {
   title: 'Select Image',
@@ -51,7 +48,7 @@ const ImagePickerOptions = {
     path: 'images',
   },
 }
-const { width, height } = Dimensions.get('window')
+const { width } = Dimensions.get('window')
 
 
 class DetailScreen extends Component {
@@ -201,6 +198,11 @@ class DetailScreen extends Component {
   }
   postDeclare = async() =>{
     // 신고 처리
+    
+    await this.setState({visibleModal: 0})
+    console.log(this.state.reportData)
+    console.log(this.state.reportKind)
+    console.log("레포트")
   }
 
   removePost = async() =>{
@@ -223,6 +225,10 @@ class DetailScreen extends Component {
     }
   }
   modifyPost = async() =>{
+    /*
+      Todo
+      1.props로 기존 post data 넘겨주기
+ */
     await this.setState({visibleModal: 0})
     this.props.navigation.navigate("ModifyPost", {postData:this.state.postData})
   }
@@ -423,7 +429,7 @@ class DetailScreen extends Component {
                   </TouchableOpacity>    
                   <TouchableOpacity
                     style={styles.submitbutton}
-                    onPress={()=>{this.removePost}}>
+                    onPress={()=>{this.postDeclare()}}>
                     <Text style={styles.buttonText}>Submit</Text>
                   </TouchableOpacity>   
                 </View>

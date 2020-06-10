@@ -98,7 +98,7 @@ class MypageScreen extends Component{
               styleName="horizontal space-between" 
               style={{ marginTop : 25 }}
             >
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => {this.props.navigation.navigate("OrderHistory")}}>
                 <Subtitle 
                   style={{
                     fontSize: 14,
@@ -109,9 +109,7 @@ class MypageScreen extends Component{
                 >
                   {'Cash: ' + this.state.userCash + ' 원'}
                 </Subtitle>
-              </TouchableOpacity>
-
-              
+              </TouchableOpacity>   
               <TouchableOpacity onPress={() => {this.onRefresh()}}>
                 <Image
                   source={ require('../../assets/image/refresh.png' )}

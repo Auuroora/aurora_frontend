@@ -198,11 +198,26 @@ class DetailScreen extends Component {
   }
   postDeclare = async() =>{
     // 신고 처리
-    
-    await this.setState({visibleModal: 0})
-    console.log(this.state.reportData)
-    console.log(this.state.reportKind)
-    console.log("레포트")
+    if(this.state.reportData && this.state.reportKind){
+      const data = {
+        report:{
+          reportable_type: "Post",
+          reportable_id: this.state.postId,
+          category: this.state.reportKind,
+          content:this.state.reportData
+        }
+      }
+      console.log(data)
+      await this.setState({visibleModal: 0})
+      return axios.post('/reports ', data)
+        .then(() => {
+          alert('게시글 신고가 완료되었습니다.')
+
+        }).catch((err) => {
+          console.log(err)
+          alert('게시글 신고가 실패하였습니다.')
+        })
+    }
   }
 
   removePost = async() =>{
@@ -399,8 +414,8 @@ class DetailScreen extends Component {
               <View>
                 <DropDownPicker
                   items={[
-                    {label: '욕설', value: '욕설'},
-                    {label: '저작권 침해', value: '저작권 침해'},
+                    {label: 'insult', value: 'insult'},
+                    {label: 'copyright', value: 'copyright'},
                   ]}
                   defaultValue={this.state.country}
                   placeholder="신고 유형 선택"

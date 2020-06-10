@@ -2,7 +2,6 @@
 import React, {Component} from 'react'
 import {
   StyleSheet,
-  Button,
   TouchableOpacity
 } from 'react-native'
 
@@ -34,7 +33,6 @@ class MypageScreen extends Component{
       userPostCount: null,
       userCash: null
     }
-
     this.getMypageInfo()
   }
 
@@ -116,7 +114,6 @@ class MypageScreen extends Component{
                   style={{ width: 20, height: 20, color :'white', marginRight : 15 }}
                 />
               </TouchableOpacity>
-
             </View>}
         />
         {this.state.isLoading ? (

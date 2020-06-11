@@ -2,7 +2,8 @@
 import React, {Component} from 'react'
 import {
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  Dimensions
 } from 'react-native'
 
 import Profile from './Profile'
@@ -15,12 +16,15 @@ import {
   Subtitle,
   Spinner,
   Image,
+  Row,
+  Divider
 } from '@shoutem/ui'
 import Title from '../../Components/Title'
 import CardItem from '../../Components/CardItem'
 
 import {AWS_S3_STORAGE_URL} from 'react-native-dotenv'
 import axios from '../../axiosConfig'
+const { height } = Dimensions.get('window')
 
 class MypageScreen extends Component{
   constructor(props) {
@@ -31,7 +35,29 @@ class MypageScreen extends Component{
       isLoading: true,
       user: null,
       userPostCount: null,
-      userCash: null
+      userCash: null,
+      setting: [
+        {
+          img :  require('../../assets/image/money.png' ),
+          set : "잔액 조회",
+        },
+        {
+          img :  require('../../assets/image/sell.png' ),
+          set : "구매 내역",
+        },
+        {
+          img : require('../../assets/image/bill.png' ),
+          set : "판매 내역",
+        },
+        {
+          img :  require('../../assets/image/heart_red.png' ),
+          set : "관심 내역",
+        },
+        {
+          img :  require('../../assets/image/settings.png' ),
+          set : "설정",
+        }
+      ]
     }
     this.getMypageInfo()
   }
@@ -54,23 +80,21 @@ class MypageScreen extends Component{
     })
   }
 
-  renderRow(rowData) {  
-    const cellViews = rowData.map((post, id) => {
-      return (
-        <CardItem
-          navigation={this.props.navigation}
-          key={id}
-          postId={post.post_info.id}
-          image={AWS_S3_STORAGE_URL + post.filter_info.filter_name} 
-          title={post.post_info.title} 
-          price={post.post_info.price}
-        />
-      )
-    })
+  renderRow(setItem) {  
     return (
-      <GridRow columns={2}>
-        {cellViews}
-      </GridRow>
+      <View style={{ backgroundColor: 'gray'}}>
+        <Row
+          style ={{ backgroundColor: '#1E1E1E'}}>
+          <Image
+            style={{ width: 20, height: 20, color :'white', marginRight :25 }}
+            source={setItem.img}
+          />
+          <View styleName="vertical stretch">
+            <Subtitle styleName="md-gutter-right" style={{color: 'white', marginBottom: 15, fontSize: 17}}>{setItem.set}</Subtitle>
+          </View>
+        </Row>
+        <Divider styleName="line" />
+      </View>
     )
   }
   onRefresh = async() => {
@@ -133,13 +157,14 @@ class MypageScreen extends Component{
           <Spinner styleName='large'/>
         ) : (
           <View style={styles.card_container}>
+          <Divider styleName="line" />
             <ListView
               style={{
                 listContent: {
                   backgroundColor: '#0A0A0A'
                 }
               }}
-              data={groupedData}
+              data={this.state.setting}
               renderRow={this.renderRow.bind(this)}
             />
           </View>
@@ -151,10 +176,10 @@ class MypageScreen extends Component{
 }
 const styles = StyleSheet.create({
   profile_container:{
-    flex: 1,
+    flex: 2,
   },
   card_container:{
-    flex: 3,
+    flex: 7,
   },
 })
 

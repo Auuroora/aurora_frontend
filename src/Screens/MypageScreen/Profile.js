@@ -27,10 +27,6 @@ class ProfileTab extends Component{
       }
     }
   }
-  
-  onClickSetting = async () => {
-    this.props.navigation.navigate('Settingstack')
-  }
 
   render(){
     const profile = this.state.profile
@@ -145,40 +141,6 @@ class ProfileTab extends Component{
                   Following
                 </Text>
               </View>
-            </View>
-            <View 
-              style={{
-                flexDirection:'row'
-              }}
-            >
-              <Button 
-                bordered
-                dark
-                onPress={() =>{alert("프로필 수정")}}
-                style={{
-                  flex:4,
-                  marginLeft:10,
-                  justifyContent:'center',
-                  height:height / 30,
-                  marginTop:10
-                }}
-              >
-                <Icon name="edit" />
-              </Button>
-
-              <Button
-                onPress={() =>{this.onClickSetting()}}
-                style={{
-                  flex:1,
-                  marginRight:10,
-                  marginLeft:5,
-                  justifyContent:'center',
-                  height:height / 30,
-                  marginTop:10,
-                }}
-              >
-                <Icon name="settings"/>
-              </Button>
             </View>
           </View>
         </View>

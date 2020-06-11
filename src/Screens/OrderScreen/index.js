@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import CheckBox from '@react-native-community/checkbox';
+import CheckBox from '@react-native-community/checkbox'
 import {
   Dimensions,
   Switch
@@ -58,14 +58,14 @@ class OrderScreen extends Component {
     this.setState({ checked: !this.state.checked})
     const res = await axios.put('/line_filters/'+id)
     await this.setState({ orderPrice: res.data.order_info.total })
-    this.ongetCartList();
+    this.ongetCartList()
   }
   onPressRemove = async(id) =>{
     console.log("remove")
     await axios.delete('/line_filters/'+id).then((res)=>{
       console.log(res.data)
     })
-    this.ongetCartList();
+    this.ongetCartList()
   }
   renderRow(order) {
     return (
@@ -77,11 +77,11 @@ class OrderScreen extends Component {
             source={{uri: AWS_S3_STORAGE_URL + order.filter_info.filter_name}}
           />
           <View styleName="vertical stretch">
-              <Subtitle style={{
-                color: 'white',
-                marginBottom: 0
-              }}>필터명: {order.post_info.post_title}</Subtitle>
-              <Subtitle styleName="md-gutter-right" style={{color: 'white', marginBottom: 15, fontSize: 13}}>금액: {order.line_filter_info.amount} 원</Subtitle>
+            <Subtitle style={{
+              color: 'white',
+              marginBottom: 0
+            }}>필터명: {order.post_info.post_title}</Subtitle>
+            <Subtitle styleName="md-gutter-right" style={{color: 'white', marginBottom: 15, fontSize: 13}}>금액: {order.line_filter_info.amount} 원</Subtitle>
             <View styleName="horizontal">
               <Button
                 onPress={()=>this.onPressRemove(order.line_filter_info.id)}
@@ -93,15 +93,15 @@ class OrderScreen extends Component {
             </View>
           </View>
           <CheckBox
-           label=""
-           boxType="square"
-           tintColor={"white"}
-           onTintColor={"white"}
-           onCheckColor={"white"}
-           style={{transform: [{ scaleX: .8 }, { scaleY: .8 }]}}
-           value={order.line_filter_info.check}
-           checked={order.line_filter_info.check}
-           onValueChange={() => this.toggleCheckbox(order.line_filter_info.id)}/>
+            label=""
+            boxType="square"
+            tintColor={"white"}
+            onTintColor={"white"}
+            onCheckColor={"white"}
+            style={{transform: [{ scaleX: .8 }, { scaleY: .8 }]}}
+            value={order.line_filter_info.check}
+            checked={order.line_filter_info.check}
+            onValueChange={() => this.toggleCheckbox(order.line_filter_info.id)}/>
         </Row>
         <Divider styleName="line" />
       </View>

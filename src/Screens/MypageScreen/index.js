@@ -2,7 +2,6 @@
 import React, {Component} from 'react'
 import {
   StyleSheet,
-  Button,
   TouchableOpacity
 } from 'react-native'
 
@@ -34,7 +33,6 @@ class MypageScreen extends Component{
       userPostCount: null,
       userCash: null
     }
-
     this.getMypageInfo()
   }
 
@@ -98,7 +96,7 @@ class MypageScreen extends Component{
               styleName="horizontal space-between" 
               style={{ marginTop : 25 }}
             >
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => {this.props.navigation.navigate("OrderHistory")}}>
                 <Subtitle 
                   style={{
                     fontSize: 14,
@@ -109,16 +107,13 @@ class MypageScreen extends Component{
                 >
                   {'Cash: ' + this.state.userCash + ' 원'}
                 </Subtitle>
-              </TouchableOpacity>
-
-              
+              </TouchableOpacity>   
               <TouchableOpacity onPress={() => {this.onRefresh()}}>
                 <Image
                   source={ require('../../assets/image/refresh.png' )}
                   style={{ width: 20, height: 20, color :'white', marginRight : 15 }}
                 />
               </TouchableOpacity>
-
             </View>}
         />
         {this.state.isLoading ? (
@@ -156,10 +151,10 @@ class MypageScreen extends Component{
 }
 const styles = StyleSheet.create({
   profile_container:{
-    flex: 2,
+    flex: 1,
   },
   card_container:{
-    flex: 4,
+    flex: 3,
   },
 })
 

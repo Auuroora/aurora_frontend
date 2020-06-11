@@ -18,12 +18,13 @@ import SettingScreen from "./SettingScreen"
 import StudioScreen from "./StudioScreen"
 import UploadScreen from "./UploadScreen"
 import MypageScreen from "./MypageScreen"
+import OrderHistoryScreen from "./MypageScreen/orderHistory"
 import LoginScreen from "./LoginScreen"
-import DetailScreen from "./HomeScreen/detail"
 import TempSettingScreen from "./TempSettingScreen"
 import OrderScreen from "./OrderScreen"
 import PaymentScreen from "./PaymentScreen"
-
+import DetailScreen from "./HomeScreen/detail"
+import ModifyScreen from "./HomeScreen/modifyPost"
 // Import functions
 import {
   getUserData,
@@ -68,6 +69,11 @@ function HomeStack() {
         name="Payment"
         component={PaymentScreen}
       />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="ModifyPost"
+        component={ModifyScreen}
+      />
     </Stack.Navigator>
   )
 }
@@ -100,7 +106,11 @@ function MypageStack() {
         options={{ headerShown: false }}
         name="Settingstack"
         component={Settingstack}
-
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="OrderHistory"
+        component={OrderHistoryScreen}
       />
     </Stack.Navigator>
   )

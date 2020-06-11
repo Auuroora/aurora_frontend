@@ -65,27 +65,7 @@ class HomeScreen extends Component {
         alert('error : ' + e)
       })
   }
-
-  componentDidUpdate(){
-    // console.log(prevProps.isDone)
-    // console.log(this.props.route.params.isDone)
-    // console.log("rerolad")
-    // if (prevProps.isDone !== this.props.isDone && this.props.isDone) {
-    //   console.log("rerolad")
-    //   this.getPostList(1)
-    //     .then((res) => {
-    //       this.setState({
-    //         postList: res.posts,
-    //         isLoading: false
-    //       })
-    //     })
-    //     .catch(e => {
-    //       console.log(e)
-    //       alert('error : ' + e)
-    //     })
-    // }
-  }
-
+  
   getPostList = async (page) => {
     const params = {
       params: {
@@ -94,9 +74,9 @@ class HomeScreen extends Component {
         comment_info: true
       },
     }
-    console.log(axios.defaults)
+    // console.log(axios.defaults)
     const res = await axios.get("/posts?page=" + page, params)
-    console.log(res)
+    // console.log(res)
     return res.data
   }
 
@@ -115,7 +95,6 @@ class HomeScreen extends Component {
   }
 
   onClickLike = async(postid) => {
-    console.log(postid)
     const data = {
       liker:"user",
       likeable:"post",

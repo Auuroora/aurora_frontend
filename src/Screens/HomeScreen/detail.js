@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
-import React, { Component } from 'react'
+import React, { Component} from 'react'
 
 import {
-  Dimensions
+  Dimensions,
+  StyleSheet
 } from 'react-native'
 
 // Import UI components
@@ -21,7 +22,7 @@ import {
   ScrollView,
   Spinner,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
 } from '@shoutem/ui'
 
 import Title from '../../Components/Title'
@@ -33,8 +34,13 @@ import Comment from './commentList'
 import ImgToBase64 from 'react-native-image-base64'
 import { loadImg, getWatermarkedImg } from '../../OpencvJs'
 import { mapCvFunction } from '../../utils'
+import Modal from "react-native-modal"
+import DropDownPicker from 'react-native-dropdown-picker'
 
-
+/*
+Todo
+1.Component화
+ */
 const ImagePickerOptions = {
   title: 'Select Image',
   storageOptions: {
@@ -42,7 +48,7 @@ const ImagePickerOptions = {
     path: 'images',
   },
 }
-const { width, height } = Dimensions.get('window')
+const { width } = Dimensions.get('window')
 
 
 class DetailScreen extends Component {
@@ -55,7 +61,12 @@ class DetailScreen extends Component {
       imageFile: [],
       isPreview: false,
       myComment: '',
-      commentData:[]
+      commentData:[],
+      userData: '',
+      visibleModal: false,
+      reportData: '',
+      reportKind: 'default',
+      isMyPost:false
     }
     this.getPostInfo(this.state.postId)
     this.getCommentInfo(this.state.postId)
@@ -72,6 +83,11 @@ class DetailScreen extends Component {
     }
     const res = await axios.get('/posts/' + postId, params)
     await this.setState({postData : res.data})
+    await this.setState({userData : res.data.user_info})
+    if(res.data.user_info.id === res.data.current_user_info.id){
+      await this.setState({isMyPost :true})
+      console.log(this.state.isMyPost)
+    }
     this.setState({isLoading: false})
   }
 
@@ -128,6 +144,7 @@ class DetailScreen extends Component {
   }
 
   onClickCart = async() => {
+    alert(this.state.postData.post_info.id)
     const data = {
       line_filter: {
         filter_id : this.state.postData.filter_info.id,
@@ -180,7 +197,57 @@ class DetailScreen extends Component {
       alert("댓글을 작성하여주세요")
     }
   }
+  postDeclare = async() =>{
+    // 신고 처리
+    if(this.state.reportData && this.state.reportKind){
+      const data = {
+        report:{
+          reportable_type: "Post",
+          reportable_id: this.state.postId,
+          category: this.state.reportKind,
+          content:this.state.reportData
+        }
+      }
+      console.log(data)
+      await this.setState({visibleModal: 0})
+      return axios.post('/reports ', data)
+        .then(() => {
+          alert('게시글 신고가 완료되었습니다.')
 
+        }).catch((err) => {
+          console.log(err)
+          alert('게시글 신고가 실패하였습니다.')
+        })
+    }
+  }
+
+  removePost = async() =>{
+    if(this.state.isMyPost){
+      alert("게시글을 삭제하였습니다")
+      const params = {
+        params: {
+          user_id: this.state.userData.id
+        }
+      }
+      await this.setState({visibleModal: 0})
+      axios.delete('/posts/' + this.state.postId, params)
+        .then(() => {
+          alert('게시글 삭제가 완료되었습니다.')
+          this.props.navigation.goBack(null)
+        }).catch((err) => {
+          console.log(err)
+          alert('게시글 삭제가 실패하였습니다.')
+        })
+    }
+  }
+  modifyPost = async() =>{
+    /*
+      Todo
+      1.props로 기존 post data 넘겨주기
+ */
+    await this.setState({visibleModal: 0})
+    this.props.navigation.navigate("ModifyPost", {postData:this.state.postData})
+  }
   onClickLike = async() => {
     const data = {
       liker:"user",
@@ -250,6 +317,142 @@ class DetailScreen extends Component {
           }
         />
         <ScrollView styleName = "fill-parent">
+          <View
+            style={{
+              flexDirection:'row',
+              paddingTop:10,
+              marginTop:10,
+              marginBottom:20
+            }}
+          >
+            <Image
+              source={{
+                uri:  "http://dmshopkorea.com/data/bbs/design/201304/3064753709_9d951bfb_0x1800.jpg"
+              }}
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: 37.5
+              }}/>
+
+            <View>
+              <Subtitle
+                style={{
+                  fontWeight: 'bold',
+                  color: '#FFFFFF',
+                  marginTop: 5,
+                  marginLeft: 15
+                }}
+              >
+                {this.state.userData.username}
+              </Subtitle>
+              <Text>
+                {this.state.userData.created_at}
+              </Text>
+            </View>
+            <View style = { styles.container }>
+              <Modal
+                isVisible={this.state.visibleModal === 1}
+                animationType={'slide'}
+                overlayBackground={'rgba(0, 0, 0, 0.75)'}
+                modalDidOpen={() => console.log('modal did open')}
+                modalDidClose={() => this.setState({visibleModal: 0})}
+                closeOnTouchOutside={true}
+                style={styles.bottomModal}
+              >
+                <View>
+                  <TouchableOpacity
+                    onPress={() => this.setState({visibleModal: 2})}
+                    style={styles.button}>
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        color: '#FFFFFF',
+                      }}>
+                        신고</Text>
+                  </TouchableOpacity>
+                  {this.state.isMyPost &&
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={this.removePost}>
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        color: '#FFFFFF',
+                      }}>
+                        삭제</Text>
+                  </TouchableOpacity>
+                  }
+                  {this.state.isMyPost &&
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={this.modifyPost}>
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        color: '#FFFFFF',
+                      }}>
+                        수정</Text>
+                  </TouchableOpacity>
+                  }
+                </View>
+              </Modal>
+              <TouchableOpacity onPress={() => this.setState({visibleModal: 1})}>
+                <Image
+                  source={ require('../../assets/image/more.png' )}
+                  style={{ width: 25, height: 25, color :'white', marginBottom :15, marginRight :15}}
+                />
+              </TouchableOpacity>
+            </View>
+            <Modal
+              isVisible={this.state.visibleModal === 2}
+              animationType={'slide'}
+              overlayBackground={'rgba(0, 0, 0, 0.75)'}
+              modalDidOpen={() => console.log('modal did open')}
+              modalDidClose={() => this.setState({visibleModal: 0})}
+              closeOnTouchOutside={true}
+            >
+              <View>
+                <DropDownPicker
+                  items={[
+                    {label: 'insult', value: 'insult'},
+                    {label: 'copyright', value: 'copyright'},
+                  ]}
+                  defaultValue={this.state.country}
+                  placeholder="신고 유형 선택"
+                  containerStyle={{height: 40}}
+                  style={{backgroundColor: '#fafafa'}}
+                  dropDownStyle={{backgroundColor: '#fafafa'}}
+                  onChangeItem={item => this.setState({
+                    reportKind: item.value
+                  })}/>
+                <TextInput
+                  style={styles.input}
+                  multiline={true}
+                  autoFocus={true}
+                  maxLength={255}
+                  textAlignVertical={'top'}
+                  underlineColorAndroid="transparent"
+                  onChangeText={(text) => this.setState({reportData: text})}/>
+
+                <View style ={{flexDirection: 'row'}}>
+                  <TouchableOpacity
+                    style={styles.closeButton}
+                    onPress={() => {
+                      this.setState({visibleModal: 0})
+                    }}>
+                    <Text style={styles.buttonText}>Close</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.submitbutton}
+                    onPress={()=>{this.postDeclare()}}>
+                    <Text style={styles.buttonText}>Submit</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Modal>
+          </View>
+
           {this.state.isLoading ? (
             <Spinner styleName='large'/>
           ) : (
@@ -365,7 +568,7 @@ class DetailScreen extends Component {
           {this.state.commentData.map((comment, id) => {
             return (
               <Comment
-                key={id}
+                id={comment.comment_info.id}
                 comment = {comment.comment_info.body}
                 name = {comment.user_info.author_name}
               />
@@ -376,5 +579,85 @@ class DetailScreen extends Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 10,
+    flex: 1,
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    backgroundColor:  'rgba(0,0,0,0.2)',
+  },
+  button: {
+    height: 50,
+    borderRadius: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#2AC062',
+    shadowOpacity: 0.5,
+    shadowOffset: {
+      height: 10,
+      width: 0
+    },
+    shadowRadius: 25,
+  },
+  submitbutton: {
+    marginRight:50,
+    height: 50,
+    borderRadius: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '50%',
+    backgroundColor: '#2AC062',
+    shadowColor: '#2AC062',
+    shadowOpacity: 0.5,
+    shadowOffset: {
+      height: 10,
+      width: 0
+    },
+    shadowRadius: 25,
+  },
+
+  bottomModal: {
+    justifyContent: "flex-end",
+    margin: 0,
+  },
+  closeButton: {
+    height: 50,
+    borderRadius: 6,
+    width: '50%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FF3974',
+    shadowColor: '#2AC062',
+    shadowOpacity: 0.5,
+    shadowOffset: {
+      height: 10,
+      width: 0
+    },
+    shadowRadius: 25,
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 22,
+  },
+  image: {
+    marginTop: 150,
+    marginBottom: 10,
+    width: '100%',
+    height: 350,
+  },
+  text: {
+    fontSize: 24,
+    marginBottom: 30,
+    padding: 40,
+  },
+  input: {
+    margin: 15,
+    height: 200,
+    borderColor: "#7a42f4",
+    borderWidth: 1
+  },
+})
 
 export default DetailScreen

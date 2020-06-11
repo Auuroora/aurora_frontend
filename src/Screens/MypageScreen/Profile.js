@@ -20,7 +20,6 @@ class ProfileTab extends Component{
     this.state = {
       profile: {
         name: props.username,
-        description: "This is a space where you can write \nthe author's comments\n",
         posts: props.postCount,
         follower: props.follower,
         following : props.followee,
@@ -182,20 +181,6 @@ class ProfileTab extends Component{
               </Button>
             </View>
           </View>
-        </View>
-        <View 
-          style={{
-            paddingHorizontal:10,
-            paddingVertical:10,
-          }}
-        >
-          <Subtitle numberOfLines={2}
-            style={{
-              color: '#FEFEFE'
-            }}
-          >
-            {profile.description}
-          </Subtitle>
         </View>
       </Screen>
     )

@@ -4,14 +4,31 @@ import {
   Text,
   View,
 } from 'react-native'
-import { 
+import {
   Icon,
-  Button
+  TouchableOpacity,
+  Image
 } from '@shoutem/ui'
+import axios from '../../axiosConfig'
 
 export default class Comments extends Component {
   constructor(props) {
     super(props)
+  }
+
+  onClickReport = async() => {
+    const data = {
+      report: {
+        reportable_type: "Comment",
+        reportable_id: this.props.id,
+        category: "insult",
+        content: "욕설 신고"
+      }
+    }
+    await axios.post('/reports', data)
+    .then((res) => {
+      alert(res.data)
+    })
   }
 
   render() {
@@ -19,14 +36,20 @@ export default class Comments extends Component {
       <View style={styles.container}>
         <View style={styles.content}>
           <View style={styles.contentHeader}>
-            <Text  style={styles.name}>{this.props.name}</Text>
+            <Text style={styles.name}>{this.props.name}</Text>
             <View style={styles.contentHeader}>
-              <Text style={styles.time}>
-                    9:58 am
-              </Text>
+              <TouchableOpacity style={{flexDirection:'row', justifyContent:"flex-end", marginTop: 3}} onPress={this.onClickReport}>
+                <Image
+                  source={ require('../../assets/image/siren.png' )}
+                  style={styles.reportIcon}
+                />
+                <Text style={styles.report}>
+                  욕설신고
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
-          <Text 
+          <Text
             rkType='primary3 mediumLine'
             style={styles.comment}
           >{this.props.comment}</Text>
@@ -57,7 +80,18 @@ const styles = StyleSheet.create({
     fontSize:11,
     color:"#808080",
   },
-  comment:{  
+  reportIcon: {
+    width: 16,
+    height: 16,
+    color :'white',
+    marginRight: 5
+  },
+  report:{
+    fontSize: 11,
+    color: 'white',
+    marginTop: 5
+  },
+  comment:{
     fontSize:15,
     color:"#808080",
     marginLeft:15
@@ -67,4 +101,4 @@ const styles = StyleSheet.create({
     color:'white',
     fontWeight:"bold",
   },
-})  
+})

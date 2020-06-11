@@ -3,7 +3,7 @@ import React, { Component} from 'react'
 
 import {
   Dimensions,
-  StyleSheet 
+  StyleSheet
 } from 'react-native'
 
 // Import UI components
@@ -144,6 +144,7 @@ class DetailScreen extends Component {
   }
 
   onClickCart = async() => {
+    alert(this.state.postData.post_info.id)
     const data = {
       line_filter: {
         filter_id : this.state.postData.filter_info.id,
@@ -315,8 +316,8 @@ class DetailScreen extends Component {
             </View>
           }
         />
-        <ScrollView styleName = "fill-parent">    
-          <View 
+        <ScrollView styleName = "fill-parent">
+          <View
             style={{
               flexDirection:'row',
               paddingTop:10,
@@ -324,7 +325,7 @@ class DetailScreen extends Component {
               marginBottom:20
             }}
           >
-            <Image  
+            <Image
               source={{
                 uri:  "http://dmshopkorea.com/data/bbs/design/201304/3064753709_9d951bfb_0x1800.jpg"
               }}
@@ -335,7 +336,7 @@ class DetailScreen extends Component {
               }}/>
 
             <View>
-              <Subtitle 
+              <Subtitle
                 style={{
                   fontWeight: 'bold',
                   color: '#FFFFFF',
@@ -363,7 +364,7 @@ class DetailScreen extends Component {
                   <TouchableOpacity
                     onPress={() => this.setState({visibleModal: 2})}
                     style={styles.button}>
-                    <Text 
+                    <Text
                       style={{
                         fontWeight: 'bold',
                         color: '#FFFFFF',
@@ -374,7 +375,7 @@ class DetailScreen extends Component {
                   <TouchableOpacity
                     style={styles.button}
                     onPress={this.removePost}>
-                    <Text 
+                    <Text
                       style={{
                         fontWeight: 'bold',
                         color: '#FFFFFF',
@@ -386,7 +387,7 @@ class DetailScreen extends Component {
                   <TouchableOpacity
                     style={styles.button}
                     onPress={this.modifyPost}>
-                    <Text 
+                    <Text
                       style={{
                         fontWeight: 'bold',
                         color: '#FFFFFF',
@@ -433,20 +434,20 @@ class DetailScreen extends Component {
                   textAlignVertical={'top'}
                   underlineColorAndroid="transparent"
                   onChangeText={(text) => this.setState({reportData: text})}/>
-                    
-                <View style ={{flexDirection: 'row'}}>                    
+
+                <View style ={{flexDirection: 'row'}}>
                   <TouchableOpacity
                     style={styles.closeButton}
                     onPress={() => {
                       this.setState({visibleModal: 0})
                     }}>
                     <Text style={styles.buttonText}>Close</Text>
-                  </TouchableOpacity>    
+                  </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.submitbutton}
                     onPress={()=>{this.postDeclare()}}>
                     <Text style={styles.buttonText}>Submit</Text>
-                  </TouchableOpacity>   
+                  </TouchableOpacity>
                 </View>
               </View>
             </Modal>
@@ -567,7 +568,7 @@ class DetailScreen extends Component {
           {this.state.commentData.map((comment, id) => {
             return (
               <Comment
-                key={id}
+                id={comment.comment_info.id}
                 comment = {comment.comment_info.body}
                 name = {comment.user_info.author_name}
               />
@@ -594,9 +595,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     shadowColor: '#2AC062',
     shadowOpacity: 0.5,
-    shadowOffset: { 
-      height: 10, 
-      width: 0 
+    shadowOffset: {
+      height: 10,
+      width: 0
     },
     shadowRadius: 25,
   },
@@ -610,13 +611,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#2AC062',
     shadowColor: '#2AC062',
     shadowOpacity: 0.5,
-    shadowOffset: { 
-      height: 10, 
-      width: 0 
+    shadowOffset: {
+      height: 10,
+      width: 0
     },
     shadowRadius: 25,
   },
-  
+
   bottomModal: {
     justifyContent: "flex-end",
     margin: 0,
@@ -630,9 +631,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#FF3974',
     shadowColor: '#2AC062',
     shadowOpacity: 0.5,
-    shadowOffset: { 
-      height: 10, 
-      width: 0 
+    shadowOffset: {
+      height: 10,
+      width: 0
     },
     shadowRadius: 25,
   },

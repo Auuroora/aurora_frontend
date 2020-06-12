@@ -29,7 +29,6 @@ const { height } = Dimensions.get('window')
 class MypageScreen extends Component{
   constructor(props) {
     super(props)
-
     this.state = {
       posts: [],
       isLoading: true,
@@ -39,23 +38,28 @@ class MypageScreen extends Component{
       setting: [
         {
           img :  require('../../assets/image/money.png' ),
-          set : "잔액 조회",
+          set : "환급 절차",
+          navigateScreen: "OrderHistory"
         },
         {
           img :  require('../../assets/image/sell.png' ),
           set : "구매 내역",
+          navigateScreen: "Purchase"
         },
         {
           img : require('../../assets/image/bill.png' ),
           set : "판매 내역",
+          navigateScreen: "Sell"
         },
         {
           img :  require('../../assets/image/heart_red.png' ),
           set : "관심 내역",
+          navigateScreen: "OrderHistory"
         },
         {
           img :  require('../../assets/image/settings.png' ),
           set : "설정",
+          navigateScreen: "Settingstack"
         }
       ]
     }
@@ -82,19 +86,21 @@ class MypageScreen extends Component{
 
   renderRow(setItem) {  
     return (
-      <View style={{ backgroundColor: 'gray'}}>
-        <Row
-          style ={{ backgroundColor: '#1E1E1E'}}>
-          <Image
-            style={{ width: 20, height: 20, color :'white', marginRight :25 }}
-            source={setItem.img}
-          />
-          <View styleName="vertical stretch">
-            <Subtitle styleName="md-gutter-right" style={{color: 'white', marginBottom: 15, fontSize: 17}}>{setItem.set}</Subtitle>
-          </View>
-        </Row>
-        <Divider styleName="line" />
-      </View>
+      <TouchableOpacity onPress={() => {this.props.navigation.navigate(setItem.navigateScreen)}}>
+        <View style={{ backgroundColor: 'gray'}}>
+          <Row
+            style ={{ backgroundColor: '#1E1E1E'}}>
+            <Image
+              style={{ width: 20, height: 20, color :'white', marginRight :25 }}
+              source={setItem.img}
+            />
+            <View styleName="vertical stretch">
+              <Subtitle styleName="md-gutter-right" style={{color: 'white', marginBottom: 10, fontSize: 17}}>{setItem.set}</Subtitle>
+            </View>
+          </Row>
+          <Divider styleName="line" />
+        </View>
+      </TouchableOpacity>
     )
   }
   onRefresh = async() => {
@@ -157,7 +163,7 @@ class MypageScreen extends Component{
           <Spinner styleName='large'/>
         ) : (
           <View style={styles.card_container}>
-          <Divider styleName="line" />
+            <Divider styleName="line" />
             <ListView
               style={{
                 listContent: {

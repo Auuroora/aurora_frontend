@@ -116,7 +116,7 @@ class MypageScreen extends Component{
     })
     return (
       <Screen styleName='fill-parent'
-        style={{backgroundColor: '#0A0A0A'}}
+        style={{backgroundColor: '#1E1E1E'}}
       >
         <NavigationBar
           styleName='inline clear'
@@ -124,7 +124,7 @@ class MypageScreen extends Component{
           rightComponent ={
             <View 
               styleName="horizontal space-between" 
-              style={{ marginTop : 25 }}
+              style={{ marginTop : 25,backgroundColor: '#1E1E1E'}}
             >
               <TouchableOpacity onPress={() => {this.props.navigation.navigate("OrderHistory")}}>
                 <Subtitle 

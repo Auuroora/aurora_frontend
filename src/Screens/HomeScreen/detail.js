@@ -395,9 +395,21 @@ class DetailScreen extends Component {
                         수정</Text>
                   </TouchableOpacity>
                   }
+                  <TouchableOpacity
+                    onPress={() => this.setState({visibleModal: 0})}
+                    style={styles.button}>
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        color: '#FFFFFF',
+                      }}>
+                        취소</Text>
+                  </TouchableOpacity>
                 </View>
               </Modal>
-              <TouchableOpacity onPress={() => this.setState({visibleModal: 1})}>
+              <TouchableOpacity 
+                style ={{ backgroundColor: '#1E1E1E'}}
+                onPress={() => this.setState({visibleModal: 1})}>
                 <Image
                   source={ require('../../assets/image/more.png' )}
                   style={{ width: 25, height: 25, color :'white', marginBottom :15, marginRight :15}}
@@ -586,7 +598,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'flex-end',
     justifyContent: 'center',
-    backgroundColor:  'rgba(0,0,0,0.2)',
+    // backgroundColor: '#1E1E1E'
+    backgroundColor:  '#1E1E1E',
   },
   button: {
     height: 50,
@@ -619,7 +632,7 @@ const styles = StyleSheet.create({
   },
 
   bottomModal: {
-    justifyContent: "flex-end",
+    // justifyContent: "flex-end",
     margin: 0,
   },
   closeButton: {

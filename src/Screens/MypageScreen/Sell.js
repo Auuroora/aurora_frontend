@@ -52,7 +52,7 @@ class Sell extends Component {
            style ={{ backgroundColor: '#1E1E1E'}}>
            <Image
              style={{ height: height * 0.12, width: height * 0.12 }}
-             source={{uri: "http://dmshopkorea.com/data/bbs/design/201304/3064753709_9d951bfb_0x1800.jpg"}}
+             source={{uri: AWS_S3_STORAGE_URL + this.state.filter_info.filter_name}}
            />
            <View styleName="vertical stretch">
              <Subtitle style={{

@@ -54,7 +54,7 @@ class MypageScreen extends Component{
         {
           img :  require('../../assets/image/heart_red.png' ),
           set : "관심 내역",
-          navigateScreen: "OrderHistory"
+          navigateScreen: "Like"
         },
         {
           img :  require('../../assets/image/settings.png' ),

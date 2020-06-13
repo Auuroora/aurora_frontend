@@ -13,53 +13,53 @@ import {
   TouchableOpacity,
   ListView
 } from '@shoutem/ui'
-import MyOrderTab from './myOrderTab'
+
 import Title from '../../Components/Title'
 import { AWS_S3_STORAGE_URL } from "react-native-dotenv"
 import axios from "../../axiosConfig"
 
 const { height } = Dimensions.get('window')
-class Purchase extends Component {
+class Like extends Component {
   constructor(props) {
     super(props)
     this.renderRow = this.renderRow.bind(this)
     this.state = {
-      purchaseList: [
+      LikeList: [
       ],
       userCash: null,
       checked:false,
     }
-    this.ongetPurchaseList()
+    this.ongetLikeList()
   }
-  ongetPurchaseList(){
+  ongetLikeList(){
     const params = {
       params: {
-        state :"purchased"
+        user_info: true,
+        filter_info: true
       }
     }
-    axios.get('/orders', params).then((res)=>{
+    axios.get('/mylikes',params).then((res)=>{
       console.log(res.data)
       this.setState({
-        purchaseList:res.data
+        LikeList:res.data
       })
     })
   }
-   renderRow = (purchase) =>{
+   renderRow = (like) =>{
      return (
        <View style={{ backgroundColor: 'gray'}}>
          <Row
            style ={{ backgroundColor: '#1E1E1E'}}>
            <Image
-             style={{ height: height * 0.12, width: height * 0.12 }}
-             source={{uri:  AWS_S3_STORAGE_URL + purchase.filter_info.filter_name}}
+             style={{ height: height * 0.12, width: height * 0.12 }} 
+             source={{uri: AWS_S3_STORAGE_URL + like.filter_info.filter_name}}
            />
            <View styleName="vertical stretch">
              <Subtitle style={{
                color: 'white',
                marginBottom: 0
-             }}>필터ID: {purchase.id}</Subtitle>
-             <Subtitle styleName="md-gutter-right" style={{color: 'white', marginBottom: 15, fontSize: 13}}>금액: {purchase.total} 원</Subtitle>
-             <Subtitle styleName="md-gutter-right" style={{color: 'white', marginBottom: 15, fontSize: 13}}>구매일: {purchase.purchased_at}</Subtitle>
+             }}>{like.post_info.title}</Subtitle>
+             <Subtitle styleName="md-gutter-right" style={{color: 'white', marginBottom: 15, fontSize: 13}}>{like.user_info.username}</Subtitle>
            </View>
          </Row>
          <Divider styleName="line" />
@@ -78,17 +78,17 @@ class Purchase extends Component {
            <NavigationBar
              styleName="clear"
              centerComponent={
-               <Title title={'Purhcase List'} topMargin={50} />
+               <Title title={'Like List'} topMargin={50} />
              }
            />
          </ImageBackground>   
          <Divider styleName="line" />
          <ListView
-           data={this.state.purchaseList}
+           data={this.state.LikeList}
            renderRow={this.renderRow}
          />
        </Screen >
      )
    }
 }
-export default Purchase
+export default Like

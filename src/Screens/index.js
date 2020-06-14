@@ -23,6 +23,7 @@ import Purchase from "./MypageScreen/Purchase"
 import Sell from "./MypageScreen/Sell"
 import Like from "./MypageScreen/Like"
 import LoginScreen from "./LoginScreen"
+import Signup from "./LoginScreen/Signup"
 import TempSettingScreen from "./TempSettingScreen"
 import OrderScreen from "./OrderScreen"
 import PaymentScreen from "./PaymentScreen"
@@ -133,6 +134,24 @@ function MypageStack() {
     </Stack.Navigator>
   )
 }
+
+function AuthStack() {
+  return (
+    <Stack.Navigator initialRouteName="Login">
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Login"
+        component={LoginScreen}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Signup"
+        component={Signup}
+      />
+    </Stack.Navigator>
+  )
+}
+
 function TabStack() {
   return (
     <Tab.Navigator
@@ -219,7 +238,7 @@ class RootNavigator extends React.Component {
             <Stack.Screen
               options={{ headerShown: false }}
               name="Login"
-              component={LoginScreen}
+              component={AuthStack}
             />
           ) : (
             <Stack.Screen

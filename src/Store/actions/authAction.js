@@ -5,7 +5,10 @@ import {
   AUTH_SIGNIN_SUCCESS,
   AUTH_SIGNIN_FAILURE,
   AUTH_SIGNOUT,
-  AUTH_STORE_USER_DATA
+  AUTH_STORE_USER_DATA,
+  AUTH_SIGNUP,
+  AUTH_SIGNUP_SUCCESS,
+  AUTH_SIGNUP_FAILURE
 } from './actionTypes'
 
 import axios from '../../axiosConfig'
@@ -41,7 +44,7 @@ export const getUserData = async (key) => {
 
 export const requestSignin = (data) => {
   return (dispatch) => {
-    dispatch(signin())
+    dispatch(signup())
     return axios.post('/auth/login', data)
       .then((response) => {
         setUserData('userToken', response.data.token)
@@ -50,6 +53,18 @@ export const requestSignin = (data) => {
         dispatch(storeUserData(response.data))
       }).catch((error) => {
         dispatch(signinFailure(error))
+      })
+  }
+}
+
+export const requestSignup = (data) => {
+  return (dispatch) => {
+    dispatch(signup())
+    return axios.post('/users', data)
+      .then(() => {
+        dispatch(signupSuccess())
+      }).catch((error) => {
+        dispatch(signupFailure(error))
       })
   }
 }
@@ -66,10 +81,29 @@ export const signin = () => {
   }
 }
 
+export const signup = () => {
+  return {
+    type: AUTH_SIGNUP
+  }
+}
+
 export const storeUserData = (response) => {
   return {
     type: AUTH_STORE_USER_DATA,
     response
+  }
+}
+
+export const signupSuccess = () => {
+  return {
+    type: AUTH_SIGNUP_SUCCESS
+  }
+}
+
+export const signupFailure = (error) => {
+  return {
+    type: AUTH_SIGNUP_FAILURE,
+    error
   }
 }
 

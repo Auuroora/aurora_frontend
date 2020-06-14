@@ -190,12 +190,13 @@ export default class NewFilterScreen extends React.Component {
       editFunction: this.mapCvFunction(val),
       selectedValueRange: this.state.valuesRange[val],
     })
+
+    this.slider.setNativeProps({value: selectedValueTile})
   }
 
   componentDidUpdate = (prevProps) => {
     if (prevProps.isDone !== this.props.isDone && this.props.isDone) {
       this.props.onNewFilterDone(this.state.image.data, this.state.values)
-      // TODO: close and reset all variables
     }
   }
 
@@ -271,6 +272,7 @@ export default class NewFilterScreen extends React.Component {
                   onValueChange={(val) => this.onChangeSliderValue(val)}
                   minimumTrackTintColor="#FFFFFF"
                   maximumTrackTintColor="#252526"
+                  ref={r => this.slider = r}
                 />
 
                 <View styleName='horizontal space-between'>

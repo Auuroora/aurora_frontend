@@ -20,11 +20,8 @@ import {
   Divider
 } from '@shoutem/ui'
 import Title from '../../Components/Title'
-import CardItem from '../../Components/CardItem'
 
-import {AWS_S3_STORAGE_URL} from 'react-native-dotenv'
 import axios from '../../axiosConfig'
-const { height } = Dimensions.get('window')
 
 class MypageScreen extends Component{
   constructor(props) {
@@ -36,11 +33,6 @@ class MypageScreen extends Component{
       userPostCount: null,
       userCash: null,
       setting: [
-        {
-          img :  require('../../assets/image/money.png' ),
-          set : "환급 절차",
-          navigateScreen: "OrderHistory"
-        },
         {
           img :  require('../../assets/image/sell.png' ),
           set : "구매 내역",
@@ -111,9 +103,6 @@ class MypageScreen extends Component{
     })
   }
   render(){
-    const groupedData = GridRow.groupByRows(this.state.posts, 2, () => {
-      return 1
-    })
     return (
       <Screen styleName='fill-parent'
         style={{backgroundColor: '#1E1E1E'}}

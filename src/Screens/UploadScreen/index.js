@@ -76,7 +76,6 @@ class UploadScreen extends Component{
         user_id : this.state.userId
       }
     }
-    console.log(data)
     if (this.state.title && this.state.tag && this.state.description  && this.state.filterId && this.state.price) {
       const data = {
         post:{
@@ -88,7 +87,6 @@ class UploadScreen extends Component{
           user_id : this.state.userId
         }
       }
-      console.log(data)
       return axios.post('/posts', data)
         .then(() => {
           alert('게시글 작성이 완료되었습니다.')

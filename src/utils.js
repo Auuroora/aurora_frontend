@@ -19,10 +19,10 @@ import {
 } from './OpencvJs'
 
 import ImagePicker from 'react-native-image-picker'
+import CameraRoll from '@react-native-community/cameraroll'
 
 import AWS from 'aws-sdk'
 import {AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY} from 'react-native-dotenv'
-
 
 const ImagePickerOptions = {
   title: 'Select Image',
@@ -74,6 +74,10 @@ const selectImage = () => {
       }
     })
   }))
+}
+
+const saveImage = async (image) => {
+  return await CameraRoll.save(image, 'photo')
 }
 
 const guid = () => {
@@ -148,5 +152,6 @@ export {
   guid,
   selectImage,
   urlToBlob,
-  uploadFileToS3
+  uploadFileToS3,
+  saveImage
 }

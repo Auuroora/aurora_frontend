@@ -36,10 +36,6 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 class SettingScreen extends Component{
-  _navigate(){
-    this.props.navigation.navigate('TempSettingScreen')
-  }
-
   _checkLogout = async () => {
     this.props.requestSignout()
     alert('로그아웃 되었습니다.')
@@ -54,11 +50,6 @@ class SettingScreen extends Component{
           styleName='inline clear'
           centerComponent={<Title title={'Studio'}/>}
         />
-        <TouchableOpacity 
-          style={styles.wrapButton}
-          onPress={this._navigate.bind(this)}>
-          <Text style={styles.menuText}>🏅 Something</Text>
-        </TouchableOpacity>
         <TouchableOpacity 
           style={styles.wrapButton}
           onPress={this._checkLogout.bind(this)}>

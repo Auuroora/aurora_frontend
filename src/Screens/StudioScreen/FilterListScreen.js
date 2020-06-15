@@ -10,7 +10,7 @@ import {
   Screen,
 } from '@shoutem/ui'
 
-import LargeTile from './LargeTile'
+import LargeTile from '../../Components/LargeTile'
 import axios from '../../axiosConfig'
 import ImagePicker from 'react-native-image-picker'
 import SmallTile from './SmallTile'
@@ -147,8 +147,9 @@ class FilterListScreen extends Component {
     return (
       <Screen style={styles.darkScreen}>
         <LargeTile
-          image={this.state.imageFile.data}
+          image={this.state.isImageSelected ? { uri: 'data:image/jpeg;base64,' + this.state.imageFile.data } : null}
           onClickTile={this.onClickLargeTile}
+          noImageComment={'이미지를 선택하고 필터를 적용하세요.'}
         ></LargeTile>
         <ListView
           style={{

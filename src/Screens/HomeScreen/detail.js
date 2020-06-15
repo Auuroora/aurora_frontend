@@ -35,13 +35,9 @@ import Comment from './commentList'
 import ImgToBase64 from 'react-native-image-base64'
 import { loadImg, getWatermarkedImg } from '../../OpencvJs'
 import { mapCvFunction } from '../../utils'
-// import Modal from "react-native-modal"
 import DropDownPicker from 'react-native-dropdown-picker'
 
-/*
-Todo
-1.Component화
- */
+
 const ImagePickerOptions = {
   title: 'Select Image',
   storageOptions: {
@@ -50,7 +46,6 @@ const ImagePickerOptions = {
   },
 }
 const { width } = Dimensions.get('window')
-
 
 class DetailScreen extends Component {
   constructor (props) {
@@ -425,7 +420,7 @@ class DetailScreen extends Component {
                     width: '50%',
                     listContent: {
                       backgroundColor: '#1E1E1E',
-                    }
+                    },
                   }}
                   data={this.state.postData.tag_info.tag_list}
                   horizontal={true}

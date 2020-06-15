@@ -27,7 +27,7 @@ export default function LargeTile (props) {
       <ImageBackground
         styleName="large"
         style ={{ width: width }}
-        source={{ uri: 'data:image/jpeg;base64,' + props.image } }
+        source={props.image}
       >
         <Tile styleName="clear">
           <Title styleName="md-gutter-bottom">{props.title}</Title>
@@ -36,7 +36,7 @@ export default function LargeTile (props) {
               styleName="sm-gutter-horizontal"
               style={{color: '#FFFFFF'}}
             >
-              {'이미지를 선택하고 필터를 적용하세요.'}
+              {props.noImageComment}
             </Subtitle>
           ) : (null)}
         </Tile>

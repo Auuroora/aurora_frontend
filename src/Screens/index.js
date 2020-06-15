@@ -18,7 +18,6 @@ import SettingScreen from "./SettingScreen"
 import StudioScreen from "./StudioScreen"
 import UploadScreen from "./UploadScreen"
 import MypageScreen from "./MypageScreen"
-import OrderHistoryScreen from "./MypageScreen/orderHistory"
 import Purchase from "./MypageScreen/Purchase"
 import Sell from "./MypageScreen/Sell"
 import Like from "./MypageScreen/Like"
@@ -109,11 +108,6 @@ function MypageStack() {
         options={{ headerShown: false }}
         name="Settingstack"
         component={SettingScreen}
-      />
-      <Stack.Screen
-        options={{ headerShown: false }}
-        name="OrderHistory"
-        component={OrderHistoryScreen}
       />
       <Stack.Screen
         options={{ headerShown: false }}

@@ -13,7 +13,6 @@ import {
   TouchableOpacity,
   ListView
 } from '@shoutem/ui'
-import MyOrderTab from './myOrderTab'
 import Title from '../../Components/Title'
 import { AWS_S3_STORAGE_URL } from "react-native-dotenv"
 import axios from "../../axiosConfig"
@@ -70,7 +69,7 @@ class Purchase extends Component {
    render() {
      return (
        <Screen 
-         style={{ backgroundColor: 'gray', flex:1}}>
+         style={{ backgroundColor: '#1E1E1E', flex:1}}>
          <ImageBackground
            source={require("../../assets/image/Header.jpg")}
            styleName="large-ultra-wide"
@@ -78,15 +77,26 @@ class Purchase extends Component {
            <NavigationBar
              styleName="clear"
              centerComponent={
-               <Title title={'Purhcase List'} topMargin={50} />
+               <Title title={'Purchase List'} topMargin={50} />
              }
            />
          </ImageBackground>   
          <Divider styleName="line" />
-         <ListView
-           data={this.state.purchaseList}
-           renderRow={this.renderRow}
-         />
+         {(this.state.purchaseList&&this.state.purchaseList.length) ?
+           (
+             <ListView
+               data={this.state.purchaseList}
+               renderRow={this.renderRow}
+             />)
+           :
+           (<View style ={{ 
+             alignItems: "center",
+             marginTop: 80}}>
+             <Text style ={{color:'white'}}>구매내역이 없습니다.</Text>
+           </View>
+           )
+         }
+         
        </Screen >
      )
    }

@@ -70,7 +70,7 @@ class Like extends Component {
    render() {
      return (
        <Screen 
-         style={{ backgroundColor: 'gray', flex:1}}>
+         style={{ backgroundColor: '#1E1E1E', flex:1}}>
          <ImageBackground
            source={require("../../assets/image/Header.jpg")}
            styleName="large-ultra-wide"
@@ -83,10 +83,20 @@ class Like extends Component {
            />
          </ImageBackground>   
          <Divider styleName="line" />
-         <ListView
-           data={this.state.LikeList}
-           renderRow={this.renderRow}
-         />
+         {(this.state.LikeList&&this.state.LikeList.length) ?
+           (
+             <ListView
+               data={this.state.LikeList}
+               renderRow={this.renderRow}
+             />)
+           :
+           (<View style ={{ 
+             alignItems: "center",
+             marginTop: 80}}>
+             <Text style ={{color:'white'}}>관심내역이 없습니다.</Text>
+           </View>
+           )
+         }
        </Screen >
      )
    }

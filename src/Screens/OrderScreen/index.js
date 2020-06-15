@@ -152,19 +152,21 @@ class OrderScreen extends Component {
             }
           />
         </ImageBackground>
-        <Row styleName="small" style={{ backgroundColor: '#1E1E1E'}}>
-          <Image
-            source={ require('../../assets/image/cash.png' )}
-            style={{ width: 18, height: 18, color :'white', marginRight : 5 }}
-          />
-          <Text style={{color: 'white', marginLeft: 5}}>{this.state.userCash} 원</Text>
-          <TouchableOpacity onPress={() => {this.getUserInfo()}}>
+        <View style={{height:80}}>
+          <Row styleName="small" style={{ backgroundColor: '#1E1E1E'}}>
             <Image
-              source={ require('../../assets/image/refresh.png' )}
+              source={ require('../../assets/image/cash.png' )}
               style={{ width: 18, height: 18, color :'white', marginRight : 5 }}
             />
-          </TouchableOpacity>
-        </Row>
+            <Text style={{color: 'white', marginLeft: 5}}>{this.state.userCash} 원</Text>
+            <TouchableOpacity onPress={() => {this.getUserInfo()}}>
+              <Image
+                source={ require('../../assets/image/refresh.png' )}
+                style={{ width: 18, height: 18, color :'white', marginRight : 5 }}
+              />
+            </TouchableOpacity>
+          </Row>
+        </View>
         <Divider styleName="line" />
         <ListView
           data={this.state.orderList}

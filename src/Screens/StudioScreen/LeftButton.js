@@ -11,6 +11,7 @@ LeftButton.propTypes = {
   onPressCancel: PropTypes.func,
   isNewFilter: PropTypes.bool
 }
+const BtnText = {fontSize: 20, color: '#FFFFFF', marginTop: 50, marginLeft: 15}
 
 export default function LeftButton (props) {
   return props.isNewFilter ? 
@@ -19,13 +20,9 @@ export default function LeftButton (props) {
       >
         <Text 
           name="close"
-          style={{
-            color: '#FFFFFF',
-            margin: 10,
-            marginTop: 40
-          }}
+          style={BtnText}
         >
-          Close
+          X
         </Text>
       </Button>
     ) : 

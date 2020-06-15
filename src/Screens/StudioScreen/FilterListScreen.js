@@ -17,12 +17,13 @@ import SmallTile from './SmallTile'
 
 import { AWS_S3_STORAGE_URL } from 'react-native-dotenv'
 import { loadImg } from '../../OpencvJs'
-import { mapCvFunction } from '../../utils'
+import { mapCvFunction, saveImage } from '../../utils'
 
 const { width } = Dimensions.get('window')
 
 const ImagePickerOptions = {
   title: 'Select Image',
+  customButtons: [{ name: 'fb', title: '저장하기' }],
   storageOptions: {
     skipBackup: true,
     path: 'images',
@@ -66,14 +67,24 @@ class FilterListScreen extends Component {
         console.log('User cancelled image picker')
         return
       }
-      if (response.error) {
+      else if (response.error) {
         return
       }
-      await this.setState({
-        imageFile: response,
-        originalFile: response.data,
-        isImageSelected: true
-      })
+      else if (response.customButton) {
+        if (!this.state.isImageSelected || !this.state.imageFile) {
+          alert('먼저 이미지를 선택해주세요.')
+          return
+        }
+        await saveImage('data:image/jpeg;base64,' + this.state.imageFile.data)
+        alert('이미지가 저장되었습니다.')
+      }
+      else {
+        await this.setState({
+          imageFile: response,
+          originalFile: response.data,
+          isImageSelected: true
+        })
+      }
     })
   }
 

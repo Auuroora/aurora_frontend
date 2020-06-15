@@ -22,16 +22,17 @@ import Purchase from "./MypageScreen/Purchase"
 import Sell from "./MypageScreen/Sell"
 import Like from "./MypageScreen/Like"
 import LoginScreen from "./LoginScreen"
+import Signup from "./LoginScreen/Signup"
 import TempSettingScreen from "./TempSettingScreen"
 import OrderScreen from "./OrderScreen"
 import PaymentScreen from "./PaymentScreen"
 import DetailScreen from "./HomeScreen/detail"
 import ModifyScreen from "./HomeScreen/modifyPost"
+import SearchScreen from './SearchScreen'
+
 // Import functions
 import {
   getUserData,
-  removeUserData,
-  setUserData,
   storeUserData,
 } from "../Store/actions/authAction"
 
@@ -45,7 +46,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   storeUserData: (data) => dispatch(storeUserData(data)),
-  signout: () => dispatch(signout())
 })
 
 function HomeStack() {
@@ -127,6 +127,24 @@ function MypageStack() {
     </Stack.Navigator>
   )
 }
+
+function AuthStack() {
+  return (
+    <Stack.Navigator initialRouteName="Login">
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Login"
+        component={LoginScreen}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Signup"
+        component={Signup}
+      />
+    </Stack.Navigator>
+  )
+}
+
 function TabStack() {
   return (
     <Tab.Navigator
@@ -139,6 +157,8 @@ function TabStack() {
             icon = <Icon name="md-home" size={30} />
           } else if (route.name === 'Mypage') {
             icon = <Icon name="md-person" size={30} />
+          } else if (route.name === 'Search') {
+            icon = <Icon name="ios-search" size={30}/>
           } else if (route.name === 'Studio') {
             icon = <Icon name="ios-color-filter" size={30} />
           } else if (route.name === 'Upload') {
@@ -166,6 +186,11 @@ function TabStack() {
       />
       <Tab.Screen
         options={{ headerShown: false }}
+        name="Search"
+        component={SearchScreen}
+      />
+      <Tab.Screen
+        options={{ headerShown: false }}
         name="Studio"
         component={StudioScreen}
       />
@@ -186,9 +211,6 @@ function TabStack() {
 class RootNavigator extends React.Component {
   constructor(props) {
     super(props)
-    // Line for test token
-    // removeUserData("userToken")
-
     // Get token when app starts, if token not exists, go to login page
     getUserData("userToken")
       .then((data) => {
@@ -213,7 +235,7 @@ class RootNavigator extends React.Component {
             <Stack.Screen
               options={{ headerShown: false }}
               name="Login"
-              component={LoginScreen}
+              component={AuthStack}
             />
           ) : (
             <Stack.Screen

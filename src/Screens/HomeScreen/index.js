@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Dimensions } from "react-native"
+import { Dimensions, StyleSheet, Platform } from "react-native"
 
 import {
   NavigationBar,
@@ -18,12 +18,9 @@ import Title from '../../Components/Title'
 import { AWS_S3_STORAGE_URL } from "react-native-dotenv"
 import axios from "../../axiosConfig"
 
-/* TODO
- * 1. Add SearchBar and icon to Navigation
- * 2. Add Sort and icon to Navigation
- */
 
 const { width, height } = Dimensions.get("window")
+const topMargin = Platform.OS === "android" ? 25 : 50
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -48,7 +45,6 @@ class HomeScreen extends Component {
   onRefresh = async () => {
     this.getPostList(1)
       .then((res) => {
-
         this.setState({
           postList: res.posts,
           isLoading: false
@@ -74,9 +70,7 @@ class HomeScreen extends Component {
         comment_info: true
       },
     }
-    // console.log(axios.defaults)
     const res = await axios.get("/posts?page=" + page, params)
-    // console.log(res)
     return res.data
   }
 
@@ -102,7 +96,9 @@ class HomeScreen extends Component {
     }
     await axios.post('/likes', data)
     this.componentDidMount()
+    // 로직 새로 구성할것
   }
+
   renderRow = (rowData) => {  
     const cellViews = rowData.map((post, id) => {
       return (
@@ -126,9 +122,11 @@ class HomeScreen extends Component {
       </GridRow>
     )
   }
+
   onClickShopping = () => {
     this.props.navigation.navigate("Order")
   }
+
   render() {
     return (
       <Screen
@@ -143,44 +141,46 @@ class HomeScreen extends Component {
           <NavigationBar
             styleName="clear"
             leftComponent={
-              <DropDownMenu
-                options={this.state.filters}
-                style={{
-                  selectedOption: {
-                    "shoutem.ui.Text": {
-                      color: "#ffffff",
-                      borderColor: "#ffffff",
+              <View style={styles.headerContents}>
+                <DropDownMenu
+                  options={this.state.filters}
+                  style={{
+                    selectedOption: {
+                      "shoutem.ui.Text": {
+                        color: "#ffffff",
+                        borderColor: "#ffffff",
+                      },
+                      "shoutem.ui.Icon": {
+                        color: "#ffffff",
+                      },
                     },
-                    "shoutem.ui.Icon": {
-                      color: "#ffffff",
-                    },
-                  },
-                }}
-                selectedOption={
-                  this.state.selectedFilter
-                    ? this.state.selectedFilter
-                    : this.state.filters[0]
-                }
-                onOptionSelected={(filter) =>
-                  this.setState({ selectedFilter: filter })
-                }
-                titleProperty="name"
-                valueProperty="value"
-              />
+                  }}
+                  selectedOption={
+                    this.state.selectedFilter
+                      ? this.state.selectedFilter
+                      : this.state.filters[0]
+                  }
+                  onOptionSelected={(filter) =>
+                    this.setState({ selectedFilter: filter })
+                  }
+                  titleProperty="name"
+                  valueProperty="value"
+                />
+              </View>
             }
-            centerComponent={<Title title={"Home"} topMargin={50} />}
+            centerComponent={
+              <Title title={"Home"} topMargin={topMargin}/>
+            }
             rightComponent={
-              <View styleName="horizontal space-between">
-                <Button styleName="clear" >
-                  <Icon name="search" style ={{color  :"white"}}/>
-                </Button>
+              <View 
+                styleName="horizontal space-between"
+                style={styles.headerContents}
+              >
                 <Button
                   styleName="clear"
-                  onPress={() => {
-                    this.onClickShopping()
-                  }}
+                  onPress={this.onClickShopping}
                 >
-                  <Icon name="cart" style={{ color: "white" }} />
+                  <Icon name="cart" style={styles.headerIcon} />
                 </Button>
               </View>
             }
@@ -204,3 +204,16 @@ class HomeScreen extends Component {
 }
 
 export default HomeScreen
+
+const styles = StyleSheet.create({
+  headerContents: {
+    marginTop: topMargin + 10,
+    marginLeft: 10,
+    marginRight: 10
+  },
+  headerIcon: {
+    margin: 0,
+    color: '#FAFAFA',
+    fontSize: 25
+  }
+})

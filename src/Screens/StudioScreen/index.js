@@ -18,6 +18,7 @@ import LeftButton from './LeftButton'
 import AWS from 'aws-sdk'
 import {AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY} from 'react-native-dotenv'
 
+import {saveImage} from '../../utils'
 import axios from '../../axiosConfig'
 
 
@@ -140,7 +141,7 @@ class StudioScreen extends Component {
         }
       }
       res = await axios.post('/filters', data)
-      // TODO: Add function for Save to local
+      await saveImage('data:image/jpeg;base64,' + image)
     } catch (e) {
       alert('Saving Filter Failed!')
       console.log(e)

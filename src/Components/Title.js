@@ -13,7 +13,7 @@ export default function Title (props) {
   margin =  margin + '%'
   return (
     <Heading
-      style={{marginTop: margin}}
+      style={{marginTop: margin, fontWeight: 'bold', fontSize: 25}}
     >
       {props.title}
     </Heading>  

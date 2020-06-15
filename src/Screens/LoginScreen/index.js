@@ -72,7 +72,14 @@ class LoginScreen extends Component{
             onPress={() => {
               this.onClickSignIn()
             }}>
-            <Text style={styles.buttonTitle}>Login</Text>
+            <Text style={styles.buttonTitle}>로그인</Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={styles.button}
+            onPress={() => {
+              this.props.navigation.navigate("Signup")
+            }}>
+            <Text style={styles.buttonTitle}>회원가입</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -112,6 +119,7 @@ const styles = StyleSheet.create({
     height: "100%",
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 10
   },
   buttonTitle: {
     color: 'white',

@@ -111,7 +111,7 @@ class HomeScreen extends Component {
         <NavigationBar
           styleName='inline clear'
           centerComponent={
-            <Title title={"Home"} topMargin={topMargin}/>
+            <Title title={"Search"} topMargin={topMargin}/>
           }
         />
         <View 

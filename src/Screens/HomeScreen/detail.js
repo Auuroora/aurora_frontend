@@ -147,7 +147,6 @@ class DetailScreen extends Component {
   }
 
   onClickCart = async() => {
-    alert(this.state.postData.post_info.id)
     const data = {
       line_filter: {
         filter_id : this.state.postData.filter_info.id,

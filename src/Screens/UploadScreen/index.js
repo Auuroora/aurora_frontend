@@ -136,7 +136,7 @@ class UploadScreen extends Component{
               </TouchableOpacity>
             }
             centerComponent={
-              <Title title={'Upload'} topMargin={50}/>
+              <Title title={'판매글 작성'} topMargin={50}/>
             }
             rightComponent={
               <TouchableOpacity

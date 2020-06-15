@@ -161,13 +161,14 @@ export default class NewFilterScreen extends React.Component {
 
   // User Event for image operation
   onChangeSliderValue = async (val) => {
-    await this.setState(prevState => ({
-      values: {
-        ...prevState.values,
-        [this.state.selectedValue]: val
-      }
-    }))
     try {
+      await this.setState(prevState => ({
+        values: {
+          ...prevState.values,
+          [this.state.selectedValue]: val,
+        }
+      }))
+
       const resultImg = await this.state.editFunction(val)
       this.setState({ 
         image: {
@@ -219,10 +220,12 @@ export default class NewFilterScreen extends React.Component {
     )
   }
   // For Rendering Lightness Tile
-  renderValueTile = (data) => {
+  renderValueTile = (data, sectionId, rowId) => {
+    console.log(data)
     return (
       <FilterTile
         onPressTile={this.onPressValueTile.bind(this)}
+        key={data}
         title={data}
         size={'small'}
         image={this.mapTileIcon(data)}
@@ -232,6 +235,7 @@ export default class NewFilterScreen extends React.Component {
   
   render () {
     let imageView = this.bindImageView()
+
     return (
       <Screen
         style={{
@@ -292,7 +296,7 @@ export default class NewFilterScreen extends React.Component {
               null
             )}
             <ListView
-              data={Object.keys(this.state.values)}
+              data={Object.keys(this.state.values).sort()}
               horizontal={true}
               renderRow={this.renderValueTile}
             />

@@ -23,8 +23,10 @@ class Purchase extends Component {
     super(props)
     this.renderRow = this.renderRow.bind(this)
     this.state = {
-      purchaseList: [
-      ],
+      // purchaseList: [
+      // ],
+       purchaseList: [{"comment_info": {"comments_count": 1}, "current_user_info": {"case": 800, "id": 2, "name": "김지환"}, "filter_info": {"filter_data_path": "1590407671236/68dee2b9-0cc8-2437-5e6b-501682523ca1.json", "filter_name": "1590407671236/68dee2b9-0cc8-2437-5e6b-501682523ca1.jpg", "id": 42}, "like_info": null, "post_info": {"created_at": "2020-05-25 12:09", "description": "New Filter asdfasdf", "id": 24, "price": 2000, "title": "my filter!"}, "tag_info": null, "user_info": {"created_at": "2020-04-30 11:38", "email": "asdf@asdf.com", "id": 2, "username": "김지환"}}],
+    
       userCash: null,
       checked:false,
     }

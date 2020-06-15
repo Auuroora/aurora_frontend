@@ -30,14 +30,16 @@ class HomeScreen extends Component {
       isLoading: true,
       pageNum: 1,
       groupedData: null,
-      selectedFilter: null,
       filters: [
         { name: "Title", value: "title_cont" },
         { name: "Tag", value: "tag_cont" },
         { name: "Description", value: "description_cont" },
       ],
+      selectedFilter: null,
       keyword: ''
     }
+
+    this.setState({selectedFilter: this.state.filters[0]})
   }
 
   onClickLike = async(postid) => {
@@ -65,8 +67,6 @@ class HomeScreen extends Component {
       postList: res.data.posts,
       isLoading: false
     })
-    
-    console.log(res.data)
 
     const groupedData = GridRow.groupByRows(this.state.postList, 2, () => {
       return 1
@@ -129,9 +129,7 @@ class HomeScreen extends Component {
                 : this.state.filters[0]
             }
             onOptionSelected={(filter) =>{
-              console.log(filter)
               this.setState({ selectedFilter: filter })
-              
             }}
             titleProperty="name"
             valueProperty="value"

@@ -69,6 +69,13 @@ export const requestSignup = (data) => {
   }
 }
 
+export const requestSignout = () => {
+  return (dispatch) => {
+    removeUserData('userToken')
+    dispatch(signout())
+  }
+}
+
 export const signout = () => {
   return {
     type: AUTH_SIGNOUT

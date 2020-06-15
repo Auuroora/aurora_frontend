@@ -13,11 +13,13 @@ RightButton.propTypes = {
   isUploading: PropTypes.bool
 }
 
+const BtnText = {fontSize: 18, color: '#0395FF', marginTop: 50, marginRight: 15}
+
 export default function RightButton (props) {
   if (props.isUploading) {
     return (
       <Spinner
-        style={{color: '#0395FF', marginTop: 40, marginRight: 15}}
+        style={BtnText}
       >
 
       </Spinner>
@@ -27,18 +29,18 @@ export default function RightButton (props) {
     (
       <Button onPress={props.onPressDone}>
         <Text
-          style={{color: '#0395FF', marginTop: 40, marginRight: 15}}
+          style={BtnText}
         >
-          Done
+          완료
         </Text>
       </Button>
     ) : 
     (
       <Button onPress={props.onPressNew}>
         <Text
-          style={{color: '#0395FF', marginTop: 40, marginRight: 15}}
+          style={BtnText}
         >
-          New
+          새로 만들기
         </Text>
       </Button>
     )

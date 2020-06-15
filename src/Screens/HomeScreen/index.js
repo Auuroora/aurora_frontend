@@ -222,6 +222,6 @@ const styles = StyleSheet.create({
   headerIcon: {
     margin: 0,
     color: '#FAFAFA',
-    fontSize: 30
+    fontSize: 25
   }
 })

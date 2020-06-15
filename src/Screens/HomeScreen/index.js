@@ -9,7 +9,6 @@ import {
   Button,
   Icon,
   GridRow,
-  DropDownMenu,
   View
 } from '@shoutem/ui'
 import CardItem from '../../Components/CardItem'
@@ -27,11 +26,6 @@ class HomeScreen extends Component {
     super(props)
     this.state = {
       postList: [],
-      filters: [
-        { name: "Title", value: "Title" },
-        { name: "Tag", value: "Tag" },
-        { name: "Price", value: "Price" },
-      ],
       isLoading: true,
       pageNum: 1,
       groupedData: null
@@ -140,34 +134,6 @@ class HomeScreen extends Component {
         >
           <NavigationBar
             styleName="clear"
-            leftComponent={
-              <View style={styles.headerContents}>
-                <DropDownMenu
-                  options={this.state.filters}
-                  style={{
-                    selectedOption: {
-                      "shoutem.ui.Text": {
-                        color: "#ffffff",
-                        borderColor: "#ffffff",
-                      },
-                      "shoutem.ui.Icon": {
-                        color: "#ffffff",
-                      },
-                    },
-                  }}
-                  selectedOption={
-                    this.state.selectedFilter
-                      ? this.state.selectedFilter
-                      : this.state.filters[0]
-                  }
-                  onOptionSelected={(filter) =>
-                    this.setState({ selectedFilter: filter })
-                  }
-                  titleProperty="name"
-                  valueProperty="value"
-                />
-              </View>
-            }
             centerComponent={
               <Title title={"Home"} topMargin={topMargin}/>
             }

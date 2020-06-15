@@ -29,11 +29,11 @@ import OrderScreen from "./OrderScreen"
 import PaymentScreen from "./PaymentScreen"
 import DetailScreen from "./HomeScreen/detail"
 import ModifyScreen from "./HomeScreen/modifyPost"
+import SearchScreen from './SearchScreen'
+
 // Import functions
 import {
   getUserData,
-  removeUserData,
-  setUserData,
   storeUserData,
 } from "../Store/actions/authAction"
 
@@ -47,7 +47,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   storeUserData: (data) => dispatch(storeUserData(data)),
-  signout: () => dispatch(signout())
 })
 
 function HomeStack() {
@@ -164,6 +163,8 @@ function TabStack() {
             icon = <Icon name="md-home" size={30} />
           } else if (route.name === 'Mypage') {
             icon = <Icon name="md-person" size={30} />
+          } else if (route.name === 'Search') {
+            icon = <Icon name="ios-search" size={30}/>
           } else if (route.name === 'Studio') {
             icon = <Icon name="ios-color-filter" size={30} />
           } else if (route.name === 'Upload') {
@@ -191,6 +192,11 @@ function TabStack() {
       />
       <Tab.Screen
         options={{ headerShown: false }}
+        name="Search"
+        component={SearchScreen}
+      />
+      <Tab.Screen
+        options={{ headerShown: false }}
         name="Studio"
         component={StudioScreen}
       />
@@ -211,9 +217,6 @@ function TabStack() {
 class RootNavigator extends React.Component {
   constructor(props) {
     super(props)
-    // Line for test token
-    // removeUserData("userToken")
-
     // Get token when app starts, if token not exists, go to login page
     getUserData("userToken")
       .then((data) => {

@@ -18,14 +18,9 @@ import Title from '../../Components/Title'
 import { AWS_S3_STORAGE_URL } from "react-native-dotenv"
 import axios from "../../axiosConfig"
 
-/* TODO
- * 1. Add SearchBar and icon to Navigation
- * 2. Add Sort and icon to Navigation
- */
 
 const { width, height } = Dimensions.get("window")
 const topMargin = Platform.OS === "android" ? 25 : 50
-
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -181,9 +176,6 @@ class HomeScreen extends Component {
                 styleName="horizontal space-between"
                 style={styles.headerContents}
               >
-                <Button styleName="clear" >
-                  <Icon name="search" style ={styles.headerIcon}/>
-                </Button>
                 <Button
                   styleName="clear"
                   onPress={this.onClickShopping}

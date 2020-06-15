@@ -13,7 +13,7 @@ RightButton.propTypes = {
   isUploading: PropTypes.bool
 }
 
-const BtnText = {fontSize: 18, color: '#0395FF', marginTop: 50, marginRight: 15}
+const BtnText = {fontSize: 15, color: '#0395FF', marginTop: 50, marginRight: 15}
 
 export default function RightButton (props) {
   if (props.isUploading) {

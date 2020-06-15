@@ -55,7 +55,7 @@ class HomeScreen extends Component {
         alert('error : ' + e)
       })
   }
-  
+
   getPostList = async (page) => {
     const params = {
       params: {
@@ -92,7 +92,7 @@ class HomeScreen extends Component {
     this.componentDidMount()
     // 로직 새로 구성할것
   }
-
+  
   renderRow = (rowData) => {  
     const cellViews = rowData.map((post, id) => {
       return (
@@ -100,8 +100,8 @@ class HomeScreen extends Component {
           navigation={this.props.navigation}
           key={id}
           postId={post.post_info.id}
-          image={AWS_S3_STORAGE_URL + post.filter_info.filter_name} 
-          title={post.post_info.title} 
+          image={AWS_S3_STORAGE_URL + post.filter_info.filter_name}
+          title={post.post_info.title}
           price={post.post_info.price}
           likedCount = {post.like_info.liked_count}
           commentCount = {post.comment_info.comments_count}

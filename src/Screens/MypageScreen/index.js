@@ -3,13 +3,11 @@ import React, {Component} from 'react'
 import {
   StyleSheet,
   TouchableOpacity,
-  Dimensions
 } from 'react-native'
 
 import Profile from './Profile'
 import { 
   ListView,
-  GridRow,
   Screen,
   NavigationBar,
   View,
@@ -21,6 +19,7 @@ import {
 } from '@shoutem/ui'
 import Title from '../../Components/Title'
 
+import {AWS_S3_STORAGE_URL} from 'react-native-dotenv'
 import axios from '../../axiosConfig'
 
 class MypageScreen extends Component{
@@ -84,7 +83,7 @@ class MypageScreen extends Component{
             style ={{ backgroundColor: '#1E1E1E'}}>
             <Image
               style={{ width: 20, height: 20, color :'white', marginRight :25 }}
-              source={setItem.img}
+              source={ setItem.img }
             />
             <View styleName="vertical stretch">
               <Subtitle styleName="md-gutter-right" style={{color: 'white', marginBottom: 10, fontSize: 17}}>{setItem.set}</Subtitle>
@@ -105,7 +104,7 @@ class MypageScreen extends Component{
   render(){
     return (
       <Screen styleName='fill-parent'
-        style={{backgroundColor: '#1E1E1E'}}
+        style={{ backgroundColor: '#1E1E1E' }}
       >
         <NavigationBar
           styleName='inline clear'
@@ -145,6 +144,7 @@ class MypageScreen extends Component{
               follower={this.state.user.followers_count}
               followee={this.state.user.followees_count}
               username={this.state.user.username}
+              profile={this.state.user.image ? { uri: AWS_S3_STORAGE_URL + this.state.user.image } : require('../../assets/image/user.png')}
             />
           </View>
         )}

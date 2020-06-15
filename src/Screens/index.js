@@ -23,7 +23,6 @@ import Sell from "./MypageScreen/Sell"
 import Like from "./MypageScreen/Like"
 import LoginScreen from "./LoginScreen"
 import Signup from "./LoginScreen/Signup"
-import TempSettingScreen from "./TempSettingScreen"
 import OrderScreen from "./OrderScreen"
 import PaymentScreen from "./PaymentScreen"
 import DetailScreen from "./HomeScreen/detail"
@@ -97,22 +96,6 @@ function SearchStack() {
   )
 }
 
-function Settingstack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        options={{ headerShown: false }}
-        name="SettingScreen"
-        component={SettingScreen}
-      />
-      <Stack.Screen
-        options={{ headerShown: false }}
-        name="TempSettingScreen"
-        component={TempSettingScreen}
-      />
-    </Stack.Navigator>
-  )
-}
 function MypageStack() {
   return (
     <Stack.Navigator initialRouteName="MyPage">
@@ -124,7 +107,7 @@ function MypageStack() {
       <Stack.Screen
         options={{ headerShown: false }}
         name="Settingstack"
-        component={Settingstack}
+        component={SettingScreen}
       />
       <Stack.Screen
         options={{ headerShown: false }}

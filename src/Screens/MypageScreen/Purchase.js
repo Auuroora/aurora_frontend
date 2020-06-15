@@ -11,7 +11,8 @@ import {
   Subtitle,
   Divider,
   TouchableOpacity,
-  ListView
+  ListView,
+  Icon
 } from '@shoutem/ui'
 import Title from '../../Components/Title'
 import { AWS_S3_STORAGE_URL } from "react-native-dotenv"
@@ -24,6 +25,8 @@ class Purchase extends Component {
     this.renderRow = this.renderRow.bind(this)
     this.state = {
       purchaseList: [
+      ],
+      filterList: [
       ],
       userCash: null,
       checked:false,
@@ -41,34 +44,34 @@ class Purchase extends Component {
       this.setState({
         purchaseList:res.data
       })
+      console.log(res.data.id)
     })
   }
-   renderRow = (purchase) =>{
-     return (
-       <View style={{ backgroundColor: 'gray'}}>
-         <Row
-           style ={{ backgroundColor: '#1E1E1E'}}>
-           <Image
-             style={{ height: height * 0.12, width: height * 0.12 }}
-             source={{uri:  AWS_S3_STORAGE_URL + purchase.filter_info.filter_name}}
-           />
-           <View styleName="vertical stretch">
-             <Subtitle style={{
-               color: 'white',
-               marginBottom: 0
-             }}>필터ID: {purchase.id}</Subtitle>
-             <Subtitle styleName="md-gutter-right" style={{color: 'white', marginBottom: 15, fontSize: 13}}>금액: {purchase.total} 원</Subtitle>
-             <Subtitle styleName="md-gutter-right" style={{color: 'white', marginBottom: 15, fontSize: 13}}>구매일: {purchase.purchased_at}</Subtitle>
-           </View>
-         </Row>
-         <Divider styleName="line" />
-       </View>
-     )
-   }
+
+  renderRow = (purchase) =>{
+   return (
+     <View style={{ backgroundColor: 'gray'}}>
+       <Divider styleName="line" />
+       <Row style ={{ backgroundColor: '#1E1E1E'}}>
+            <Image
+              source={ require('../../assets/image/money.png' )}
+              style={{ width: 18, height: 18, color :'white', marginRight : 20 }}
+            />
+            <View styleName="vertical">
+              <Subtitle style={{color: 'white'}}>주문번호: {purchase.id}</Subtitle>
+              <Text numberOfLines={1} style={{color: 'white'}}>결제금액: {purchase.total}</Text>
+              <Text numberOfLines={1} style={{color: 'white'}}>결제일자: {purchase.purchased_at}</Text>
+            </View>
+            <Icon styleName="disclosure" style={{color: 'white'}} name="right-arrow" />
+        </Row>
+       <Divider styleName="line" />
+     </View>
+   )
+  }
 
    render() {
      return (
-       <Screen 
+       <Screen
          style={{ backgroundColor: '#1E1E1E', flex:1}}>
          <ImageBackground
            source={require("../../assets/image/Header.jpg")}
@@ -80,7 +83,7 @@ class Purchase extends Component {
                <Title title={'Purchase List'} topMargin={50} />
              }
            />
-         </ImageBackground>   
+         </ImageBackground>
          <Divider styleName="line" />
          {(this.state.purchaseList&&this.state.purchaseList.length) ?
            (
@@ -89,14 +92,14 @@ class Purchase extends Component {
                renderRow={this.renderRow}
              />)
            :
-           (<View style ={{ 
+           (<View style ={{
              alignItems: "center",
              marginTop: 80}}>
              <Text style ={{color:'white'}}>구매내역이 없습니다.</Text>
            </View>
            )
          }
-         
+
        </Screen >
      )
    }

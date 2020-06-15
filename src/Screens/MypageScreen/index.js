@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 
 import Profile from './Profile'
-import { 
+import {
   ListView,
   GridRow,
   Screen,
@@ -33,6 +33,10 @@ class MypageScreen extends Component{
       userPostCount: null,
       userCash: null,
       setting: [
+        { img : require('../../assets/image/add-to-cart.png' ),
+          set : "장바구니",
+          navigateScreen: "Order"
+        },
         {
           img :  require('../../assets/image/sell.png' ),
           set : "구매 내역",
@@ -66,7 +70,7 @@ class MypageScreen extends Component{
     }
     const postData = await axios.get('/mypost', params)
     const userData = await axios.get('/user/my')
-    
+
     await this.setState({
       posts: postData.data,
       user: userData.data,
@@ -76,7 +80,7 @@ class MypageScreen extends Component{
     })
   }
 
-  renderRow(setItem) {  
+  renderRow(setItem) {
     return (
       <TouchableOpacity onPress={() => {this.props.navigation.navigate(setItem.navigateScreen)}}>
         <View style={{ backgroundColor: 'gray'}}>
@@ -110,36 +114,12 @@ class MypageScreen extends Component{
         <NavigationBar
           styleName='inline clear'
           centerComponent={<Title title={'MyPage'}/>}
-          rightComponent ={
-            <View 
-              styleName="horizontal space-between" 
-              style={{ marginTop : 25,backgroundColor: '#1E1E1E'}}
-            >
-              <TouchableOpacity onPress={() => {this.props.navigation.navigate("OrderHistory")}}>
-                <Subtitle 
-                  style={{
-                    fontSize: 14,
-                    color: '#FFFFFF',
-                    marginRight: 10,
-                    paddingTop: 10
-                  }}
-                >
-                  {'Cash: ' + this.state.userCash + ' 원'}
-                </Subtitle>
-              </TouchableOpacity>   
-              <TouchableOpacity onPress={() => {this.onRefresh()}}>
-                <Image
-                  source={ require('../../assets/image/refresh.png' )}
-                  style={{ width: 20, height: 20, color :'white', marginRight : 15 }}
-                />
-              </TouchableOpacity>
-            </View>}
         />
         {this.state.isLoading ? (
           <Spinner styleName='large'/>
         ) : (
           <View style={styles.profile_container}>
-            <Profile 
+            <Profile
               navigation={this.props.navigation}
               postCount={this.state.userPostCount}
               follower={this.state.user.followers_count}

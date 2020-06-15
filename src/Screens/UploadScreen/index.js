@@ -6,14 +6,17 @@ import {
   Screen,
   Icon,
   TouchableOpacity,
+  View,
+  TextInput
 } from '@shoutem/ui'
 
-import AsyncStorage from '@react-native-community/async-storage'
 import axios from '../../axiosConfig'
 
 import Title from '../../Components/Title'
 import SelectFilterScreen from './SelectFilterScreen'
-import WritePostScreen from './WritePostScreen'
+import LargeTile from '../../Components/LargeTile'
+
+import { AWS_S3_STORAGE_URL } from 'react-native-dotenv'
 /* TODO
  * 1. 자기 소유의 필터목록을 보여줌 -> 샘플데이터로
  * 2. 폼 작성 - title description user_id filter_id price tag_list
@@ -30,8 +33,9 @@ class UploadScreen extends Component{
       userId:-1,
       title: '',
       description: '',
-      tag:'',
-      price:'',
+      tag: '',
+      price: '',
+      isFilterSelected: false
     } 
     this.getUserFilterData()
   }
@@ -57,46 +61,59 @@ class UploadScreen extends Component{
     else if(text == 'price') this.setState({price:text_input})
   }
 
-  onPressDone = async(filter_id, filter_url, userId) => {
+  onPressDone = async (filter_id, filter_url, userId) => {
     this.setState({
+      isFilterSelected: true,
       isSelectFilter: false,
       filterId: filter_id,
       userId: userId,
       imageFile: filter_url,
     })
   }
+
   onClickUpload = () =>{
-    const data = {
-      post:{
-        title: this.state.title,
-        description: this.state.description,
-        filter_id: this.state.filterId,
-        tag_list: this.state.tag,
-        price: this.state.price,
-        user_id : this.state.userId
+    if (this.state.title && this.state.description  && this.state.filterId && this.state.price) {
+
+      const splitDesc = this.state.description.split(' ')
+      let taglist = []
+
+      for (let idx in splitDesc) {
+        if (splitDesc[idx].includes('#')) {
+          taglist.push(splitDesc[idx])
+        }
       }
-    }
-    console.log(data)
-    if (this.state.title && this.state.tag && this.state.description  && this.state.filterId && this.state.price) {
+      
+      taglist = taglist.join(', ')
+
+      console.log(taglist)
+
       const data = {
         post:{
           title: this.state.title,
           description: this.state.description,
           filter_id: this.state.filterId,
-          tag_list: this.state.tag,
+          tag_list: taglist,
           price: this.state.price,
           user_id : this.state.userId
         }
       }
-      console.log(data)
-      return axios.post('/posts', data)
+      
+      axios.post('/posts', data)
         .then(() => {
           alert('게시글 작성이 완료되었습니다.')
-
         }).catch((err) => {
-          console.log(err)
           alert('게시글 작성이 실패하였습니다.')
         })
+
+      this.setState({
+        filter_id: '',
+        userId: -1,
+        title: '',
+        description: '',
+        price: '',
+        isFilterSelected: false,
+        imageFile: ''
+      })
     }
     else{
       alert('모든 부분을 작성하여 주세요.')
@@ -114,13 +131,35 @@ class UploadScreen extends Component{
           state={this.state}/>)
     }
     return (
-      <WritePostScreen 
-        onPressNew={this.onChooseFilter}
-        filterId={this.state.filterId} 
-        imageFile={this.state.imageFile}
-        onEndWriting ={this.onEndWriting}
-        onChangeTextHandler={(text) => this.setState({title: text})}
-      />)
+      <View>
+        <LargeTile
+          image={this.state.isFilterSelected ? { uri: this.state.imageFile } : null}
+          onClickTile={this.onChooseFilter}
+          noImageComment={'탭하여 업로드할 필터를 선택하세요'}
+        />
+        <TextInput 
+          placeholder={"제목"}
+          value={this.state.title}
+          style={{backgroundColor: '#0A0A0A', color: '#FAFAFA'}}
+          onChangeText={(text) => this.setState({title: text})}
+        />
+        <TextInput 
+          placeholder={"가격"}
+          value={this.state.price}
+          keyboardType={'number-pad'}
+          style={{backgroundColor: '#0A0A0A', color: '#FAFAFA'}}
+          onChangeText={(text) => this.setState({price: text})}
+        />
+        <TextInput 
+          placeholder={"글 설명, #로 태그"}
+          value={this.state.description}
+          multiline={true}
+          numberOfLines={4}
+          style={{height: 500, backgroundColor: '#0A0A0A', color: '#FAFAFA'}}
+          onChangeText={(text) => this.setState({description: text})}
+        /> 
+      </View>
+    )
   }
   render(){
     let currentView = this.bindScreen()
@@ -138,12 +177,12 @@ class UploadScreen extends Component{
               </TouchableOpacity>
             }
             centerComponent={
-              <Title title={'Upload'} topMargin={50}/>
+              <Title title={'판매글 작성'} topMargin={50}/>
             }
             rightComponent={
               <TouchableOpacity
                 onPress={() => {this.onClickUpload()}}>
-                <Icon name="share" style ={{color  :"white", marginRight:15}} />
+                <Icon name="share" style ={{color  :"white", marginRight:15, marginTop: 50, fontSize: 30}} />
               </TouchableOpacity>
             }
           />

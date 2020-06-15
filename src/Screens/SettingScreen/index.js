@@ -1,71 +1,71 @@
 /* eslint-disable react/prop-types */
 import React, {Component} from 'react'
 import {
-  View,
   Text,
   TouchableOpacity,
   Alert,
   StyleSheet
 } from 'react-native'
+
 import { 
   StackActions
 } from '@react-navigation/native'
+
+import {
+  View,
+  Screen,
+  NavigationBar
+} from '@shoutem/ui'
+
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen'
 
+import { connect } from 'react-redux'
+
+import Title from '../../Components/Title'
+import { requestSignout } from '../../Store/actions/authAction'
+
+const mapStateToProps = (state) => ({
+  token: state
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  requestSignout: () => dispatch(requestSignout())
+})
 
 class SettingScreen extends Component{
-  _navigate(){
-    this.props.navigation.navigate('TempSettingScreen')
-  }
-
-  _checkLogout(){
-    Alert.alert(
-      "Alert",
-      "Are you sure?",
-      [
-        {text: 'ok', onPress: this._logout.bind(this)},
-        {text: 'cancel', onPress: () => null},
-      ],
-      { cancelable: true }
-    )
-  }
-
-  _logout(){
-    const resetAction = StackActions.reset({
-      index: 0,
-      key: null,
-      actions: [this.props.navigation.navigate({ routeName: 'LoginScreen' })],
-    })
-    this.props.navigation.dispatch(resetAction)
+  _checkLogout = async () => {
+    this.props.requestSignout()
+    alert('로그아웃 되었습니다.')
   }
 
   render(){
     return (
-      <View style={styles.container}>
-        <TouchableOpacity 
-          style={styles.wrapButton}
-          onPress={this._navigate.bind(this)}>
-          <Text>🏅 Something</Text>
-        </TouchableOpacity>
+      <Screen 
+        style={styles.container}
+      >
+        <NavigationBar
+          styleName='inline clear'
+          centerComponent={<Title title={'Studio'}/>}
+        />
         <TouchableOpacity 
           style={styles.wrapButton}
           onPress={this._checkLogout.bind(this)}>
-          <Text>🔓 Logout</Text>
+          <Text style={styles.menuText}>🔓 Logout</Text>
         </TouchableOpacity>
-      </View>
+      </Screen>
     )
   }
 }
 
-export default SettingScreen
+export default connect(mapStateToProps, mapDispatchToProps)(SettingScreen)
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#1E1E1E'
   },
   wrapButton: {
     width: wp('100%'),
@@ -74,5 +74,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderBottomWidth: 0.5,
     borderColor: '#ccc',
+  },
+  menuText: {
+    color: '#FAFAFA',
+    fontSize: 20
   }
 })

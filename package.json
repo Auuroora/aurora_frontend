@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.9.0",
+    "@react-native-community/cameraroll": "^1.7.2",
     "@react-native-community/checkbox": "^0.4.1",
     "@react-native-community/masked-view": "^0.1.7",
     "@react-native-community/slider": "^2.0.9",
@@ -41,7 +42,7 @@
     "react-native-ionicons": "5.0.0-rc",
     "react-native-linear-gradient": "~2.5.6",
     "react-native-modal": "^11.5.6",
-    "react-native-photo-view": "shoutem/react-native-photo-view#0ffa1481f6b6cb8663cb291b7db1d6644440584d",
+    "react-native-photo-view": "github:shoutem/react-native-photo-view#0ffa1481f6b6cb8663cb291b7db1d6644440584d",
     "react-native-reanimated": "^1.9.0",
     "react-native-responsive-screen": "^1.4.1",
     "react-native-safe-area-context": "^0.7.3",
@@ -54,7 +55,8 @@
     "react-native-webview": "^7.5.0",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "rn-fetch-blob": "^0.12.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

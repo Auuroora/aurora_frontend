@@ -8,7 +8,7 @@ import {
 
 import Tile from '../../Components/Tile'
 import PropTypes from 'prop-types'
-import axios from '../../axiosConfig'
+
 import { AWS_S3_STORAGE_URL } from 'react-native-dotenv'
 
 class SelectFilterScreen extends Component{

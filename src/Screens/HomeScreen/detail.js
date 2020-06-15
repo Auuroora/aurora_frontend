@@ -35,13 +35,9 @@ import Comment from './commentList'
 import ImgToBase64 from 'react-native-image-base64'
 import { loadImg, getWatermarkedImg } from '../../OpencvJs'
 import { mapCvFunction } from '../../utils'
-// import Modal from "react-native-modal"
 import DropDownPicker from 'react-native-dropdown-picker'
 
-/*
-Todo
-1.Component화
- */
+
 const ImagePickerOptions = {
   title: 'Select Image',
   storageOptions: {
@@ -50,7 +46,6 @@ const ImagePickerOptions = {
   },
 }
 const { width } = Dimensions.get('window')
-
 
 class DetailScreen extends Component {
   constructor (props) {
@@ -83,12 +78,14 @@ class DetailScreen extends Component {
       }
     }
     const res = await axios.get('/posts/' + postId, params)
+    
     await this.setState({postData : res.data})
     await this.setState({userData : res.data.user_info})
+    
     if(res.data.user_info.id === res.data.current_user_info.id){
       await this.setState({isMyPost :true})
-      console.log(this.state.isMyPost)
     }
+
     this.setState({isLoading: false})
   }
 
@@ -145,7 +142,6 @@ class DetailScreen extends Component {
   }
 
   onClickCart = async() => {
-    alert(this.state.postData.post_info.id)
     const data = {
       line_filter: {
         filter_id : this.state.postData.filter_info.id,
@@ -234,7 +230,7 @@ class DetailScreen extends Component {
       axios.delete('/posts/' + this.state.postId, params)
         .then(() => {
           alert('게시글 삭제가 완료되었습니다.')
-          // this.props.navigation.goBack(null)
+          this.props.navigation.goBack(null)
         }).catch((err) => {
           console.log(err)
           alert('게시글 삭제가 실패하였습니다.')
@@ -242,10 +238,6 @@ class DetailScreen extends Component {
     }
   }
   modifyPost = async() =>{
-    /*
-      Todo
-      1.props로 기존 post data 넘겨주기
- */
     await this.setState({modalVisible: 0})
     this.props.navigation.navigate("ModifyPost", {postData:this.state.postData})
   }
@@ -317,140 +309,53 @@ class DetailScreen extends Component {
             </View>
           }
         />
-        <ScrollView styleName = "fill-parent">
-          <View
-            style={{
-              flexDirection:'row',
-              paddingTop:10,
-              marginTop:10,
-              marginBottom:20
-            }}
-          >
-            <Image
-              source={{
-                uri:  "http://dmshopkorea.com/data/bbs/design/201304/3064753709_9d951bfb_0x1800.jpg"
-              }}
+        {this.state.isLoading ? (
+          <Spinner styleName='large'/>
+        ) : (
+          <ScrollView styleName = "fill-parent">
+            <View
               style={{
-                width: 40,
-                height: 40,
-                borderRadius: 37.5
-              }}/>
-
-            <View>
-              <Subtitle
-                style={{
-                  fontWeight: 'bold',
-                  color: '#FFFFFF',
-                  marginTop: 5,
-                  marginLeft: 15
-                }}
-              >
-                {this.state.userData.username}
-              </Subtitle>
-              <Text>
-                {this.state.userData.created_at}
-              </Text>
-            </View>
-          </View>
-          <View style={{alignItems: 'flex-end'}}>
-            <Modal
-              animationType="slide"
-              transparent={true}
-              visible={this.state.modalVisible ===1}
-              onRequestClose={() => {
-                this.setState({modalVisible: 0})
+                flexDirection:'row',
+                paddingTop:10,
+                marginTop:10,
+                marginBottom:20,
+                alignItems: 'stretch',
+                width: width
               }}
             >
-              <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                  <TouchableOpacity
-                    style={{ ...styles.openButton, backgroundColor: "#1E1E1E"}}
-                    onPress={() => this.setState({modalVisible: 2})}>
-                    <Text style={styles.textStyle}>신고</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={{ ...styles.openButton, backgroundColor: "#1E1E1E"}}
-                    onPress={this.removePost}>
-                    <Text style={styles.textStyle}>삭제</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={{ ...styles.openButton, backgroundColor: "#1E1E1E" }}
-                    onPress={this.modifyPost}
-                  >
-                    <Text style={styles.textStyle}>수정</Text>
-                  </TouchableOpacity>
-                    
-                  <TouchableOpacity
-                    style={{ ...styles.openButton, backgroundColor: "#1E1E1E" }}
-                    onPress={() => {
-                      this.setState({modalVisible:false})
-                    }}
-                  >
-                    <Text style={styles.textStyle}>취소</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </Modal>
-            <TouchableOpacity 
-              style ={{backgroundColor: '#1E1E1E', height: 25,}}
-              onPress={() => this.setState({modalVisible: 1})}>
               <Image
-                source={ require('../../assets/image/more.png' )}
-                style={{ width: 25, height: 25, color :'white', marginBottom :15, marginRight :15}}
-              />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.centeredView}>
-            <Modal
-              animationType="slide"
-              transparent={true}
-              visible={this.state.modalVisible === 2}
-              onRequestClose={() => {
-                this.setState({modalVisible: 0})
-              }}
-            >
-              <View style={{...styles.modalView}}>
-                <DropDownPicker
-                  items={[
-                    {label: 'insult', value: 'insult'},
-                    {label: 'copyright', value: 'copyright'},
-                  ]}
-                  defaultValue={this.state.country}
-                  placeholder="신고 유형 선택"
-                  containerStyle={{height: 45}}
-                  style={{backgroundColor: '#fafafa'}}
-                  dropDownStyle={{backgroundColor: '#fafafa'}}
-                  onChangeItem={item => this.setState({
-                    reportKind: item.value
-                  })}/>
-                <TextInput
-                  style={styles.input}
-                  multiline={true}
-                  maxLength={500}
-                  textAlignVertical={'top'}
-                  underlineColorAndroid="transparent"
-                  onChangeText={(text) => this.setState({reportData: text})}/>
-                <View style ={{
-                  flexDirection: 'row',}}>
-                  <TouchableOpacity
-                    style={styles.closeButton}
-                    onPress={() => {
-                      this.setState({modalVisible: 0})
-                    }}>
-                    <Text style={styles.buttonText}>Close</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.submitbutton}
-                    onPress={()=>{this.postDeclare()}}>
-                    <Text style={styles.buttonText}>Submit</Text>
-                  </TouchableOpacity>
-                </View>
+                source={{
+                  uri:  "http://dmshopkorea.com/data/bbs/design/201304/3064753709_9d951bfb_0x1800.jpg"
+                }}
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: 37.5
+                }}/>
+              <View>
+                <Subtitle
+                  style={{
+                    fontWeight: 'bold',
+                    color: '#FFFFFF',
+                    marginTop: 5,
+                    marginLeft: 15
+                  }}
+                >
+                  {this.state.userData.username}
+                </Subtitle>
+                <Text style={{marginLeft: 15}}>
+                  {this.state.postData.post_info.created_at}
+                </Text>
               </View>
-            </Modal>
-          </View>
-          {this.state.isLoading ? (
-            <Spinner styleName='large'/>
-          ) : (
+              <TouchableOpacity 
+                style ={{backgroundColor: '#1E1E1E', marginLeft: 190}}
+                onPress={() => this.setState({modalVisible: 1})}>
+                <Image
+                  source={ require('../../assets/image/more.png' )}
+                  style={{ width: 25, height: 25, color :'white', marginBottom :15, marginRight :15}}
+                />
+              </TouchableOpacity>
+            </View>
             <Card
               style={{width: width}}
               styleName="flexible"
@@ -515,7 +420,7 @@ class DetailScreen extends Component {
                     width: '50%',
                     listContent: {
                       backgroundColor: '#1E1E1E',
-                    }
+                    },
                   }}
                   data={this.state.postData.tag_info.tag_list}
                   horizontal={true}
@@ -534,42 +439,126 @@ class DetailScreen extends Component {
                 </View>
               </View>
             </Card>
-          )}
-          <View
-            styleName="horizontal space-between"
-            style ={{
-              justifyContent: 'center',
-              width: width,
-              height: '4%',
-              backgroundColor: '#1E1E1E',
-            }}>
-            <TextInput
-              placeholder={'Write Comment'}
+            <View
+              styleName="horizontal space-between"
               style ={{
-                placeholderTextColor: 'white',
-                width: '90%',
+                justifyContent: 'center',
+                width: width,
+                height: '4%',
                 backgroundColor: '#1E1E1E',
-              }}
-              value={this.state.myComment}
-              onChangeText={(text) => this.setState({myComment: text})}/>
-            <TouchableOpacity onPress={() => this.postCommentInfo()}>
-              <Image
-                source={ require('../../assets/image/blogging.png' )}
-                style={{ width: 25, height: 25, color :'white', marginBottom :15, marginRight :15}}
-              />
-            </TouchableOpacity>
+              }}>
+              <TextInput
+                placeholder={'Write Comment'}
+                style ={{
+                  placeholderTextColor: 'white',
+                  width: '90%',
+                  backgroundColor: '#1E1E1E',
+                }}
+                value={this.state.myComment}
+                onChangeText={(text) => this.setState({myComment: text})}/>
+              <TouchableOpacity onPress={() => this.postCommentInfo()}>
+                <Image
+                  source={ require('../../assets/image/blogging.png' )}
+                  style={{ width: 25, height: 25, color :'white', marginBottom :15, marginRight :15}}
+                />
+              </TouchableOpacity>
+            </View>
+
+            {this.state.commentData.map((comment, id) => {
+              return (
+                <Comment
+                  key ={id}
+                  id={comment.comment_info.id}
+                  comment = {comment.comment_info.body}
+                  name = {comment.user_info.author_name}
+                />
+              )
+            })}
+            
+          </ScrollView>
+        )}
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.modalVisible === 2}
+          onRequestClose={() => {
+            this.setState({modalVisible: 0})
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <DropDownPicker
+                items={[
+                  {label: 'insult', value: 'insult'},
+                  {label: 'copyright', value: 'copyright'},
+                ]}
+                defaultValue={this.state.country}
+                placeholder="신고 유형 선택"
+                containerStyle={{height: 45, width: 200}}
+                style={{backgroundColor: '#fafafa'}}
+                dropDownStyle={{backgroundColor: '#fafafa'}}
+                onChangeItem={item => this.setState({reportKind: item.value})}/>
+              <TextInput
+                style={styles.input}
+                multiline={true}
+                maxLength={500}
+                textAlignVertical={'top'}
+                underlineColorAndroid="transparent"
+                onChangeText={(text) => this.setState({reportData: text})}/>
+              <View style ={{flexDirection: 'row'}}>
+                <TouchableOpacity
+                  style={styles.closeButton}
+                  onPress={() => { this.setState({modalVisible: 0}) }}>
+                  <Text style={styles.buttonText}>Close</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.submitbutton}
+                  onPress={()=>{this.postDeclare()}}>
+                  <Text style={styles.buttonText}>Submit</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
           </View>
-          {this.state.commentData.map((comment, id) => {
-            return (
-              <Comment
-                key ={id}
-                id={comment.comment_info.id}
-                comment = {comment.comment_info.body}
-                name = {comment.user_info.author_name}
-              />
-            )
-          })}
-        </ScrollView>
+        </Modal>
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.modalVisible ===1}
+          onRequestClose={() => {
+            this.setState({modalVisible: 0})
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <TouchableOpacity
+                style={{ ...styles.openButton, backgroundColor: "#1E1E1E"}}
+                onPress={() => this.setState({modalVisible: 2})}>
+                <Text style={styles.textStyle}>신고</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{ ...styles.openButton, backgroundColor: "#1E1E1E"}}
+                onPress={this.removePost}>
+                <Text style={styles.textStyle}>삭제</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{ ...styles.openButton, backgroundColor: "#1E1E1E" }}
+                onPress={this.modifyPost}
+              >
+                <Text style={styles.textStyle}>수정</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{ ...styles.openButton, backgroundColor: "#1E1E1E" }}
+                onPress={() => {
+                  this.setState({modalVisible:false})
+                }}
+              >
+                <Text style={styles.textStyle}>취소</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
       </Screen>
     )
   }
@@ -595,13 +584,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 35,
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
     elevation: 5
   },
   openButton: {
@@ -626,13 +608,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '45%',
     backgroundColor: '#2AC062',
-    shadowColor: '#2AC062',
-    shadowOpacity: 0.5,
-    shadowOffset: {
-      height: 10,
-      width: 0
-    },
-    shadowRadius: 25,
   },
   closeButton: {
     height: 50,
@@ -641,13 +616,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FF3974',
-    shadowColor: '#2AC062',
-    shadowOpacity: 0.5,
-    shadowOffset: {
-      height: 10,
-      width: 0
-    },
-    shadowRadius: 25,
   },
   buttonText: {
     color: '#FFFFFF',
@@ -656,7 +624,7 @@ const styles = StyleSheet.create({
   input: {
     margin: 15,
     height: 200,
-    width: '90%',
+    width: 250,
     backgroundColor: '#fafafa',
     borderWidth: 1
   },

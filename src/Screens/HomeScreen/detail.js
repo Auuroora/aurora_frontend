@@ -425,7 +425,7 @@ class DetailScreen extends Component {
                     width: '50%',
                     listContent: {
                       backgroundColor: '#1E1E1E',
-                    }
+                    },
                   }}
                   data={this.state.postData.tag_info.tag_list}
                   horizontal={true}

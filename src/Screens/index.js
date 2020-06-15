@@ -81,6 +81,23 @@ function HomeStack() {
   )
 }
 
+function SearchStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Search"
+        component={SearchScreen}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Detail"
+        component={DetailScreen}
+      />
+    </Stack.Navigator>
+  )
+}
+
 function Settingstack() {
   return (
     <Stack.Navigator>
@@ -129,6 +146,11 @@ function MypageStack() {
         options={{ headerShown: false }}
         name="Like"
         component={Like}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Detail"
+        component={DetailScreen}
       />
     </Stack.Navigator>
   )
@@ -193,7 +215,7 @@ function TabStack() {
       <Tab.Screen
         options={{ headerShown: false }}
         name="Search"
-        component={SearchScreen}
+        component={SearchStack}
       />
       <Tab.Screen
         options={{ headerShown: false }}

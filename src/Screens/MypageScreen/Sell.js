@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Dimensions,
-         StyleSheet,
-         Modal,
-         TouchableHighlight
+  StyleSheet,
+  Modal,
+  TouchableHighlight
 } from 'react-native'
 import {
   NavigationBar,
@@ -37,7 +37,7 @@ class Sell extends Component {
     this.onGetSellList()
   }
   setModalVisible(visible) {
-    this.setState({modalVisible: visible});
+    this.setState({modalVisible: visible})
   }
   onGetSellList(){
     axios.get('/histories').then((res)=>{
@@ -74,7 +74,7 @@ class Sell extends Component {
           </Text>
         </Button>
       </View>
-    );
+    )
   }
 
   renderExchanged = (state) => {
@@ -84,7 +84,7 @@ class Sell extends Component {
         <Text style={{ color: 'gray', marginTop: 10, marginBottom:10, arginRight: 15 }}> {state=="cashed" ? "캐쉬로 수령" : "환급 요청됨"}
         </Text>
       </Button>
-    );
+    )
   };
 
    renderRow = (sell) =>{
@@ -130,26 +130,26 @@ class Sell extends Component {
              centerComponent={
                <Title title={'Sell List'} topMargin={50} />
              }
-            />
+           />
          </ImageBackground>
          <View style={{height:150}}>
            <Row styleName="small" style={styles.noticeRow}>
-            <View styleName="vertical stretch" style={{alignItems:'center'}}>
-              <Text style={styles.noticeTextTitle}>보유 캐쉬</Text>
-              <Divider styleName="line" style={styles.noticeDivider} />
-              <View styleName="horizontal">
-                <Image source={ require('../../assets/image/money.png' )} style={styles.noticeImage} />
-                <Text style={styles.noticeTextContent}>{ this.state.userCash }</Text>
-              </View>
-            </View>
-            <View styleName="vertical stretch" style={{alignItems:'center'}}>
-              <Text style={styles.noticeTextTitle}>판매한 상품 수</Text>
-              <Divider styleName="line" style={styles.noticeDivider}/>
-              <View styleName="horizontal">
-                <Image source={ require('../../assets/image/sell.png' )} style={styles.noticeImage} />
-                <Text style={styles.noticeTextContent}>{ this.state.userSalesCount }</Text>
-              </View>
-            </View>
+             <View styleName="vertical stretch" style={{alignItems:'center'}}>
+               <Text style={styles.noticeTextTitle}>보유 캐쉬</Text>
+               <Divider styleName="line" style={styles.noticeDivider} />
+               <View styleName="horizontal">
+                 <Image source={ require('../../assets/image/money.png' )} style={styles.noticeImage} />
+                 <Text style={styles.noticeTextContent}>{ this.state.userCash }</Text>
+               </View>
+             </View>
+             <View styleName="vertical stretch" style={{alignItems:'center'}}>
+               <Text style={styles.noticeTextTitle}>판매한 상품 수</Text>
+               <Divider styleName="line" style={styles.noticeDivider}/>
+               <View styleName="horizontal">
+                 <Image source={ require('../../assets/image/sell.png' )} style={styles.noticeImage} />
+                 <Text style={styles.noticeTextContent}>{ this.state.userSalesCount }</Text>
+               </View>
+             </View>
            </Row>
          </View>
          {(this.state.sellList&&this.state.sellList.length) ?

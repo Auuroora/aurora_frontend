@@ -320,7 +320,6 @@ class DetailScreen extends Component {
                 marginTop:10,
                 marginBottom:20,
                 alignItems: 'stretch',
-                width: width
               }}
             >
               <Image
@@ -332,29 +331,34 @@ class DetailScreen extends Component {
                   height: 40,
                   borderRadius: 37.5
                 }}/>
-              <View>
-                <Subtitle
-                  style={{
-                    fontWeight: 'bold',
-                    color: '#FFFFFF',
-                    marginTop: 5,
-                    marginLeft: 15
-                  }}
-                >
-                  {this.state.userData.username}
-                </Subtitle>
-                <Text style={{marginLeft: 15}}>
-                  {this.state.postData.post_info.created_at}
-                </Text>
+              <View style ={{
+                flexDirection: 'row',
+                width: '90%',
+                justifyContent: 'space-between'}}>
+                <View>
+                  <Subtitle
+                    style={{
+                      fontWeight: 'bold',
+                      color: '#FFFFFF',
+                      marginTop: 5,
+                      marginLeft: 15
+                    }}
+                  >
+                    {this.state.userData.username}
+                  </Subtitle>
+                  <Text style={{marginLeft: 15}}>
+                    {this.state.postData.post_info.created_at}
+                  </Text>
+                </View>
+                <TouchableOpacity 
+                  style ={{backgroundColor: '#1E1E1E'}}
+                  onPress={() => this.setState({modalVisible: 1})}>
+                  <Image
+                    source={ require('../../assets/image/more.png' )}
+                    style={{ width: 25, height: 25, color :'white', marginBottom :15, marginRight :15}}
+                  />
+                </TouchableOpacity>
               </View>
-              <TouchableOpacity 
-                style ={{backgroundColor: '#1E1E1E', marginLeft: 190}}
-                onPress={() => this.setState({modalVisible: 1})}>
-                <Image
-                  source={ require('../../assets/image/more.png' )}
-                  style={{ width: 25, height: 25, color :'white', marginBottom :15, marginRight :15}}
-                />
-              </TouchableOpacity>
             </View>
             <Card
               style={{width: width}}

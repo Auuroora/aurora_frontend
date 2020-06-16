@@ -541,17 +541,21 @@ class DetailScreen extends Component {
                 onPress={() => this.setState({modalVisible: 2})}>
                 <Text style={styles.textStyle}>신고</Text>
               </TouchableOpacity>
+              {this.state.isMyPost&&
               <TouchableOpacity
                 style={{ ...styles.openButton, backgroundColor: "#1E1E1E"}}
                 onPress={this.removePost}>
                 <Text style={styles.textStyle}>삭제</Text>
               </TouchableOpacity>
+              }
+              {this.state.isMyPost&&
               <TouchableOpacity
                 style={{ ...styles.openButton, backgroundColor: "#1E1E1E" }}
                 onPress={this.modifyPost}
               >
                 <Text style={styles.textStyle}>수정</Text>
               </TouchableOpacity>
+              }
               <TouchableOpacity
                 style={{ ...styles.openButton, backgroundColor: "#1E1E1E" }}
                 onPress={() => {

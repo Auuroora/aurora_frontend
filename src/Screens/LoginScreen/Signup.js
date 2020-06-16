@@ -79,9 +79,7 @@ class Signup extends Component{
               <Image
                 styleName="medium-avatar"
                 style={styles.avatar}
-                source={{ 
-                  uri: this.state.image ? this.state.image : 'https://shoutem.github.io/img/ui-toolkit/examples/image-3.png'
-                }}
+                source={ this.state.image ? { uri: this.state.image } : require('../../assets/image/Header.jpg')}
               />
             </TouchableOpacity>
             <Text style={styles.avatarLabel}>

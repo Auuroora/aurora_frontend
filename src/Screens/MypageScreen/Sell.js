@@ -128,7 +128,7 @@ class Sell extends Component {
            <NavigationBar
              styleName="clear"
              centerComponent={
-               <Title title={'Sell List'} topMargin={50} />
+               <Title title={'판매 내역'} topMargin={50} />
              }
            />
          </ImageBackground>

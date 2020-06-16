@@ -19,6 +19,7 @@ import Title from '../../Components/Title'
 import { AWS_S3_STORAGE_URL } from "react-native-dotenv"
 import axios from "../../axiosConfig"
 
+
 const { width, height } = Dimensions.get("window")
 const topMargin = Platform.OS === "android" ? 10 : 25
 
@@ -153,7 +154,6 @@ class HomeScreen extends Component {
             }
           }}
           data={this.state.groupedData}
-          onRefresh={() => this.onRefresh()}
           renderRow={this.renderRow}
         />
       </Screen>

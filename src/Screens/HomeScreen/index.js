@@ -11,6 +11,7 @@ import {
   GridRow,
   View
 } from '@shoutem/ui'
+
 import CardItem from '../../Components/CardItem'
 import Title from '../../Components/Title'
 

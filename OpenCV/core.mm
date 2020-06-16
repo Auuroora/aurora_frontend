@@ -544,14 +544,14 @@ void WorkingImgInfo::update_gamma(int pos)
 {
 	imginfo.filter.diff = imginfo.filter.gamma_mask.clone();
 
-	cv::pow(imginfo.filter.diff, -imginfo.trackbar.gamma / 100.0, imginfo.filter.diff);
+	cv::pow(imginfo.filter.diff, -imginfo.trackbar.gamma / 1000.0, imginfo.filter.diff);
 	cv::multiply(255, imginfo.filter.diff, imginfo.filter.diff);
 	imginfo.filter.diff.convertTo(imginfo.filter.diff, CV_16S);
 	cv::subtract(imginfo.filter.hls_filters[HLSINDEX::L], imginfo.filter.diff, imginfo.filter.hls_filters[HLSINDEX::L]);
 
 	imginfo.filter.diff = imginfo.filter.gamma_mask.clone();
 
-	cv::pow(imginfo.filter.diff, -pos / 100.0, imginfo.filter.diff);
+	cv::pow(imginfo.filter.diff, -pos / 1000.0, imginfo.filter.diff);
 	cv::multiply(255, imginfo.filter.diff, imginfo.filter.diff);
 	imginfo.filter.diff.convertTo(imginfo.filter.diff, CV_16S);
 	cv::add(imginfo.filter.hls_filters[HLSINDEX::L], imginfo.filter.diff, imginfo.filter.hls_filters[HLSINDEX::L]);

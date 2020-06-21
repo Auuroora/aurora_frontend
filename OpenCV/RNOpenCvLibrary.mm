@@ -192,6 +192,7 @@ RCT_EXPORT_METHOD(onChangeContrast: (NSInteger)value callback:(RCTResponseSender
 
 RCT_EXPORT_METHOD(onChangeExposure: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
   NSLog(@"%d", (int)value);
+
   Mat res_img = on_change_exposure((int)value);
   
   UIImage* result = MatToUIImage(res_img);

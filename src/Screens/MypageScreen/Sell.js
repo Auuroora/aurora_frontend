@@ -100,7 +100,7 @@ class Sell extends Component {
              <Subtitle style={{
                color: 'white',
                marginBottom: 0
-             }}>구매자: {sell.user_info.username} ({sell.user_info.email})</Subtitle>
+             }}>구매자: {sell.user_info.email} </Subtitle>
              <Subtitle styleName="md-gutter-right" style={{color: 'white', marginTop: 5, fontSize: 13}}>판매 금액: {sell.history_info.amount}</Subtitle>
              <Subtitle styleName="md-gutter-right" style={{color: 'white', marginBottom: 8, fontSize: 13}}>판매일자: {sell.history_info.created_at}</Subtitle>
              <View styleName="horizontal stretch">

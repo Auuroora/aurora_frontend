@@ -52,6 +52,7 @@ export const requestSignin = (data) => {
         dispatch(signinSuccess())
         dispatch(storeUserData(response.data))
       }).catch((error) => {
+        alert('Login Failed : ' + error)
         dispatch(signinFailure(error))
       })
   }

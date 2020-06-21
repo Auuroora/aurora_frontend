@@ -168,8 +168,10 @@ export default class NewFilterScreen extends React.Component {
           [this.state.selectedValue]: val,
         }
       }))
+      let start = new Date().getTime()
 
       const resultImg = await this.state.editFunction(val)
+      console.log("소요된 시간: " + (new Date().getTime() - start))
       this.setState({ 
         image: {
           data: resultImg
@@ -182,7 +184,6 @@ export default class NewFilterScreen extends React.Component {
 
   onPressValueTile = async (val) => {
     const selectedValueTile = this.state.values[val]
-    console.log(val + selectedValueTile)
     await this.setState({
       sliderValue: selectedValueTile
     })
@@ -221,7 +222,6 @@ export default class NewFilterScreen extends React.Component {
   }
   // For Rendering Lightness Tile
   renderValueTile = (data, sectionId, rowId) => {
-    console.log(data)
     return (
       <FilterTile
         onPressTile={this.onPressValueTile.bind(this)}
@@ -271,7 +271,7 @@ export default class NewFilterScreen extends React.Component {
                   style={{width: width * 0.9, height: 40, marginLeft: width * 0.05, marginRight: width * 0.05}}
                   minimumValue={this.state.selectedValueRange.min}
                   maximumValue={this.state.selectedValueRange.max}
-                  step={3}
+                  step={2}
                   value={this.state.sliderValue}
                   onValueChange={(val) => this.onChangeSliderValue(val)}
                   minimumTrackTintColor="#FFFFFF"

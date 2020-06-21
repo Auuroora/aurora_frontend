@@ -80,7 +80,7 @@ class Purchase extends Component {
           <NavigationBar
             styleName="clear"
             centerComponent={
-              <Title title={'Purchase List'} topMargin={50} />
+              <Title title={'구매 내역'} topMargin={50} />
             }
           />
         </ImageBackground>

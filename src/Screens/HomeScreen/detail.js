@@ -198,7 +198,7 @@ class DetailScreen extends Component {
     // 신고 처리
     if(this.state.reportData && this.state.reportKind){
       const data = {
-        report:{
+        report: {
           reportable_type: "Post",
           reportable_id: this.state.postId,
           category: this.state.reportKind,
@@ -207,7 +207,7 @@ class DetailScreen extends Component {
       }
       console.log(data)
       await this.setState({modalVisible: 0})
-      return axios.post('/reports ', data)
+      return axios.post('/reports', data)
         .then(() => {
           alert('게시글 신고가 완료되었습니다.')
 
@@ -324,7 +324,7 @@ class DetailScreen extends Component {
             >
               <Image
                 source={{
-                  uri:  "http://dmshopkorea.com/data/bbs/design/201304/3064753709_9d951bfb_0x1800.jpg"
+                  uri:  AWS_S3_STORAGE_URL + this.state.userData.image
                 }}
                 style={{
                   width: 40,
@@ -494,8 +494,8 @@ class DetailScreen extends Component {
             <View style={styles.modalView}>
               <DropDownPicker
                 items={[
-                  {label: 'insult', value: 'insult'},
-                  {label: 'copyright', value: 'copyright'},
+                  {label: '모욕/ 욕설', value: 'insult'},
+                  {label: '저작권 위반', value: 'copyright'},
                 ]}
                 defaultValue={this.state.country}
                 placeholder="신고 유형 선택"
@@ -615,7 +615,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '45%',
-    backgroundColor: '#2AC062',
+    backgroundColor: '#FA3311',
+    marginRight: 10
   },
   closeButton: {
     height: 50,
@@ -623,7 +624,8 @@ const styles = StyleSheet.create({
     width: '45%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FF3974',
+    backgroundColor: '#1E1E1E',
+    marginRight: 10
   },
   buttonText: {
     color: '#FFFFFF',

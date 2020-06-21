@@ -121,11 +121,11 @@ class OrderScreen extends Component {
       await axios.post('/orders').then((res)=>{
         console.log(res.data)
       })
-      alert("잔액:"+cash+" 결제 완료")
-      this.props.navigation.navigate("Mypage")
+      alert("결제가 완료되었습니다!")
+      this.props.navigation.navigate("Studio")
     }
     else{
-      alert("잔액:"+cash+" 잔액이 부족합니다. 충전 페이지로 넘어갑니다.")
+      alert("잔액:"+cash+" 잔액이 부족합니다. 충전 페이지로 이동합니다!.")
       this.props.navigation.navigate("Payment")
     }
   }
@@ -140,7 +140,7 @@ class OrderScreen extends Component {
   render() {
     return (
       <Screen styleName='fill-parent'
-        style={{ backgroundColor: 'gray'}}>
+        style={{ backgroundColor: '#0A0A0A'}}>
         <ImageBackground
           source={require("../../assets/image/Header.jpg")}
           styleName="large-ultra-wide"
@@ -148,7 +148,7 @@ class OrderScreen extends Component {
           <NavigationBar
             styleName="clear"
             centerComponent={
-              <Title title={'Order'} topMargin={50} />
+              <Title title={'장바구니'} topMargin={50} />
             }
           />
         </ImageBackground>

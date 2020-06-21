@@ -78,7 +78,7 @@ class Like extends Component {
            <NavigationBar
              styleName="clear"
              centerComponent={
-               <Title title={'Like List'} topMargin={50} />
+               <Title title={'관심 내역'} topMargin={50} />
              }
            />
          </ImageBackground>   

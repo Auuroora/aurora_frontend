@@ -5,13 +5,10 @@ import {
   View,
   Image,
   Text,
-  Button,
   Subtitle,
-  Icon
 } from '@shoutem/ui'
-import { Dimensions } from 'react-native'
 
-const { width, height } = Dimensions.get('window')
+import {AWS_S3_STORAGE_URL} from 'react-native-dotenv'
 
 
 class ProfileTab extends Component{
@@ -23,7 +20,7 @@ class ProfileTab extends Component{
         posts: props.postCount,
         follower: props.follower,
         following : props.followee,
-        image: { url: "http://dmshopkorea.com/data/bbs/design/201304/3064753709_9d951bfb_0x1800.jpg" },
+        image: props.profile,
       }
     }
   }
@@ -47,9 +44,7 @@ class ProfileTab extends Component{
             }}
           >
             <Image 
-              source={{
-                uri: profile.image.url
-              }}
+              source={this.props.profile}
               style={{
                 width: 80,
                 height: 80,

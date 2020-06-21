@@ -68,6 +68,15 @@ class DetailScreen extends Component {
     this.getCommentInfo(this.state.postId)
   }
 
+
+  
+  componentDidMount() {
+    this.onRefresh()
+  }
+
+  onRefresh = async () => {
+    this.getPostInfo(this.state.post_id)
+  }
   getPostInfo = async (postId) => {
     const params = {
       params: {
@@ -238,8 +247,20 @@ class DetailScreen extends Component {
     }
   }
   modifyPost = async() =>{
+    const data =this.state.postData.tag_info.tag_list.join(' ')
+    console.log("A??")
+    console.log(data)
     await this.setState({modalVisible: 0})
-    this.props.navigation.navigate("ModifyPost", {postData:this.state.postData})
+    this.props.navigation.navigate("ModifyPost", {
+      postId : this.state.postId,
+      filterID:this.state.postData.filter_info.id,
+      postImg :this.state.postData.filter_info.filter_name,
+      postTitle: this.state.postData.post_info.title,
+      postPrice: this.state.postData.post_info.price,
+      postDescription :this.state.postData.post_info.description,
+      postTag: data,
+      onGoBack:this.onRefresh,
+    })
   }
   onClickLike = async() => {
     const data = {
@@ -321,6 +342,7 @@ class DetailScreen extends Component {
                 marginBottom:20,
                 alignItems: 'stretch',
               }}
+              
             >
               <Image
                 source={{

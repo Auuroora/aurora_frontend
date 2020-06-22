@@ -45,6 +45,25 @@ class Like extends Component {
       })
     })
   }
+  
+  onClickCart = async(filterId, postId, price) => {
+    const data = {
+      line_filter: {
+        filter_id : filterId,
+        post_id: postId,
+        amount : price
+      }
+    }
+    console.log(data)
+    await axios.post('/line_filters', data)
+      .then((res) =>{
+        console.log(res.data)
+        alert("장바구니에 담았습니다")
+      })
+      .catch((err) => {
+        alert("Failed to Add bucket : ", err)
+      })
+  }
    renderRow = (like) =>{
      return (
        <View style={{ backgroundColor: 'gray'}}>
@@ -59,8 +78,15 @@ class Like extends Component {
                color: 'white',
                marginBottom: 0
              }}>{like.post_info.title}</Subtitle>
-             <Subtitle styleName="md-gutter-right" style={{color: 'white', marginBottom: 15, fontSize: 13}}>{like.user_info.username}</Subtitle>
+             <Subtitle styleName="md-gutter-right" style={{color: 'white', marginBottom: 15, fontSize: 14}}>{like.user_info.username}</Subtitle>
+             <Subtitle styleName="md-gutter-right" style={{color: 'white', marginBottom: 15, fontSize: 14}}>금액 : {like.post_info.price}원</Subtitle>
            </View>
+           <TouchableOpacity onPress={() => {this.onClickCart(like.filter_info.id, like.post_info.id, like.post_info.price)}}>
+             <Image
+               source={ require('../../assets/image/add-to-cart.png' )}
+               style={{ width: 22, height: 22, color :'white', marginRight : 10 }}
+             />
+           </TouchableOpacity>
          </Row>
          <Divider styleName="line" />
        </View>

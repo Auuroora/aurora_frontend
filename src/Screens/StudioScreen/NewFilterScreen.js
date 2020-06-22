@@ -106,7 +106,7 @@ export default class NewFilterScreen extends React.Component {
     const imageDownSizeWidth = width
     const imageDownSizeHeight = this.img.height * (width / this.img.width)
 
-    loadImg(this.img.data, imageDownSizeWidth / 1.5 , imageDownSizeHeight / 1.5)
+    loadImg(this.img.data, imageDownSizeWidth / 1 , imageDownSizeHeight / 1)
       .then(() => {
         this.setState({
           imageWidth: imageDownSizeWidth,
@@ -124,7 +124,7 @@ export default class NewFilterScreen extends React.Component {
     let handler = setInterval(() => {
       console.log('im alive')
       this.forceUpdate()
-    }, 60)
+    }, 30)
 
     this.setState({intervalHandler: handler})
   }

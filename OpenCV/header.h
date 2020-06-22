@@ -53,58 +53,6 @@ cv::Mat get_preview_image(
 	int width = 0, int height = 0 /* for downsizing */
 );
 
-// change hls
-// void update_hue(int pos);
-// void on_change_hue(int pos, void *ptr);
-
-// void update_saturation(int pos);
-// void on_change_saturation(int v, void *ptr);
-
-// void update_lightness(int pos);
-// void on_change_lightness(int v, void *ptr);
-
-// void update_vibrance(int pos);
-// void on_change_vibrance(int v, void *ptr);
-
-// void update_highlight_saturation(int pos);
-// void on_change_highlight_saturation(int curPos, void *ptr);
-
-// void update_highlight_hue(int pos);
-// void on_change_highlight_hue(int curPos, void *ptr);
-
-// void update_shadow_hue(int pos);
-// void on_change_shadow_hue(int curPos, void *ptr);
-
-// void update_shadow_saturation(int pos);
-// void on_change_shadow_saturation(int curPos, void *ptr);
-
-// // change bgr
-// void update_temperature(int pos);
-// void on_change_temperature(int v, void *ptr);
-
-// void update_brightness_and_contrast(int brightness_pos, int contrast_pos);
-// void on_change_bright(int pos, void *ptr);
-
-// void update_tint(int pos);
-// void on_change_tint(int pos, void *ptr);
-
-// void on_change_contrast(int pos, void *ptr);
-
-// void update_clarity(int pos);
-// void on_change_clarity(int pos, void *ptr);
-
-// void update_exposure(int pos);
-// void update_gamma(int pos);
-// void update_grain(int pos);
-// void update_vignette(int pos);
-
-// void on_change_bright(int pos, void *ptr);
-
-// void on_change_exposure(int pos, void *ptr);
-// void on_change_gamma(int pos, void *ptr);
-// void on_change_grain(int pos, void *ptr);
-// void on_change_vignette(int pos, void *ptr);
-
 // 작업중인 모든 변수 다 여기에
 class WorkingImgInfo
 {
@@ -114,7 +62,8 @@ public:
 	*********************************************************************/
 	int row; // 다운사이징 후 사진 가로
 	int col; // 다운사이징 후 사진 세로
-	int changed_color_space;
+
+	std::vector<cv::Mat> test100;
 
 	struct Image
 	{
@@ -184,7 +133,7 @@ public:
 	*	method
 	*********************************************************************/
 	/* first initialize */
-  void update_hue(int pos);
+  	void update_hue(int pos);
 	void update_saturation(int pos);
 	void update_lightness(int pos);
 	void update_vibrance(int pos);
@@ -211,6 +160,9 @@ public:
 		this->init_filter();
 		this->init_weight();
 		this->init_trackbar(0);
+
+		/* Memory Test */
+
 	}
 
 	/* image initialize */
@@ -223,16 +175,18 @@ public:
 
 		/* convert */
 		this->image.bgr = this->image.downsized.clone();
+		this->image.res = this->image.bgr.clone();
 		if (this->image.bgr.channels() == 4)
 		{
 			cv::cvtColor(this->image.bgr, this->image.bgr, cv::COLOR_BGRA2BGR);
 		}
 		cv::cvtColor(this->image.bgr, this->image.hls, cv::COLOR_BGR2HLS);
 
-		cv::Mat logo = cv::imread("./aurora_watermark.png", cv::IMREAD_COLOR);
-
-		this->set_logo_img(logo);
-		// cv::resize(this->image.logo, this->image.logo, cv::Size(this->col, this->row), 0, 0, cv::INTER_LINEAR);
+		// convert 32F
+		this->image.bgr.convertTo(this->image.bgr, CV_32FC3);
+		this->image.hls.convertTo(this->image.hls, CV_32FC3);
+		this->image.hsv.convertTo(this->image.hsv, CV_32FC3);
+		this->image.res.convertTo(this->image.res, CV_32FC3);
 	}
 
 	/* filter matrix initialize */
@@ -250,13 +204,12 @@ public:
 		this->image.hls_origins[HLSINDEX::S].setTo(1, mask);
 
 		/* initialize filter matrix */
-		this->filter.bgr_filter = cv::Mat::zeros(this->row, this->col, CV_16SC3);
-		this->filter.hls_filter = cv::Mat::zeros(this->row, this->col, CV_16SC3);
-		this->filter.diff = cv::Mat::zeros(this->row, this->col, CV_16S);
+		this->filter.bgr_filter = cv::Mat::zeros(this->row, this->col, CV_32FC3);
+		this->filter.hls_filter = cv::Mat::zeros(this->row, this->col, CV_32FC3);
+		this->filter.diff = cv::Mat::zeros(this->row, this->col, CV_32F);
 
 		cv::split(this->filter.bgr_filter, this->filter.bgr_filters);
 		cv::split(this->filter.hls_filter, this->filter.hls_filters);
-
 		/*****************************************************************************/
 		// Gamma
 		this->image.hls_origins[HLSINDEX::L].convertTo(this->filter.gamma_mask, CV_32F);
@@ -264,8 +217,8 @@ public:
 
 		//Clarity
 		cv::bilateralFilter(this->image.bgr, this->filter.clarity_filter, DISTANCE, SIGMA_COLOR, SIGMA_SPACE);
-		this->filter.clarity_mask_U = cv::Mat::zeros(this->row, this->col, CV_8UC3);
-		this->filter.clarity_mask_S = cv::Mat::zeros(this->row, this->col, CV_16SC3);
+		this->filter.clarity_mask_U = cv::Mat::zeros(this->row, this->col, CV_32FC3);
+		this->filter.clarity_mask_S = cv::Mat::zeros(this->row, this->col, CV_32FC3);
 
 		//Vignette
 		cv::Mat kernel_x, kernel_x_transpose, kernel_y, kernel_res;
@@ -277,7 +230,6 @@ public:
 		cv::subtract(1, kernel_res, kernel_res);
 		kernel_res = cv::abs(kernel_res);
 		cv::multiply(125, kernel_res, kernel_res);
-		kernel_res.convertTo(kernel_res, CV_16S);
 		this->filter.gaussian_kernel = kernel_res.clone();
 
 		kernel_x.deallocate();
@@ -290,12 +242,29 @@ public:
 		cv::randu(this->filter.grain_mask, cv::Scalar(-20), cv::Scalar(20));
 
 		//Exposure
-		this->filter.exposure_mask = cv::Mat::ones(this->row, this->col, CV_8UC1);
+		this->filter.exposure_mask = cv::Mat::ones(this->row, this->col, CV_32F);
 	}
 
 	/* make weight matrix */
 	void init_weight()
 	{
+		this->weight.hue = cv::Mat::zeros(this->row, this->col, CV_32F);
+		this->weight.saturation = cv::Mat::zeros(this->row, this->col, CV_32F);
+		this->weight.lightness = cv::Mat::zeros(this->row, this->col, CV_32F);
+		
+		double w = 30;
+		double mu = 130;
+		double std = 10;
+		cv::Mat src = this->image.hls_origins[HLSINDEX::L];
+		cv::Mat dest = this->weight.lightness;
+
+		for (int y = 0; y < src.rows; y++) {
+			float* pointer_input = src.ptr<float>(y);
+			float* pointer_output = dest.ptr<float>(y);
+			for (int x = 0; x < src.cols; x++) {
+				pointer_output[x] += (w * pow(EXP, -((pointer_input[x] - mu)*(pointer_input[x] - mu)) / (2.0 * std*std)) / sqrt(2.0 * PI*std*std));
+			}
+		}
 		// TO DO
 	}
 
@@ -319,8 +288,6 @@ public:
 		this->trackbar.vignette = pos;
 		this->trackbar.contrast = pos;
 		this->trackbar.brightness = pos;
-
-		this->changed_color_space = 0;
 	}
 
 	cv::Mat get_origin_img()
@@ -330,7 +297,9 @@ public:
 
 	cv::Mat get_res_img()
 	{
-		return this->image.res;
+		cv::Mat res;
+		this->image.res.convertTo(res, CV_8UC3);
+		return res;
 	}
 
 	void set_res_img(cv::Mat res)

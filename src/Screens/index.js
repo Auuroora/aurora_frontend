@@ -184,7 +184,6 @@ function TabStack() {
         component={HomeStack}
         listeners={({navigation}) =>({
           tabPress: e => {
-            console.log("?")
             navigation.navigate('Home',{isDone : true})
           },
         })}

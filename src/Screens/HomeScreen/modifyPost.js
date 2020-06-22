@@ -1,11 +1,18 @@
 /* eslint-disable react/prop-types */
-import React, {Component} from 'react'
+import React, {Component,} from 'react'
+import {
+  Dimensions
+} from 'react-native'
 import { 
   NavigationBar,
   ImageBackground,
   Screen,
   Icon,
   TouchableOpacity,
+  TextInput,
+  ScrollView,
+  Divider,
+  Image
 } from '@shoutem/ui'
 
 import axios from '../../axiosConfig'
@@ -19,22 +26,62 @@ import axios from '../../axiosConfig'
     : upload page 리팩토링 후 진행
 */
 import Title from '../../Components/Title'
+import { AWS_S3_STORAGE_URL } from 'react-native-dotenv'
+const { width } = Dimensions.get('window')
 class ModifyScreen extends Component{
   constructor(props) {
     super(props)
     this.state = {
-      imageFile: null,
+      imageFile: this.props.route.params.postImg,
       isSelectFilter: false,
       filterData:[],
-      filter_id: '',
+      filterId: this.props.route.params.filterID,
       userId:-1,
-      title: '',
-      description: '',
-      tag:'',
-      price:'',
+      postId :  this.props.route.params.postId,
+      tag:  '',
+      price: (this.props.route.params.postPrice).toString(),
+      description: this.props.route.params.postDescription,
+      title: this.props.route.params.postTitle,
     }
   }
+  onClickUpload = () =>{
+    if (this.state.title && this.state.description  && this.state.filterId && this.state.price) {
+      console.log(this.state.description)
+      const splitDesc = this.state.description.split(' ')
+      let taglist = []
 
+      for (let idx in splitDesc) {
+        if (splitDesc[idx].includes('#')) {
+          taglist.push(splitDesc[idx])
+        }
+      }
+      taglist = taglist.join(', ')
+
+      console.log("taglist")
+      console.log(taglist)
+      const data = {
+        post:{
+          title: this.state.title,
+          description: this.state.description,
+          filter_id: this.state.filterId,
+          tag_list: taglist,
+          price: this.state.price,
+        }
+      }
+      console.log(data)
+      console.log(this.state.postId)
+      axios.put('/posts/'+ this.state.postId, data)
+        .then(() => {
+          alert('게시글 수정이 완료되었습니다.')
+        }).catch((err) => {
+          console.log(err)
+          alert('게시글 수정이 실패하였습니다.')
+        })
+    }
+    else{
+      alert('모든 부분을 작성하여 주세요.')
+    }
+  }
   render(){
     return (
       <Screen styleName='fill-parent' style ={{ backgroundColor:'#1E1E1E'}}>
@@ -60,6 +107,31 @@ class ModifyScreen extends Component{
             }
           />
         </ImageBackground>
+        
+        <ScrollView>
+          <Image
+            style={{width: width, height: width}}
+            source={{ uri: AWS_S3_STORAGE_URL + this.state.imageFile}}
+          />
+          <TextInput 
+            style={{backgroundColor: '#0A0A0A', color: 'white'}}
+            value={this.state.title}
+            onChangeText={(text) => this.setState({title: text})}
+          />
+          <TextInput 
+            style={{backgroundColor: '#0A0A0A', color: 'white'}}
+            value={this.state.price}
+            keyboardType={'number-pad'}
+            onChangeText={(text) => this.setState({price: text})}
+          />
+          <TextInput 
+            style={{height: 100, backgroundColor: '#0A0A0A', color: 'white'}}
+            value={this.state.description}
+            multiline={true}
+            numberOfLines={4}
+            onChangeText={(text) => this.setState({description: text})}
+          /> 
+        </ScrollView>
       </Screen>
     )
   }

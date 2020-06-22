@@ -38,9 +38,7 @@ import {
   onChangeVignette,
 } from '../../OpencvJs'
 
-const { width, height } = Dimensions.get('window')
-
-//TODO : fix Slider Lightness reset problem
+const { width } = Dimensions.get('window')
 
 export default class NewFilterScreen extends React.Component {
   static propTypes = {
@@ -49,11 +47,15 @@ export default class NewFilterScreen extends React.Component {
     isDone: PropTypes.bool
   }
 
+  static img = {}
+
   constructor (props) {
     super(props)
+    this.img = props.image
+
     this.state = {
-      image: props.image,
       isImageLoaded: false,
+      intervalHandler: null,
       values: {
         Hue: 0,
         Saturation: 0,
@@ -102,11 +104,10 @@ export default class NewFilterScreen extends React.Component {
     }
 
     const imageDownSizeWidth = width
-    const imageDownSizeHeight = this.state.image.height * (width / this.state.image.width)
+    const imageDownSizeHeight = this.img.height * (width / this.img.width)
 
-    loadImg(this.state.image.data, imageDownSizeWidth, imageDownSizeHeight)
+    loadImg(this.img.data, imageDownSizeWidth / 1.5 , imageDownSizeHeight / 1.5)
       .then(() => {
-        this.setState({})
         this.setState({
           imageWidth: imageDownSizeWidth,
           imageHeight: imageDownSizeHeight,
@@ -117,6 +118,15 @@ export default class NewFilterScreen extends React.Component {
         console.log(err)
       })
 
+  }
+
+  componentDidMount () {
+    let handler = setInterval(() => {
+      console.log('im alive')
+      this.forceUpdate()
+    }, 60)
+
+    this.setState({intervalHandler: handler})
   }
 
   mapCvFunction = (type) => {
@@ -161,6 +171,8 @@ export default class NewFilterScreen extends React.Component {
 
   // User Event for image operation
   onChangeSliderValue = async (val) => {
+    let start = new Date().getTime()
+    
     try {
       await this.setState(prevState => ({
         values: {
@@ -168,15 +180,9 @@ export default class NewFilterScreen extends React.Component {
           [this.state.selectedValue]: val,
         }
       }))
-      let start = new Date().getTime()
-
-      const resultImg = await this.state.editFunction(val)
+      this.img.data = await this.state.editFunction(val)
       console.log("소요된 시간: " + (new Date().getTime() - start))
-      this.setState({ 
-        image: {
-          data: resultImg
-        }
-      })
+
     } catch (e) {
       console.log(e)
     }
@@ -198,8 +204,12 @@ export default class NewFilterScreen extends React.Component {
 
   componentDidUpdate = (prevProps) => {
     if (prevProps.isDone !== this.props.isDone && this.props.isDone) {
-      this.props.onNewFilterDone(this.state.image.data, this.state.values)
+      this.props.onNewFilterDone(this.img.data, this.state.values)
     }
+  }
+
+  componentWillUnmount = () => {
+    clearInterval(this.state.intervalHandler)
   }
 
   // For Rendering Image View
@@ -207,10 +217,10 @@ export default class NewFilterScreen extends React.Component {
     if (this.state.isImageLoaded) {
       return (
         <Image
-          source={{ uri: 'data:image/jpeg;base64,' + this.state.image.data }}
+          source={{ uri: 'data:image/jpeg;base64,' + this.img.data }}
           style={{
-            width: this.state.imageWidth,
-            height: this.state.imageHeight,
+            width: this.img.imageWidth,
+            height: this.img.imageHeight,
           }}
           styleName='large'
         />

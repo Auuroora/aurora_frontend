@@ -7,7 +7,8 @@ import {
   Icon,
   TouchableOpacity,
   View,
-  TextInput
+  TextInput,
+  ScrollView
 } from '@shoutem/ui'
 
 import axios from '../../axiosConfig'
@@ -131,7 +132,7 @@ class UploadScreen extends Component{
           state={this.state}/>)
     }
     return (
-      <View>
+      <ScrollView>
         <LargeTile
           image={this.state.isFilterSelected ? { uri: this.state.imageFile } : null}
           onClickTile={this.onChooseFilter}
@@ -158,7 +159,7 @@ class UploadScreen extends Component{
           style={{height: 500, backgroundColor: '#0A0A0A', color: '#FAFAFA'}}
           onChangeText={(text) => this.setState({description: text})}
         /> 
-      </View>
+      </ScrollView>
     )
   }
   render(){

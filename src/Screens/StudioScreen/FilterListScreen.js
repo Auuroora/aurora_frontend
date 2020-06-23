@@ -47,6 +47,7 @@ class FilterListScreen extends Component {
       showingList: this.currentTab,
       isImageSelected: false,
       groupedData: null,
+      isModal:false
       isLoading: true,
       currentTab: 'my'
     }
@@ -56,7 +57,7 @@ class FilterListScreen extends Component {
 
   getFilterList = async () => {
     const res = await axios.get('/myfilter', { "user_info": "true" })
-
+    
     await this.setState({ 
       myFilter: res.data.my_filter,
       purchaseFilter: res.data.purchase_filter,
@@ -147,16 +148,30 @@ class FilterListScreen extends Component {
     }))
   }
 
+
+  deleteFilter = async(filterInfo) =>{
+    console.log("delete", filterInfo)
+    axios.delete('/filters/' + filterInfo)
+      .then(() => {
+        alert('필터 삭제가 완료되었습니다.')
+      }).catch((err) => {
+        console.log(err)
+        alert('필터 삭제가 실패하였습니다.')
+      })
+
+  }
   renderRow = (rowData) => {
     const cellViews = rowData.map((filter, id) => {
       return (
         <SmallTile
           selectFilter={this.onClickFilter}
+          deleteFilter ={this.deleteFilter}
           key={id}
           filter={AWS_S3_STORAGE_URL + filter.filter_data_path}
           image={AWS_S3_STORAGE_URL + filter.filter_name}
-          filterId={filter.filter_id}
+          filterId={filter.id}
         />
+        
       )
     })
     return (

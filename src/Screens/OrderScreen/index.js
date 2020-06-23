@@ -45,12 +45,11 @@ class OrderScreen extends Component {
     this.getUserInfo()
   }
 
-  ongetCartList(){
-    axios.get('/line_filters').then((res)=>{
-      this.setState({
-        orderList:res.data,
-        orderPrice:res.data[0].order_info.total
-      })
+  ongetCartList =async() =>{
+    const data = await axios.get('/line_filters')
+    await this.setState({
+      orderList:data.data,
+      orderPrice:data.data[0].order_info.total
     })
   }
   toggleCheckbox = async(id)=> {

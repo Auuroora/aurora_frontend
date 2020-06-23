@@ -19,6 +19,7 @@ import StudioScreen from "./StudioScreen"
 import UploadScreen from "./UploadScreen"
 import MypageScreen from "./MypageScreen"
 import Purchase from "./MypageScreen/Purchase"
+import MoreOrderList from "./MypageScreen/MoreOrderList"
 import Sell from "./MypageScreen/Sell"
 import Like from "./MypageScreen/Like"
 import LoginScreen from "./LoginScreen"
@@ -111,8 +112,8 @@ function MypageStack() {
       />
       <Stack.Screen
         options={{ headerShown: false }}
-        name="Purchase"
-        component={Purchase}
+        name="PurchaseStack"
+        component={PurchaseStack}
       />
       <Stack.Screen
         options={{ headerShown: false }}
@@ -133,6 +134,22 @@ function MypageStack() {
   )
 }
 
+function PurchaseStack() {
+  return (
+    <Stack.Navigator initialRouteName="Purchase">
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Purchase"
+        component={Purchase}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="MoreOrderList"
+        component={MoreOrderList}
+      />
+    </Stack.Navigator>
+  )
+}
 function AuthStack() {
   return (
     <Stack.Navigator initialRouteName="Login">

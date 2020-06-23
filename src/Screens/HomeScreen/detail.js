@@ -75,7 +75,9 @@ class DetailScreen extends Component {
   onRefresh = async () => {
     this.getPostInfo(this.state.post_id)
   }
+  
   getPostInfo = async (postId) => {
+    console.log("_!")
     const params = {
       params: {
         user_info: true,
@@ -468,11 +470,7 @@ class DetailScreen extends Component {
               }}>
               <TextInput
                 placeholder={'Write Comment'}
-                style ={{
-                  placeholderTextColor: 'white',
-                  width: '90%',
-                  backgroundColor: '#1E1E1E',
-                }}
+                style ={{...styles.textInputStyle, placeholderTextColor: 'white',}}
                 value={this.state.myComment}
                 onChangeText={(text) => this.setState({myComment: text})}/>
               <TouchableOpacity onPress={() => this.postCommentInfo()}>
@@ -653,6 +651,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fafafa',
     borderWidth: 1
   },
+  textInputStyle: {
+    color: '#fafafa',
+    width: '90%',
+    backgroundColor: '#1E1E1E',
+  }
 })
 
 export default DetailScreen

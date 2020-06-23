@@ -53,17 +53,13 @@ class OrderScreen extends Component {
     })
   }
   toggleCheckbox = async(id)=> {
-    console.log("select: " + id)
     this.setState({ checked: !this.state.checked})
     const res = await axios.put('/line_filters/'+id)
     await this.setState({ orderPrice: res.data.order_info.total })
     this.ongetCartList()
   }
   onPressRemove = async(id) =>{
-    console.log("remove")
-    await axios.delete('/line_filters/'+id).then((res)=>{
-      console.log(res.data)
-    })
+    await axios.delete('/line_filters/'+id)
     this.ongetCartList()
   }
   renderRow(order) {
@@ -117,9 +113,7 @@ class OrderScreen extends Component {
       alert("선택하신 상품이 없습니다.")
     }
     else if (cash >= this.state.orderPrice){
-      await axios.post('/orders').then((res)=>{
-        console.log(res.data)
-      })
+      await axios.post('/orders')
       alert("결제가 완료되었습니다!")
       this.props.navigation.navigate("Studio")
     }

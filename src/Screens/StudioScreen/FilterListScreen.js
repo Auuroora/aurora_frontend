@@ -55,14 +55,13 @@ class FilterListScreen extends Component {
     const groupedData = GridRow.groupByRows(this.state.filter_list, 3, () => {
       return 1
     })
-
+    
     await this.setState({ groupedData: groupedData })
   }
 
   onChooseFiletoApply = async () => {
     ImagePicker.showImagePicker(ImagePickerOptions, async response => {
       if (response.didCancel) {
-        console.log('User cancelled image picker')
         return
       }
       else if (response.error) {

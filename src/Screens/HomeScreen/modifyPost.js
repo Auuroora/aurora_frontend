@@ -46,7 +46,6 @@ class ModifyScreen extends Component{
   }
   onClickUpload = () =>{
     if (this.state.title && this.state.description  && this.state.filterId && this.state.price) {
-      console.log(this.state.description)
       const splitDesc = this.state.description.split(' ')
       let taglist = []
 
@@ -57,8 +56,6 @@ class ModifyScreen extends Component{
       }
       taglist = taglist.join(', ')
 
-      console.log("taglist")
-      console.log(taglist)
       const data = {
         post:{
           title: this.state.title,
@@ -68,8 +65,7 @@ class ModifyScreen extends Component{
           price: this.state.price,
         }
       }
-      console.log(data)
-      console.log(this.state.postId)
+      
       axios.put('/posts/'+ this.state.postId, data)
         .then(() => {
           alert('게시글 수정이 완료되었습니다.')

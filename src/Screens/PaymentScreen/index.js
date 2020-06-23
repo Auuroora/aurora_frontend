@@ -42,7 +42,6 @@ class PaymentScreen extends Component{
     await this.setState({
       userId: userInfo.data.id
     })
-    console.log(userInfo.data)
   }
 
   render() {

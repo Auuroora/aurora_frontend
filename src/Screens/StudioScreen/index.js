@@ -57,7 +57,6 @@ class StudioScreen extends Component {
   onChooseFileforNew = () => {
     ImagePicker.showImagePicker(ImagePickerOptions, async response => {
       if (response.didCancel) {
-        console.log('User cancelled image picker')
         return
       }
       if (response.error) {
@@ -101,6 +100,10 @@ class StudioScreen extends Component {
       return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1)
     }
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4()
+  }
+
+  cancelDone = () => {
+    this.setState({isDone: false})
   }
 
   onNewFilterDone = async (image, preset) => {
@@ -159,6 +162,7 @@ class StudioScreen extends Component {
         <NewFilterScreen
           onNewFilterDone={this.onNewFilterDone}
           isDone={this.state.isDone}
+          cancelDone={this.cancelDone}
           image={this.state.imageFile}
         />
       )

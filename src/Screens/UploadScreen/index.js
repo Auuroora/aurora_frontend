@@ -49,7 +49,6 @@ class UploadScreen extends Component{
   getUserFilterData = () => {
     axios.get('/myfilter').then(res => {
       const filterData = res.data.my_filter
-      console.log(res.data)
       this.setState({
         filterData: filterData,
       }) 
@@ -85,8 +84,6 @@ class UploadScreen extends Component{
       }
       
       taglist = taglist.join(', ')
-
-      console.log(taglist)
 
       const data = {
         post:{

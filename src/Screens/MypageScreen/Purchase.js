@@ -44,9 +44,10 @@ class Purchase extends Component {
         state :"purchased"
       }
     }
-    const data= await axios.get('/orders', params)
-    await this.setState({
-      purchaseList:data.data
+    axios.get('/orders', params).then((res)=>{
+      this.setState({
+        purchaseList:res.data
+      })
     })
   }
   renderRow = (purchase) =>{

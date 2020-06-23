@@ -103,7 +103,6 @@ class DetailScreen extends Component {
   onClickPreview = async () => {
     ImagePicker.showImagePicker(ImagePickerOptions, async (response) => {
       if (response.didCancel) {
-        console.log('User cancelled image picker')
         return
       }
       if (response.error) {
@@ -149,10 +148,8 @@ class DetailScreen extends Component {
         amount : this.state.postData.post_info.price
       }
     }
-    console.log(data)
     await axios.post('/line_filters', data)
       .then((res) =>{
-        console.log(res.data)
         alert("장바구니에 담았습니다")
       })
       .catch((err) => {
@@ -205,7 +202,6 @@ class DetailScreen extends Component {
           content:this.state.reportData
         }
       }
-      console.log(data)
       await this.setState({modalVisible: 0})
       return axios.post('/reports', data)
         .then(() => {
@@ -239,8 +235,7 @@ class DetailScreen extends Component {
   }
   modifyPost = async() =>{
     const data =this.state.postData.tag_info.tag_list.join(' ')
-    console.log("A??")
-    console.log(data)
+    
     await this.setState({modalVisible: 0})
     this.props.navigation.navigate("ModifyPost", {
       postId : this.state.postId,

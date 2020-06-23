@@ -41,7 +41,6 @@ class Sell extends Component {
   }
   onGetSellList(){
     axios.get('/histories').then((res)=>{
-      console.log(res.data)
       this.setState({
         sellList:res.data,
         userCash:res.data[0].current_user_info.cash,
@@ -50,10 +49,10 @@ class Sell extends Component {
     })
   }
   onExchange = async(id, state) => {
-    await axios.put('/histories/' + id + "?state=" + state).then((res) => {
-      console.log(res.data)
-    })
-    this.onGetSellList()
+    await axios.put('/histories/' + id + "?state=" + state)
+      .then((res) => {
+        this.onGetSellList()
+      })
   }
 
   renderNonExchanged = (id) => {

@@ -19,7 +19,6 @@ const loadImg = (img, rowSize, colSize) => {
 }
 
 const getWatermarkedImg = (img, logo, width, height) => {
-
   return new Promise((resolve, reject) => {
     if (Platform.OS === 'android') {
       // do func

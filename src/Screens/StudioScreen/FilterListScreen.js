@@ -10,7 +10,6 @@ import {
   Screen,
   View,
   Button,
-  Caption,
   Subtitle,
   Spinner
 } from '@shoutem/ui'
@@ -45,10 +44,11 @@ class FilterListScreen extends Component {
       filterId: null,
       myFilter: [],
       purchaseFilter: [],
-      showingList: [],
+      showingList: this.currentTab,
       isImageSelected: false,
       groupedData: null,
-      isLoading: true
+      isLoading: true,
+      currentTab: 'my'
     }
     
     this.getFilterList()
@@ -63,24 +63,24 @@ class FilterListScreen extends Component {
       showingList: res.data.my_filter
     })
 
-    const groupedData = GridRow.groupByRows(this.state.showingList, 3, () => {
-      return 1
-    })
-    
-    await this.setState({ groupedData: groupedData, isLoading: false })
+    this.onClickTab(this.state.currentTab)
   }
 
   onClickTab = async (tabName) => {
-    await this.setState({isLoading: true})
-    if(tabName == 'my') {
-      this.setState({showingList: this.state.myFilter})
-    } else {
-      this.setState({showingList: this.state.purchaseFilter})
-    }
+    await this.setState({isLoading: true, currentTab: tabName})
 
-    const groupedData = GridRow.groupByRows(this.state.showingList, 3, () => {
-      return 1
-    })
+    let groupedData = null
+
+    if(this.state.currentTab === 'my') {
+      groupedData = GridRow.groupByRows(this.state.myFilter, 3, () => {
+        return 1
+      })
+
+    } else {
+      groupedData = GridRow.groupByRows(this.state.purchaseFilter, 3, () => {
+        return 1
+      })
+    }
     
     await this.setState({ groupedData: groupedData, isLoading: false })
   }

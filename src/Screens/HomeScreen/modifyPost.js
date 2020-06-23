@@ -73,6 +73,7 @@ class ModifyScreen extends Component{
           console.log(err)
           alert('게시글 수정이 실패하였습니다.')
         })
+      this.props.navigation.navigate('Detail', {postId: this.state.postId})
     }
     else{
       alert('모든 부분을 작성하여 주세요.')

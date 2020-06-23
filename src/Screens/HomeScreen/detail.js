@@ -68,6 +68,14 @@ class DetailScreen extends Component {
     this.getCommentInfo(this.state.postId)
   }
 
+  componentDidMount() {
+    this.onRefresh()
+  }
+
+  onRefresh = async () => {
+    this.getPostInfo(this.state.post_id)
+  }
+  
   getPostInfo = async (postId) => {
     console.log("_!")
     const params = {
@@ -79,13 +87,14 @@ class DetailScreen extends Component {
       }
     }
     const res = await axios.get('/posts/' + postId, params)
-    await this.setState({postData : res.data})
-    await this.setState({userData : res.data.user_info})
     
+    await this.setState({
+      postData : res.data,
+      userData : res.data.user_info
+    })
     if(res.data.user_info.id === res.data.current_user_info.id){
       await this.setState({isMyPost :true})
     }
-
     await this.setState({isLoading: false})
   }
 

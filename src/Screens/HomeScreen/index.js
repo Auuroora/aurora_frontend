@@ -1,11 +1,10 @@
 import React, { Component } from "react"
-import { Dimensions, StyleSheet, Platform } from "react-native"
+import { Dimensions, StyleSheet, Platform, FlatList } from "react-native"
 
 import {
   NavigationBar,
   ImageBackground,
   Screen,
-  ListView,
   Button,
   Icon,
   GridRow,
@@ -29,7 +28,9 @@ class HomeScreen extends Component {
       postList: [],
       isLoading: true,
       pageNum: 1,
-      groupedData: null
+      groupedData: null,
+      refresh: false,
+      onNavigateRefresh: props.route.params ? props.route.params.refresh : false
     }
   }
 
@@ -38,23 +39,21 @@ class HomeScreen extends Component {
   }
 
   onRefresh = async () => {
-    this.getPostList(1)
-      .then((res) => {
-        this.setState({
-          postList: res.posts,
-          isLoading: false
-        })
-        const groupedData = GridRow.groupByRows(this.state.postList, 2, () => {
-          return 1
-        })
-        this.setState({
-          groupedData: groupedData
-        })
-      })
-      .catch(e => {
-        console.log(e)
-        alert('error : ' + e)
-      })
+    const res = await this.getPostList(1)
+    await this.setState({
+      postList: res.posts,
+      pageNum: 1,
+      isLoading: false
+    })
+
+    const groupedData = GridRow.groupByRows(this.state.postList, 2, () => {
+      return 1
+    })
+
+    await this.setState({
+      groupedData: groupedData
+    })
+     
   }
 
   getPostList = async (page) => {
@@ -70,17 +69,18 @@ class HomeScreen extends Component {
   }
 
   loadMore = async () => {
-    if (this.state.isLoading) return
-    await this.setState({
-      pageNum: this.state.pageNum + 1,
-      isLoading: true,
-    })
-    const res = await this.getPostList(this.state.pageNum)
-    this.state.postList.concat(res.posts)
+    if (!this.state.isLoading) {
+      await this.setState({
+        pageNum: this.state.pageNum + 1,
+        isLoading: true,
+      })
+      const res = await this.getPostList(this.state.pageNum)
 
-    await this.setState({
-      isLoading: false,
-    })
+      await this.setState({
+        isLoading: false,
+        postList: this.state.postList.concat(res.posts)
+      })
+    }
   }
 
   onClickLike = async(postid) => {
@@ -91,30 +91,23 @@ class HomeScreen extends Component {
     }
     await axios.post('/likes', data)
     this.componentDidMount()
-    // 로직 새로 구성할것
   }
   
-  renderRow = (rowData) => {  
-    const cellViews = rowData.map((post, id) => {
-      return (
-        <CardItem
-          navigation={this.props.navigation}
-          key={id}
-          postId={post.post_info.id}
-          image={AWS_S3_STORAGE_URL + post.filter_info.filter_name}
-          title={post.post_info.title}
-          price={post.post_info.price}
-          likedCount = {post.like_info.liked_count}
-          commentCount = {post.comment_info.comments_count}
-          liked = {post.like_info.liked}
-          onClickLike = {this.onClickLike}
-        />
-      )
-    })
+  renderRow = ({ item, index }) => {  
     return (
-      <GridRow columns={2}>
-        {cellViews}
-      </GridRow>
+      <CardItem
+        navigation={this.props.navigation}
+        postId={item.post_info.id}
+        key={index}
+        image={AWS_S3_STORAGE_URL + item.filter_info.filter_name}
+        title={item.post_info.title}
+        price={item.post_info.price}
+        likedCount = {item.like_info.liked_count}
+        commentCount = {item.comment_info.comments_count}
+        liked = {item.like_info.liked}
+        onClickLike = {this.onClickLike}
+      />
+      
     )
   }
 
@@ -153,17 +146,21 @@ class HomeScreen extends Component {
             }
           />
         </ImageBackground>
-        <ListView
+        <FlatList
           style={{
             height: height,
             width: width,
-            listContent: {
-              backgroundColor: '#0A0A0A',
-            }
+            padding: 5
           }}
-          data={this.state.groupedData}
-          onRefresh={() => this.onRefresh()}
-          renderRow={this.renderRow}
+          data={this.state.postList}
+          refreshing={this.state.refresh}
+          onRefresh={this.onRefresh}
+          extraData={this.state}
+          onEndReached={this.loadMore}
+          onEndReachedThreshold={0.001}
+          numColumns={2}
+          renderItem={this.renderRow}
+          showsVerticalScrollIndicator={false}
         />
       </Screen>
     )

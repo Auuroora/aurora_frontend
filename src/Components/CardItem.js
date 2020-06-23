@@ -26,7 +26,6 @@ CardItem.propTypes = {
   onClickLike: PropTypes.func
 }
 const onPressFunction = (props) =>{
-  console.log(props.postId)
   props.onClickLike(props.postId) 
 }
 export default function CardItem (props) {

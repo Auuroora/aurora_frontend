@@ -14,13 +14,15 @@ Tile.propTypes = {
   image: PropTypes.string,
   filterId: PropTypes.number,
   onPressDone: PropTypes.func,
-  selectFilter: PropTypes.func
+  selectFilter: PropTypes.func,
+  deleteFilter :PropTypes.func,
 }
 
 export default function Tile (props) {
   return (
     <TouchableOpacity
       styleName="flexible"
+      onLongPress={() => {props.deleteFilter(props.filterId)}}
       onPress={() => {props.selectFilter(props.filter)}}>
       <Image
         style={{width: (1/3.2)* width, height: (1/3.2) * width}}

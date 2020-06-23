@@ -52,13 +52,12 @@ class FilterListScreen extends Component {
     filterData = filterData.concat(res.data.purchase_filter)
     await this.setState({ filter_list: filterData })
 
+    console.log(this.state.filter_list)
     const groupedData = GridRow.groupByRows(this.state.filter_list, 3, () => {
       return 1
     })
 
     await this.setState({ groupedData: groupedData })
-
-    console.log(this.state.filter_list)
   }
 
   onChooseFiletoApply = async () => {
@@ -124,15 +123,28 @@ class FilterListScreen extends Component {
     }))
   }
 
+
+  deleteFilter = async(filterInfo) =>{
+    console.log("delete", filterInfo)    
+    axios.delete('/filters/' + filterInfo.id)
+      .then(() => {
+        alert('필터 삭제가 완료되었습니다.')
+      }).catch((err) => {
+        console.log(err)
+        alert('필터 삭제가 실패하였습니다.')
+      })
+
+  }
   renderRow = (rowData) => {
     const cellViews = rowData.map((filter, id) => {
       return (
         <SmallTile
           selectFilter={this.onClickFilter}
+          deleteFilter ={this.deleteFilter}
           key={id}
           filter={AWS_S3_STORAGE_URL + filter.filter_data_path}
           image={AWS_S3_STORAGE_URL + filter.filter_name}
-          filterId={filter.filter_id}
+          filterId={filter.id}
         />
       )
     })

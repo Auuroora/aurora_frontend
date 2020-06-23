@@ -29,7 +29,6 @@ class MoreOrderList extends Component {
       userCash: null,
       checked:false,
     }
-    console.log(this.props)
     this.ongetOrderList(this.props.route.params.purchaseId)
   }
   ongetOrderList = async(purchaseId) =>{

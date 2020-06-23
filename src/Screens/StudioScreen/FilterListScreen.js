@@ -40,7 +40,8 @@ class FilterListScreen extends Component {
       filterId: null,
       filter_list: [],
       isImageSelected: false,
-      groupedData: null
+      groupedData: null,
+      isModal:false
     }
     
     this.getFilterList()
@@ -51,8 +52,6 @@ class FilterListScreen extends Component {
     let filterData = res.data.my_filter
     filterData = filterData.concat(res.data.purchase_filter)
     await this.setState({ filter_list: filterData })
-
-    console.log(this.state.filter_list)
     const groupedData = GridRow.groupByRows(this.state.filter_list, 3, () => {
       return 1
     })
@@ -125,8 +124,8 @@ class FilterListScreen extends Component {
 
 
   deleteFilter = async(filterInfo) =>{
-    console.log("delete", filterInfo)    
-    axios.delete('/filters/' + filterInfo.id)
+    console.log("delete", filterInfo)
+    axios.delete('/filters/' + filterInfo)
       .then(() => {
         alert('필터 삭제가 완료되었습니다.')
       }).catch((err) => {
@@ -146,6 +145,7 @@ class FilterListScreen extends Component {
           image={AWS_S3_STORAGE_URL + filter.filter_name}
           filterId={filter.id}
         />
+        
       )
     })
     return (

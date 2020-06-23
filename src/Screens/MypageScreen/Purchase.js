@@ -40,11 +40,9 @@ class Purchase extends Component {
       }
     }
     axios.get('/orders', params).then((res)=>{
-      console.log(res.data)
       this.setState({
         purchaseList:res.data
       })
-      console.log(res.data.id)
     })
   }
 

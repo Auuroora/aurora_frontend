@@ -57,7 +57,6 @@ class StudioScreen extends Component {
   onChooseFileforNew = () => {
     ImagePicker.showImagePicker(ImagePickerOptions, async response => {
       if (response.didCancel) {
-        console.log('User cancelled image picker')
         return
       }
       if (response.error) {

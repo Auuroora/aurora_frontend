@@ -39,7 +39,6 @@ class Like extends Component {
       }
     }
     axios.get('/mylikes',params).then((res)=>{
-      console.log(res.data)
       this.setState({
         LikeList:res.data
       })

@@ -193,7 +193,14 @@ export default class NewFilterScreen extends React.Component {
 
   componentDidUpdate = (prevProps) => {
     if (prevProps.isDone !== this.props.isDone && this.props.isDone) {
-      this.props.onNewFilterDone(this.img.data, this.values)
+      for (let ii in this.values) {
+        console.log(this.values[ii])
+        if (this.values[ii] !== 0) {
+          this.props.onNewFilterDone(this.img.data, this.values)
+          return
+        }
+      }
+      alert('no')
     }
   }
 

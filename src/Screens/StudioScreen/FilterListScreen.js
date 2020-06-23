@@ -55,10 +55,8 @@ class FilterListScreen extends Component {
     const groupedData = GridRow.groupByRows(this.state.filter_list, 3, () => {
       return 1
     })
-
+    
     await this.setState({ groupedData: groupedData })
-
-    console.log(this.state.filter_list)
   }
 
   onChooseFiletoApply = async () => {

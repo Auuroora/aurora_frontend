@@ -41,7 +41,6 @@ class Signup extends Component{
 
   onClickProfile = async () => {
     let image = await selectImage()
-    console.log(image)
     this.setState({image: 'data:image/jpeg;base64,' + image.data})
   }
 

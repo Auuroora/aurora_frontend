@@ -38,9 +38,7 @@ import {
   onChangeVignette,
 } from '../../OpencvJs'
 
-const { width, height } = Dimensions.get('window')
-
-//TODO : fix Slider Lightness reset problem
+const { width } = Dimensions.get('window')
 
 export default class NewFilterScreen extends React.Component {
   static propTypes = {
@@ -49,30 +47,34 @@ export default class NewFilterScreen extends React.Component {
     isDone: PropTypes.bool
   }
 
+  static img = {}
+  values = {
+    Hue: 0,
+    Saturation: 0,
+    Lightness: 0,
+    Temperature: 0,
+    Vibrance:0,
+    HighlightHue:0,
+    HighlightSaturation:0,
+    ShadowHue:0,
+    ShadowSaturation:0,
+    Tint: 0,
+    Clarity: 0,
+    Brightness:0,
+    Contrast:0,
+    Exposure: 0,
+    Gamma: 100,
+    Grain: 0,
+    Vignette: 0,
+  }
+
   constructor (props) {
     super(props)
+    this.img = props.image
+
     this.state = {
-      image: props.image,
       isImageLoaded: false,
-      values: {
-        Hue: 0,
-        Saturation: 0,
-        Lightness: 0,
-        Temperature: 0,
-        Vibrance:0,
-        HighlightHue:0,
-        HighlightSaturation:0,
-        ShadowHue:0,
-        ShadowSaturation:0,
-        Tint: 0,
-        Clarity: 0,
-        Brightness:0,
-        Contrast:0,
-        Exposure: 0,
-        Gamma: 100,
-        Grain: 0,
-        Vignette: 0,
-      },
+      intervalHandler: null,
       valuesRange: {
         Hue: { min: -100, max : 100 },
         Saturation: { min: -100, max : 100 },
@@ -102,11 +104,10 @@ export default class NewFilterScreen extends React.Component {
     }
 
     const imageDownSizeWidth = width
-    const imageDownSizeHeight = this.state.image.height * (width / this.state.image.width)
+    const imageDownSizeHeight = this.img.height * (width / this.img.width)
 
-    loadImg(this.state.image.data, imageDownSizeWidth, imageDownSizeHeight)
+    loadImg(this.img.data, imageDownSizeWidth / 1 , imageDownSizeHeight / 1)
       .then(() => {
-        this.setState({})
         this.setState({
           imageWidth: imageDownSizeWidth,
           imageHeight: imageDownSizeHeight,
@@ -116,7 +117,14 @@ export default class NewFilterScreen extends React.Component {
       .catch((err) => {
         console.log(err)
       })
+  }
 
+  componentDidMount () {
+    let handler = setInterval(() => {
+      this.forceUpdate()
+    }, 50)
+
+    this.setState({intervalHandler: handler})
   }
 
   mapCvFunction = (type) => {
@@ -162,28 +170,15 @@ export default class NewFilterScreen extends React.Component {
   // User Event for image operation
   onChangeSliderValue = async (val) => {
     try {
-      await this.setState(prevState => ({
-        values: {
-          ...prevState.values,
-          [this.state.selectedValue]: val,
-        }
-      }))
-      let start = new Date().getTime()
-
-      const resultImg = await this.state.editFunction(val)
-      console.log("소요된 시간: " + (new Date().getTime() - start))
-      this.setState({ 
-        image: {
-          data: resultImg
-        }
-      })
+      this.values[this.state.selectedValue] = val
+      this.img.data = await this.state.editFunction(val)
     } catch (e) {
       console.log(e)
     }
   }
 
   onPressValueTile = async (val) => {
-    const selectedValueTile = this.state.values[val]
+    const selectedValueTile = this.values[val]
     await this.setState({
       sliderValue: selectedValueTile
     })
@@ -198,8 +193,12 @@ export default class NewFilterScreen extends React.Component {
 
   componentDidUpdate = (prevProps) => {
     if (prevProps.isDone !== this.props.isDone && this.props.isDone) {
-      this.props.onNewFilterDone(this.state.image.data, this.state.values)
+      this.props.onNewFilterDone(this.img.data, this.values)
     }
+  }
+
+  componentWillUnmount = () => {
+    clearInterval(this.state.intervalHandler)
   }
 
   // For Rendering Image View
@@ -207,10 +206,10 @@ export default class NewFilterScreen extends React.Component {
     if (this.state.isImageLoaded) {
       return (
         <Image
-          source={{ uri: 'data:image/jpeg;base64,' + this.state.image.data }}
+          source={{ uri: 'data:image/jpeg;base64,' + this.img.data }}
           style={{
-            width: this.state.imageWidth,
-            height: this.state.imageHeight,
+            width: this.img.imageWidth,
+            height: this.img.imageHeight,
           }}
           styleName='large'
         />
@@ -264,7 +263,7 @@ export default class NewFilterScreen extends React.Component {
                     color: '#FEFEFE'
                   }}
                 >
-                  {this.state.values[this.state.selectedValue]}
+                  {this.values[this.state.selectedValue]}
                 </Title>
                 
                 <Slider
@@ -296,7 +295,7 @@ export default class NewFilterScreen extends React.Component {
               null
             )}
             <ListView
-              data={Object.keys(this.state.values).sort()}
+              data={Object.keys(this.values)}
               horizontal={true}
               renderRow={this.renderValueTile}
             />

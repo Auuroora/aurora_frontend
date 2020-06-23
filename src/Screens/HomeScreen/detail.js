@@ -68,8 +68,6 @@ class DetailScreen extends Component {
     this.getCommentInfo(this.state.postId)
   }
 
-
-  
   componentDidMount() {
     this.onRefresh()
   }
@@ -94,8 +92,7 @@ class DetailScreen extends Component {
     if(res.data.user_info.id === res.data.current_user_info.id){
       await this.setState({isMyPost :true})
     }
-
-    this.setState({isLoading: false})
+    await this.setState({isLoading: false})
   }
 
   onClickPostImage = () => {

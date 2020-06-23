@@ -18,7 +18,10 @@ import Title from '../../Components/Title'
 import { AWS_S3_STORAGE_URL } from "react-native-dotenv"
 import axios from "../../axiosConfig"
 
+import { Collapse, CollapseHeader, CollapseBody } from "accordion-collapse-react-native"
+
 const { height } = Dimensions.get('window')
+let currentView
 class Purchase extends Component {
   constructor(props) {
     super(props)
@@ -30,28 +33,26 @@ class Purchase extends Component {
       ],
       userCash: null,
       checked:false,
+      moreOrder: null,
+      isOrderMore: -1,
+     
     }
     this.ongetPurchaseList()
   }
-  ongetPurchaseList(){
+  ongetPurchaseList = async() =>{
     const params = {
       params: {
         state :"purchased"
       }
     }
-    axios.get('/orders', params).then((res)=>{
-      console.log(res.data)
-      this.setState({
-        purchaseList:res.data
-      })
-      console.log(res.data.id)
+    const data= await axios.get('/orders', params)
+    await this.setState({
+      purchaseList:data.data
     })
   }
-
   renderRow = (purchase) =>{
     return (
       <View style={{ backgroundColor: 'gray'}}>
-        <Divider styleName="line" />
         <Row style ={{ backgroundColor: '#1E1E1E'}}>
           <Image
             source={ require('../../assets/image/money.png' )}
@@ -62,10 +63,15 @@ class Purchase extends Component {
             <Text numberOfLines={1} style={{color: 'white'}}>결제금액: {purchase.total}</Text>
             <Text numberOfLines={1} style={{color: 'white'}}>결제일자: {purchase.purchased_at}</Text>
           </View>
-          <Icon styleName="disclosure" style={{color: 'white'}} name="right-arrow" />
+          <TouchableOpacity onPress ={() => {
+            this.props.navigation.navigate("MoreOrderList", { purchaseId : purchase.id})}}>
+            <Icon styleName="disclosure" style={{color: 'white'}} name="right-arrow" />
+          </TouchableOpacity>
+          <Divider styleName="line" />
         </Row>
-        <Divider styleName="line" />
       </View>
+
+      
     )
   }
 
@@ -90,7 +96,8 @@ class Purchase extends Component {
             <ListView
               data={this.state.purchaseList}
               renderRow={this.renderRow}
-            />)
+            />
+          )
           :
           (<View style ={{
             alignItems: "center",
@@ -99,8 +106,7 @@ class Purchase extends Component {
           </View>
           )
         }
-
-      </Screen >
+      </Screen>
     )
   }
 }

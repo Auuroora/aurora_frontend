@@ -79,7 +79,6 @@ class DetailScreen extends Component {
       }
     }
     const res = await axios.get('/posts/' + postId, params)
-    console.log(res.data)
     await this.setState({postData : res.data})
     await this.setState({userData : res.data.user_info})
     

@@ -48,6 +48,25 @@ export default class NewFilterScreen extends React.Component {
   }
 
   static img = {}
+  values = {
+    Hue: 0,
+    Saturation: 0,
+    Lightness: 0,
+    Temperature: 0,
+    Vibrance:0,
+    HighlightHue:0,
+    HighlightSaturation:0,
+    ShadowHue:0,
+    ShadowSaturation:0,
+    Tint: 0,
+    Clarity: 0,
+    Brightness:0,
+    Contrast:0,
+    Exposure: 0,
+    Gamma: 100,
+    Grain: 0,
+    Vignette: 0,
+  }
 
   constructor (props) {
     super(props)
@@ -56,25 +75,6 @@ export default class NewFilterScreen extends React.Component {
     this.state = {
       isImageLoaded: false,
       intervalHandler: null,
-      values: {
-        Hue: 0,
-        Saturation: 0,
-        Lightness: 0,
-        Temperature: 0,
-        Vibrance:0,
-        HighlightHue:0,
-        HighlightSaturation:0,
-        ShadowHue:0,
-        ShadowSaturation:0,
-        Tint: 0,
-        Clarity: 0,
-        Brightness:0,
-        Contrast:0,
-        Exposure: 0,
-        Gamma: 100,
-        Grain: 0,
-        Vignette: 0,
-      },
       valuesRange: {
         Hue: { min: -100, max : 100 },
         Saturation: { min: -100, max : 100 },
@@ -106,7 +106,7 @@ export default class NewFilterScreen extends React.Component {
     const imageDownSizeWidth = width
     const imageDownSizeHeight = this.img.height * (width / this.img.width)
 
-    loadImg(this.img.data, imageDownSizeWidth / 1.5 , imageDownSizeHeight / 1.5)
+    loadImg(this.img.data, imageDownSizeWidth / 1 , imageDownSizeHeight / 1)
       .then(() => {
         this.setState({
           imageWidth: imageDownSizeWidth,
@@ -117,14 +117,12 @@ export default class NewFilterScreen extends React.Component {
       .catch((err) => {
         console.log(err)
       })
-
   }
 
   componentDidMount () {
     let handler = setInterval(() => {
-      console.log('im alive')
       this.forceUpdate()
-    }, 60)
+    }, 50)
 
     this.setState({intervalHandler: handler})
   }
@@ -171,25 +169,16 @@ export default class NewFilterScreen extends React.Component {
 
   // User Event for image operation
   onChangeSliderValue = async (val) => {
-    let start = new Date().getTime()
-    
     try {
-      await this.setState(prevState => ({
-        values: {
-          ...prevState.values,
-          [this.state.selectedValue]: val,
-        }
-      }))
+      this.values[this.state.selectedValue] = val
       this.img.data = await this.state.editFunction(val)
-      console.log("소요된 시간: " + (new Date().getTime() - start))
-
     } catch (e) {
       console.log(e)
     }
   }
 
   onPressValueTile = async (val) => {
-    const selectedValueTile = this.state.values[val]
+    const selectedValueTile = this.values[val]
     await this.setState({
       sliderValue: selectedValueTile
     })
@@ -204,7 +193,7 @@ export default class NewFilterScreen extends React.Component {
 
   componentDidUpdate = (prevProps) => {
     if (prevProps.isDone !== this.props.isDone && this.props.isDone) {
-      this.props.onNewFilterDone(this.img.data, this.state.values)
+      this.props.onNewFilterDone(this.img.data, this.values)
     }
   }
 
@@ -274,7 +263,7 @@ export default class NewFilterScreen extends React.Component {
                     color: '#FEFEFE'
                   }}
                 >
-                  {this.state.values[this.state.selectedValue]}
+                  {this.values[this.state.selectedValue]}
                 </Title>
                 
                 <Slider
@@ -306,7 +295,7 @@ export default class NewFilterScreen extends React.Component {
               null
             )}
             <ListView
-              data={Object.keys(this.state.values).sort()}
+              data={Object.keys(this.values)}
               horizontal={true}
               renderRow={this.renderValueTile}
             />

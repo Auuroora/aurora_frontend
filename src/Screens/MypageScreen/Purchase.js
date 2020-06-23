@@ -18,7 +18,6 @@ import Title from '../../Components/Title'
 import { AWS_S3_STORAGE_URL } from "react-native-dotenv"
 import axios from "../../axiosConfig"
 
-import { Collapse, CollapseHeader, CollapseBody } from "accordion-collapse-react-native"
 
 const { height } = Dimensions.get('window')
 let currentView

@@ -29,7 +29,8 @@ class HomeScreen extends Component {
       isLoading: true,
       pageNum: 1,
       groupedData: null,
-      refresh: false
+      refresh: false,
+      onNavigateRefresh: props.route.params ? props.route.params.refresh : false
     }
   }
 
@@ -39,7 +40,6 @@ class HomeScreen extends Component {
 
   onRefresh = async () => {
     const res = await this.getPostList(1)
-    console.log(res)
     await this.setState({
       postList: res.posts,
       pageNum: 1,
@@ -75,7 +75,7 @@ class HomeScreen extends Component {
         isLoading: true,
       })
       const res = await this.getPostList(this.state.pageNum)
-      console.log(this.state.pageNum)
+
       await this.setState({
         isLoading: false,
         postList: this.state.postList.concat(res.posts)
@@ -91,7 +91,6 @@ class HomeScreen extends Component {
     }
     await axios.post('/likes', data)
     this.componentDidMount()
-    // 로직 새로 구성할것
   }
   
   renderRow = ({ item, index }) => {  

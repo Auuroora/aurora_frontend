@@ -112,6 +112,10 @@ class UploadScreen extends Component{
         isFilterSelected: false,
         imageFile: ''
       })
+      
+      this.props.navigation.navigate("Home", {
+        refresh: true
+      })
     }
     else{
       alert('모든 부분을 작성하여 주세요.')

@@ -38,7 +38,7 @@ import {
   onChangeVignette,
 } from '../../OpencvJs'
 
-const { width } = Dimensions.get('window')
+const { width, height } = Dimensions.get('window')
 
 export default class NewFilterScreen extends React.Component {
   static propTypes = {
@@ -217,10 +217,10 @@ export default class NewFilterScreen extends React.Component {
         <Image
           source={{ uri: 'data:image/jpeg;base64,' + this.img.data }}
           style={{
-            width: this.img.imageWidth,
-            height: this.img.imageHeight,
+            width: width,
+            height: this.img.height * (width / this.img.width),
+            maxHeight: height / 1.8
           }}
-          styleName='large'
         />
       )
     }

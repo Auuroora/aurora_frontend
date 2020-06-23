@@ -102,6 +102,10 @@ class StudioScreen extends Component {
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4()
   }
 
+  cancelDone = () => {
+    this.setState({isDone: false})
+  }
+
   onNewFilterDone = async (image, preset) => {
     try {
       const imageUri = await this.urlToBlob('data:image/jpeg;base64,' + image)
@@ -158,6 +162,7 @@ class StudioScreen extends Component {
         <NewFilterScreen
           onNewFilterDone={this.onNewFilterDone}
           isDone={this.state.isDone}
+          cancelDone={this.cancelDone}
           image={this.state.imageFile}
         />
       )

@@ -44,7 +44,8 @@ export default class NewFilterScreen extends React.Component {
   static propTypes = {
     image: PropTypes.object,
     onNewFilterDone: PropTypes.func,
-    isDone: PropTypes.bool
+    isDone: PropTypes.bool,
+    cancelDone: PropTypes.func
   }
 
   static img = {}
@@ -76,23 +77,23 @@ export default class NewFilterScreen extends React.Component {
       isImageLoaded: false,
       intervalHandler: null,
       valuesRange: {
-        Hue: { min: -100, max : 100 },
-        Saturation: { min: -100, max : 100 },
-        Lightness: { min: -100, max : 100 },
-        Temperature: { min: -100, max : 100 },
-        Vibrance: { min: -100, max : 100 },
-        HighlightHue: { min: -100, max : 100 },
-        HighlightSaturation: { min: -100, max : 100 },
-        ShadowHue: { min: -100, max : 100 },
-        ShadowSaturation: { min: -100, max : 100 },
-        Tint: { min: -100, max : 100 },
-        Clarity: { min: -100, max : 100 },
-        Brightness: { min: -100, max : 100 },
-        Contrast: { min: -100, max : 100 },
-        Exposure: { min: -100, max : 100 },
-        Gamma: { min: 1, max : 200 },
-        Grain: { min: 0, max : 100 },
-        Vignette: { min: -100, max : 100 },
+        Hue: { min: -100, max : 100, origin: 0 },
+        Saturation: { min: -100, max : 100, origin: 0 },
+        Lightness: { min: -100, max : 100, origin: 0 },
+        Temperature: { min: -100, max : 100, origin: 0 },
+        Vibrance: { min: -100, max : 100, origin: 0 },
+        HighlightHue: { min: -100, max : 100, origin: 0 },
+        HighlightSaturation: { min: -100, max : 100, origin: 0 },
+        ShadowHue: { min: -100, max : 100, origin: 0 },
+        ShadowSaturation: { min: -100, max : 100, origin: 0 },
+        Tint: { min: -100, max : 100, origin: 0 },
+        Clarity: { min: -100, max : 100, origin: 0 },
+        Brightness: { min: -100, max : 100, origin: 0 },
+        Contrast: { min: -100, max : 100, origin: 0 },
+        Exposure: { min: -100, max : 100, origin: 0 },
+        Gamma: { min: 1, max : 200, origin: 100 },
+        Grain: { min: 0, max : 100, origin: 0 },
+        Vignette: { min: -100, max : 100, origin: 0 },
       },
       selectedCategory: null,
       selectedValue: null,
@@ -194,13 +195,14 @@ export default class NewFilterScreen extends React.Component {
   componentDidUpdate = (prevProps) => {
     if (prevProps.isDone !== this.props.isDone && this.props.isDone) {
       for (let ii in this.values) {
-        console.log(this.values[ii])
-        if (this.values[ii] !== 0) {
+        if (this.values[ii] !== this.state.valuesRange[ii].origin) {
           this.props.onNewFilterDone(this.img.data, this.values)
           return
         }
       }
-      alert('no')
+
+      this.props.cancelDone()
+      alert('바뀐 보정값이 없습니다!' + this.props.isDone)
     }
   }
 

@@ -50,6 +50,8 @@ RCT_EXPORT_METHOD(getWatermarkedImg: (NSString *)imageAsBase64 logo: (NSString *
 }
 
 RCT_EXPORT_METHOD(onChangeHue: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
+
+  NSDate *date = [NSDate date];
   NSLog(@"%d", (int)value);
   Mat res_img = on_change_hue((int)value);
   
@@ -57,6 +59,9 @@ RCT_EXPORT_METHOD(onChangeHue: (NSInteger)value callback:(RCTResponseSenderBlock
   
   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
   NSString *encodedString = [imageData base64Encoding];
+
+  NSTimeInterval elapsed = [date timeIntervalSinceNow] * -1000.0;
+  NSLog(@"Hue 걸린 시간%f", elapsed);
   callback(@[[NSNull null], encodedString]);
 }
 
@@ -203,12 +208,15 @@ RCT_EXPORT_METHOD(onChangeExposure: (NSInteger)value callback:(RCTResponseSender
 
 //파라미터가 float로 !! 에러로 인해 우선 NSInteger로 
 RCT_EXPORT_METHOD(onChangeGamma: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
+  NSDate *date = [NSDate date];
   Mat res_img = on_change_gamma((int)value);
   
   UIImage* result = MatToUIImage(res_img);
   
   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
   NSString *encodedString = [imageData base64Encoding];
+  NSTimeInterval elapsed = [date timeIntervalSinceNow] * -1000.0;
+  NSLog(@"감마 걸린 시간 : %f", elapsed);
   callback(@[[NSNull null], encodedString]);
 }
 

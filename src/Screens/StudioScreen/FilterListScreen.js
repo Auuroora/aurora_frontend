@@ -47,7 +47,7 @@ class FilterListScreen extends Component {
       showingList: this.currentTab,
       isImageSelected: false,
       groupedData: null,
-      isModal:false
+      isModal:false,
       isLoading: true,
       currentTab: 'my'
     }

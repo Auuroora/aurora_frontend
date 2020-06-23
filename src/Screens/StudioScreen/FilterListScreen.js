@@ -8,6 +8,11 @@ import {
   ListView,
   GridRow,
   Screen,
+  View,
+  Button,
+  Caption,
+  Subtitle,
+  Spinner
 } from '@shoutem/ui'
 
 import LargeTile from '../../Components/LargeTile'
@@ -38,9 +43,12 @@ class FilterListScreen extends Component {
         data: null
       },
       filterId: null,
-      filter_list: [],
+      myFilter: [],
+      purchaseFilter: [],
+      showingList: [],
       isImageSelected: false,
-      groupedData: null
+      groupedData: null,
+      isLoading: true
     }
     
     this.getFilterList()
@@ -48,15 +56,33 @@ class FilterListScreen extends Component {
 
   getFilterList = async () => {
     const res = await axios.get('/myfilter', { "user_info": "true" })
-    let filterData = res.data.my_filter
-    filterData = filterData.concat(res.data.purchase_filter)
-    await this.setState({ filter_list: filterData })
 
-    const groupedData = GridRow.groupByRows(this.state.filter_list, 3, () => {
+    await this.setState({ 
+      myFilter: res.data.my_filter,
+      purchaseFilter: res.data.purchase_filter,
+      showingList: res.data.my_filter
+    })
+
+    const groupedData = GridRow.groupByRows(this.state.showingList, 3, () => {
       return 1
     })
     
-    await this.setState({ groupedData: groupedData })
+    await this.setState({ groupedData: groupedData, isLoading: false })
+  }
+
+  onClickTab = async (tabName) => {
+    await this.setState({isLoading: true})
+    if(tabName == 'my') {
+      this.setState({showingList: this.state.myFilter})
+    } else {
+      this.setState({showingList: this.state.purchaseFilter})
+    }
+
+    const groupedData = GridRow.groupByRows(this.state.showingList, 3, () => {
+      return 1
+    })
+    
+    await this.setState({ groupedData: groupedData, isLoading: false })
   }
 
   onChooseFiletoApply = async () => {
@@ -148,16 +174,32 @@ class FilterListScreen extends Component {
           onClickTile={this.onClickLargeTile}
           noImageComment={'이미지를 선택하고 필터를 적용하세요.'}
         ></LargeTile>
-        <ListView
-          style={{
-            listContent: {
-              backgroundColor: '#0A0A0A'
-            }
-          }}
-          onRefresh={() => this.getFilterList()}
-          data={this.state.groupedData}
-          renderRow={this.renderRow}
-        />
+        <View style={styles.tabContainer}>
+          <Button style={styles.tabButton} onPress={() => {this.onClickTab('my')}}>
+            <Subtitle style={styles.tabText}>
+              내가 만든 필터
+            </Subtitle>
+          </Button>
+          <Button style={styles.tabButton} onPress={() => {this.onClickTab('purchase')}}>
+            <Subtitle style={styles.tabText}>
+              구매한 필터
+            </Subtitle>
+          </Button>
+        </View>
+        {this.state.isLoading ? (
+          <Spinner/>
+        ) : (
+          <ListView
+            style={{
+              listContent: {
+                backgroundColor: '#0A0A0A'
+              }
+            }}
+            onRefresh={() => this.getFilterList()}
+            data={this.state.groupedData}
+            renderRow={this.renderRow}
+          />
+        )}
       </Screen>
     )
   }
@@ -168,5 +210,16 @@ export default FilterListScreen
 const styles = StyleSheet.create({
   darkScreen: {
     backgroundColor: '#0A0A0A'
+  },
+  tabContainer: {
+    flexDirection: 'row'
+  },
+  tabButton: {
+    backgroundColor: '#222222',
+    flex: 1,
+    borderColor: '#333333'
+  },
+  tabText: {
+    color: '#FAFAFA'
   }
 })  

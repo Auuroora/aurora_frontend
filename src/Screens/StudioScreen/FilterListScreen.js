@@ -62,7 +62,6 @@ class FilterListScreen extends Component {
   onChooseFiletoApply = async () => {
     ImagePicker.showImagePicker(ImagePickerOptions, async response => {
       if (response.didCancel) {
-        console.log('User cancelled image picker')
         return
       }
       else if (response.error) {

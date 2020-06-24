@@ -130,6 +130,7 @@ class UploadScreen extends Component{
           isSelectFilter={this.state.isSelectFilter}
           filterData = {this.state.filterData}
           userId ={this.state.userId}
+          onRefresh ={this.getUserFilterData}
           state={this.state}/>)
     }
     return (

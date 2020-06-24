@@ -32,6 +32,7 @@ RCT_EXPORT_METHOD(initCV: (NSString *)imageAsBase64 downsizing_col:(NSInteger)do
 
 RCT_EXPORT_METHOD(getWatermarkedImg: (NSString *)imageAsBase64 logo: (NSString *)logo width: (NSInteger)width height: (NSInteger)height callback: (RCTResponseSenderBlock)callback) {
 
+  NSDate *date = [NSDate date];
   UIImage* image = [self decodeBase64ToImage:imageAsBase64];
   UIImage* logo_img = [self decodeBase64ToImage:logo];
   
@@ -45,6 +46,10 @@ RCT_EXPORT_METHOD(getWatermarkedImg: (NSString *)imageAsBase64 logo: (NSString *
   UIImage* result = MatToUIImage(res_img);
   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
   NSString *encodedString = [imageData base64Encoding];
+  
+  NSTimeInterval elapsed = [date timeIntervalSinceNow] * -1000.0;
+  NSLog(@"Watered 걸린 시간 %f\n", elapsed);
+  
 
   callback(@[[NSNull null], encodedString]);
 }
@@ -61,12 +66,12 @@ RCT_EXPORT_METHOD(onChangeHue: (NSInteger)value callback:(RCTResponseSenderBlock
   NSString *encodedString = [imageData base64Encoding];
 
   NSTimeInterval elapsed = [date timeIntervalSinceNow] * -1000.0;
-  NSLog(@"Hue 걸린 시간%f", elapsed);
+  NSLog(@"Bridge Hue 걸린 시간%f\n", elapsed);
   callback(@[[NSNull null], encodedString]);
 }
 
 RCT_EXPORT_METHOD(onChangeSaturation: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
-  NSLog(@"%d", (int)value);
+  NSLog(@"Sat %d\n", (int)value);
   Mat res_img = on_change_saturation((int)value);
   
   UIImage* result = MatToUIImage(res_img);
@@ -88,7 +93,7 @@ RCT_EXPORT_METHOD(onChangeLightness: (NSInteger)value callback:(RCTResponseSende
 }
 
 RCT_EXPORT_METHOD(onChangeTemperature: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
-  NSLog(@"%d", (int)value);
+  NSLog(@"Temper %d\n", (int)value);
   Mat res_img = on_change_temperature((int)value);
   
   UIImage* result = MatToUIImage(res_img);
@@ -99,7 +104,7 @@ RCT_EXPORT_METHOD(onChangeTemperature: (NSInteger)value callback:(RCTResponseSen
 }
 
 RCT_EXPORT_METHOD(onChangeVibrance: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
-  NSLog(@"%d", (int)value);
+  NSLog(@"Vibrance %d\n", (int)value);
   Mat res_img = on_change_vibrance((int)value);
   
   UIImage* result = MatToUIImage(res_img);
@@ -110,7 +115,7 @@ RCT_EXPORT_METHOD(onChangeVibrance: (NSInteger)value callback:(RCTResponseSender
 }
 
 RCT_EXPORT_METHOD(onChangeHighlightHue: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
-  NSLog(@"%d", (int)value);
+  NSLog(@"High Hue : %d\n", (int)value);
   Mat res_img = on_change_highlight_hue((int)value);
   
   UIImage* result = MatToUIImage(res_img);
@@ -121,7 +126,7 @@ RCT_EXPORT_METHOD(onChangeHighlightHue: (NSInteger)value callback:(RCTResponseSe
 }
 
 RCT_EXPORT_METHOD(onChangeHighlightSaturation: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
-  NSLog(@"%d", (int)value);
+  NSLog(@"High_SAT %d\n", (int)value);
   Mat res_img = on_change_highlight_saturation((int)value);
   
   UIImage* result = MatToUIImage(res_img);
@@ -132,7 +137,7 @@ RCT_EXPORT_METHOD(onChangeHighlightSaturation: (NSInteger)value callback:(RCTRes
 }
 
 RCT_EXPORT_METHOD(onChangeShadowHue: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
-  NSLog(@"%d", (int)value);
+  NSLog(@"ShadowHue %d\n", (int)value);
   Mat res_img = on_change_shadow_hue((int)value);
   
   UIImage* result = MatToUIImage(res_img);
@@ -143,7 +148,7 @@ RCT_EXPORT_METHOD(onChangeShadowHue: (NSInteger)value callback:(RCTResponseSende
 }
 
 RCT_EXPORT_METHOD(onChangeShadowSaturation: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
-  NSLog(@"%d", (int)value);
+  NSLog(@"Shadow_SAT %d\n", (int)value);
   Mat res_img = on_change_shadow_saturation((int)value);
   
   UIImage* result = MatToUIImage(res_img);
@@ -164,6 +169,7 @@ RCT_EXPORT_METHOD(onChangeTint: (NSInteger)value callback:(RCTResponseSenderBloc
 }
 
 RCT_EXPORT_METHOD(onChangeClarity: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
+  NSLog(@"Clarity : %d\n", (int)value);
   Mat res_img = on_change_clarity((int)value);
   
   UIImage* result = MatToUIImage(res_img);
@@ -196,7 +202,7 @@ RCT_EXPORT_METHOD(onChangeContrast: (NSInteger)value callback:(RCTResponseSender
 }
 
 RCT_EXPORT_METHOD(onChangeExposure: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
-  NSLog(@"%d", (int)value);
+  NSLog(@"exposure %d\n", (int)value);
   Mat res_img = on_change_exposure((int)value);
   
   UIImage* result = MatToUIImage(res_img);
@@ -216,24 +222,22 @@ RCT_EXPORT_METHOD(onChangeGamma: (NSInteger)value callback:(RCTResponseSenderBlo
   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
   NSString *encodedString = [imageData base64Encoding];
   NSTimeInterval elapsed = [date timeIntervalSinceNow] * -1000.0;
-  NSLog(@"감마 걸린 시간 : %f", elapsed);
+  NSLog(@"감마 걸린 시간 : %f\n", elapsed);
   callback(@[[NSNull null], encodedString]);
 }
 
 RCT_EXPORT_METHOD(onChangeGrain: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
-  NSLog(@"%d", (int)value);
+  NSLog(@" Grain %d\n", (int)value);
   Mat res_img = on_change_grain((int)value);
-  NSLog(@"%d", (int)value);
   
   UIImage* result = MatToUIImage(res_img);
-  NSLog(@"%d", (int)value);
   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
   NSString *encodedString = [imageData base64Encoding];
   callback(@[[NSNull null], encodedString]);
 }
 
 RCT_EXPORT_METHOD(onChangeVignette: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
-  NSLog(@"%d", (int)value);
+  NSLog(@"Vignette %d\n", (int)value);
   Mat res_img = on_change_vignette((int)value);
   
   UIImage* result = MatToUIImage(res_img);

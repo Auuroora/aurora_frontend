@@ -48,14 +48,14 @@ double weight_per_value(int val, int mu)
 
 void downsize_image(cv::Mat &src, cv::Mat &dst, int downsizedCol, int downsizedRow)
 {
+  
 	if (src.rows > downsizedRow || src.cols > downsizedCol)
 	{
 		cv::resize(src, dst, cv::Size(downsizedCol, downsizedRow), 0, 0, cv::INTER_AREA);
 	}
-	else
-	{
-		dst = src.clone();
-	}
+  else {
+    dst = src.clone();
+  }
 }
 
 cv::Mat cut_image(cv::Mat src, int start_x, int start_y, int end_x, int end_y) {
@@ -65,14 +65,18 @@ cv::Mat cut_image(cv::Mat src, int start_x, int start_y, int end_x, int end_y) {
 
 // return img + logo
 cv::Mat get_watermarked_image(cv::Mat src_img, cv::Mat src_logo, int width, int height) {
+  int64 start=cv::getTickCount();
 	cv::Mat res_img, res_logo;
 
+  // cv::Mat src_img = src_img.getMat(cv::ACCESS_FAST);
 	cv::resize(src_logo, res_logo, src_img.size(), 0, 0, cv::INTER_AREA);
 	cv::addWeighted(src_img, 1, res_logo, 0.7, 0, res_img);
 
 	if (width && height) 
 		cv::resize(res_img, res_img, cv::Size(width, height), 0, 0, cv::INTER_AREA);
-
+  
+  int64 end = cv::getTickCount();
+  std::cout<<"워터마크 : "<<static_cast<double>(end-start)/cv::getTickFrequency()<<std::endl;
 	return res_img;
 }
 
@@ -107,7 +111,7 @@ cv::Mat get_preview_image(
 	preview_info.update_vignette(vignette);
 
 	preview_info.apply_filter();
-	return get_watermarked_image(preview_info.image.res, src_logo, width, height);
+	return get_watermarked_image(preview_info.image.res.getMat(cv::ACCESS_FAST), src_logo, width, height);
 }
 
 /*****************************************************************************
@@ -132,12 +136,15 @@ void WorkingImgInfo::apply_filter() {
 
 void WorkingImgInfo::update_hue(int pos)
 {
+  int64 start = cv::getTickCount();
 	imginfo.filter.diff.setTo((pos - imginfo.trackbar.hue)/10.0);
 	cv::add(
 		imginfo.filter.hls_filters[HLSINDEX::H],
 		imginfo.filter.diff,
 		imginfo.filter.hls_filters[HLSINDEX::H]);
 	imginfo.trackbar.hue = pos;
+  int64 end = cv::getTickCount();
+  std::cout<<"update_hue : "<<static_cast<double>(end-start)/cv::getTickFrequency()<<std::endl;
 }
 
 void WorkingImgInfo::update_saturation(int pos)
@@ -178,9 +185,8 @@ void WorkingImgInfo::update_temperature(int pos)
 }
 
 void WorkingImgInfo::update_vibrance(int pos) {
-	cv::Mat src = this->filter.hls_filters[HLSINDEX::S].clone();
 	cv::addWeighted(
-		src,
+		this->filter.hls_filters[HLSINDEX::S],
 		1.0,
 		this->weight.lightness,
 		(double)(pos - this->trackbar.vibrance),
@@ -188,47 +194,49 @@ void WorkingImgInfo::update_vibrance(int pos) {
 		this->filter.hls_filters[HLSINDEX::S]
 	);
 	this->trackbar.vibrance = pos;
+  
 }
 
 void WorkingImgInfo::update_highlight_hue(int pos)
 {
-	cv::Mat tmp = imginfo.filter.hls_filters[HLSINDEX::H].clone();
 	cv::addWeighted(
 		(imginfo.image.hls_origins[HLSINDEX::L]),
 		(double)(pos - imginfo.trackbar.highlight_hue) * 0.001,
-		tmp,
+		imginfo.filter.hls_filters[HLSINDEX::H],
 		1,
 		0,
 		imginfo.filter.hls_filters[HLSINDEX::H]
 	);
-
 	// 변경치 업데이트
 	imginfo.trackbar.highlight_hue = pos;
 }
 
 void WorkingImgInfo::update_highlight_saturation(int pos)
 {
-	cv::Mat tmp = imginfo.filter.hls_filters[HLSINDEX::S].clone();
+//	cv::Mat s_filter = imginfo.filter.hls_filters[HLSINDEX::S].getMat(cv::ACCESS_FAST);
+//  cv::Mat l_origin = imginfo.image.hls_origins[HLSINDEX::L].getMat(cv::ACCESS_FAST);
+  cv::Mat tmp;
 	cv::addWeighted(
-		(imginfo.image.hls_origins[HLSINDEX::L]),
+		imginfo.image.hls_origins[HLSINDEX::L],
 		double(pos - imginfo.trackbar.highlight_sat) * 0.01,
-		tmp,
+		imginfo.filter.hls_filters[HLSINDEX::S],
 		1,
 		0,
 		imginfo.filter.hls_filters[HLSINDEX::S]
 	);
-
+//  imginfo.filter.hls_filters[HLSINDEX::S]= tmp.getUMat(cv::ACCESS_FAST);
 	// 변경치 업데이트
 	imginfo.trackbar.highlight_sat = pos;
 }
 
 void WorkingImgInfo::update_shadow_hue(int pos){
-	cv::Mat tmp = imginfo.filter.hls_filters[HLSINDEX::H].clone();
+//	cv::Mat S_filter = imginfo.filter.hls_filters[HLSINDEX::H].getMat(cv::ACCESS_FAST);
+  cv::Mat L_origin = imginfo.image.hls_origins[HLSINDEX::L].getMat(cv::ACCESS_FAST); 
 	cv::addWeighted(
-		tmp,
+		imginfo.filter.hls_filters[HLSINDEX::H],
 		1.0,
-		(1.0 / (imginfo.image.hls_origins[HLSINDEX::L])),
-		(pos - imginfo.trackbar.highlight_hue),
+		(1.0 / L_origin),
+		(pos - imginfo.trackbar.shadow_hue),
 		0,
 		imginfo.filter.hls_filters[HLSINDEX::H]
 	);
@@ -239,11 +247,12 @@ void WorkingImgInfo::update_shadow_hue(int pos){
 
 void WorkingImgInfo::update_shadow_saturation(int pos)
 {
-	cv::Mat tmp = imginfo.filter.hls_filters[HLSINDEX::S].clone();
+	cv::Mat S_filter = imginfo.filter.hls_filters[HLSINDEX::S].getMat(cv::ACCESS_FAST);
+  cv::Mat L_origin = imginfo.image.hls_origins[HLSINDEX::L].getMat(cv::ACCESS_FAST);
 	cv::addWeighted(
-		tmp,
-		1.,
-		(30 / (imginfo.image.hls_origins[HLSINDEX::L])),
+		S_filter,
+		1.0,
+		(30 / L_origin),
 		(pos - imginfo.trackbar.shadow_sat),
 		0,
 		imginfo.filter.hls_filters[HLSINDEX::S]

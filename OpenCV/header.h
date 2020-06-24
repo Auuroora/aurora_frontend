@@ -63,37 +63,35 @@ public:
 	int row; // 다운사이징 후 사진 가로
 	int col; // 다운사이징 후 사진 세로
 
-	std::vector<cv::Mat> test100;
-
 	struct Image
 	{
 		cv::Mat downsized;			// 다운사이징 후 이미지
-		cv::Mat bgr, hls, hsv, res; // bgr이미지, hsv이미지, 최종 결과물
-		cv::Mat logo;
-		std::vector<cv::Mat> bgr_origins; // split한 벡터(bgr)
-		std::vector<cv::Mat> hls_origins; // split한 벡터(hls)
+		cv::UMat bgr, hls, hsv, res; // bgr이미지, hsv이미지, 최종 결과물
+		cv::UMat logo;
+		std::vector<cv::UMat> bgr_origins; // split한 벡터(bgr)
+		std::vector<cv::UMat> hls_origins; // split한 벡터(hls)
 	} image;
 
 	struct Filter
 	{
-		cv::Mat diff;		// 필터 연산을 위한 행렬
-		cv::Mat bgr_filter; // bgr변경치가 기록되어 있는 필터
-		cv::Mat hls_filter; // hls변경치가 기록되어 있는 필터
+		cv::UMat diff;		// 필터 연산을 위한 행렬
+		cv::UMat bgr_filter; // bgr변경치가 기록되어 있는 필터
+		cv::UMat hls_filter; // hls변경치가 기록되어 있는 필터
 
-		cv::Mat clarity_filter;
-		cv::Mat clarity_mask_U;
-		cv::Mat clarity_mask_S;
-		std::vector<cv::Mat> clarity_mask_split;
+		cv::UMat clarity_filter;
+		cv::UMat clarity_mask_U;
+		cv::UMat clarity_mask_S;
+		std::vector<cv::UMat> clarity_mask_split;
 
-		cv::Mat gaussian_kernel;
-		cv::Mat gamma_mask;
-		cv::Mat grain_mask;
-		cv::Mat salt_mask;
-		cv::Mat pepper_mask;
-		cv::Mat exposure_mask;
+		cv::UMat gaussian_kernel;
+		cv::UMat gamma_mask;
+		cv::UMat grain_mask;
+		cv::UMat salt_mask;
+		cv::UMat pepper_mask;
+		cv::UMat exposure_mask;
 
-		std::vector<cv::Mat> bgr_filters; // split한 벡터(bgr)
-		std::vector<cv::Mat> hls_filters; // split한 벡터(hls)
+		std::vector<cv::UMat> bgr_filters; // split한 벡터(bgr)
+		std::vector<cv::UMat> hls_filters; // split한 벡터(hls)
 	} filter;
 
 	// 색 검출용 가중치 행렬
@@ -156,39 +154,40 @@ public:
 	{
 		// this->originImg = cv::imread("./aurora_watermark.png", cv::IMREAD_COLOR);
     // OpenCL을 사용할 수 있는지 테스트
-    if (!cv::ocl::haveOpenCL())
-    {
-      std::cout << "에러 : OpenCL을 사용할 수 없는 시스템입니다." << std::endl;
-    }
-    else {
-      std::cout<<"이게 나와야해 제발.."<<std::endl;
-    }
+    // if (!cv::ocl::haveOpenCL())
+    // {
+    //   std::cout << "에러 : OpenCL을 사용할 수 없는 시스템입니다." << std::endl;
+    // }
+    // else {
+    //   std::cout<<"이게 나와야해 제발.."<<std::endl;
+    // }
 
-    // 컨텍스트 생성
-    cv::ocl::Context context;
-    if (!context.create(cv::ocl::Device::TYPE_GPU))
-    {
-      std::cout << " 에러 : 컨텍스트를 생성할 수 없습니다." << std::endl;
-    }
+    // // 컨텍스트 생성
+    // cv::ocl::Context context;
+    // if (!context.create(cv::ocl::Device::TYPE_GPU))
+    // {
+    //   std::cout << " 에러 : 컨텍스트를 생성할 수 없습니다." << std::endl;
+    // }
 
-    // GPU 장치 정보
-    std::cout << context.ndevices() << " GPU device (s) detected " << std::endl;
-    for (size_t i = 0; i < context.ndevices(); i++)
-    {
-      cv::ocl::Device device = context.device(i);
-      std::cout << " - Device " << i << " --- " << std::endl;
-      std::cout << " Name : " << device.name() << std::endl;
-      std::cout << " Availability : " << device.available() << std::endl;
-      std::cout << "Image Support : " << device.imageSupport() << std::endl;
-      std::cout << " OpenCL C version : " << device.OpenCL_C_Version() << std::endl;
-    }
+    // // GPU 장치 정보
+    // std::cout << context.ndevices() << " GPU device (s) detected " << std::endl;
+    // for (size_t i = 0; i < context.ndevices(); i++)
+    // {
+    //   cv::ocl::Device device = context.device(i);
+    //   std::cout << " - Device " << i << " --- " << std::endl;
+    //   std::cout << " Name : " << device.name() << std::endl;
+    //   std::cout << " Availability : " << device.available() << std::endl;
+    //   std::cout << "Image Support : " << device.imageSupport() << std::endl;
+    //   std::cout << " OpenCL C version : " << device.OpenCL_C_Version() << std::endl;
+    // }
 
-    cv::ocl::Device(context.device(0));
-    cv::ocl::setUseOpenCL(true);
+    // cv::ocl::Device(context.device(0));
+    // cv::ocl::setUseOpenCL(true);
 
     
 		this->originImg = img.clone();
 		this->init_image(downsized_col, downsized_row);
+    std::cout<<"다운사이즈 크기 : "<<downsized_col<<" x "<< downsized_row<<std::endl;
 		this->init_filter();
 		this->init_weight();
 		this->init_trackbar(0);
@@ -206,7 +205,7 @@ public:
 		this->col = this->image.downsized.cols;
 
 		/* convert */
-		this->image.bgr = this->image.downsized.clone();
+		this->image.bgr = this->image.downsized.getUMat(cv::ACCESS_RW);
 		this->image.res = this->image.bgr.clone();
 		if (this->image.bgr.channels() == 4)
 		{
@@ -221,7 +220,7 @@ public:
 		this->image.res.convertTo(this->image.res, CV_32FC3);
 	}
 
-	/* filter matrix initialize */
+	/* filter UMatrix initialize */
 	void init_filter()
 	{
 		/* split(original) */
@@ -229,16 +228,16 @@ public:
 		cv::split(this->image.hls, this->image.hls_origins);
 
 		/* delete 0 in hls,hsv image */
-		cv::Mat mask;
+		cv::UMat mask;
 		cv::inRange(this->image.hls_origins[HLSINDEX::L], 0, 0, mask);
 		this->image.hls_origins[HLSINDEX::L].setTo(1, mask);
 		cv::inRange(this->image.hls_origins[HLSINDEX::S], 0, 0, mask);
 		this->image.hls_origins[HLSINDEX::S].setTo(1, mask);
 
-		/* initialize filter matrix */
-		this->filter.bgr_filter = cv::Mat::zeros(this->row, this->col, CV_32FC3);
-		this->filter.hls_filter = cv::Mat::zeros(this->row, this->col, CV_32FC3);
-		this->filter.diff = cv::Mat::zeros(this->row, this->col, CV_32F);
+		/* initialize filter UMatrix */
+		this->filter.bgr_filter = cv::UMat::zeros(this->row, this->col, CV_32FC3);
+		this->filter.hls_filter = cv::UMat::zeros(this->row, this->col, CV_32FC3);
+		this->filter.diff = cv::UMat::zeros(this->row, this->col, CV_32F);
 
 		cv::split(this->filter.bgr_filter, this->filter.bgr_filters);
 		cv::split(this->filter.hls_filter, this->filter.hls_filters);
@@ -249,8 +248,8 @@ public:
 
 		//Clarity
 		cv::bilateralFilter(this->image.bgr, this->filter.clarity_filter, DISTANCE, SIGMA_COLOR, SIGMA_SPACE);
-		this->filter.clarity_mask_U = cv::Mat::zeros(this->row, this->col, CV_32FC3);
-		this->filter.clarity_mask_S = cv::Mat::zeros(this->row, this->col, CV_32FC3);
+		this->filter.clarity_mask_U = cv::UMat::zeros(this->row, this->col, CV_32FC3);
+		this->filter.clarity_mask_S = cv::UMat::zeros(this->row, this->col, CV_32FC3);
 
 		//Vignette
 		cv::Mat kernel_x, kernel_x_transpose, kernel_y, kernel_res;
@@ -262,43 +261,43 @@ public:
 		cv::subtract(1, kernel_res, kernel_res);
 		kernel_res = cv::abs(kernel_res);
 		cv::multiply(125, kernel_res, kernel_res);
-		this->filter.gaussian_kernel = kernel_res.clone();
+		this->filter.gaussian_kernel = kernel_res.getUMat(cv::ACCESS_FAST);
 
-		kernel_x.deallocate();
-		kernel_x_transpose.deallocate();
-		kernel_y.deallocate();
-		kernel_res.deallocate();
+//		kernel_x.deallocate();
+//		kernel_x_transpose.deallocate();
+//		kernel_y.deallocate();
+//		kernel_res.deallocate();
 
 		//Grain
-		this->filter.grain_mask = cv::Mat::zeros(this->row, this->col, CV_32F);
+		this->filter.grain_mask = cv::UMat::zeros(this->row, this->col, CV_32F);
 		cv::randu(this->filter.grain_mask, cv::Scalar(-20), cv::Scalar(20));
 
 		//Exposure
-		this->filter.exposure_mask = cv::Mat::ones(this->row, this->col, CV_32F);
+		this->filter.exposure_mask = cv::UMat::ones(this->row, this->col, CV_32F);
 	}
 
-	/* make weight matrix */
-	void init_weight()
-	{
-		this->weight.hue = cv::Mat::zeros(this->row, this->col, CV_32F);
-		this->weight.saturation = cv::Mat::zeros(this->row, this->col, CV_32F);
-		this->weight.lightness = cv::Mat::zeros(this->row, this->col, CV_32F);
-		
-		double w = 30;
-		double mu = 130;
-		double std = 10;
-		cv::Mat src = this->image.hls_origins[HLSINDEX::L];
-		cv::Mat dest = this->weight.lightness;
+	/* make weight UMatrix */
+  void init_weight()
+    {
+       this->weight.hue = cv::Mat::zeros(this->row, this->col, CV_32F);
+       this->weight.saturation = cv::Mat::zeros(this->row, this->col, CV_32F);
+       this->weight.lightness = cv::Mat::zeros(this->row, this->col, CV_32F);
+      
+       double w = 30;
+       double mu = 130;
+       double std = 10;
+       cv::Mat src = this->image.hls_origins[HLSINDEX::L].getMat(cv::ACCESS_RW);
+       cv::Mat dest = this->weight.lightness;
 
-		for (int y = 0; y < src.rows; y++) {
-			float* pointer_input = src.ptr<float>(y);
-			float* pointer_output = dest.ptr<float>(y);
-			for (int x = 0; x < src.cols; x++) {
-				pointer_output[x] += (w * pow(EXP, -((pointer_input[x] - mu)*(pointer_input[x] - mu)) / (2.0 * std*std)) / sqrt(2.0 * PI*std*std));
-			}
-		}
-		// TO DO
-	}
+       for (int y = 0; y < src.rows; y++) {
+         float* pointer_input = src.ptr<float>(y);
+         float* pointer_output = dest.ptr<float>(y);
+         for (int x = 0; x < src.cols; x++) {
+           pointer_output[x] += (w * pow(EXP, -((pointer_input[x] - mu)*(pointer_input[x] - mu)) / (2.0 * std*std)) / sqrt(2.0 * PI*std*std));
+         }
+       }
+       // TO DO
+    }
 
 	/* set trackbar pos */
 	void init_trackbar(int pos)
@@ -329,17 +328,23 @@ public:
 
 	cv::Mat get_res_img()
 	{
-		cv::Mat res;
-		this->image.res.convertTo(res, CV_8UC3);
+    int64 start = cv::getTickCount();
+    cv::Mat res = this->image.res.getMat(cv::ACCESS_FAST);
+    this->image.res.convertTo(res,CV_8UC3);
+    int64 end = cv::getTickCount();
+    std::cout<<"get_res 걸리는 시간"<<static_cast<double>(end-start)/cv::getTickFrequency()<<std::endl;
+    
+    std::cout<<res.rows<<std::endl;
+    
 		return res;
 	}
 
-	void set_res_img(cv::Mat res)
+	void set_res_img(cv::UMat res)
 	{
 		this->image.res = res;
 	}
 
-	void set_logo_img(cv::Mat logo)
+	void set_logo_img(cv::UMat logo)
 	{
 		this->image.logo = logo;
 	}
@@ -382,13 +387,13 @@ extern class ParallelMakeWeight : public cv::ParallelLoopBody
 {
 private:
 	cv::Mat &src;
-	cv::Mat &weight_mat;
+	cv::Mat &weight_Mat;
 	double min, max;
 	double (*weight_func)(int, int);
 
 public:
 	ParallelMakeWeight(cv::Mat &i, cv::Mat &w, double (*wF)(int, int))
-		: src(i), weight_mat(w), weight_func(wF)
+		: src(i), weight_Mat(w), weight_func(wF)
 	{
 		cv::minMaxIdx(src, &min, &max);
 	}
@@ -397,7 +402,7 @@ public:
 	{
 		for (int r = range.start; r < range.end; r++)
 		{
-			weight_mat.data[r] = weight_func((int)src.data[r], max);
+			weight_Mat.data[r] = weight_func((int)src.data[r], max);
 		}
 	}
 

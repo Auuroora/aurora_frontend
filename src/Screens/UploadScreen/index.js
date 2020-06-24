@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, {Component} from 'react'
-import { 
+import {
   NavigationBar,
   ImageBackground,
   Screen,
@@ -37,7 +37,7 @@ class UploadScreen extends Component{
       tag: '',
       price: '',
       isFilterSelected: false
-    } 
+    }
     this.getUserFilterData()
   }
   onChooseFilter = () => {
@@ -45,13 +45,13 @@ class UploadScreen extends Component{
       isSelectFilter: true,
     })
   }
-  
+
   getUserFilterData = () => {
     axios.get('/myfilter').then(res => {
       const filterData = res.data.my_filter
       this.setState({
         filterData: filterData,
-      }) 
+      })
     })
   }
   onEndWriting = async (text, text_input) => {
@@ -82,7 +82,7 @@ class UploadScreen extends Component{
           taglist.push(splitDesc[idx])
         }
       }
-      
+
       taglist = taglist.join(', ')
 
       const data = {
@@ -95,7 +95,7 @@ class UploadScreen extends Component{
           user_id : this.state.userId
         }
       }
-      
+
       axios.post('/posts', data)
         .then(() => {
           alert('게시글 작성이 완료되었습니다.')
@@ -112,7 +112,7 @@ class UploadScreen extends Component{
         isFilterSelected: false,
         imageFile: ''
       })
-      
+
       this.props.navigation.navigate("Home", {
         refresh: true
       })
@@ -126,10 +126,11 @@ class UploadScreen extends Component{
     if (this.state.isSelectFilter) {
       return (
         <SelectFilterScreen
-          onPressDone={this.onPressDone} 
+          onPressDone={this.onPressDone}
           isSelectFilter={this.state.isSelectFilter}
           filterData = {this.state.filterData}
           userId ={this.state.userId}
+          onRefresh ={this.getUserFilterData}
           state={this.state}/>)
     }
     return (
@@ -139,27 +140,27 @@ class UploadScreen extends Component{
           onClickTile={this.onChooseFilter}
           noImageComment={'탭하여 업로드할 필터를 선택하세요'}
         />
-        <TextInput 
+        <TextInput
           placeholder={"제목"}
           value={this.state.title}
           style={{backgroundColor: '#0A0A0A', color: '#FAFAFA'}}
           onChangeText={(text) => this.setState({title: text})}
         />
-        <TextInput 
+        <TextInput
           placeholder={"가격"}
           value={this.state.price}
           keyboardType={'number-pad'}
           style={{backgroundColor: '#0A0A0A', color: '#FAFAFA'}}
           onChangeText={(text) => this.setState({price: text})}
         />
-        <TextInput 
+        <TextInput
           placeholder={"글 설명, #로 태그"}
           value={this.state.description}
           multiline={true}
           numberOfLines={4}
           style={{height: 500, backgroundColor: '#0A0A0A', color: '#FAFAFA'}}
           onChangeText={(text) => this.setState({description: text})}
-        /> 
+        />
       </ScrollView>
     )
   }

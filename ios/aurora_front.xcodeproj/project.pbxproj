@@ -79,7 +79,7 @@
 		00E356F21AD99517003FC87E /* aurora_frontTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = aurora_frontTests.m; sourceTree = "<group>"; };
 		07E12651E5CE08DEC2C4CE20 /* Pods-aurora_frontTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-aurora_frontTests.debug.xcconfig"; path = "Target Support Files/Pods-aurora_frontTests/Pods-aurora_frontTests.debug.xcconfig"; sourceTree = "<group>"; };
 		12A6D2F719A94D2FA5677C6A /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/native-base/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* aurora.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = aurora.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* aurora_front.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = aurora_front.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = aurora_front/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = aurora_front/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -407,7 +407,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* aurora.app */,
+				13B07F961A680F5B00A75B9A /* aurora_front.app */,
 				00E356EE1AD99517003FC87E /* aurora_frontTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* aurora_front-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* aurora_front-tvOSTests.xctest */,
@@ -490,7 +490,7 @@
 			);
 			name = aurora_front;
 			productName = aurora_front;
-			productReference = 13B07F961A680F5B00A75B9A /* aurora.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* aurora_front.app */;
 			productType = "com.apple.product-type.application";
 		};
 		2D02E47A1E0B4A5D006451C7 /* aurora_front-tvOS */ = {
@@ -983,8 +983,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.aurora;
-				PRODUCT_NAME = aurora;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.aurora-front";
+				PRODUCT_NAME = aurora_front;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				USER_HEADER_SEARCH_PATHS = /Users/veatoriche/Projects/aurora/aurora_front/OpenCV;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1011,8 +1011,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.aurora;
-				PRODUCT_NAME = aurora;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.aurora-front";
+				PRODUCT_NAME = aurora_front;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				USER_HEADER_SEARCH_PATHS = /Users/veatoriche/Projects/aurora/aurora_front/OpenCV;
 				VERSIONING_SYSTEM = "apple-generic";

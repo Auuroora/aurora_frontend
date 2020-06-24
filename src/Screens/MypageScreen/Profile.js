@@ -18,8 +18,8 @@ class ProfileTab extends Component{
       profile: {
         name: props.username,
         posts: props.postCount,
-        follower: props.follower,
-        following : props.followee,
+        cash: props.cash,
+        email : props.email,
         image: props.profile,
       }
     }
@@ -68,72 +68,52 @@ class ProfileTab extends Component{
             }}
           >
             <View 
-              style={{
-                flexDirection:'row',
-                justifyContent:'space-around'
-              }}
+              // style={{
+              //   flexDirection:'row',
+              //   justifyContent:'space-around'
+              // }}
             >
               <View 
                 style={{
-                  alignItems:'center'
+                //   alignItems:'center',
+                  flexDirection:'row',
                 }}
               >
                 <Text
                   style={{
-                    fontSize: 18,
+                    fontSize: 15,
                     color: '#FEFEFE',
                   }}
                 >
-                  {profile.posts}
-                </Text>
-                <Text 
-                  style={{
-                    fontSize:12,
-                    color: '#FFFFFF',
-                  }}
-                >
-                  Posts
+                Posts Count:  {profile.posts}
                 </Text>
               </View>
               
-              <View style={{alignItems:'center'}}>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    color: '#FEFEFE',
-                  }}
-                >
-                  {profile.follower}
-                </Text>
-                <Text 
-                  style={{
-                    fontSize:12,
-                    color: '#FFFFFF',
-                  }}
-                >
-                  follower
-                </Text>
-              </View>
               <View 
-                style={{
-                  alignItems:'center'
-                }}
+              // style={{alignItems:'center'}}
               >
                 <Text
                   style={{
-                    fontSize: 18,
+                    fontSize: 15,
                     color: '#FEFEFE',
                   }}
                 >
-                  {profile.following}
+                email:  {profile.email}
                 </Text>
-                <Text 
+
+              </View>
+              <View 
+                // style={{
+                //   alignItems:'center'
+                // }}
+              >
+                <Text
                   style={{
-                    fontSize:12,
-                    color: '#FFFFFF',
+                    fontSize: 15,
+                    color: '#FEFEFE',
                   }}
                 >
-                  Following
+                cash:  {profile.cash}
                 </Text>
               </View>
             </View>

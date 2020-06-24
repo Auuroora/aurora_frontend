@@ -55,7 +55,8 @@ class OrderScreen extends Component {
   toggleCheckbox = async(id)=> {
     this.setState({ checked: !this.state.checked})
     const res = await axios.put('/line_filters/'+id)
-    await this.setState({ orderPrice: res.data.order_info.total })
+    await this.setState({ orderPrice: res.data.order_info.total ,
+                          orderCount : orderCount+1})
     this.ongetCartList()
   }
   onPressRemove = async(id) =>{
@@ -203,7 +204,7 @@ class OrderScreen extends Component {
             <Text style={{
               fontSize: 15,
               fontColor: 'white'
-            }}>{this.state.orderList.length}
+            }}>{this.state.orderCount}
             </Text>
           </View>
           <Subtitle style={{

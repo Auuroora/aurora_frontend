@@ -547,7 +547,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 39D67T65P9;
+						DevelopmentTeam = 8LM3J96CC2;
 						ProvisioningStyle = Automatic;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
@@ -971,7 +971,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = 39D67T65P9;
+				DEVELOPMENT_TEAM = 8LM3J96CC2;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -983,7 +983,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.aurora-front";
+				PRODUCT_BUNDLE_IDENTIFIER = "react.native.aurora-front";
 				PRODUCT_NAME = aurora_front;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				USER_HEADER_SEARCH_PATHS = /Users/veatoriche/Projects/aurora/aurora_front/OpenCV;
@@ -999,7 +999,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 39D67T65P9;
+				DEVELOPMENT_TEAM = 8LM3J96CC2;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1011,7 +1011,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.aurora-front";
+				PRODUCT_BUNDLE_IDENTIFIER = "react.native.aurora-front";
 				PRODUCT_NAME = aurora_front;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				USER_HEADER_SEARCH_PATHS = /Users/veatoriche/Projects/aurora/aurora_front/OpenCV;

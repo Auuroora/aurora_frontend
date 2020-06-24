@@ -100,7 +100,6 @@ class MypageScreen extends Component{
   }
   onRefresh = async() => {
     const userData = await axios.get('/user/my')
-    console.log(this.state.user)
     await this.setState({
       user: userData.data,
       userCash: userData.data.cash

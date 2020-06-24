@@ -48,7 +48,6 @@ class HomeScreen extends Component {
   onRefresh = async () => {
     const res = await this.getPostList(1)
     const headerRes = await this.getBestPostList(1)
-    console.log(headerRes)
     await this.setState({
       postList: res.posts,
       headerPostList: headerRes,
@@ -238,7 +237,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: 350,
-    height: 250,
+    height: 270,
   },
   headerContents: {
     marginTop: topMargin + 10,

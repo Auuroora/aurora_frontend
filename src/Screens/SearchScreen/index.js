@@ -45,7 +45,6 @@ class HomeScreen extends Component {
 
   onListTagSearch = async () => {
     await this.setState({selectedFilter: this.state.filters[1]})
-    console.log(this.state)
 
     if (this.state.refresh) {
       await this.onClickSearch()
@@ -64,7 +63,6 @@ class HomeScreen extends Component {
   }
 
   onClickSearch = async () => {
-    console.log(this.props.route)
     const params = {
       params: {                
         filter_info: true,
@@ -72,7 +70,6 @@ class HomeScreen extends Component {
         comment_info: true
       },
     }
-    console.log(this.state.keyword)
     const res = await axios.get("/posts?" + this.state.selectedFilter.value
     + '=' + this.state.keyword, params)
 
@@ -143,7 +140,6 @@ class HomeScreen extends Component {
                   : this.state.filters[1]
               }
               onOptionSelected={(filter) =>{
-                console.log(filter)
                 this.setState({ selectedFilter: filter })
               }}
               titleProperty="name"

@@ -73,7 +73,7 @@ class MypageScreen extends Component{
     await this.setState({
       posts: postData.data,
       user: userData.data,
-      userPostCount: this.state.posts.length,
+      userPostCount: postData.data.length,
       isLoading: false,
       userCash: userData.data.cash
     })
@@ -100,6 +100,7 @@ class MypageScreen extends Component{
   }
   onRefresh = async() => {
     const userData = await axios.get('/user/my')
+    console.log(this.state.user)
     await this.setState({
       user: userData.data,
       userCash: userData.data.cash
@@ -121,8 +122,8 @@ class MypageScreen extends Component{
             <Profile
               navigation={this.props.navigation}
               postCount={this.state.userPostCount}
-              follower={this.state.user.followers_count}
-              followee={this.state.user.followees_count}
+              cash={this.state.user.cash}
+              email={this.state.user.email}
               username={this.state.user.username}
               profile={this.state.user.image ? { uri: AWS_S3_STORAGE_URL + this.state.user.image } : require('../../assets/image/user.png')}
             />

@@ -39,7 +39,7 @@ class MypageScreen extends Component{
         {
           img :  require('../../assets/image/sell.png' ),
           set : "구매 내역",
-          navigateScreen: "Purchase"
+          navigateScreen: "PurchaseStack"
         },
         {
           img : require('../../assets/image/bill.png' ),

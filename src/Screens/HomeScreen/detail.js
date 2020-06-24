@@ -68,8 +68,6 @@ class DetailScreen extends Component {
     this.getCommentInfo(this.state.postId)
   }
 
-
-  
   componentDidMount() {
     this.onRefresh()
   }
@@ -77,7 +75,9 @@ class DetailScreen extends Component {
   onRefresh = async () => {
     this.getPostInfo(this.state.post_id)
   }
+  
   getPostInfo = async (postId) => {
+    console.log("_!")
     const params = {
       params: {
         user_info: true,
@@ -87,15 +87,14 @@ class DetailScreen extends Component {
       }
     }
     const res = await axios.get('/posts/' + postId, params)
-    
-    await this.setState({postData : res.data})
-    await this.setState({userData : res.data.user_info})
-    
+    await this.setState({
+      postData : res.data,
+      userData : res.data.user_info
+    })
     if(res.data.user_info.id === res.data.current_user_info.id){
       await this.setState({isMyPost :true})
     }
-
-    this.setState({isLoading: false})
+    await this.setState({isLoading: false})
   }
 
   onClickPostImage = () => {
@@ -310,12 +309,15 @@ class DetailScreen extends Component {
             <View
               style={{marginTop: 25}}
               styleName="horizontal space-between ">
+                
+              {(this.state.isMyPost == false)&&
               <TouchableOpacity onPress={() => {this.onClickCart()}}>
                 <Image
                   source={ require('../../assets/image/add-to-cart.png' )}
                   style={{ width: 22, height: 22, color :'white', marginRight : 20 }}
                 />
               </TouchableOpacity>
+              }
               <TouchableOpacity onPress={this.onClickPreview}>
                 <Image
                   source={ require('../../assets/image/photo-camera.png' )}
@@ -470,11 +472,7 @@ class DetailScreen extends Component {
               }}>
               <TextInput
                 placeholder={'Write Comment'}
-                style ={{
-                  placeholderTextColor: 'white',
-                  width: '90%',
-                  backgroundColor: '#1E1E1E',
-                }}
+                style ={{...styles.textInputStyle, placeholderTextColor: 'white',}}
                 value={this.state.myComment}
                 onChangeText={(text) => this.setState({myComment: text})}/>
               <TouchableOpacity onPress={() => this.postCommentInfo()}>
@@ -655,6 +653,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fafafa',
     borderWidth: 1
   },
+  textInputStyle: {
+    color: '#fafafa',
+    width: '90%',
+    backgroundColor: '#1E1E1E',
+  }
 })
 
 export default DetailScreen

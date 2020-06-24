@@ -45,14 +45,14 @@ export default function CardItem (props) {
     >
       <Tile 
         styleName="flexible dark"
-        style={{backgroundColor: '#222222'}}
+        style={{backgroundColor: '#0A0A0A'}}
       >
         <Image
           style={{width: (180/375) * width, height: (180/375) * width}}
           styleName="medium-square"
           source={{ uri: props.image  }}
         />
-        <View styleName="content">
+        <View styleName="content" style={{border: 1.25, backgroundColor: '#222222', marginRight: 3}}>
           <Subtitle numberOfLines={2}
             style={{color: '#FFFFFF', fontWeight: 'bold', fontSize: 16}}
           >

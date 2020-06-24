@@ -87,7 +87,6 @@ class DetailScreen extends Component {
       }
     }
     const res = await axios.get('/posts/' + postId, params)
-    
     await this.setState({
       postData : res.data,
       userData : res.data.user_info
@@ -310,12 +309,15 @@ class DetailScreen extends Component {
             <View
               style={{marginTop: 25}}
               styleName="horizontal space-between ">
+                
+              {(this.state.isMyPost == false)&&
               <TouchableOpacity onPress={() => {this.onClickCart()}}>
                 <Image
                   source={ require('../../assets/image/add-to-cart.png' )}
                   style={{ width: 22, height: 22, color :'white', marginRight : 20 }}
                 />
               </TouchableOpacity>
+              }
               <TouchableOpacity onPress={this.onClickPreview}>
                 <Image
                   source={ require('../../assets/image/photo-camera.png' )}

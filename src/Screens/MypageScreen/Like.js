@@ -28,8 +28,10 @@ class Like extends Component {
       ],
       userCash: null,
       checked:false,
+      userId: props.route.params.userId
     }
     this.ongetLikeList()
+    console.log(this.state.userId)
   }
   ongetLikeList(){
     const params = {
@@ -78,12 +80,14 @@ class Like extends Component {
              <Subtitle styleName="md-gutter-right" style={{color: 'white', marginBottom: 15, fontSize: 14}}>{like.user_info.username}</Subtitle>
              <Subtitle styleName="md-gutter-right" style={{color: 'white', marginBottom: 15, fontSize: 14}}>금액 : {like.post_info.price}원</Subtitle>
            </View>
-           <TouchableOpacity onPress={() => {this.onClickCart(like.filter_info.id, like.post_info.id, like.post_info.price)}}>
-             <Image
-               source={ require('../../assets/image/add-to-cart.png' )}
-               style={{ width: 22, height: 22, color :'white', marginRight : 10 }}
-             />
-           </TouchableOpacity>
+           {(this.state.userId != like.user_info.id) &&
+            <TouchableOpacity onPress={() => {this.onClickCart(like.filter_info.id, like.post_info.id, like.post_info.price)}}>
+              <Image
+                source={ require('../../assets/image/add-to-cart.png' )}
+                style={{ width: 22, height: 22, color :'white', marginRight : 10 }}
+              />
+            </TouchableOpacity>
+           }
          </Row>
          <Divider styleName="line" />
        </View>

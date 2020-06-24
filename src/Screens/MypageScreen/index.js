@@ -69,7 +69,7 @@ class MypageScreen extends Component{
     }
     const postData = await axios.get('/mypost', params)
     const userData = await axios.get('/user/my')
-
+    console.log(userData.data)
     await this.setState({
       posts: postData.data,
       user: userData.data,
@@ -81,7 +81,7 @@ class MypageScreen extends Component{
 
   renderRow(setItem) {
     return (
-      <TouchableOpacity onPress={() => {this.props.navigation.navigate(setItem.navigateScreen)}}>
+      <TouchableOpacity onPress={() => {this.props.navigation.navigate(setItem.navigateScreen,{userId : this.state.user.id})}}>
         <View style={{ backgroundColor: 'gray'}}>
           <Row
             style ={{ backgroundColor: '#1E1E1E'}}>

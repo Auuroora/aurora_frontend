@@ -61,6 +61,7 @@ class HomeScreen extends Component {
         comment_info: true
       },
     }
+    console.log(this.state.keyword)
     const res = await axios.get("/posts?" + this.state.selectedFilter.value
     + '=' + this.state.keyword, params)
 
@@ -78,15 +79,15 @@ class HomeScreen extends Component {
     })
   }
 
-  renderRow = (rowData) => {  
+  renderRow = (rowData) => {
     const cellViews = rowData.map((post, id) => {
       return (
         <CardItem
           navigation={this.props.navigation}
           key={id}
           postId={post.post_info.id}
-          image={AWS_S3_STORAGE_URL + post.filter_info.filter_name} 
-          title={post.post_info.title} 
+          image={AWS_S3_STORAGE_URL + post.filter_info.filter_name}
+          title={post.post_info.title}
           price={post.post_info.price}
           likedCount = {post.like_info.liked_count}
           commentCount = {post.comment_info.comments_count}
@@ -115,7 +116,7 @@ class HomeScreen extends Component {
             <Title title={"Search"} topMargin={topMargin}/>
           }
         />
-        <View 
+        <View
           style={{
             flexDirection:'row',
             justifyContent:'space-around',
@@ -135,7 +136,7 @@ class HomeScreen extends Component {
             titleProperty="name"
             valueProperty="value"
           />
-          <TextInput 
+          <TextInput
             placeholder={"keyword"}
             value={this.state.pwInput}
             style={{flex:1}}

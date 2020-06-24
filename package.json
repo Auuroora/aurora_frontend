@@ -33,6 +33,7 @@
     "react-native-dotenv": "^0.2.0",
     "react-native-dropdown-picker": "^3.0.4",
     "react-native-easy-toast": "^1.2.0",
+    "react-native-fast-image": "^8.1.5",
     "react-native-fs": "^2.16.6",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-image-base64": "^0.1.4",

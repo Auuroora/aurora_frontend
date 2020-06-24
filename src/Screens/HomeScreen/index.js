@@ -8,11 +8,18 @@ import {
   Button,
   Icon,
   GridRow,
-  View
+  View,
+  Text,
+  Tile,
+  Subtitle,
+  Image,
+  Divider
 } from '@shoutem/ui'
 
 import CardItem from '../../Components/CardItem'
 import Title from '../../Components/Title'
+import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
+import ImageOverlay from "react-native-image-overlay";
 
 import { AWS_S3_STORAGE_URL } from "react-native-dotenv"
 import axios from "../../axiosConfig"
@@ -26,6 +33,7 @@ class HomeScreen extends Component {
     super(props)
     this.state = {
       postList: [],
+      headerPostList: [],
       isLoading: true,
       pageNum: 1,
       groupedData: null,
@@ -33,15 +41,17 @@ class HomeScreen extends Component {
       onNavigateRefresh: props.route.params ? props.route.params.refresh : false
     }
   }
-
   componentDidMount() {
     this.onRefresh()
   }
 
   onRefresh = async () => {
     const res = await this.getPostList(1)
+    const headerRes = await this.getBestPostList(1)
+    console.log(headerRes)
     await this.setState({
       postList: res.posts,
+      headerPostList: headerRes,
       pageNum: 1,
       isLoading: false
     })
@@ -53,7 +63,7 @@ class HomeScreen extends Component {
     await this.setState({
       groupedData: groupedData
     })
-     
+
   }
 
   getPostList = async (page) => {
@@ -65,6 +75,11 @@ class HomeScreen extends Component {
       },
     }
     const res = await axios.get("/posts?page=" + page, params)
+    return res.data
+  }
+
+  getBestPostList = async (page) => {
+    const res = await axios.get("/best?like_info=true&filter_info=true")
     return res.data
   }
 
@@ -92,8 +107,51 @@ class HomeScreen extends Component {
     await axios.post('/likes', data)
     this.componentDidMount()
   }
-  
-  renderRow = ({ item, index }) => {  
+
+  renderItem = ({ item, index }, parallaxProps) => {
+    return (
+      <View style={styles.item}>
+        <ImageBackground
+            source={{ uri: AWS_S3_STORAGE_URL + item.filter_info.filter_name }}
+            containerStyle={styles.imageContainer}
+            style={styles.image}
+            parallaxFactor={0.4}
+            {...parallaxProps}
+        >
+          <ImageOverlay>
+            <View style={{marginTop: 170, justifyContent: 'flex-start'}}>
+               <Text style={{ color: 'yellow', fontWeight: 'bold',fontSize: 18, marginBottom: 5 }}>#{index + 1}. { item.post_info.title }</Text>
+               <View styleName="horizontal">
+                 <Image
+                   source={ require('../../assets/image/heart_pink.png' )}
+                   style={{ width: 20, height: 20, color :'red',marginRight :10 }}
+                 />
+                 <Text style={{ color: 'white', fontSize: 15 }}>
+                   { item.like_info.liked_count }
+                 </Text>
+               </View>
+            </View>
+          </ImageOverlay>
+        </ImageBackground>
+      </View>
+    )
+  }
+
+  renderRow = ({ item, index }) => {
+    if(index === 0) {
+      return (
+        <Carousel
+          style={{padding: 10}}
+          ref={(c) => { this._carousel = c; }}
+          data={this.state.headerPostList}
+          renderItem={this.renderItem}
+          hasParallaxImages={true}
+          sliderWidth={width}
+          sliderHeight={width - 100}
+          itemWidth={width - 60}
+          />
+      )
+    }
     return (
       <CardItem
         navigation={this.props.navigation}
@@ -107,7 +165,6 @@ class HomeScreen extends Component {
         liked = {item.like_info.liked}
         onClickLike = {this.onClickLike}
       />
-      
     )
   }
 
@@ -132,7 +189,7 @@ class HomeScreen extends Component {
               <Title title={"Home"} topMargin={topMargin}/>
             }
             rightComponent={
-              <View 
+              <View
                 styleName="horizontal space-between"
                 style={styles.headerContents}
               >
@@ -170,6 +227,19 @@ class HomeScreen extends Component {
 export default HomeScreen
 
 const styles = StyleSheet.create({
+  item: {
+    width: width - 60,
+    height: height - 1000,
+  },
+  imageContainer: {
+    marginBottom: Platform.select({ ios: 0, android: 1 }), // Prevent a random Android rendering issue
+    backgroundColor: 'white',
+    borderRadius: 8
+  },
+  image: {
+    width: 350,
+    height: 250,
+  },
   headerContents: {
     marginTop: topMargin + 10,
     marginLeft: 10,

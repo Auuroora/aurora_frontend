@@ -99,11 +99,6 @@ class FilterListScreen extends Component {
           alert('먼저 이미지를 선택해주세요.')
           return
         }
-
-        if (!this.state.filterId) {
-          alert('먼저 필터를 적용해주세요')
-          return
-        }
         await saveImage('data:image/jpeg;base64,' + this.state.imageFile.data)
         alert('이미지가 저장되었습니다.')
       }

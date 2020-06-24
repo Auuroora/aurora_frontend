@@ -21,7 +21,7 @@ import axios from "../../axiosConfig"
 
 
 const { width, height } = Dimensions.get("window")
-const topMargin = Platform.OS === "android" ? 10 : 25
+const topMargin = Platform.OS === "android" ? 10 : 10
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -51,6 +51,7 @@ class HomeScreen extends Component {
       await this.setState({refresh: false,})
     }
   }
+  
 
   onClickLike = async(postid) => {
     const data = {
@@ -59,7 +60,7 @@ class HomeScreen extends Component {
       likeable_id :postid
     }
     await axios.post('/likes', data)
-    this.componentDidMount()
+    this.onClickSearch()
   }
 
   onClickSearch = async () => {

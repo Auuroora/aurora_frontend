@@ -13,7 +13,7 @@ RightButton.propTypes = {
   isUploading: PropTypes.bool
 }
 
-const BtnText = {fontSize: 15, color: '#0395FF', marginTop: 50, marginRight: 15}
+const BtnText = {fontSize: 15, color: '#0395FF', marginTop: 10, marginRight: 15}
 
 export default function RightButton (props) {
   if (props.isUploading) {
@@ -40,7 +40,7 @@ export default function RightButton (props) {
         <Text
           style={BtnText}
         >
-          새로 만들기
+          필터 만들기
         </Text>
       </Button>
     )

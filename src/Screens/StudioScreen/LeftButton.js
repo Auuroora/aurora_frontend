@@ -11,7 +11,7 @@ LeftButton.propTypes = {
   onPressCancel: PropTypes.func,
   isNewFilter: PropTypes.bool
 }
-const BtnText = {fontSize: 20, color: '#FFFFFF', marginTop: 50, marginLeft: 15}
+const BtnText = {fontSize: 20, color: '#FFFFFF', marginTop: 10, marginLeft: 15}
 
 export default function LeftButton (props) {
   return props.isNewFilter ? 

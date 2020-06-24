@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Dimensions, StyleSheet, Platform, FlatList } from "react-native"
+import { Dimensions, StyleSheet, Platform, FlatList, StatusBar } from "react-native"
 
 import {
   NavigationBar,
@@ -18,15 +18,15 @@ import {
 
 import CardItem from '../../Components/CardItem'
 import Title from '../../Components/Title'
-import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
-import ImageOverlay from "react-native-image-overlay";
+import Carousel, { ParallaxImage } from 'react-native-snap-carousel'
+import ImageOverlay from "react-native-image-overlay"
 
 import { AWS_S3_STORAGE_URL } from "react-native-dotenv"
 import axios from "../../axiosConfig"
 
 
 const { width, height } = Dimensions.get("window")
-const topMargin = Platform.OS === "android" ? 25 : 50
+const topMargin = Platform.OS === "android" ? 25 : 25
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -36,7 +36,6 @@ class HomeScreen extends Component {
       headerPostList: [],
       isLoading: true,
       pageNum: 1,
-      groupedData: null,
       refresh: false,
       onNavigateRefresh: props.route.params ? props.route.params.refresh : false
     }
@@ -54,15 +53,6 @@ class HomeScreen extends Component {
       pageNum: 1,
       isLoading: false
     })
-
-    const groupedData = GridRow.groupByRows(this.state.postList, 2, () => {
-      return 1
-    })
-
-    await this.setState({
-      groupedData: groupedData
-    })
-
   }
 
   getPostList = async (page) => {
@@ -111,24 +101,24 @@ class HomeScreen extends Component {
     return (
       <View style={styles.item}>
         <ImageBackground
-            source={{ uri: AWS_S3_STORAGE_URL + item.filter_info.filter_name }}
-            containerStyle={styles.imageContainer}
-            style={styles.image}
-            parallaxFactor={0.4}
-            {...parallaxProps}
+          source={{ uri: AWS_S3_STORAGE_URL + item.filter_info.filter_name }}
+          containerStyle={styles.imageContainer}
+          style={styles.image}
+          parallaxFactor={0.4}
+          {...parallaxProps}
         >
           <ImageOverlay>
             <View style={{marginTop: 170, justifyContent: 'flex-start'}}>
-               <Text style={{ color: 'yellow', fontWeight: 'bold',fontSize: 18, marginBottom: 5 }}>#{index + 1}. { item.post_info.title }</Text>
-               <View styleName="horizontal">
-                 <Image
-                   source={ require('../../assets/image/heart_pink.png' )}
-                   style={{ width: 20, height: 20, color :'red',marginRight :10 }}
-                 />
-                 <Text style={{ color: 'white', fontSize: 15 }}>
-                   { item.like_info.liked_count }
-                 </Text>
-               </View>
+              <Text style={{ color: 'yellow', fontWeight: 'bold',fontSize: 18, marginBottom: 5 }}>#{index + 1}. { item.post_info.title }</Text>
+              <View styleName="horizontal">
+                <Image
+                  source={ require('../../assets/image/heart_pink.png' )}
+                  style={{ width: 20, height: 20, color :'red',marginRight :10 }}
+                />
+                <Text style={{ color: 'white', fontSize: 15 }}>
+                  { item.like_info.liked_count }
+                </Text>
+              </View>
             </View>
           </ImageOverlay>
         </ImageBackground>
@@ -136,21 +126,21 @@ class HomeScreen extends Component {
     )
   }
 
+  rankingList = () => {
+    return (
+      <Carousel
+        style={{padding: 10}}
+        ref={(c) => { this._carousel = c }}
+        data={this.state.headerPostList}
+        renderItem={this.renderItem}
+        hasParallaxImages={true}
+        sliderWidth={width}
+        sliderHeight={width - 100}
+        itemWidth={width - 60}
+      />)
+  }
+
   renderRow = ({ item, index }) => {
-    if(index === 0) {
-      return (
-        <Carousel
-          style={{padding: 10}}
-          ref={(c) => { this._carousel = c; }}
-          data={this.state.headerPostList}
-          renderItem={this.renderItem}
-          hasParallaxImages={true}
-          sliderWidth={width}
-          sliderHeight={width - 100}
-          itemWidth={width - 60}
-          />
-      )
-    }
     return (
       <CardItem
         navigation={this.props.navigation}
@@ -178,6 +168,7 @@ class HomeScreen extends Component {
           backgroundColor: '#0A0A0A'
         }}
       >
+        <StatusBar hidden></StatusBar>
         <ImageBackground
           source={require("../../assets/image/Header.jpg")}
           styleName="large-ultra-wide"
@@ -211,6 +202,7 @@ class HomeScreen extends Component {
           data={this.state.postList}
           refreshing={this.state.refresh}
           onRefresh={this.onRefresh}
+          ListHeaderComponent={this.rankingList}
           extraData={this.state}
           onEndReached={this.loadMore}
           onEndReachedThreshold={0.001}
@@ -227,8 +219,7 @@ export default HomeScreen
 
 const styles = StyleSheet.create({
   item: {
-    width: width - 60,
-    height: height - 1000,
+    marginBottom: 10
   },
   imageContainer: {
     marginBottom: Platform.select({ ios: 0, android: 1 }), // Prevent a random Android rendering issue

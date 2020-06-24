@@ -6,7 +6,6 @@ import {
   Screen,
   Icon,
   TouchableOpacity,
-  View,
   TextInput,
   ScrollView
 } from '@shoutem/ui'
@@ -72,9 +71,9 @@ class UploadScreen extends Component{
   }
 
   onClickUpload = () =>{
-    if (this.state.title && this.state.description  && this.state.filterId && this.state.price) {
+    if (this.state.title.trim() && this.state.description.trim()  && this.state.filterId && this.state.price.trim()) {
 
-      const splitDesc = this.state.description.split(' ')
+      const splitDesc = this.state.description.split(/\n| /)
       let taglist = []
 
       for (let idx in splitDesc) {
@@ -180,12 +179,12 @@ class UploadScreen extends Component{
               </TouchableOpacity>
             }
             centerComponent={
-              <Title title={'판매글 작성'} topMargin={50}/>
+              <Title title={'판매글 작성'} topMargin={25}/>
             }
             rightComponent={
               <TouchableOpacity
                 onPress={() => {this.onClickUpload()}}>
-                <Icon name="share" style ={{color  :"white", marginRight:15, marginTop: 50, fontSize: 30}} />
+                <Icon name="share" style ={{color  :"white", marginRight:15, marginTop: 25, fontSize: 30}} />
               </TouchableOpacity>
             }
           />

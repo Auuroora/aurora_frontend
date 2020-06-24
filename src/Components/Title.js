@@ -9,7 +9,7 @@ Title.propTypes = {
 }
 
 export default function Title (props) {
-  let margin = props.topMargin ? props.topMargin : 25
+  let margin = props.topMargin ? props.topMargin : 10
   margin =  margin + '%'
   return (
     <Heading

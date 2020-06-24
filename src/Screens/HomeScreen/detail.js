@@ -77,7 +77,6 @@ class DetailScreen extends Component {
   }
   
   getPostInfo = async (postId) => {
-    console.log("_!")
     const params = {
       params: {
         user_info: true,
@@ -145,6 +144,14 @@ class DetailScreen extends Component {
         }],
         isPreview: true
       })
+    })
+  }
+
+  onClickTag = (val) => {
+    this.props.navigation.navigate("SearchScreen", {
+      tagName: val.replace('#',''),
+      refresh: true,
+      onGoBack:this.onRefresh
     })
   }
 
@@ -278,6 +285,7 @@ class DetailScreen extends Component {
   renderTagRow = (data) => {
     return (
       <Button
+        onPress={() => {this.onClickTag(data)}}
         style={{
           backgroundColor: '#1E1E1E',
           marginRight:5,

@@ -55,8 +55,7 @@ class OrderScreen extends Component {
   toggleCheckbox = async(id)=> {
     this.setState({ checked: !this.state.checked})
     const res = await axios.put('/line_filters/'+id)
-    await this.setState({ orderPrice: res.data.order_info.total ,
-                          orderCount : orderCount+1})
+    await this.setState({ orderPrice: res.data.order_info.total })
     this.ongetCartList()
   }
   onPressRemove = async(id) =>{
@@ -193,20 +192,6 @@ class OrderScreen extends Component {
             this.onClickPayment()
           }}
         >
-          <View style={{
-            width: 25,
-            height: 25,
-            borderRadius: 12.5,
-            backgroundColor: 'white',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}>
-            <Text style={{
-              fontSize: 15,
-              fontColor: 'white'
-            }}>{this.state.orderCount}
-            </Text>
-          </View>
           <Subtitle style={{
             color: 'white'
           }}>  {this.state.orderPrice}원 결제하기</Subtitle>

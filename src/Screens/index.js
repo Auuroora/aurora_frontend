@@ -76,6 +76,11 @@ function HomeStack() {
         name="ModifyPost"
         component={ModifyScreen}
       />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="SearchScreen"
+        component={SearchScreen}
+      />
     </Stack.Navigator>
   )
 }

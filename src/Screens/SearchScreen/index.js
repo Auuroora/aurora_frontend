@@ -36,11 +36,21 @@ class HomeScreen extends Component {
         { name: "Tag", value: "tag_cont" },
         { name: "Description", value: "description_cont" },
       ],
-      selectedFilter: null,
-      keyword: ''
+      selectedFilter: this.props.route.params ? { name: "Tag", value: "tag_cont" } : null,
+      keyword : this.props.route.params ? this.props.route.params.tagName : '',
+      refresh : this.props.route.params ? this.props.route.params.refresh : false
     }
+    this.onListTagSearch()
+  }
 
-    this.setState({selectedFilter: this.state.filters[0]})
+  onListTagSearch = async () => {
+    await this.setState({selectedFilter: this.state.filters[1]})
+    console.log(this.state)
+
+    if (this.state.refresh) {
+      await this.onClickSearch()
+      await this.setState({refresh: false,})
+    }
   }
 
   onClickLike = async(postid) => {
@@ -54,8 +64,9 @@ class HomeScreen extends Component {
   }
 
   onClickSearch = async () => {
+    console.log(this.props.route)
     const params = {
-      params: {
+      params: {                
         filter_info: true,
         like_info :true,
         comment_info: true
@@ -112,39 +123,42 @@ class HomeScreen extends Component {
         <NavigationBar
           styleName='inline clear'
           centerComponent={
-            <Title title={"Search"} topMargin={topMargin}/>
+            <Title title={this.props.route.params ? this.state.keyword : "Search"} topMargin={topMargin}/>
           }
         />
-        <View 
-          style={{
-            flexDirection:'row',
-            justifyContent:'space-around',
-            backgroundColor: '#FAFAFA'
-          }}
-        >
-          <DropDownMenu
-            options={this.state.filters}
-            selectedOption={
-              this.state.selectedFilter
-                ? this.state.selectedFilter
-                : this.state.filters[0]
-            }
-            onOptionSelected={(filter) =>{
-              this.setState({ selectedFilter: filter })
+        {this.props.route.params ? (null) : (
+          <View 
+            style={{
+              flexDirection:'row',
+              justifyContent:'space-around',
+              backgroundColor: '#FAFAFA'
             }}
-            titleProperty="name"
-            valueProperty="value"
-          />
-          <TextInput 
-            placeholder={"keyword"}
-            value={this.state.pwInput}
-            style={{flex:1}}
-            onChangeText={(text) => this.setState({keyword: text})}
-          />
-          <Button onPress={this.onClickSearch}>
-            <Icon name='search'/>
-          </Button>
-        </View>
+          >
+            <DropDownMenu
+              options={this.state.filters}
+              selectedOption={
+                this.state.selectedFilter
+                  ? this.state.selectedFilter
+                  : this.state.filters[1]
+              }
+              onOptionSelected={(filter) =>{
+                console.log(filter)
+                this.setState({ selectedFilter: filter })
+              }}
+              titleProperty="name"
+              valueProperty="value"
+            />
+            <TextInput 
+              placeholder={"keyword"}
+              value={this.state.keyword}
+              style={{flex:1}}
+              onChangeText={(text) => this.setState({keyword: text})}
+            />
+            <Button onPress={this.onClickSearch}>
+              <Icon name='search'/>
+            </Button>
+          </View>
+        )}
         <ListView
           style={{
             height: height,

@@ -150,7 +150,6 @@ class FilterListScreen extends Component {
 
 
   deleteFilter = async(filterInfo) =>{
-    console.log("delete", filterInfo)
     axios.delete('/filters/' + filterInfo)
       .then(() => {
         alert('필터 삭제가 완료되었습니다.')

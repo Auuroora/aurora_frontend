@@ -67,3 +67,9 @@ buck-out/
 
 # dotenv
 .env
+
+android/java_pid34884.hprof
+opencv-4.1.0-ios-framework.zip
+wget-log
+wget-log.1
+wget-log.2

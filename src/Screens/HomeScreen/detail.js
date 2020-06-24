@@ -77,7 +77,6 @@ class DetailScreen extends Component {
   }
   
   getPostInfo = async (postId) => {
-    console.log("_!")
     const params = {
       params: {
         user_info: true,
@@ -87,7 +86,6 @@ class DetailScreen extends Component {
       }
     }
     const res = await axios.get('/posts/' + postId, params)
-    
     await this.setState({
       postData : res.data,
       userData : res.data.user_info
@@ -146,6 +144,14 @@ class DetailScreen extends Component {
         }],
         isPreview: true
       })
+    })
+  }
+
+  onClickTag = (val) => {
+    this.props.navigation.navigate("SearchScreen", {
+      tagName: val.replace('#',''),
+      refresh: true,
+      onGoBack:this.onRefresh
     })
   }
 
@@ -279,6 +285,7 @@ class DetailScreen extends Component {
   renderTagRow = (data) => {
     return (
       <Button
+        onPress={() => {this.onClickTag(data)}}
         style={{
           backgroundColor: '#1E1E1E',
           marginRight:5,
@@ -310,12 +317,15 @@ class DetailScreen extends Component {
             <View
               style={{marginTop: 25}}
               styleName="horizontal space-between ">
+                
+              {(this.state.isMyPost == false)&&
               <TouchableOpacity onPress={() => {this.onClickCart()}}>
                 <Image
                   source={ require('../../assets/image/add-to-cart.png' )}
                   style={{ width: 22, height: 22, color :'white', marginRight : 20 }}
                 />
               </TouchableOpacity>
+              }
               <TouchableOpacity onPress={this.onClickPreview}>
                 <Image
                   source={ require('../../assets/image/photo-camera.png' )}

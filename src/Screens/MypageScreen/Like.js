@@ -53,10 +53,8 @@ class Like extends Component {
         amount : price
       }
     }
-    console.log(data)
     await axios.post('/line_filters', data)
       .then((res) =>{
-        console.log(res.data)
         alert("장바구니에 담았습니다")
       })
       .catch((err) => {

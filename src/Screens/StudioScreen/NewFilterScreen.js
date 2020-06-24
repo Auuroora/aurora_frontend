@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import {Dimensions} from 'react-native'
-
+import {Dimensions, Platform} from 'react-native'
+import FastImage from 'react-native-fast-image'
 // Import UI Modules
 import Slider from '@react-native-community/slider'
 import {
@@ -213,16 +213,37 @@ export default class NewFilterScreen extends React.Component {
   // For Rendering Image View
   bindImageView = () => {
     if (this.state.isImageLoaded) {
-      return (
-        <Image
-          source={{ uri: 'data:image/jpeg;base64,' + this.img.data }}
-          style={{
-            width: width,
-            height: this.img.height * (width / this.img.width),
-            maxHeight: height / 1.8
-          }}
-        />
-      )
+      
+      if (Platform.OS === "android") {
+        return (
+          <FastImage
+            style={{ 
+              width: width,
+              height: this.img.height * (width / this.img.width),
+            }}
+            source={{
+              uri: 'data:image/jpeg;base64,' + this.img.data,
+              headers: { Authorization: 'someAuthToken' },
+              priority: FastImage.priority.normal,
+            }}
+            // resizeMode={FastImage.resizeMode.contain}
+          />
+        )
+      }
+      else {
+
+        return (
+          <Image
+            source={{ uri: 'data:image/jpeg;base64,' + this.img.data }}
+            style={{
+              width: width,
+              height: this.img.height * (width / this.img.width),
+              maxHeight: height / 1.8
+            }}
+          />
+        )
+      }
+    
     }
     return (
       <Spinner styleName='large'/>

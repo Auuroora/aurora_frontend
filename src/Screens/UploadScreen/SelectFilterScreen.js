@@ -51,6 +51,7 @@ class SelectFilterScreen extends Component{
         style={{backgroundColor: '#0A0A0A'}}
       >
         <ListView
+          onRefresh={() =>{this.props.onRefresh()}}
           style={{
             listContent: {
               backgroundColor: '#0A0A0A',

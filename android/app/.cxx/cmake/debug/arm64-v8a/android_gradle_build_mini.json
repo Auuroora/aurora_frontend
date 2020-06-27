@@ -1,0 +1,19 @@
+{
+  "buildFiles": [
+    "/Users/sskim/Library/Android/sdk/ndk/21.1.6352462/build/cmake/android.toolchain.cmake",
+    "/Users/sskim/Library/Android/sdk/ndk/21.1.6352462/build/cmake/platforms.cmake",
+    "/Users/sskim/Desktop/aurora_front/aurora_frontend/android/app/src/main/cpp/CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "/Users/sskim/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/sskim/Desktop/aurora_front/aurora_frontend/android/app/.cxx/cmake/debug/arm64-v8a\" clean"
+  ],
+  "buildTargetsCommand": "/Users/sskim/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja  -C \"/Users/sskim/Desktop/aurora_front/aurora_frontend/android/app/.cxx/cmake/debug/arm64-v8a\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "native-lib-Debug-arm64-v8a": {
+      "artifactName": "native-lib",
+      "buildCommand": "/Users/sskim/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/sskim/Desktop/aurora_front/aurora_frontend/android/app/.cxx/cmake/debug/arm64-v8a\" native-lib",
+      "abi": "arm64-v8a",
+      "output": "/Users/sskim/Desktop/aurora_front/aurora_frontend/android/app/build/intermediates/cmake/debug/obj/arm64-v8a/libnative-lib.so"
+    }
+  }
+}

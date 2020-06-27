@@ -71,13 +71,20 @@ RCT_EXPORT_METHOD(onChangeHue: (NSInteger)value callback:(RCTResponseSenderBlock
 }
 
 RCT_EXPORT_METHOD(onChangeSaturation: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
-  NSLog(@"Sat %d\n", (int)value);
+
+  NSDate *date = [NSDate date]; //  시작할 부분
+
+  NSLog(@"%d", (int)value);
   Mat res_img = on_change_saturation((int)value);
   
   UIImage* result = MatToUIImage(res_img);
   
   NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
   NSString *encodedString = [imageData base64Encoding];
+
+  NSTimeInterval elapsed = [date timeIntervalSinceNow] * -1000.0;
+  NSLog(@"%f", elapsed);
+
   callback(@[[NSNull null], encodedString]);
 }
 
@@ -202,7 +209,6 @@ RCT_EXPORT_METHOD(onChangeContrast: (NSInteger)value callback:(RCTResponseSender
 }
 
 RCT_EXPORT_METHOD(onChangeExposure: (NSInteger)value callback:(RCTResponseSenderBlock)callback) {
-  NSLog(@"exposure %d\n", (int)value);
   Mat res_img = on_change_exposure((int)value);
   
   UIImage* result = MatToUIImage(res_img);

@@ -201,7 +201,7 @@ PODS:
     - React
   - react-native-camera/RN (3.22.1):
     - React
-  - react-native-cameraroll (1.8.1):
+  - react-native-cameraroll (1.7.2):
     - React
   - react-native-image-base64 (0.1.4):
     - React
@@ -454,15 +454,15 @@ SPEC CHECKSUMS:
   React-jsi: cb2cd74d7ccf4cffb071a46833613edc79cdf8f7
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
-  react-native-camera: a49f960eb362b9fbff87667c0ce639eef1161530
-  react-native-cameraroll: e2917a5e62da9f10c3d525e157e25e694d2d6dfa
-  react-native-image-base64: 2ff9ac788639c87a91361ab6652cc95e871b1e54
-  react-native-image-picker: 6a850c41f57f0848d918c2a77aedd7aa272ffa30
+  react-native-camera: 94d52da97e82a78b9745a1b92074d2b5f820c962
+  react-native-cameraroll: a16e626822c6a61ed142de9cfae9d516216beb03
+  react-native-image-base64: acfe962aa79535d826a2668e66474e85a9ee468d
+  react-native-image-picker: 668e72d0277dc8c12ae90e835507c1eddd2e4f85
   react-native-photo-view: 63e9e61da873531f931008b545d8d10c5373ddf8
-  react-native-safe-area-context: e200d4433aba6b7e60b52da5f37af11f7a0b0392
-  react-native-slider: e51492f1264d882a8815b71c5870f8978e52887d
+  react-native-safe-area-context: 8260e5157617df4b72865f44006797f895b2ada7
+  react-native-slider: b34d943dc60deb96d952ba6b6b249aa8091e86da
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
-  react-native-webview: db4682f1698ab4b17a5e88f951031d203ff8aea8
+  react-native-webview: 711cef318a554093b09a5b871894011435d87a8d
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
   React-RCTAnimation: 791a87558389c80908ed06cc5dfc5e7920dfa360
   React-RCTBlob: d89293cc0236d9cb0933d85e430b0bbe81ad1d72
@@ -474,9 +474,9 @@ SPEC CHECKSUMS:
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
-  RNCAsyncStorage: 453cd7c335ec9ba3b877e27d02238956b76f3268
-  RNCCheckbox: 8fcf7c761e9d7c9fb44b56d1b7da848ec3de5873
-  RNCMaskedView: 76c40a1d41c3e2535df09246a2b5487f04de0814
+  RNCAsyncStorage: b16697280b08bab4b5f2f67f752d93d13a52e9ed
+  RNCCheckbox: 3e8435d57bd1329f15f964e7b186e57fb7b8a349
+  RNCMaskedView: 90dd32f5b786bd562e876e1421ea77c700cbf71e
   RNFastImage: 35ae972d6727c84ee3f5c6897e07f84d0a3445e9
   RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
@@ -490,4 +490,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: b1591da8e1d047d21a3b76566c82a2977cde93a7
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.9.3

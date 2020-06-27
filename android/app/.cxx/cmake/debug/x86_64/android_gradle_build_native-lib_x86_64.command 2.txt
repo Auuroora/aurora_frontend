@@ -1,0 +1,7 @@
+Executable : /Users/sskim/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja
+arguments : 
+-C
+/Users/sskim/Desktop/aurora_front/aurora_frontend/android/app/.cxx/cmake/debug/x86_64
+native-lib
+jvmArgs : 
+

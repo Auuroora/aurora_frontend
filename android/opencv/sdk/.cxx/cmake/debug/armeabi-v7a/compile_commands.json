@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/Users/sskim/Desktop/aurora_front/aurora_frontend/android/opencv/sdk/.cxx/cmake/debug/armeabi-v7a",
+  "command": "/Users/sskim/Library/Android/sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=armv7-none-linux-androideabi21 --gcc-toolchain=/Users/sskim/Library/Android/sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/darwin-x86_64 --sysroot=/Users/sskim/Library/Android/sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/darwin-x86_64/sysroot  -Dnative_lib_EXPORTS -I/Users/sskim/Desktop/aurora_front/aurora_frontend/android/opencv/sdk/native/jni/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -std=gnu++11 -O0 -fno-limit-debug-info  -fPIC   -o CMakeFiles/native-lib.dir/Users/sskim/Desktop/aurora_front/aurora_frontend/android/app/src/main/cpp/native-lib.cpp.o -c /Users/sskim/Desktop/aurora_front/aurora_frontend/android/app/src/main/cpp/native-lib.cpp",
+  "file": "/Users/sskim/Desktop/aurora_front/aurora_frontend/android/app/src/main/cpp/native-lib.cpp"
+}
+]

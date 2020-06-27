@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { NoFlickerImage } from 'react-native-no-flicker-image';
 import {Dimensions, Platform} from 'react-native'
 import FastImage from 'react-native-fast-image'
 // Import UI Modules
@@ -213,20 +214,16 @@ export default class NewFilterScreen extends React.Component {
   // For Rendering Image View
   bindImageView = () => {
     if (this.state.isImageLoaded) {
-      
       if (Platform.OS === "android") {
         return (
-          <FastImage
+          <NoFlickerImage
             style={{ 
               width: width,
               height: this.img.height * (width / this.img.width),
             }}
             source={{
               uri: 'data:image/jpeg;base64,' + this.img.data,
-              headers: { Authorization: 'someAuthToken' },
-              priority: FastImage.priority.normal,
             }}
-            // resizeMode={FastImage.resizeMode.contain}
           />
         )
       }

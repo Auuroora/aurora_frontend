@@ -1,0 +1,45 @@
+{
+  "stringTable": {
+    "0": "/Users/sskim/Desktop/aurora_front/aurora_frontend/android/opencv/sdk/.cxx/cmake/release/arm64-v8a",
+    "1": "--target=aarch64-none-linux-android21 --gcc-toolchain=/Users/sskim/Library/Android/sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/darwin-x86_64 --sysroot=/Users/sskim/Library/Android/sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dnative_lib_EXPORTS -I/Users/sskim/Desktop/aurora_front/aurora_frontend/android/opencv/sdk/native/jni/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -std=gnu++11 -O2 -DNDEBUG -fPIC"
+  },
+  "buildFiles": [
+    "/Users/sskim/Library/Android/sdk/ndk/21.0.6113669/build/cmake/platforms.cmake",
+    "/Users/sskim/Library/Android/sdk/ndk/21.0.6113669/build/cmake/android.toolchain.cmake",
+    "/Users/sskim/Desktop/aurora_front/aurora_frontend/android/opencv/sdk/libcxx_helper/CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "/Users/sskim/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/sskim/Desktop/aurora_front/aurora_frontend/android/opencv/sdk/.cxx/cmake/release/arm64-v8a\" clean"
+  ],
+  "buildTargetsCommand": "/Users/sskim/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja  -C \"/Users/sskim/Desktop/aurora_front/aurora_frontend/android/opencv/sdk/.cxx/cmake/release/arm64-v8a\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "native-lib-Release-arm64-v8a": {
+      "buildCommand": "/Users/sskim/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/sskim/Desktop/aurora_front/aurora_frontend/android/opencv/sdk/.cxx/cmake/release/arm64-v8a\" native-lib",
+      "buildType": "release",
+      "toolchain": "2608779827",
+      "abi": "arm64-v8a",
+      "artifactName": "native-lib",
+      "files": [
+        {
+          "src": "/Users/sskim/Desktop/aurora_front/aurora_frontend/android/app/src/main/cpp/native-lib.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "headers": [],
+      "output": "/Users/sskim/Desktop/aurora_front/aurora_frontend/android/opencv/sdk/build/intermediates/cmake/release/obj/arm64-v8a/libnative-lib.so",
+      "runtimeFiles": [
+        "/Users/sskim/Desktop/aurora_front/aurora_frontend/android/app/src/main/JniLibs/arm64-v8a/libopencv_java4.so"
+      ]
+    }
+  },
+  "toolchains": {
+    "2608779827": {
+      "cppCompilerExecutable": "/Users/sskim/Library/Android/sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": [
+    "cpp"
+  ]
+}

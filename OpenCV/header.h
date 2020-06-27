@@ -131,7 +131,7 @@ public:
 	*	method
 	*********************************************************************/
 	/* first initialize */
-  void update_hue(int pos);
+  	void update_hue(int pos);
 	void update_saturation(int pos);
 	void update_lightness(int pos);
 	void update_vibrance(int pos);
@@ -152,48 +152,13 @@ public:
 
 	void init_all(cv::Mat &img, int downsized_col, int downsized_row)
 	{
-		// this->originImg = cv::imread("./aurora_watermark.png", cv::IMREAD_COLOR);
-    // OpenCL을 사용할 수 있는지 테스트
-    // if (!cv::ocl::haveOpenCL())
-    // {
-    //   std::cout << "에러 : OpenCL을 사용할 수 없는 시스템입니다." << std::endl;
-    // }
-    // else {
-    //   std::cout<<"이게 나와야해 제발.."<<std::endl;
-    // }
-
-    // // 컨텍스트 생성
-    // cv::ocl::Context context;
-    // if (!context.create(cv::ocl::Device::TYPE_GPU))
-    // {
-    //   std::cout << " 에러 : 컨텍스트를 생성할 수 없습니다." << std::endl;
-    // }
-
-    // // GPU 장치 정보
-    // std::cout << context.ndevices() << " GPU device (s) detected " << std::endl;
-    // for (size_t i = 0; i < context.ndevices(); i++)
-    // {
-    //   cv::ocl::Device device = context.device(i);
-    //   std::cout << " - Device " << i << " --- " << std::endl;
-    //   std::cout << " Name : " << device.name() << std::endl;
-    //   std::cout << " Availability : " << device.available() << std::endl;
-    //   std::cout << "Image Support : " << device.imageSupport() << std::endl;
-    //   std::cout << " OpenCL C version : " << device.OpenCL_C_Version() << std::endl;
-    // }
-
-    // cv::ocl::Device(context.device(0));
-    // cv::ocl::setUseOpenCL(true);
-
-    
 		this->originImg = img.clone();
 		this->init_image(downsized_col, downsized_row);
-    std::cout<<"다운사이즈 크기 : "<<downsized_col<<" x "<< downsized_row<<std::endl;
 		this->init_filter();
 		this->init_weight();
 		this->init_trackbar(0);
 
 		/* Memory Test */
-
 	}
 
 	/* image initialize */
@@ -205,6 +170,7 @@ public:
 		this->col = this->image.downsized.cols;
 
 		/* convert */
+
 		this->image.bgr = this->image.downsized.getUMat(cv::ACCESS_RW);
 		this->image.res = this->image.bgr.clone();
 		if (this->image.bgr.channels() == 4)
@@ -248,6 +214,7 @@ public:
 
 		//Clarity
 		cv::bilateralFilter(this->image.bgr, this->filter.clarity_filter, DISTANCE, SIGMA_COLOR, SIGMA_SPACE);
+
 		this->filter.clarity_mask_U = cv::UMat::zeros(this->row, this->col, CV_32FC3);
 		this->filter.clarity_mask_S = cv::UMat::zeros(this->row, this->col, CV_32FC3);
 
@@ -261,12 +228,8 @@ public:
 		cv::subtract(1, kernel_res, kernel_res);
 		kernel_res = cv::abs(kernel_res);
 		cv::multiply(125, kernel_res, kernel_res);
-		this->filter.gaussian_kernel = kernel_res.getUMat(cv::ACCESS_FAST);
 
-//		kernel_x.deallocate();
-//		kernel_x_transpose.deallocate();
-//		kernel_y.deallocate();
-//		kernel_res.deallocate();
+		this->filter.gaussian_kernel = kernel_res.getUMat(cv::ACCESS_FAST);
 
 		//Grain
 		this->filter.grain_mask = cv::UMat::zeros(this->row, this->col, CV_32F);
@@ -277,7 +240,7 @@ public:
 	}
 
 	/* make weight UMatrix */
-  void init_weight()
+  	void init_weight()
     {
        this->weight.hue = cv::Mat::zeros(this->row, this->col, CV_32F);
        this->weight.saturation = cv::Mat::zeros(this->row, this->col, CV_32F);
@@ -328,14 +291,8 @@ public:
 
 	cv::Mat get_res_img()
 	{
-    int64 start = cv::getTickCount();
-    cv::Mat res = this->image.res.getMat(cv::ACCESS_FAST);
-    this->image.res.convertTo(res,CV_8UC3);
-    int64 end = cv::getTickCount();
-    std::cout<<"get_res 걸리는 시간"<<static_cast<double>(end-start)/cv::getTickFrequency()<<std::endl;
-    
-    std::cout<<res.rows<<std::endl;
-    
+		cv::Mat res = this->image.res.getMat(cv::ACCESS_FAST);
+		this->image.res.convertTo(res,CV_8UC3);
 		return res;
 	}
 
@@ -351,65 +308,6 @@ public:
 
 private:
 	cv::Mat originImg; // 변경 불가한 원본 이미지(다운사이징 전)
-};
-
-class ParallelModulo : public cv::ParallelLoopBody
-{
-private:
-	cv::Mat &src;
-	cv::Mat &dst;
-	short *dataSrc;
-	short *dataDst;
-	int mod;
-
-public:
-	ParallelModulo(cv::Mat &src, cv::Mat &dst, int mod) : src(src), dst(dst), mod(mod)
-	{
-		dataSrc = (short *)src.data;
-		dataDst = (short *)dst.data;
-	}
-
-	virtual void operator()(const cv::Range &range) const CV_OVERRIDE
-	{
-		for (int r = range.start; r < range.end; r++)
-		{
-			dataDst[r] = (dataSrc[r] < 0 ? dataSrc[r] + mod : dataSrc[r] % mod);
-		}
-	}
-
-	ParallelModulo &operator=(const ParallelModulo &)
-	{
-		return *this;
-	};
-};
-
-extern class ParallelMakeWeight : public cv::ParallelLoopBody
-{
-private:
-	cv::Mat &src;
-	cv::Mat &weight_Mat;
-	double min, max;
-	double (*weight_func)(int, int);
-
-public:
-	ParallelMakeWeight(cv::Mat &i, cv::Mat &w, double (*wF)(int, int))
-		: src(i), weight_Mat(w), weight_func(wF)
-	{
-		cv::minMaxIdx(src, &min, &max);
-	}
-
-	virtual void operator()(const cv::Range &range) const CV_OVERRIDE
-	{
-		for (int r = range.start; r < range.end; r++)
-		{
-			weight_Mat.data[r] = weight_func((int)src.data[r], max);
-		}
-	}
-
-	ParallelMakeWeight &operator=(const ParallelMakeWeight &)
-	{
-		return *this;
-	};
 };
 
 /* global variable */
